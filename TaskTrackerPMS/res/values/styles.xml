@@ -1,10 +1,10 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
+    <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -17,4 +17,45 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+        <style name="top_title_style">
+        <item name="android:textSize">19.0sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/top_title_bg</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+   
+       <style name="common_btn" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/common_btn_state</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18.0sp</item>
+    </style>
+   
+    
+     <style name="DataSheetAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/push_up_in</item>
+    </style>
+
+
+    
+    <style name="logindialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:background">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+    
+      <style name="customdialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
 </resources>

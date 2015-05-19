@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/menu_bg"
+    android:baselineAligned="false"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <RelativeLayout
+        android:id="@+id/btn_menu1_ll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0" >
+<ImageView
+            android:id="@+id/btn_menu_img1"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/menu_btn_around_xml"/>
+        <TextView
+            android:id="@+id/btn_menu1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/btn_menu_img1"
+            android:gravity="top|center_horizontal"
+            android:text="附近"
+            android:textColor="@color/nav_text_color_state" />
+    </RelativeLayout>
+ <RelativeLayout
+        android:id="@+id/btn_menu3_ll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0" >
+
+        <ImageView
+            android:id="@+id/btn_menu_img3"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/menu_btn_weather_xml" />
+
+        <TextView
+            android:id="@+id/btn_menu3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_menu_img3"
+            android:layout_centerHorizontal="true"
+            android:gravity="top|center_horizontal"
+            android:text="天气"
+            android:textColor="@color/nav_text_color_state" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/btn_menu2_ll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0" >
+<ImageView
+            android:id="@+id/btn_menu_img2"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/menu_btn_activity_xml" />
+        <TextView
+            android:id="@+id/btn_menu2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/btn_menu_img2"
+            android:gravity="top|center_horizontal"
+            android:text="约活动"
+            android:textColor="@color/nav_text_color_state" />
+    </RelativeLayout>
+  
+    <RelativeLayout
+        android:id="@+id/btn_menu4_ll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0" >
+	<ImageView
+            android:id="@+id/btn_menu_img4"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/menu_btn_mine_xml" />
+        <TextView
+            android:id="@+id/btn_menu34"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+           android:layout_below="@+id/btn_menu_img4"
+            android:gravity="top|center_horizontal"
+            android:text="我的"
+            android:textColor="@color/nav_text_color_state" />
+    </RelativeLayout>
+
+ 
+    <RelativeLayout
+        android:id="@+id/btn_menu0_ll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_weight="1.0" >
+<ImageView
+            android:id="@+id/btn_menu_img0"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/menu_btn_stadium_xml" />
+        <TextView
+            android:id="@+id/btn_menu0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/btn_menu_img0"
+            android:gravity="top|center_horizontal"
+            android:text="找场馆"
+            android:textColor="@color/nav_text_color_state" />
+    </RelativeLayout>
+    
+
+</LinearLayout>

@@ -5,26 +5,63 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="14"
         android:targetSdkVersion="19" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
+    <uses-permission android:name="com.thirdpart.tasktrack.permission.JPUSH_MESSAGE"/>
+<uses-permission android:name="android.permission.CALL_PHONE"/>
+<uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+  <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+      
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    	<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+   <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    
     <application
-        android:name="com.thirdpart.tasktrackerpms.MyApplication"
+        android:name="com.thirdpart.tasktrackerpms.ui.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.thirdpart.tasktrackerpms.MainActivity"
-            android:label="@string/app_name" >
+        
+        <!-- Slapsh Activity -->
+         <activity
+            android:name=".ui.SlapshActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Main Activity -->
+          <activity
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+          <activity
+            android:name=".ui.LoginActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+          
     </application>
 
 </manifest>

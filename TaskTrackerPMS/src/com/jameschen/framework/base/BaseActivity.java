@@ -1,18 +1,25 @@
 package com.jameschen.framework.base;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,19 +27,43 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jameschen.comm.utils.Log;
+import com.thirdpart.model.LogInController;
+import com.thirdpart.model.PMSManagerAPI;
 import com.thirdprt.tasktrackerpms.R;
 
-public abstract class BaseActivity extends FragmentActivity implements
+public abstract class BaseActivity extends ActionBarActivity implements
 		OnClickListener {
-	private static final int MY_SOCKET_TIMEOUT_MS = 10 * 1000;
 	public String TAG = "Task";
 
+	private PMSManagerAPI mPMSManagerAPI;
+	
+	public PMSManagerAPI getPMSManager() {
+		// TODO Auto-generated method stub
+      if (mPMSManagerAPI == null) {
+		mPMSManagerAPI = PMSManagerAPI.getInstance(this);
+      }
+      return mPMSManagerAPI;
+	}
+	
+    private LogInController mLogInController;
+	
+	public LogInController getLogInController() {
+		// TODO Auto-generated method stub
+      if (mLogInController == null) {
+    	  mLogInController = LogInController.getInstance(this);
+      }
+      return mLogInController;
+	}
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		setTheme(android.R.style.Theme_Light);
 		super.onCreate(savedInstanceState);
 		TAG = getLocalClassName();
 		Log.i(TAG, "oncreate");
+		TopBarInit(getSupportActionBar());
 	}
 
 	@Override
@@ -40,7 +71,6 @@ public abstract class BaseActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 		super.onResume();
 		Log.i(TAG, "onresume");
-
 	}
 
 	@Override
@@ -102,24 +132,27 @@ public abstract class BaseActivity extends FragmentActivity implements
 				R.anim.exit_right_anim);
 	}
 
+	
+	
+	//*****************************************//
+		//*****************top bar init************//
+		//*****************************************//
 	public void TopBarInit(ActionBar actionBar) {
-		// actionBar.setBackgroundDrawable(new BitmapDrawable(getResources(),
-		// BitmapFactory.decodeResource(getResources(),
-		// R.drawable.top_title_bg)));
-		// actionBar.setCustomView(R.layout.top_view);
-		// actionBar.setDisplayShowTitleEnabled(false);
-		// actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		// ViewGroup customView = (ViewGroup) actionBar.getCustomView();
-		//
-		// titleTv = (TextView) customView.findViewById(R.id.top_title);
-		// (backBtn=(ImageView)
-		// customView.findViewById(R.id.btn_back)).setOnClickListener(this);
-		// (nextBtn = (Button)
-		// customView.findViewById(R.id.btn_next)).setOnClickListener(this);
-		// (nextImgBtn = (ImageView)
-		// customView.findViewById(R.id.img_btn_next)).setOnClickListener(this);
-		// //default set right btn not visiable
-		// setTopBarRightBtnVisiable(View.GONE);
+
+		actionBar.setBackgroundDrawable(new BitmapDrawable(getResources(),
+				BitmapFactory.decodeResource(getResources(),
+						R.drawable.top_title_bg)));
+		actionBar.setCustomView(R.layout.top_bar_layout);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		ViewGroup customView = (ViewGroup) actionBar.getCustomView();
+
+		titleTv = (TextView) customView.findViewById(R.id.top_title);
+		(backBtn=(ImageView) customView.findViewById(R.id.btn_back)).setOnClickListener(this);
+		(nextBtn = (Button) customView.findViewById(R.id.btn_next)).setOnClickListener(this);
+		(nextImgBtn = (ImageView) customView.findViewById(R.id.img_btn_next)).setOnClickListener(this);
+		//default set right btn not visiable
+		setTopBarRightBtnVisiable(View.GONE);
 	}
 
 	private TextView titleTv;
@@ -160,14 +193,14 @@ public abstract class BaseActivity extends FragmentActivity implements
 
 	protected void setTopBarRightBtnListener(String text,
 			OnClickListener nextBtnOnClickListener) {
-		// if (!TextUtils.isEmpty(text)) {
-		// nextBtn.setText(text);
-		// if (text.equals("下一步")) {
-		// setTopBarRightBtnListener(R.drawable.next_step,
-		// nextBtnOnClickListener);
-		// return;
-		// }
-		// }
+		if (!TextUtils.isEmpty(text)) {
+			nextBtn.setText(text);
+			if (text.equals("下一步")) {
+				setTopBarRightBtnListener(R.drawable.next_step,
+						nextBtnOnClickListener);
+				return;
+			}
+		}
 
 		setTopBarRightBtnVisiable(View.VISIBLE);
 		nextBtn.setOnClickListener(nextBtnOnClickListener);
@@ -194,6 +227,11 @@ public abstract class BaseActivity extends FragmentActivity implements
 		titleTv.setText(title);
 	}
 
+	
+	//*****************************************//
+		//*****************top bar end************//
+		//*****************************************//
+	
 	protected boolean resultOk = false;
 
 	@Override
