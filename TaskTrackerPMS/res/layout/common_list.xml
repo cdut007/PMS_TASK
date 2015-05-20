@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg_color" >
+
+    <com.jameschen.widget.MyListView
+        android:id="@+id/around_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:cacheColorHint="@null"
+        android:scrollbarStyle="outsideOverlay"
+        android:divider="@null"
+        android:drawSelectorOnTop="false"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+         android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:listSelector="@null"
+        android:scrollingCache="false" />
+
+    <include
+        android:id="@+id/list_empty"
+        layout="@layout/list_empty"
+        android:visibility="gone" />
+
+</RelativeLayout>

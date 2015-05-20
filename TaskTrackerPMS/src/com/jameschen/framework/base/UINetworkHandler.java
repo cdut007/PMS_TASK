@@ -9,7 +9,10 @@ public abstract class UINetworkHandler<T> extends MyAsyncHttpResponseHandler<T> 
 
 	private BaseActivity activity;
 
+	
+	
 	public UINetworkHandler(BaseActivity activity) {
+		super();
 		this.activity = activity;
 		executeNetWorkRequest();
 	}

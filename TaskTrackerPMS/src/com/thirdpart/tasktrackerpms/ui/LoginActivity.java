@@ -59,6 +59,8 @@ public class LoginActivity extends BaseActivity{
 		passwordInput = (EditText) findViewById(R.id.login_password);
 		loginBtn = (Button) findViewById(R.id.login_btn);
 		forgetPassword = (TextView) findViewById(R.id.forget_password);
+	
+	    fillAccount();
 	}
 	
 	

@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jameschen.comm.utils.Log;
+import com.thirdpart.model.LogInController;
+import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.R.bool;
 
 /**This is the baseFragment is for root frament ,which childFragment must extends it
  * 
@@ -68,16 +71,28 @@ public abstract class BaseFragment extends Fragment{
 			Log.i(TAG, "activity is finished");
 			return ;
 		}
-			((BaseActivity) getActivity()).showToast(string);
+			(getBaseActivity()).showToast(string);
 	}
 
-
+	protected boolean isActiviyFinishing() {
+		// TODO Auto-generated method stub
+       return  getBaseActivity().isFinishing();
+	}
+	
+	public LogInController getLogInController(){
+		return getBaseActivity().getLogInController();
+	}
+	
+	public PMSManagerAPI getPMSManager(){
+	
+			return (getBaseActivity()).getPMSManager();
+	}
 
 	public void closeInputMethod() {
 		if (getActivity() == null) {
 			return ;
 		}
-		 ((BaseActivity) getActivity()).closeInputMethod();
+		 (getBaseActivity()).closeInputMethod();
 	}
 	@Override
 	public void startActivity(Intent intent) {

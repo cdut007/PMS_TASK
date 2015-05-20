@@ -32,7 +32,9 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">18.0sp</item>
     </style>
-   
+   <style name="common_text_item" parent="@android:style/Widget.TextView">
+        <item name="android:minHeight">50dp</item>
+    </style>
     
      <style name="DataSheetAnimation" parent="@android:style/Animation.Dialog">
         <item name="android:windowEnterAnimation">@anim/push_up_in</item>

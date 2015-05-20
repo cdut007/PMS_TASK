@@ -10,11 +10,29 @@ import com.jameschen.widget.MyListView;
 public abstract class BaseListFragment<T> extends BaseFragment {
 
 	public static final String LIST = "list";
-	public List<T> mInfos;
+	private List<T> mInfos;
 	
 	protected MyListView mListView;
-	private MyBaseAdapter<T> mAdapter;
+	protected MyBaseAdapter<T> mAdapter;
 	private View emptyView;
 	
+	protected void setEmptyView(View emptyView) {
+		this.emptyView = emptyView;
+	}
 
+	public View getEmptyView() {
+		return emptyView;
+	}
+	
+	public void checkIsNeedShowEmptyView(){
+		if (mAdapter.getCount() == 0) {
+			if (emptyView != null) {
+				emptyView.setVisibility(View.VISIBLE);
+			}
+		} else {
+			if (emptyView != null) {
+				emptyView.setVisibility(View.GONE);
+			}
+		}
+	}
 }

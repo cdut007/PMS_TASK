@@ -4,87 +4,87 @@ import java.util.List;
 
 public class PageList <T>{
 
-	private String pagesize;
+	private int pagesize;
 
-	private String defaultStartIndex;
+	private int defaultStartIndex;
 
-	private String totalCounts;
+	private int totalCounts;
 
-	private String pageCount;
+	private int pageCount;
 
-	private String startIndex;
+	private int startIndex;
 
-	private String pageNum;
+	private int pageNum;
 
-	private String startPage;
+	private int startPage;
 
-	private String endPage;
+	private int endPage;
 
 	private List<T> datas;
 
-	private String currentPage;
+	private int currentPage;
 
-	public void setPagesize(String pagesize) {
+	public void setPagesize(int pagesize) {
 		this.pagesize = pagesize;
 	}
 
-	public String getPagesize() {
+	public int getPagesize() {
 		return this.pagesize;
 	}
 
-	public void setDefaultStartIndex(String defaultStartIndex) {
+	public void setDefaultStartIndex(int defaultStartIndex) {
 		this.defaultStartIndex = defaultStartIndex;
 	}
 
-	public String getDefaultStartIndex() {
+	public int getDefaultStartIndex() {
 		return this.defaultStartIndex;
 	}
 
-	public void setTotalCounts(String totalCounts) {
+	public void setTotalCounts(int totalCounts) {
 		this.totalCounts = totalCounts;
 	}
 
-	public String getTotalCounts() {
+	public int getTotalCounts() {
 		return this.totalCounts;
 	}
 
-	public void setPageCount(String pageCount) {
+	public void setPageCount(int pageCount) {
 		this.pageCount = pageCount;
 	}
 
-	public String getPageCount() {
+	public int getPageCount() {
 		return this.pageCount;
 	}
 
-	public void setStartIndex(String startIndex) {
+	public void setStartIndex(int startIndex) {
 		this.startIndex = startIndex;
 	}
 
-	public String getStartIndex() {
+	public int getStartIndex() {
 		return this.startIndex;
 	}
 
-	public void setPageNum(String pageNum) {
+	public void setPageNum(int pageNum) {
 		this.pageNum = pageNum;
 	}
 
-	public String getPageNum() {
+	public int getPageNum() {
 		return this.pageNum;
 	}
 
-	public void setStartPage(String startPage) {
+	public void setStartPage(int startPage) {
 		this.startPage = startPage;
 	}
 
-	public String getStartPage() {
+	public int getStartPage() {
 		return this.startPage;
 	}
 
-	public void setEndPage(String endPage) {
+	public void setEndPage(int endPage) {
 		this.endPage = endPage;
 	}
 
-	public String getEndPage() {
+	public int getEndPage() {
 		return this.endPage;
 	}
 
@@ -96,11 +96,11 @@ public class PageList <T>{
 		return this.datas;
 	}
 
-	public void setCurrentPage(String currentPage) {
+	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}
 
-	public String getCurrentPage() {
+	public int getCurrentPage() {
 		return this.currentPage;
 	}
 

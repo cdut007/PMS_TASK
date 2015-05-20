@@ -2,11 +2,14 @@ package com.jameschen.framework.base;
 
 import org.apache.http.Header;
 
+import android.R.integer;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.jameschen.comm.utils.Log;
 import com.jameschen.comm.utils.NetworkUtil;
+import com.jameschen.framework.base.ConvertResponseResultAdapter.ReqType;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.thirdpart.model.WebResponseContent;
 import com.thirdpart.tasktrackerpms.R;
@@ -16,6 +19,25 @@ public abstract class MyAsyncHttpResponseHandler<T> extends
 	private static final String TAG = "AsyncHttpResponseHandler";
 	Gson gson = new Gson();
 
+	private  ReqType  ThirdPartReqType = ReqType.NULL;
+	
+	public MyAsyncHttpResponseHandler() {
+		// TODO Auto-generated constructor stub
+		super();
+	}
+	
+	public MyAsyncHttpResponseHandler(ReqType reqType) {
+		// TODO Auto-generated constructor stub
+		this();
+		this.ThirdPartReqType = reqType;
+	}
+	
+	
+	
+	private  ReqType getCurrentReqType(){
+		return ThirdPartReqType;
+	}
+	
 	@Override
 	public void onFailure(int statusCode, Header[] headers,
 			byte[] responseBody, Throwable error) {
@@ -35,6 +57,8 @@ public abstract class MyAsyncHttpResponseHandler<T> extends
 		String response = "";
 		if (responseBody != null) {
 			response = new String(responseBody);
+			//Covert response to custom
+			response = ConvertResponseResultAdapter.ReqType(response,getCurrentReqType());
 		}
 
 		try {

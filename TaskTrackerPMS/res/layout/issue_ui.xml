@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg_color" >
+
+    <RelativeLayout
+        android:id="@+id/issue_indicator_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_title_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+  <include
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/common_indicator_bar" />
+    </RelativeLayout>
+
+   
+    <include
+        android:id="@+id/issue_list_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/issue_indicator_bar"
+        android:layout_marginTop="1px"
+        layout="@layout/common_list" />
+    
+</RelativeLayout>
