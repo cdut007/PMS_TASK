@@ -1,8 +1,0 @@
-# cache for current jar dependency. DO NOT EDIT.
-# format is <lastModified> <length> <SHA-1> <path>
-# Encoding is UTF-8
-1432005672919 110747 e9b63380f3a242dbdbf103a2355ad7e43bad17cb F:\work\PMS_TASK\third_party\frescolib\imagepipeline-okhttp\libs\library-2.4.0.jar
-1432005672971 110747 e9b63380f3a242dbdbf103a2355ad7e43bad17cb F:\work\PMS_TASK\third_party\frescolib\imagepipeline\libs\library-2.4.0.jar
-1432005669595 627582 cb6883d96005bc85b3e868f204507ea5b4fa9bbf F:\work\PMS_TASK\appcompat_v7\libs\android-support-v4.jar
-1432005669380 627582 cb6883d96005bc85b3e868f204507ea5b4fa9bbf F:\work\PMS_TASK\TaskTrackerPMS\libs\android-support-v4.jar
-1432005672936 627582 cb6883d96005bc85b3e868f204507ea5b4fa9bbf F:\work\PMS_TASK\third_party\frescolib\imagepipeline\libs\android-support-v4.jar
