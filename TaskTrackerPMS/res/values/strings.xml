@@ -2,12 +2,32 @@
 <resources>
 
     <string name="app_name">TaskTrackerPMS</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_example">Example action</string>
-    <string name="action_settings">Settings</string>
+    <string name="tab_menu_text1">tab 1</string>
+    <string name="tab_menu_text2">tab 2</string>
+    <string name="tab_menu_text3">tab 3</string>
+    <string name="confirm_password">确认密码:</string>
+    <string name="phone_hint">请输入手机号</string>
+    <string name="warning_no_internet">没有网络，请检查网络</string>
+    
+    <string name="error_password_regex">输入的密码无效</string>
+    <string name="error_account_regex">输入的账号无效</string>
+    <string name="error_password">账号或密码错误</string>
+    <string name="error_account">账号不存在</string>
+    
+    <string name="password_hint">请输入密码</string>
+    <string name="input_password_again">请输入密码</string>
+    <string name="confirm_password_hint">请再次确认密码</string>
+    <string name="register_commit">提交注册</string>
+    <string name="private_law">隐私服务条款</string>
+    <string name="register_phone">请输入手机号</string>
+    <string name="input_account">请输入账号</string>
+    <string name="input_password">请输入密码</string>
+    <string name="account_too_long">手机号太长！</string>
+    <string name="account_too_short">手机号太短！</string>
+    <string name="name_too_long">姓名太长！</string>
+    <string name="name_is_null">请输入姓名！</string>
+    <string name="password_too_long">密码太长！</string>
+    <string name="password_too_short">密码太短！</string>
+    <string name="error_phone_num">输入的手机号码无效</string>
 
 </resources>

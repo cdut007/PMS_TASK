@@ -3,8 +3,8 @@ package com.thirdpart.tasktrackerpms.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R.integer;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,71 +17,58 @@ import android.view.View.OnClickListener;
 
 import com.jameschen.comm.utils.Log;
 import com.jameschen.framework.base.BaseActivity;
+import com.jameschen.widget.BadgeView;
 import com.thirdpart.model.ConstValues;
+import com.thirdpart.model.ConstValues.Item;
 import com.thirdprt.tasktrackerpms.R;
 
 public class MainActivity extends BaseActivity {
-	MenuListener<PlanFragment> planListener;
-	MenuListener<TaskFragment> taskListener;
-	MenuListener<IssueFragment> issueListener;
-    SparseArray<Fragment> mTabFragments = new SparseArray<Fragment>();
+
+	SparseArray<MenuListener> mTabMenus = new SparseArray<MenuListener>();
+	List<View> menuViews = new ArrayList<View>();
+	static final int PLAN = 0, TASK = 1, ISSUE = 2;
 	
-    @Override
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.activity_main);
 		initNavListener();
-		
+
 		String pushTag = getIntent().getStringExtra("pushTag");
-		if (pushTag!=null) {
+		if (pushTag != null) {
 			checkFlag(pushTag);
-		}else {
+		} else {
 			if (savedInstanceState != null) {
 				item = savedInstanceState.getInt("nav_menu");
-			}else {
-				item=0;//defualt is 0
+			} else {
+				item = PLAN;// defualt is PLAN
 			}
 			onNavigateItemSelected(item);
 		}
-		
-	
-		
+
 	}
-	
-	
 
 	@Override
 	protected void onNewIntent(Intent intent) {
 		// TODO Auto-generated method stub
 		super.onNewIntent(intent);
-		checkFlag(intent.getStringExtra("tag"));//pushTag
+		checkFlag(intent.getStringExtra("tag"));// pushTag
 	}
 
 	private void checkFlag(String flag) {
 
-		if (ConstValues.SPORT_EVENT.equals(flag)) {
-			
-			SportEventListFragment.sortByCreateTime=true;
-			onNavigateItemSelected(item=2);
-			//sort by  
-			FragmentManager fragmentManager = getSupportFragmentManager();
-			SportEventListFragment sportEventListFragment = (SportEventListFragment) fragmentManager
-			.findFragmentByTag(ConstValues.SPORT_EVENT);
-			Log.i(TAG, "sort by create time.");
-			if (sportEventListFragment!=null) {
-				sportEventListFragment.sortByCreateTime();
-			}
-		}else if(ConstValues.STADIUM.equals(flag)) {
-			onNavigateItemSelected(item=1);
-		}else if(ConstValues.COACH.equals(flag)) {
-			onNavigateItemSelected(item=0);
+		if (Item.ISSUE.equals(flag)) {
+			onNavigateItemSelected(item = ISSUE);
+		} else if (Item.TASK.equals(flag)) {
+			onNavigateItemSelected(item = TASK);
+		} else if (Item.PLAN.equals(flag)) {
+			onNavigateItemSelected(item = PLAN);
 		}
-		
+
 	}
 
-	
-	private int item = 0;
+	private int item = PLAN;
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -90,25 +77,12 @@ public class MainActivity extends BaseActivity {
 		outState.putInt("nav_menu", item);
 	}
 
-	
 	private void initNavListener() {
-		
-		Bundle coachbundle = new Bundle();
 
-		menuViews.add(findViewById(R.id.btn_menu0));
 		menuViews.add(findViewById(R.id.btn_menu1));
 		menuViews.add(findViewById(R.id.btn_menu2));
-		
-		
-		
-		aroundListener = new MenuListener<AroundListFragment>(this,
-				ConstValues.AROUND_USER, AroundListFragment.class, coachbundle);
-		stadiumListener = new MenuListener<StadiumListFragment>(this,
-				ConstValues.STADIUM, StadiumListFragment.class, null);
-		accountListener = new MenuListener<AccountFragment>(this,
-				ConstValues.ACCOUNT, AccountFragment.class, null);
-	
-		mTabFragments.put(key, value);
+		menuViews.add(findViewById(R.id.btn_menu3));
+
 		for (int index = 0; index < menuViews.size(); index++) {
 			final int position = index;
 			menuViews.get(index).setOnClickListener(new OnClickListener() {
@@ -121,103 +95,102 @@ public class MainActivity extends BaseActivity {
 
 	}
 
-
+	
 	private BadgeView numView;
 
-	private void setUnreadMsgNum(int unreadMessgeCount) {
+	private void setUnreadMsgNum(int unreadMessgeCount,int tab) {
 		if (numView == null) {
 			numView = new BadgeView(this);
-			numView.setGravity(Gravity.RIGHT | Gravity.TOP);
-			numView.setTargetView(menuViews.get(2));
+			numView.setGravity(Gravity.END | Gravity.TOP);
+			numView.setTargetView(menuViews.get(tab));
 
 		}
 		numView.setBadgeCount(unreadMessgeCount);
 
 	}
 
-	List<View> menuViews = new ArrayList<View>();
 	
 
+	/**
+	 * @param index
+	 *            for selected the tab item
+	 */
 	public void onNavigateItemSelected(int index) {
+
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		switch (index) {
-		
-		case 4:// gymnasium
-			stadiumListener.onMenuSelected(null, ft);
-			aroundListener.onMenuUnselected(null, ft);
-			accountListener.onMenuUnselected(null, ft);
-			weatherListener.onMenuUnselected(null, ft);
-			sportEventListener.onMenuUnselected(null, ft);
-			break;
-		case 0:// near user
-			aroundListener.onMenuSelected(null, ft);
-			stadiumListener.onMenuUnselected(null, ft);
-			accountListener.onMenuUnselected(null, ft);
-			weatherListener.onMenuUnselected(null, ft);
-			sportEventListener.onMenuUnselected(null, ft);
-			break;
-		
-		case 2:// event
-			sportEventListener.onMenuSelected(null, ft);
-			aroundListener.onMenuUnselected(null, ft);
-			stadiumListener.onMenuUnselected(null, ft);
-			accountListener.onMenuUnselected(null, ft);
-			weatherListener.onMenuUnselected(null, ft);
-			break;
-		case 1:// weather
-			accountListener.onMenuUnselected(null, ft);
-			aroundListener.onMenuUnselected(null, ft);
-			stadiumListener.onMenuUnselected(null, ft);
-			weatherListener.onMenuSelected(null, ft);
-			sportEventListener.onMenuUnselected(null, ft);
-			break;
-		case 3:// account
-			weatherListener.onMenuUnselected(null, ft);
-			aroundListener.onMenuUnselected(null, ft);
-			stadiumListener.onMenuUnselected(null, ft);
-			accountListener.onMenuSelected(null, ft);
-			sportEventListener.onMenuUnselected(null, ft);
-			break;
+		MenuListener selectedMenu = mTabMenus.get(index);
+		if (selectedMenu == null) {
+			switch (index) {
+			case PLAN: {// plan
+				selectedMenu = new MenuListener<PlanFragment>(this, Item.PLAN,
+						PlanFragment.class, null);
+			}
+				break;
+			case TASK: {// task
+				selectedMenu = new MenuListener<TaskFragment>(this, Item.TASK,
+						TaskFragment.class, null);
+			}
+				break;
+			case ISSUE: {// issue
+				selectedMenu = new MenuListener<IssueFragment>(this,
+						Item.ISSUE, IssueFragment.class, null);
+			}
+				break;
+			default:
+				break;
+			}
+			mTabMenus.put(index, selectedMenu);
+		}
+
+		int tab_size = menuViews.size();
+
+		for (int i = 0; i < tab_size; i++) {
+
+			if (index == i) {// Selected
+				selectedMenu.onMenuSelected(null, ft);
+				setBottomItemSeleted(i, true);
+			} else {
+				mTabMenus.get(i).onMenuUnselected(null, ft);
+				setBottomItemSeleted(i, false);
+			}
 
 		}
+
 		ft.commit();
-		setBottomItemSeleted(index);
 		this.item = index;
 	}
 
-	private void setBottomItemSeleted(int index) {
+	private void setBottomItemSeleted(int index, boolean foucsStatus) {
 		int num = menuViews.size();
-		for (int i = 0; i < num; i++) {
-			if (i == index) {
-				menuViews.get(i).setSelected(true);
-			} else {
-				menuViews.get(i).setSelected(false);
-			}
+		if (index >= num) {
+			Log.i(TAG, "current index out of boundary = " + index);
+			return;
 		}
+		if (foucsStatus) {
+			menuViews.get(index).setSelected(true);
+		} else {
+			menuViews.get(index).setSelected(false);
+		}
+
 	}
 
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		
+
 		releaseResource();
 	}
 
 	private void releaseResource() {
-		if (sportEventListener != null) {
-			sportEventListener.onTabRelease();
-			sportEventListener = null;
+
+		for (int i = 0; i < mTabMenus.size(); i++) {
+			MenuListener tabMenu = mTabMenus.get(i);
+			if (tabMenu != null) {
+				tabMenu.onTabRelease();
+				tabMenu = null;
+			}
 		}
-		if (stadiumListener != null) {
-			stadiumListener.onTabRelease();
-			stadiumListener = null;
-		}
-		if (aroundListener != null) {
-			aroundListener.onTabRelease();
-			aroundListener = null;
-		}
-		
 
 	}
 
@@ -269,14 +242,7 @@ public class MainActivity extends BaseActivity {
 			// initial state is that a tab isn't shown.
 			mFragment = mActivity.getSupportFragmentManager()
 					.findFragmentByTag(mTag);
-//			if (mFragment != null && !mFragment.isDetached()) {
-//				Log.e(mTag, "FFFFFFFFFFFFFFFFFFF");
-//				FragmentTransaction ft = mActivity.getSupportFragmentManager()
-//						.beginTransaction();
-//				ft.detach(mFragment);
-//				ft.commit();
-//				mFragment = null;
-//			}
+
 		}
 
 		public void onTabSelected(FragmentTransaction ft) {
@@ -290,11 +256,12 @@ public class MainActivity extends BaseActivity {
 				if (mFragment.isDetached() || mFragment.isRemoving()) {
 					ft.attach(mFragment);
 				} else {
-					Log.i(mTag, "sel ********show!!!!!!!!!!!!!!!!"+(mFragment.getView()==null));
-				
-						ft.show(mFragment);
-					
-					
+					Log.i(mTag,
+							"sel ********show!!!!!!!!!!!!!!!!"
+									+ (mFragment.getView() == null));
+
+					ft.show(mFragment);
+
 				}
 			}
 		}
@@ -302,9 +269,10 @@ public class MainActivity extends BaseActivity {
 		public void onTabUnselected(FragmentTransaction ft) {
 			if (mFragment != null) {
 				if (mFragment.isDetached() || mFragment.isRemoving()) {
-					Log.e(mTag, "onTabUnselected ********removew!!!!!!!!!!!!!!!!");
+					Log.e(mTag,
+							"onTabUnselected ********removew!!!!!!!!!!!!!!!!");
 					ft.detach(mFragment);
-					//mFragment = null;
+					// mFragment = null;
 				} else {
 					ft.hide(mFragment);
 				}
@@ -339,23 +307,17 @@ public class MainActivity extends BaseActivity {
 			onTabUnselected(ft);
 		}
 	}
-	
+
 	@Override
-	
 	protected void onResume() {
 		super.onResume();
-	
+
 	};
-	
-	
 
 	public void onBackPressed() {
 
 		super.onBackPressed();
 
-	
 	}
-	
-	
-	
+
 }

@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import com.jameschen.comm.utils.Log;
+import com.jameschen.comm.utils.NetworkUtil;
 import com.jameschen.comm.utils.RegexUtils;
 import com.jameschen.framework.base.BaseActivity;
 import com.jameschen.framework.base.MyAsyncHttpResponseHandler;
@@ -96,29 +97,27 @@ public class LoginActivity extends BaseActivity{
 
             if (RegexUtils.isPasswordOk(password)) {
               executeLoginNetWorkRequest(id,password);
-
             } else {
                 //todo: illegal password
-                showToast(mContext, getString(R.string.toast_password_illegal), Style.ALERT);
+              showToast(getString(R.string.error_password_regex));
             }
 
 
         } else {
             //todo: illegal ID
-            showToast(mContext, getString(R.string.toast_callname_illegal), Style.ALERT);
+        	 showToast(getString(R.string.error_account_regex));
         }
 		
 	}
 
-	private void executeLoginNetWorkRequest(String id, String password) {
+	private void executeLoginNetWorkRequest(final String id,final String password) {
 		// TODO Auto-generated method stub
 		if (!NetworkUtil.isInternetAvailable(this)) {
-
-            showToast(mContext, R.string.toast_network_error, Style.ALERT);
+            showToast(getString(R.string.warning_no_internet));
             return;
         }
 		
-		  showProgressDialog(pTitle, pMessage, pCancelClickListener);
+		  showProgressDialog("登录", "正在登录...", null);
 		 
 	        getPMSManager().login(id, password, new MyAsyncHttpResponseHandler<UserInfo>() {
 
@@ -126,13 +125,19 @@ public class LoginActivity extends BaseActivity{
 				public void onFail(int statusCode, Header[] headers,
 						String response) {
 					// TODO Auto-generated method stub
-					
+					if (statusCode == -1002) {
+						showToast(getString(R.string.error_password));
+					}else {
+						showToast(response);
+					}
+					 
 				}
 
 				@Override
 				public void onSucc(int statusCode, Header[] headers, UserInfo response) {
 					// TODO Auto-generated method stub
 					//do something
+					getLogInController().saveUserToPreference(LoginActivity.this, id, password);
 				}
 			 
 				@Override

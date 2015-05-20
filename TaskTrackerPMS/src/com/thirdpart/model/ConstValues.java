@@ -28,6 +28,16 @@ public class ConstValues {
 		
 	}
 
+	/**
+	 * setting .
+	 * */
+	public static class Item {
+
+		public static final String PLAN = "plan";
+		public static final String ISSUE = "issue";
+		public static final String TASK = "task";
+	}
+
 	
 	/**
 	 * setting .

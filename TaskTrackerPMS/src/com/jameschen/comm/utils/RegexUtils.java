@@ -14,7 +14,7 @@ public class RegexUtils {
 
     public static boolean isPasswordOk(String psdstr) {
         //密码： 长度6-20，由除了空格以外的ASCII码组成
-        if (TextUtils.isEmpty(psdstr) || psdstr.length() < 6 || psdstr.length() > 20) {
+        if (TextUtils.isEmpty(psdstr) || psdstr.length() < 2 || psdstr.length() > 20) {
             return false;
         }
         String regex = "^[\\u0000-\\u001F\\u0021-\\u007F]*$";
