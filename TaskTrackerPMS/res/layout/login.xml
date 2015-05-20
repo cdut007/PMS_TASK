@@ -74,7 +74,7 @@
 
             <Button
                 android:id="@+id/login_btn"
-                  style="@style/common_btn"
+                style="@style/common_btn"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="40dp"

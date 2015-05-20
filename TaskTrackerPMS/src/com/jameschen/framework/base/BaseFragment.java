@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jameschen.comm.utils.Log;
-import com.thirdprt.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.R;
 
 /**This is the baseFragment is for root frament ,which childFragment must extends it
  * 

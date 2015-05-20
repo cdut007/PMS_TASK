@@ -6,7 +6,7 @@ import android.content.Context;
 
 
 public class Log {
-	private static boolean isDebug = true;
+	private static boolean isDebug = false;
 
 	private  static Logger logger=null;
 	

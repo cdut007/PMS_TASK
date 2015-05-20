@@ -24,21 +24,18 @@ import com.jameschen.comm.utils.NetworkUtil;
 import com.jameschen.comm.utils.RegexUtils;
 import com.jameschen.framework.base.BaseActivity;
 import com.jameschen.framework.base.MyAsyncHttpResponseHandler;
+import com.jameschen.framework.base.UINetworkHandler;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.okhttp.internal.Util;
 import com.thirdpart.model.LogInController;
 import com.thirdpart.model.entity.UserInfo;
-import com.thirdprt.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.R;
 
 public class LoginActivity extends BaseActivity{
 
-	@InjectView(R.id.login_account)
 	private EditText accountInput;
-	@InjectView(R.id.login_password)
 	private EditText passwordInput;
-	@InjectView(R.id.login_btn)
 	private Button loginBtn;
-	@InjectView(R.id.forget_password)
 	private TextView forgetPassword;
 
 	
@@ -55,13 +52,25 @@ public class LoginActivity extends BaseActivity{
 		
 	}
 
+	
+	@Override
+	protected void initView() {
+		accountInput = (EditText) findViewById(R.id.login_account);
+		passwordInput = (EditText) findViewById(R.id.login_password);
+		loginBtn = (Button) findViewById(R.id.login_btn);
+		forgetPassword = (TextView) findViewById(R.id.forget_password);
+	}
+	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setTheme(android.R.style.Theme_Light_NoTitleBar);
+		
 		getSupportActionBar().hide();
 		setContentView(R.layout.login);
-		ButterKnife.inject(this);
+		initView();
+		initEvent();
 	}
 
 	
@@ -69,6 +78,7 @@ public class LoginActivity extends BaseActivity{
 
 
 	public void initEvent() {
+		
 		loginBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -110,43 +120,52 @@ public class LoginActivity extends BaseActivity{
 		
 	}
 
+	
+	
+	
+	
+	
 	private void executeLoginNetWorkRequest(final String id,final String password) {
 		// TODO Auto-generated method stub
-		if (!NetworkUtil.isInternetAvailable(this)) {
-            showToast(getString(R.string.warning_no_internet));
-            return;
-        }
-		
-		  showProgressDialog("登录", "正在登录...", null);
-		 
-	        getPMSManager().login(id, password, new MyAsyncHttpResponseHandler<UserInfo>() {
+	        getPMSManager().login(id, password, new UINetworkHandler<UserInfo>(this) {
 
+	        
 				@Override
-				public void onFail(int statusCode, Header[] headers,
+				public void start() {
+					// TODO Auto-generated method stub
+					closeInputMethod();
+					showProgressDialog("登录", "正在登录...", null);
+				}
+				
+				
+				@Override
+				public void callbackFailure(int statusCode, Header[] headers,
 						String response) {
 					// TODO Auto-generated method stub
-					if (statusCode == -1002) {
-						showToast(getString(R.string.error_password));
-					}else {
-						showToast(response);
-					}
-					 
+					 if (statusCode == -1002) {
+							showToast(getString(R.string.error_password));
+						}else {
+							showToast(response);
+						}
 				}
 
 				@Override
-				public void onSucc(int statusCode, Header[] headers, UserInfo response) {
+				public void callbackSuccess(int statusCode, Header[] headers,
+						UserInfo response) {
 					// TODO Auto-generated method stub
-					//do something
 					getLogInController().saveUserToPreference(LoginActivity.this, id, password);
 				}
-			 
+
+
 				@Override
-			public void onFinish() {
-				// TODO Auto-generated method stub
-				super.onFinish();
-			   cancelProgressDialog();
-			 }
-	        
+				public void finish() {
+					// TODO Auto-generated method stub
+					 cancelProgressDialog();
+				}
+
+
+				
+	        	
 	        });
 		
 	}
@@ -180,6 +199,8 @@ public class LoginActivity extends BaseActivity{
 		super.onSaveInstanceState(outState);
 
 	}
+
+	
 
 
 }

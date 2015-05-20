@@ -6,7 +6,7 @@ import android.os.Handler;
 
 import com.jameschen.framework.base.BaseActivity;
 import com.thirdpart.model.LogInController;
-import com.thirdprt.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.R;
 
 public class SlapshActivity extends BaseActivity {
 
@@ -68,6 +68,12 @@ public class SlapshActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.finish();
 		overridePendingTransition(0, 0);
+	}
+
+	@Override
+	protected void initView() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

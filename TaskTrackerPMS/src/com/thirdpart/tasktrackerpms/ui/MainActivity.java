@@ -20,10 +20,17 @@ import com.jameschen.framework.base.BaseActivity;
 import com.jameschen.widget.BadgeView;
 import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.ConstValues.Item;
-import com.thirdprt.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.R;
 
 public class MainActivity extends BaseActivity {
 
+
+	@Override
+	protected void initView() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	SparseArray<MenuListener> mTabMenus = new SparseArray<MenuListener>();
 	List<View> menuViews = new ArrayList<View>();
 	static final int PLAN = 0, TASK = 1, ISSUE = 2;
@@ -319,5 +326,6 @@ public class MainActivity extends BaseActivity {
 		super.onBackPressed();
 
 	}
+
 
 }

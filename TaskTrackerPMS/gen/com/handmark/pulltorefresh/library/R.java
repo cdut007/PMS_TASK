@@ -14,25 +14,25 @@ public final class R {
 		public static final int slide_out_to_top = 0x7f040012;
 	}
 	public static final class attr {
-		public static final int ptrAdapterViewBackground = 0x7f010010;
-		public static final int ptrAnimationStyle = 0x7f01000c;
-		public static final int ptrDrawable = 0x7f010006;
-		public static final int ptrDrawableBottom = 0x7f010012;
-		public static final int ptrDrawableEnd = 0x7f010008;
-		public static final int ptrDrawableStart = 0x7f010007;
-		public static final int ptrDrawableTop = 0x7f010011;
-		public static final int ptrHeaderBackground = 0x7f010001;
-		public static final int ptrHeaderSubTextColor = 0x7f010003;
-		public static final int ptrHeaderTextAppearance = 0x7f01000a;
-		public static final int ptrHeaderTextColor = 0x7f010002;
-		public static final int ptrListViewExtrasEnabled = 0x7f01000e;
-		public static final int ptrMode = 0x7f010004;
-		public static final int ptrOverScroll = 0x7f010009;
-		public static final int ptrRefreshableViewBackground = 0x7f010000;
-		public static final int ptrRotateDrawableWhilePulling = 0x7f01000f;
-		public static final int ptrScrollingWhileRefreshingEnabled = 0x7f01000d;
-		public static final int ptrShowIndicator = 0x7f010005;
-		public static final int ptrSubHeaderTextAppearance = 0x7f01000b;
+		public static final int ptrAdapterViewBackground = 0x7f010028;
+		public static final int ptrAnimationStyle = 0x7f010024;
+		public static final int ptrDrawable = 0x7f01001e;
+		public static final int ptrDrawableBottom = 0x7f01002a;
+		public static final int ptrDrawableEnd = 0x7f010020;
+		public static final int ptrDrawableStart = 0x7f01001f;
+		public static final int ptrDrawableTop = 0x7f010029;
+		public static final int ptrHeaderBackground = 0x7f010019;
+		public static final int ptrHeaderSubTextColor = 0x7f01001b;
+		public static final int ptrHeaderTextAppearance = 0x7f010022;
+		public static final int ptrHeaderTextColor = 0x7f01001a;
+		public static final int ptrListViewExtrasEnabled = 0x7f010026;
+		public static final int ptrMode = 0x7f01001c;
+		public static final int ptrOverScroll = 0x7f010021;
+		public static final int ptrRefreshableViewBackground = 0x7f010018;
+		public static final int ptrRotateDrawableWhilePulling = 0x7f010027;
+		public static final int ptrScrollingWhileRefreshingEnabled = 0x7f010025;
+		public static final int ptrShowIndicator = 0x7f01001d;
+		public static final int ptrSubHeaderTextAppearance = 0x7f010023;
 	}
 	public static final class dimen {
 		public static final int header_footer_left_right_padding = 0x7f060003;
@@ -80,7 +80,7 @@ public final class R {
 		public static final int pull_to_refresh_release_label = 0x7f070001;
 	}
 	public static final class styleable {
-		public static final int[] PullToRefresh = { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b, 0x7f01000c, 0x7f01000d, 0x7f01000e, 0x7f01000f, 0x7f010010, 0x7f010011, 0x7f010012 };
+		public static final int[] PullToRefresh = { 0x7f010018, 0x7f010019, 0x7f01001a, 0x7f01001b, 0x7f01001c, 0x7f01001d, 0x7f01001e, 0x7f01001f, 0x7f010020, 0x7f010021, 0x7f010022, 0x7f010023, 0x7f010024, 0x7f010025, 0x7f010026, 0x7f010027, 0x7f010028, 0x7f010029, 0x7f01002a };
 		public static final int PullToRefresh_ptrAdapterViewBackground = 16;
 		public static final int PullToRefresh_ptrAnimationStyle = 12;
 		public static final int PullToRefresh_ptrDrawable = 6;

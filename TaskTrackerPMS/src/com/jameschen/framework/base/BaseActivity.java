@@ -29,7 +29,7 @@ import android.widget.Toast;
 import com.jameschen.comm.utils.Log;
 import com.thirdpart.model.LogInController;
 import com.thirdpart.model.PMSManagerAPI;
-import com.thirdprt.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.R;
 
 public abstract class BaseActivity extends ActionBarActivity implements
 		OnClickListener {
@@ -56,10 +56,12 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	}
 	
 	
+	protected abstract void initView();
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		setTheme(android.R.style.Theme_Light);
 		super.onCreate(savedInstanceState);
 		TAG = getLocalClassName();
 		Log.i(TAG, "oncreate");

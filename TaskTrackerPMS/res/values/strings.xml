@@ -7,8 +7,12 @@
     <string name="tab_menu_text3">tab 3</string>
     <string name="confirm_password">确认密码:</string>
     <string name="phone_hint">请输入手机号</string>
-    <string name="warning_no_internet">没有网络，请检查网络</string>
     
+    
+  
+     <string name="server_no_respnonse">  服务器无响应，请稍候再试</string>
+    <string name="warning_no_internet">没有网络，请检查网络</string>
+    <string name="crash_toast_text">Report crash log</string>
     <string name="error_password_regex">输入的密码无效</string>
     <string name="error_account_regex">输入的账号无效</string>
     <string name="error_password">账号或密码错误</string>

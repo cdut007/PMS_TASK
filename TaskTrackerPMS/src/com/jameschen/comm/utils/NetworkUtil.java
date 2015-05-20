@@ -1,6 +1,6 @@
 package com.jameschen.comm.utils;
 
-import com.thirdprt.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.R;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

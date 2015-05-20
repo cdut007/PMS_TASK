@@ -15,6 +15,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.jameschen.comm.utils.Log;
 import com.jameschen.comm.utils.OttoBusHelper;
 import com.squareup.otto.Bus;
+import com.thirdpart.tasktrackerpms.R;
 
 import de.mindpipe.android.logging.log4j.LogConfigurator;
 
@@ -25,7 +26,7 @@ import de.mindpipe.android.logging.log4j.LogConfigurator;
 		ReportField.APP_VERSION_NAME, ReportField.APP_VERSION_CODE,
 		ReportField.APPLICATION_LOG, ReportField.ANDROID_VERSION,
 		ReportField.PHONE_MODEL, ReportField.CUSTOM_DATA,
-		ReportField.STACK_TRACE, ReportField.LOGCAT }, mode = ReportingInteractionMode.TOAST, formKey = "", logcatArguments = {
+		ReportField.STACK_TRACE, ReportField.LOGCAT }, mode = ReportingInteractionMode.TOAST, resToastText = R.string.crash_toast_text,formKey = "", logcatArguments = {
 		"-t", "3000", "-v", "long", "ActivityManager:I", "MyApp:D", "*:S" })
 public class MyApplication extends Application {
 
