@@ -19,7 +19,7 @@ public class MediaManager {
 	public static void compressImage(Context context,
 			String picPathString) {
 		// TODO Auto-generated method stub
-		return FileUtils.
+		return ;
 	}
 
 }

@@ -8,7 +8,7 @@
     <string name="confirm_password">确认密码:</string>
     <string name="no_value">没有数据</string>
     <string name="image_scan">图片预览</string>
-    
+    <string name="choose_file_title">选择内容</string>
     
     <string name="password_hint">请输入密码</string>
     <string name="input_password_again">请输入密码</string>

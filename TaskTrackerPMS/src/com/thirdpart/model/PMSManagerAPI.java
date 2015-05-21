@@ -1,5 +1,6 @@
 package com.thirdpart.model;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -428,21 +429,121 @@ public class PMSManagerAPI {
 	}
 	
 	public void myWitnessList(String loginUserId, String pagesize, String pagenum,AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
+		RequestParams params = getCommonPageParams(pagesize, pagenum);
 		params.put("loginUserId", loginUserId);
-		params.put("pagesize", pagesize);
-		params.put("pagenum", pagenum);
 		MyHttpClient.post(ReqHttpMethodPath.REQUST_MY_WITNESS_LIST_URL,
 				params, responseHandler);
 	}
 	
-	public void myWitnessList(String loginUserId, String pagesize, String pagenum,AsyncHttpResponseHandler responseHandler) {
+	public void removePlansToHeadman(List<String> rollingPlanIds, AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams();
-		params.put("loginUserId", loginUserId);
-		params.put("pagesize", pagesize);
-		params.put("pagenum", pagenum);
-		MyHttpClient.post(ReqHttpMethodPath.REQUST_REMOVE_ROLLINGPLAN_TO_HEADMAN_URL,
+		params.put("ids", rollingPlanIds);
+		MyHttpClient.delete(ReqHttpMethodPath.REQUST_REMOVE_ROLLINGPLAN_TO_HEADMAN_URL,
 				params, responseHandler);
 	}
+	
+	public void removeTaskToTeam(String teamId,List<String> taskIds, AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams();
+		params.put("teamId", teamId);
+		params.put("ids", taskIds);
+		MyHttpClient.delete(ReqHttpMethodPath.REQUST_REMOVE_TASK_TO_TEAM_URL,
+				params, responseHandler);
+	}
+	
+	public void planDetail(String planid, AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams();
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_ROLLINGPLAN_DETAIL_URL+planid,
+				params, responseHandler);
+	}
+	
+	public void IssueStatus(String userId,String status, AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams();
+		params.put("userId", userId);
+		params.put("status", status);
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_STATUS_ISSUE_URL,
+				params, responseHandler);
+	}
+	
+	/**
+	 * @param problemId
+	 * @param files
+	 * @param responseHandler
+	 */
+	public void uploadIssueFiles(String problemId,List<File> files, AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams();
+		params.put("problemId", problemId);
+		params.put("files", files);
+		MyHttpClient.post(ReqHttpMethodPath.REQUST_UPLOAD_ISSUE_FILES_URL,
+				params, responseHandler);
+	}
+	//param:loginUserId,pagesize,pagenum,condition (equal) 
+	/**
+	 * @param loginUserId
+	 * @param pageSize
+	 * @param pageNum
+	 * @param condition
+	 * @param responseHandler
+	 */
+	public void deliveryWitnessList(String loginUserId, 
+			String pageSize,String pageNum,String condition,
+			AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getCommonPageParams(pageSize, pageNum);
+		params.put("loginUserId", loginUserId);
+		params.put("condition", condition);
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_WITNESS_LIST_OF_DISTRIBUTE_URL,
+				params, responseHandler);
+	}
+	
+	public void workStepWitnessList(String id, 
+			String pageSize,String pageNum, AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getCommonPageParams(pageSize, pageNum);
+		params.put("Id", id);
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_WITNESS_LIST_OF_WORKSTEP_URL,
+				params, responseHandler);
+	}
+	
+	public void getWitnessResultType( AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams();
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_WITNESS_RESULT_TYPE_URL,
+				params, responseHandler);
+	}
+	
+	public void witnessTeamList( AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams();
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_WITNESS_TEAM_LIST_URL,
+				params, responseHandler);
+	}
+	
+	public void getWitnessType( AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams();
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_WITNESS_TYPE_LIST_URL,
+				params, responseHandler);
+	}
+	
+	public void getWorkStepList(String pagesize,String pagenum, AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getCommonPageParams(pagesize, pagenum);
+		
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_WORK_STEP_LIST_URL,
+				params, responseHandler);
+	}
+	
+	//noticeresult(1 ok ,3 bad),loginUserId,id 
+	public void wirteWitnessResult(String noticeresult,String loginUserId,String id, AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams();
+		params.put("noticeresult", noticeresult);
+		params.put("loginUserId", loginUserId);
+		params.put("id", id);
+		MyHttpClient.post(ReqHttpMethodPath.REQUST_WITNESSER_WIRTE_RESULT_URL,
+				params, responseHandler);
+	}
+	
+	public void getWorkStepDetail(String id, AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams();
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_WROKSTEP_DETAIL_URL+id,
+				params, responseHandler);
+	}
+	
+	
+	
 	
 }

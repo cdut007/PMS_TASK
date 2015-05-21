@@ -67,7 +67,6 @@ public class BaseUploadActivity extends BaseActivity implements OnClickListener{
 	TextView photoText;
 	protected int id;
 
-	private boolean isSucc=false;
 	// float money;
 	private void initviews() {
 
@@ -96,130 +95,12 @@ public class BaseUploadActivity extends BaseActivity implements OnClickListener{
 					return;
 				}
 				
-				
-				 RequestParams params = new RequestParams();  
-				 
-				 params.put("method", "logo");
-				 params.put("id", 0+"");
-				 params.put("ssize", 200);
-				 params.put("size", 500);
-				 try {
-					params.put("image_file", file);
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			// Upload a File  
-				 PersistentCookieStore myCookieStore = new PersistentCookieStore(BaseUploadActivity.this);
-				 final AsyncHttpClient client =new AsyncHttpClient();
-				 client.setCookieStore(myCookieStore);
-				 if (LogInController.getHttpClientInstance()!=null) {
-						client.setCookieStore(LogInController.getHttpClientInstance().getCookieStore());
-				}
-			
-				// Map<String, File> fileMap = new HashMap()<String, File>();
-//				 fileMap.put("image_file", file);
-//				 HttpUtil.get("http://birdboy.cn/upload", params, fileMap);
-				 
-				client.post("http://birdboy.cn/upload", params, new AsyncHttpResponseHandler(){
-					
-
-					
-
-
-					@Override
-					@Deprecated
-					public void onSuccess(String content) {
-						// TODO Auto-generated method stub
-						super.onSuccess(content);
-						Log.i(TAG, "&&&&&"+content);
-						readJsonData(content, uiController, null);
-						  HttpContext httpContext = client.getHttpContext();
-					        cookies = (CookieStore) httpContext.getAttribute(ClientContext.COOKIE_STORE);
-					}
-					@Override
-					public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
-						// TODO Auto-generated method stub
-						super.onSuccess(arg0, arg1, arg2);
-						isSucc  = false;
-						isStart=false;
-						showToast("上传图片成功");
-						debugHeaders(TAG, arg1);
-						//setResult(RESULT_OK);
-						sendCreateOKIntent();
-						//finish();
-					}
-					 @Override
-					public void onProgress(int bytesWritten, int totalSize) {
-						// TODO Auto-generated method stub
-						super.onProgress(bytesWritten, totalSize);
-						int percent = bytesWritten*100/totalSize;
-						//photoText.setText("已上传"+percent+"%");
-						if (percent==100) {//ok.
-							isSucc=true;
-						}
-						showProgressDialog("上传图片", "已上传"+percent+"%", null);
-					}
-					 @Override
-					public void onStart() {
-						super.onStart();
-						isStart=true;
-						showProgressDialog("上传图片", "已上传"+0+"%", new OnCancelListener() {
-							
-							@Override
-							public void onCancel(DialogInterface arg0) {
-								// TODO Auto-generated method stub
-								isStart =false;
-							}
-						});
-						//photoText.setText("开始上传。。。");
-					}
-					
-					@Override
-					public void onFailure(int arg0, Header[] arg1, byte[] arg2,
-							Throwable arg3) {
-						super.onFailure(arg0, arg1, arg2, arg3);
-						if (isSucc) {
-							isSucc=false;
-							showToast("上传图片成功");
-							debugHeaders(TAG, arg1);
-							setResult(RESULT_OK);
-							finish();
-						}else {
-							showToast("上传图片失败!");
-						}
-						
-						
-					}
-					
-				
-					 @Override
-					public void onFinish() {
-						super.onFinish();
-
-						cancelProgressDialog();
-						isStart=false;
-						//isSucc = false;
-						if (isSucc) {
-							showToast("上传图片成功");
-							setResult(RESULT_OK);
-							finish();
-							isSucc=false;
-						}
-					}
-				 
-				});  
-				 
-				 
-				 
-			}
-		});
+			}});
 
 		photo.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-			showAlert();
 			}
 		});
 		
@@ -256,72 +137,6 @@ public class BaseUploadActivity extends BaseActivity implements OnClickListener{
 	
 	
 
-	
-
-
-	public Dialog showAlert() {
-		final Dialog dlg = new Dialog(this, R.style.MMTheme_DataSheet);
-		LayoutInflater inflater = (LayoutInflater) this
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		LinearLayout layout = (LinearLayout) inflater.inflate(
-				R.layout.choose_image_dialog_layout, null);
-		final int cFullFillWidth = 10000;
-		layout.setMinimumWidth(cFullFillWidth);
-
-		// only 3 button .
-		TextView btn0 = (TextView) layout
-				.findViewById(R.id.menu_dialog_take_by_camera);
-		TextView btn1 = (TextView) layout
-				.findViewById(R.id.menu_dialog_choose_from_exist);
-		TextView btn2 = (TextView) layout
-				.findViewById(R.id.menu_dialog_cancel);
-		btn0.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent();
-				intent.setType("image/*");
-				intent.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(
-						Intent.createChooser(intent, "Select content"),
-						REQUEST_CODE_FOR_SELECT_IMAGE);
-				dlg.dismiss();
-			}
-		});
-
-		btn1.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				takePhoto(imageCachePath);
-				dlg.dismiss();
-			}
-		});
-		btn2.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				dlg.dismiss();
-			}
-		});
-		// set a large value put it in bottom
-		Window w = dlg.getWindow();
-		WindowManager.LayoutParams lp = w.getAttributes();
-		lp.x = 0;
-		final int cMakeBottom = -1000;
-		lp.y = cMakeBottom;
-		lp.gravity = Gravity.BOTTOM;
-		lp.height = (int) TypedValue.applyDimension(
-				TypedValue.COMPLEX_UNIT_DIP, 160, this.getResources()
-						.getDisplayMetrics());
-		dlg.onWindowAttributesChanged(lp);
-		dlg.setCanceledOnTouchOutside(true);
-
-		dlg.setContentView(layout);
-		dlg.show();
-
-		return dlg;
-	}
 	
 	
 	public String takePhoto(String path) {
@@ -428,6 +243,11 @@ public class BaseUploadActivity extends BaseActivity implements OnClickListener{
 	}
 
 	String sendName = null;
+	@Override
+	protected void initView() {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 	

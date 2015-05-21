@@ -80,7 +80,7 @@ public class FileUtils {
 	
 	
 	
-	private static boolean checkSendfileSizeIsOk(final BaseActivity activity, long fileSize,boolean showToast) {
+	private static boolean checkSendfileSizeIsOk(final Activity activity, long fileSize,boolean showToast) {
 		// check file size
 		final long maxImageSize = getMaxFileSendLimitedSize(activity);
 		Log.i(TAG, "file size====" + (fileSize / (double) (1024 * 1024))
@@ -90,9 +90,9 @@ public class FileUtils {
 				activity.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						activity.showToast(activity.getString(R.string.file_max_limit_info)
-								+" "+ (maxImageSize / (double) (1024 * 1024))
-								+ activity.getString(R.string.file_unit_m));
+//						activity.showToast(activity.getString(R.string.file_max_limit_info)
+//								+" "+ (maxImageSize / (double) (1024 * 1024))
+//								+ activity.getString(R.string.file_unit_m));
 									
 					}
 				});	
@@ -104,7 +104,7 @@ public class FileUtils {
 				activity.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						activity.showToast(activity.getString(R.string.file_min_limit_info));	
+					//	activity.showToast(activity.getString(R.string.file_min_limit_info));	
 					}
 				});	
 			}
@@ -128,13 +128,13 @@ public class FileUtils {
 		//if file is video type and mp4  size around 20M~40M,we go video compress first.
 		if (checkSendVideoFileSize(activity,sendingFile)) {
 			
-			Intent intent = new Intent(activity, ScanVideoActivity.class);
-			intent.setAction(ScanVideoActivity.VIDEO_SCAN);
-			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-			intent.putExtra("filePath", sendingFile.getAbsolutePath());
-			intent.putExtra("fileName", sendingFile.getName());
-			intent.putExtra("extraType", "compress_video");
-			activity.startActivityForResult(intent,);
+//			Intent intent = new Intent(activity, ScanVideoActivity.class);
+//			intent.setAction(ScanVideoActivity.VIDEO_SCAN);
+//			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//			intent.putExtra("filePath", sendingFile.getAbsolutePath());
+//			intent.putExtra("fileName", sendingFile.getName());
+//			intent.putExtra("extraType", "compress_video");
+//			activity.startActivityForResult(intent,);
 			
 			return false;
 		}

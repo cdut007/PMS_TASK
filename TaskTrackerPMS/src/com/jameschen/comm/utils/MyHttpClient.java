@@ -36,10 +36,6 @@ public class MyHttpClient  {
 	      client.delete(getAbsoluteUrl(url), responseHandler);
 	  }
 	  
-	  public static void upload(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-		  printReqUrl(url, params);
-	      post(url, params, responseHandler);
-	  }
 
 	  private static String getAbsoluteUrl(String relativeUrl) {
 	     // return BASE_URL + relativeUrl;
