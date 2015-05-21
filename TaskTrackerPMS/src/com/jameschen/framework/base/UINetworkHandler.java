@@ -2,18 +2,21 @@ package com.jameschen.framework.base;
 
 import org.apache.http.Header;
 
+import android.content.Context;
+
 import com.jameschen.comm.utils.NetworkUtil;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.R.bool;
 
 public abstract class UINetworkHandler<T> extends MyAsyncHttpResponseHandler<T> {
 
-	private BaseActivity activity;
+	private Context context;
 
-	
-	
-	public UINetworkHandler(BaseActivity activity) {
+    		
+	public UINetworkHandler(Context context) {
 		super();
-		this.activity = activity;
+		this.context = context;
+		
 		executeNetWorkRequest();
 	}
 
@@ -31,28 +34,24 @@ public abstract class UINetworkHandler<T> extends MyAsyncHttpResponseHandler<T> 
 
 	@Override
 	protected void onFail(int statusCode, Header[] headers, String response) {
-		if (activity.isFinishing()) {
-			return;
-		}
+		
 		// TODO Auto-generated method stub
 		if (statusCode == 0) {
-			if (NetworkUtil.isInternetAvailable(activity)) {
-				response = activity.getString(R.string.server_no_respnonse);
+			if (NetworkUtil.isInternetAvailable(context)) {
+				response = context.getString(R.string.server_no_respnonse);
 			} else {
-				response = activity.getString(R.string.warning_no_internet);
+				response = context.getString(R.string.warning_no_internet);
 			}
-			activity.showToast(response);
-		} else {
-			callbackFailure(statusCode, headers, response);
-		}
+		} 
+		
+		callbackFailure(statusCode, headers, response);
+		
 
 	}
 
 	@Override
 	protected void onSucc(int statusCode, Header[] headers, T response) {
-		if (activity.isFinishing()) {
-			return;
-		}
+		
 		// do something
 		callbackSuccess(statusCode, headers, response);
 	}
@@ -61,22 +60,13 @@ public abstract class UINetworkHandler<T> extends MyAsyncHttpResponseHandler<T> 
 	public void onFinish() {
 		// TODO Auto-generated method stub
 		super.onFinish();
-		if (activity.isFinishing()) {
-			return;
-		}
+		
 		finish();
 	}
 
 
 
 	private void executeNetWorkRequest() {
-		// TODO Auto-generated method stub
-		if (!NetworkUtil.isInternetAvailable(activity)) {
-			activity.showToast(activity.getString(R.string.warning_no_internet));
-			finish();
-			return;
-
-		}
 
 		start();
 

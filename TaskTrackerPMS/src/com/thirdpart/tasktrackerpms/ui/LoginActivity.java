@@ -143,6 +143,9 @@ public class LoginActivity extends BaseActivity{
 				@Override
 				public void callbackFailure(int statusCode, Header[] headers,
 						String response) {
+					if (isFinishing()) {
+						return;
+					}
 					// TODO Auto-generated method stub
 					 if (statusCode == -1002) {
 							showToast(getString(R.string.error_password));
@@ -154,6 +157,9 @@ public class LoginActivity extends BaseActivity{
 				@Override
 				public void callbackSuccess(int statusCode, Header[] headers,
 						UserInfo response) {
+					if (isFinishing()) {
+						return;
+					}
 					// TODO Auto-generated method stub
 					getLogInController().saveUserToPreference(LoginActivity.this, id, password,response);
 				}
@@ -161,6 +167,9 @@ public class LoginActivity extends BaseActivity{
 
 				@Override
 				public void finish() {
+					if (isFinishing()) {
+						return;
+					}
 					// TODO Auto-generated method stub
 					 cancelProgressDialog();
 				}
