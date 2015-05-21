@@ -155,7 +155,7 @@ public class LoginActivity extends BaseActivity{
 				public void callbackSuccess(int statusCode, Header[] headers,
 						UserInfo response) {
 					// TODO Auto-generated method stub
-					getLogInController().saveUserToPreference(LoginActivity.this, id, password);
+					getLogInController().saveUserToPreference(LoginActivity.this, id, password,response);
 				}
 
 

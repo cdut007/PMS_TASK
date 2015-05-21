@@ -1,5 +1,7 @@
 package com.jameschen.framework.base;
 
+import java.util.Locale;
+
 import org.apache.http.Header;
 
 import android.R.integer;
@@ -38,6 +40,22 @@ public abstract class MyAsyncHttpResponseHandler<T> extends
 		return ThirdPartReqType;
 	}
 	
+	
+	protected final void debugHeaders(String TAG, Header[] headers) {
+        if (headers != null) {
+            Log.d(TAG, "Return Headers:");
+            StringBuilder builder = new StringBuilder();
+            for (Header h : headers) {
+                String _h = String.format(Locale.US, "%s : %s", h.getName(), h.getValue());
+                Log.d(TAG, _h);
+                builder.append(_h);
+                builder.append("\n");
+            }
+           Log.i(TAG, "http=="+builder.toString());
+        }
+    }
+
+	
 	@Override
 	public void onFailure(int statusCode, Header[] headers,
 			byte[] responseBody, Throwable error) {
@@ -46,7 +64,7 @@ public abstract class MyAsyncHttpResponseHandler<T> extends
 		if (responseBody != null) {
 			response = new String(responseBody);
 		}
-
+		debugHeaders(TAG, headers);
 		Log.i(TAG, "statusCode=" + statusCode + ";response=" + response);
 		onFail(statusCode, headers, response);
 	}
@@ -59,6 +77,8 @@ public abstract class MyAsyncHttpResponseHandler<T> extends
 			response = new String(responseBody);
 			//Covert response to custom
 			response = ConvertResponseResultAdapter.ReqType(response,getCurrentReqType());
+		}else {
+			debugHeaders(TAG, headers);
 		}
 
 		try {
@@ -82,6 +102,7 @@ public abstract class MyAsyncHttpResponseHandler<T> extends
 
 		} catch (JsonSyntaxException e) {
 			// TODO: handle exception
+			debugHeaders(TAG, headers);
 			Log.i(TAG,
 					"response=" + response + ";JsonSyntaxException="
 							+ e.getLocalizedMessage());

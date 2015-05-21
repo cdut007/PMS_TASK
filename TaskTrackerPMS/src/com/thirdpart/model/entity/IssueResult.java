@@ -28,6 +28,27 @@ public class IssueResult {
 	private String concerman;
 
 	private String createdBy;
+	
+	private String userId;
+
+	private String solverid;
+	
+	public String getSolverid() {
+		return solverid;
+	}
+
+	public void setSolverid(String solverid) {
+		this.solverid = solverid;
+	}
+
+	
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
 	private List<IssuePhoto> file;
 
@@ -141,6 +162,18 @@ public class IssueResult {
 
 	public List<IssuePhoto> getFile() {
 		return this.file;
+	}
+
+	@Override
+	public String toString() {
+		return "IssueResult [id=" + id + ", worstepid=" + worstepid
+				+ ", stepno=" + stepno + ", stepname=" + stepname
+				+ ", describe=" + describe + ", questionname=" + questionname
+				+ ", isOk=" + isOk + ", level=" + level + ", solvemethod="
+				+ solvemethod + ", methodmanid=" + methodmanid + ", solvedate="
+				+ solvedate + ", concerman=" + concerman + ", createdBy="
+				+ ", solverid=" + solverid 
+				+ ", userId=" + userId + createdBy + ", file=" + file + "]";
 	}
 
 }

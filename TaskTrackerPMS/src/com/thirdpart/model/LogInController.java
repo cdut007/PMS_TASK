@@ -1,11 +1,16 @@
 package com.thirdpart.model;
 
+import java.lang.reflect.Type;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jameschen.comm.utils.AES4all;
 import com.thirdpart.model.ConstValues.CategoryInfo.User;
+import com.thirdpart.model.entity.UserInfo;
 
 public class LogInController {
 
@@ -43,11 +48,22 @@ public class LogInController {
 		user.edit().remove(User.password).commit();
 	}
 
+	private UserInfo myInfo;
+	
+	public UserInfo  getInfo(){
+		if (myInfo == null) {
+			readAccountDataFromPreference();
+		}
+		return myInfo;
+	}
+	
 	public void saveUserToPreference(Context context, String account,
-			String pswd) {
+			String pswd, UserInfo userInfo) {
 		// TODO Auto-generated method stub
 		SharedPreferences user = context.getSharedPreferences(User.SharedName,
 				0);
+		Gson gson = new Gson();
+		String info = gson.toJson(userInfo);
 		try {
 			user.edit()
 					.putString(
@@ -63,7 +79,12 @@ public class LogInController {
 										.getBytes())))
 						.putBoolean(User.logon, true).commit();
 			}
-
+			user.edit()
+			.putString(
+					User.userinfo,
+					new String(
+							AES4all.encryptAESECB(info.getBytes())))
+			.commit();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,6 +100,7 @@ public class LogInController {
 		// 取出保存的NAME，取出改字段名的值，不存在则创建默认为空
 		String name = userPref.getString(User.account, null); // 取出保存的 NAME
 		String password = userPref.getString(User.password, null); // 取出保存的 uid
+		String Info = userPref.getString(User.userinfo, null);
 		String[] accounts = new String[2];
 		if (name == null) {
 			return accounts;
@@ -89,7 +111,11 @@ public class LogInController {
 				accounts[1] = new String(AES4all.decryptAESECB(password
 						.getBytes()));
 			}
-
+			String decryptInfo =  new String(AES4all.decryptAESECB(Info
+					.getBytes()));
+			Gson gson = new Gson();
+			myInfo = gson.fromJson(decryptInfo,new TypeToken<UserInfo>() {
+			}.getType() );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

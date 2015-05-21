@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  
+    <string name="server_no_respnonse">服务器无响应，请稍候再试</string>
+    <string name="warning_no_internet">没有网络，请检查网络</string>
+    <string name="crash_toast_text">Report crash log</string>
+    <string name="error_password_regex">输入的密码无效</string>
+    <string name="error_account_regex">输入的账号无效</string>
+    <string name="error_password">账号或密码错误</string>
+    <string name="error_account">账号不存在</string>
+    <string name="error_select_photo">获取照片失败</string>
+    <string name="error_phone_num">输入的手机号码无效</string>
+    
+
+</resources>

@@ -208,6 +208,13 @@ public abstract class BaseActivity extends ActionBarActivity implements
 		nextBtn.setOnClickListener(nextBtnOnClickListener);
 	}
 
+	
+	protected void setTopBarAllBtnVisiable(int visibility) {
+		setTopBarLeftBtnVisiable(visibility);
+		setTopBarRightBtnVisiable(visibility);
+	}
+
+	
 	protected void setTopBarLeftBtnVisiable(int visibility) {
 		backBtn.setVisibility(visibility);
 	}

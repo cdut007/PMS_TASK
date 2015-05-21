@@ -87,12 +87,8 @@ public class ConstValues {
 
 		public static final String SharedName = "user";
 		public static final String account = "account";
-		public static final String area = "area";
-		public static final String addr = "addr";
-		public static final String location = "location";
-		public static final String phone = "phone";
 		public static final String password = "password";
-		public static final String userid = "userid";
+		public static final String userinfo = "userinfo";
 		public static final String logon = "loginstate";
 		public static final String randomcode = "randomcode";
 		public static final String tag = "personinfo";
@@ -129,8 +125,11 @@ public class ConstValues {
 	public static class Cache {
 		public static final String SharedName = "cache";
 		public static final String IMAGE_CACHE_DIR = "imageCache";
-		public static final String EXTRA_IMAGE = "extra_image";
 		public static final String path = "/mnt/sdcard/PMS/Cache";
+		public static final String SCAN_IMAGE_CACHE_DIR = path+"/eventPhoto/";
+		public static final String UPLOAD_IMAGE_CACHE_DIR =path+"uploadPhoto/";
+		public static final String EXTRA_IMAGE = "extra_image";
+		
 
 		public static final int LOAD_CACHE = 1;
 	}

@@ -11,23 +11,33 @@ public class MyHttpClient  {
 
 	  private static AsyncHttpClient client = new AsyncHttpClient();
 
+	  static void printReqUrl(String url,RequestParams requestParams){
+		  Log.i("reqUrl", "url="+url+"; requestParam="+requestParams.toString());
+	  }
+	  
+	  
 	  public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+		  printReqUrl(url, params);
 	      client.get(getAbsoluteUrl(url), params, responseHandler);
 	  }
 
 	  public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+		  printReqUrl(url, params);
 	      client.post(getAbsoluteUrl(url), params, responseHandler);
 	  }
 	  
 	  public static void put(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+		  printReqUrl(url, params);
 	      client.put(getAbsoluteUrl(url), params, responseHandler);
 	  }
 	  
 	  public static void delete(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+		  printReqUrl(url, params);
 	      client.delete(getAbsoluteUrl(url), responseHandler);
 	  }
 	  
 	  public static void upload(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+		  printReqUrl(url, params);
 	      post(url, params, responseHandler);
 	  }
 
