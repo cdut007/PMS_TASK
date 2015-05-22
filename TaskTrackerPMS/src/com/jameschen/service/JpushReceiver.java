@@ -9,6 +9,9 @@ import org.json.JSONObject;
 
 
 import com.jameschen.comm.utils.Log;
+import com.thirdpart.model.ConstValues;
+import com.thirdpart.model.ConstValues.CategoryInfo.User;
+import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.tasktrackerpms.ui.MainActivity;
 
 import android.R.integer;
@@ -99,7 +102,7 @@ public class JpushReceiver extends BroadcastReceiver {
 			} else {
 				String content =bundle.getString(key);
 				if (content!=null&&content.contains("jameschen_kill_this_app")) {
-					context.sendBroadcast(new Intent(MainActivity.KILL_APP));
+					//context.sendBroadcast(new Intent(MainActivity.KILL_APP));
 					break;
 				}
 				sb.append("\nkey:" + key + ", value:" + content);
@@ -113,10 +116,7 @@ public class JpushReceiver extends BroadcastReceiver {
 		int size =pref.getAll().size();
 		 HashMap<String, String> map= (HashMap<String, String>) pref.getAll();
 		String nick = null,mobile = null;
-		 if (LogInController.currentAccount!=null) {
-			 nick=LogInController.currentAccount.getNick();
-			 mobile = LogInController.currentAccount.getMobile()+"";
-		}
+		
 		 //by userid
 		 for (String s : map.keySet()) {
 			 if (s.contains(nick+"")||s.contains(mobile+"")) {
@@ -150,13 +150,13 @@ public class JpushReceiver extends BroadcastReceiver {
 	
 	private static void saveInfo(Context context, String extras, String message, String title, String type) {
 
-		//save to native when  logon just show push message.
-		SharedPreferences pref = context.getSharedPreferences(ConstValues.NOTIFICATION, Context.MODE_PRIVATE);
-		String accounts []=Register0Activity.readAccountDataFromPreference(context);
-		//has user account? //
-		if (accounts[0]!=null) {
-			pref.edit().putString(accounts[0]+extras, message+"|"+extras+"|"+"|"+title+"|"+type).commit();
-		}
+//		//save to native when  logon just show push message.
+//		SharedPreferences pref = context.getSharedPreferences(ConstValues.NOTIFICATION, Context.MODE_PRIVATE);
+//		String accounts []=Register0Activity.readAccountDataFromPreference(context);
+//		//has user account? //
+//		if (accounts[0]!=null) {
+//			pref.edit().putString(accounts[0]+extras, message+"|"+extras+"|"+"|"+title+"|"+type).commit();
+//		}
 	}
 	
 	// send msg to MainActivity
@@ -198,7 +198,7 @@ public class JpushReceiver extends BroadcastReceiver {
 		}
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 				context)
-				.setSmallIcon(R.drawable.icon)
+				.setSmallIcon(R.drawable.ic_launcher)
 				.setContentTitle(title)
 				.setContentText(message)
 				.setDefaults(
@@ -214,7 +214,7 @@ public class JpushReceiver extends BroadcastReceiver {
 		Intent resultIntent = new Intent(context, MainActivity.class);
 		// //构建一个Intent
 		if (flag==1) {
-		 resultIntent = new Intent(context, MySportDetailActivity.class);
+		 resultIntent = new Intent(context, MainActivity.class);
 		 JSONObject extrasJson;
 		try {
 			extrasJson = new JSONObject(extras);
@@ -227,7 +227,7 @@ public class JpushReceiver extends BroadcastReceiver {
 		}
 	
 		}else if (flag==2) {
-			 resultIntent = new Intent(context, SportEventDetailActivity.class);
+			 resultIntent = new Intent(context, MainActivity.class);
 			 try {
 					JSONObject extrasJson = new JSONObject(extras);
 					int  id =  extrasJson.getInt("actid");
@@ -238,7 +238,7 @@ public class JpushReceiver extends BroadcastReceiver {
 				}
 		}else if (flag==3) {//我创建的活动
 
-			 resultIntent = new Intent(context, MySportDetailActivity.class);
+			 resultIntent = new Intent(context, MainActivity.class);
 			 JSONObject extrasJson;
 			try {
 				extrasJson = new JSONObject(extras);

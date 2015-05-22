@@ -138,6 +138,10 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 
+	/**
+	 * @param issue
+	 * @param responseHandler
+	 */
 	public void createIssue(IssueResult issue,
 			AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams();

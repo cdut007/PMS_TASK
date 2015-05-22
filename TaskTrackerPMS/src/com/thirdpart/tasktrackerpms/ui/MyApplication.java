@@ -10,6 +10,7 @@ import org.apache.log4j.Level;
 
 import android.app.Application;
 import android.os.Environment;
+import cn.jpush.android.api.JPushInterface;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.jameschen.comm.utils.Log;
@@ -40,7 +41,8 @@ public class MyApplication extends Application {
 		Fresco.initialize(this);
 		initLogConfig();
 		mBus.register(this); // listen for "global" events
-
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
 	}
 
 	private void initLogConfig() {
