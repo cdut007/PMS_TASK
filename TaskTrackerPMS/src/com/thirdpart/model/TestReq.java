@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.R.integer;
 import android.content.Context;
 import android.os.Handler;
 
@@ -24,6 +26,108 @@ public class TestReq {
 
 	public static boolean debug = true;
 
+
+	static List<String> orList = new ArrayList<String>();
+	static {
+		
+		orList.add("hdxt/api/core/authenticate/{0}");
+		orList.add("hdxt/api/baseservice/rollingplan/{0}");
+		orList.add("hdxt/api/baseservice/rollingplan/{p}");
+		orList.add("hdxt/api/baseservice/workstep/rollingplan/{0}");
+		orList.add("hdxt/api/baseservice/construction/team/{0}");
+		orList.add("hdxt/api/baseservice/workstep/{0}");
+		orList.add("hdxt/api/baseservice/construction/team/teams/{0}");
+		orList.add("hdxt/api/baseservice/construction/team/{1}");
+		orList.add("hdxt/api/baseservice/construction/team/{2}");
+		orList.add("hdxt/api/baseservice/construction/team/{3}");
+		
+		orList.add("hdxt/api/baseservice/construction/endman/endmen/{0}");		
+		orList.add("hdxt/api/baseservice/construction/endman/{1}");
+		orList.add("hdxt/api/baseservice/construction/endman/{2}");
+		orList.add("hdxt/api/baseservice/construction/endman/{3}");
+		orList.add("hdxt/api/baseservice/construction/mytask/workstep/{1}");
+		orList.add("hdxt/api/baseservice/construction/mytask/workstep/{2}");
+		orList.add("hdxt/api/baseservice/construction/mytask/rollingplan/{1}");
+		orList.add("hdxt/api/baseservice/construction/mytask/rollingplan/{2}");
+		orList.add("hdxt/api/baseservice/witness/workstep/{0}");
+		orList.add("hdxt/api/baseservice/witness/witnessresulttype/{0}");
+		
+		orList.add("hdxt/api/baseservice/witness/{0}");		
+		orList.add("hdxt/api/baseservice/witness/witnessertype/{0}");
+		orList.add("hdxt/api/baseservice/witness/team/{0}");
+		orList.add("hdxt/api/baseservice/witness/witnesser/{0}");
+		orList.add("hdxt/api/baseservice/witness/witnesser/{1}");
+		orList.add("hdxt/api/baseservice/witness/witnesser/{2}");
+		orList.add("hdxt/api/baseservice/witness/witnesser/result/{1}");
+		orList.add("hdxt/api/baseservice/witness/witnesser/result/{2}");
+		orList.add("hdxt/api/baseservice/witness/myevent/{0}");
+		orList.add("workflow/api/hdxt/problem/add/{1}");
+		
+		orList.add("workflow/api/hdxt/problem/upload/{1}");		
+		orList.add("workflow/api/hdxt/problem/handle/{1}");
+		orList.add("workflow/api/hdxt/confrim/{1}");
+		orList.add("workflow/hdxt/api/problem/{0}");
+		orList.add("workflow/hdxt/api/problem/detail/{0}");
+		
+		
+	}
+	
+	 private static int judge(String s) { 
+		 
+	        Stack<Character> stk = new Stack<Character>(); 
+	        results.clear();
+	        int start=0 ,end =0;
+	        int interfaceCount = 0;
+	        for(int i = 0;i < s.length();++ i){ 
+	            char c = s.charAt(i); 
+	            switch(c){ 
+	                case '{': 
+	                	if (stk.isEmpty()) {
+	                		
+
+	                		start = i;		
+						}
+	                    stk.push(c); 
+	                    break; 
+	                case '}': 
+	                {
+	                    
+	                    stk.pop(); 
+	                    if(stk.isEmpty()){ 
+	                    	end = i;
+	                    	if (start < end) {
+	                    		String content = StringUtil.replaceBlank(s.substring(start, end+1));
+
+	                    		if (!content.equals("{id}")) {
+	                				String addString = "{\"url\":\""+(orList.get(interfaceCount))+"\","+StringUtil.replaceBlank(content).substring(1);
+//	                				addString = addString.replaceAll("，", ",")
+//		    	                			.replaceAll("：", ":").replaceAll("“", "\"")
+//		    	                			.replaceAll("”", "\"").replaceAll("［", "[")
+//		    	                			.replaceAll("］", "]");
+	                				results.add(addString);
+		                			interfaceCount++;
+								}else {
+									
+								}
+	                			
+	                		
+							}
+	                        break; 
+	                    } 
+	                    if('{' != stk.lastElement()){ 
+	                    	end = i;
+	                        break; 
+	                    }
+	                }
+	                    break; 
+	                
+	            } 
+	        } 
+	        
+	        
+	        return 0; 
+	    
+	    } 
 	
 	public static void init(final Context context) {
 		// TODO Auto-generated method stub
@@ -33,17 +137,11 @@ public class TestReq {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-
 					InputStream inputStram = null;
 					try {
 						inputStram = context.getAssets().open("content.json");
 						String  content = StringUtil.inputStream2String(inputStram); 
-						results = content.ma;
-						Log.i("test", "results=="+results.length);
-						
-					for (int i = 0; i < results.length; i++) {
-						results[i] = StringUtil.replaceBlank(results[i]);
-					}
+						judge(content);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -125,31 +223,61 @@ static Handler handler = new Handler();
 	
 	
 	
-	static String[] results = null;
+	private static List<String> results = new ArrayList<String>();
+	
+	
+	static String matchString (String url,String type){
+		String matherUrl = url;
+		if (url.endsWith("/")) {
+			matherUrl = url+"{"+type+"}";
+		}else {
+			matherUrl = url+"/"+"{"+type+"}";
+		}
+		return matherUrl;
+	}
+	
+	
+	
 	
 	protected static byte[] queryData(String url,int type) {
 		// TODO Auto-generated method stub
-		String matherUrl = url;
-		if (url.endsWith("/")) {
-			matherUrl = url+type;
-		}else {
-			matherUrl = url+"/"+type;
-		}
+		String matherUrl = matchString(url, type+"");
 		
 		Gson  gson = new Gson();
-		for (int i = 0; i < results.length; i++) {
-			if (results[i].isEmpty()) {
-				continue;
-			}
-
-			Log.i("urlJson", "content = "+ results[i]);
+		for (int i = 0; i < results.size(); i++) {
 			
-			WebResponseContent mResponseContent = gson.fromJson(results[i],
-					new TypeToken<WebResponseContent>() {
-					}.getType());	
+
+			WebResponseContent mResponseContent ;
+			try {
+				 mResponseContent = gson.fromJson(results.get(i),
+						new TypeToken<WebResponseContent>() {
+						}.getType());	
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				return null;
+			}
+			
 			if (mResponseContent.getUrl()!=null ) {
 				if ((matherUrl).contains(mResponseContent.getUrl())) {
+
+					Log.i("urlJson", "content = "+ results.get(i));
 					return mResponseContent.getResponseResult().getBytes();
+				}else {
+					if (url.contains("hdxt/api/baseservice/rollingplan")){
+						if (url.endsWith("hdxt/api/baseservice/rollingplan/")) {//for page
+							if (matchString(url, "p").contains(mResponseContent.getUrl())) {
+
+								Log.i("urlJson", "content p= "+ results.get(i));
+								return  mResponseContent.getResponseResult().getBytes();
+							}
+						}else {// for plan id
+
+							Log.i("urlJson", "plan content = "+ results.get(i));
+							return  mResponseContent.getResponseResult().getBytes();
+						}
+					}
+					
 				}
 			}
 		}
