@@ -31,7 +31,7 @@ public class IssueAdapter extends BasePageAdapter<IssueResult,IssueList> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
-		convertView = getView(position, convertView, parent);
+		convertView = super.getView(position, convertView, parent);
 		
 		return convertView;
 

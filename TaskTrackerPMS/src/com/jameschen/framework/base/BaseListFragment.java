@@ -1,7 +1,11 @@
 package com.jameschen.framework.base;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
+import android.app.Fragment.InstantiationException;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +16,14 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.jameschen.widget.MyListView;
+import com.thirdpart.model.ManagerService;
 import com.thirdpart.tasktrackerpms.R;
 
 public abstract class BaseListFragment<T> extends BaseFragment {
 
 	public static final String LIST = "list";
-	private List<T> mInfos;
 	
 	protected MyListView mListView;
 	protected MyBaseAdapter<T> mAdapter;
@@ -36,20 +41,50 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 	public BaseListFragment() {
 	}
 
-	private ListView bindListView(View root) {
+	
+	protected ListView bindListView(View root,MyBaseAdapter<T> adapter) {
 		mStandardEmptyView = (TextView) root.findViewById(R.id.listEmpty);
 		mStandardEmptyView.setVisibility(View.GONE);
 		mProgressContainer = root.findViewById(R.id.progressContainer);
 		mListContainer = root.findViewById(R.id.listContainer);
-		ListView rawListView = (ListView) root.findViewById(R.id.common_list);
+		mListView = (MyListView) root.findViewById(R.id.common_list);
 		mStandardEmptyView.setText(mEmptyText);
-		return rawListView;
+		mAdapter  = adapter;
+		mListView.setAdapter(mAdapter);
+		mListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+
+			@Override
+			public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+				// TODO Auto-generated method stub
+				doFreshFromTop(mListView);
+			}
+
+			@Override
+			public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+				// TODO Auto-generated method stub
+				doFreshFromBottom(mListView);
+			}
+
+	
+		});
+		
+		return mListView.getRefreshableView();
 
 	}
 
 	
 	
 	
+	protected void doFreshFromBottom(MyListView mListView) {
+		// TODO Auto-generated method stub
+		
+		
+	}
+
+	protected void doFreshFromTop(MyListView mListView) {
+		// TODO Auto-generated method stub
+	}
+
 	protected void showNoResult(boolean noResult, String noResultStr) {
 		if (noResult) {
 			mStandardEmptyView.setText(noResultStr);
@@ -71,7 +106,7 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		bindListView(view);
+		
 	}
 
 	/**

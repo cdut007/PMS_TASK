@@ -6,13 +6,14 @@ import org.apache.http.Header;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jameschen.comm.utils.Log;
 import com.jameschen.widget.MyListView;
 import com.thirdpart.model.entity.base.PageList;
 
-public class BasePageListFragment<T, PageListType extends PageList<T>> extends
+public abstract class BasePageListFragment<T, PageListType extends PageList<T>> extends
 		BaseListFragment<T> {
 
 	@Override
@@ -114,6 +115,27 @@ public class BasePageListFragment<T, PageListType extends PageList<T>> extends
 		return pageListInfo.getCurrentPage();
 	}
 	
+	@Override
+	protected ListView bindListView(View root, MyBaseAdapter<T> adapter) {
+		// TODO Auto-generated method stub
+		return super.bindListView(root, adapter);
+	}
+	
+	@Override
+	protected void doFreshFromBottom(MyListView mListView) {
+		// TODO Auto-generated method stub
+		super.doFreshFromBottom(mListView);
+		callNextPage(getCurrentPage()+1, pageNum);
+	}
+	@Override
+	protected void doFreshFromTop(MyListView mListView) {
+		// TODO Auto-generated method stub
+		super.doFreshFromTop(mListView);
+		callNextPage(0, pageNum);
+		
+	}
+	
+	protected abstract void callNextPage(int pagesize,int pageNum);
 	
 	public void addDataToListAndRefresh(PageListType mPageList) {
 
@@ -127,6 +149,12 @@ public class BasePageListFragment<T, PageListType extends PageList<T>> extends
 		}
 
 		List<T> datas = mPageList.getDatas();
+		
+		//isFromTop 
+		if (mPageList.getCurrentPage()==0) {
+			clearAdapter();
+		}
+		
 		mAdapter.addObjectList(datas);
 		this.pageListInfo = mPageList;
 		

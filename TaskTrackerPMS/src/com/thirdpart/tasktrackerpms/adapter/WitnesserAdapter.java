@@ -29,7 +29,7 @@ public class WitnesserAdapter extends MyBaseAdapter<IssueResult> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
-		convertView = getView(position, convertView, parent);
+		convertView = super.getView(position, convertView, parent);
 		
 		return convertView;
 

@@ -1,8 +1,15 @@
 package com.thirdpart.tasktrackerpms.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.http.Header;
 
 import android.R.integer;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.jameschen.framework.base.BasePageListFragment;
 import com.jameschen.framework.base.UINetworkHandler;
@@ -11,13 +18,23 @@ import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.RollingPlanList;
 import com.thirdpart.model.entity.UserInfo;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.adapter.IssueAdapter;
+import com.thirdpart.tasktrackerpms.adapter.PlanAdapter;
 
 
 public class PlanFragment extends BasePageListFragment<RollingPlan, RollingPlanList>{
 
 	
 	
-	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		View view = inflater.inflate(R.layout.plan_ui, container, false);
+		bindListView(view,new PlanAdapter(getBaseActivity()));		
+		callNextPage(getCurrentPage(), pageNum);
+		return view;
+	}
 	
 	
 	
@@ -53,6 +70,23 @@ public class PlanFragment extends BasePageListFragment<RollingPlan, RollingPlanL
 	    		}
 	    	});
 		
+	}
+
+	@Override
+	protected void callNextPage(int pagesize, int pageNum) {
+		// TODO Auto-generated method stub
+		//executeNextPageNetWorkRequest(pagesize, pageNum);
+		
+		//test data.
+		RollingPlanList mPageList = new RollingPlanList();
+		
+		 List<RollingPlan> data = new ArrayList<RollingPlan>();
+		 
+		for (int i = 0; i < pageNum; i++) {
+			data.add(new RollingPlan());
+		}
+		mPageList.setDatas(data);
+		addDataToListAndRefresh(mPageList);	
 	}
 	
 	

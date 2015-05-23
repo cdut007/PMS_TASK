@@ -3,6 +3,7 @@ package com.jameschen.framework.base;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.R.integer;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -55,7 +56,6 @@ public abstract class BaseActivity extends ActionBarActivity implements
       return mLogInController;
 	}
 	
-	
 	protected abstract void initView();
 	
 	
@@ -66,6 +66,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
 		TAG = getLocalClassName();
 		Log.i(TAG, "oncreate");
 		TopBarInit(getSupportActionBar());
+		initView();
 	}
 
 	@Override

@@ -10,13 +10,21 @@ import com.thirdpart.tasktrackerpms.R;
 
 public class SlapshActivity extends BaseActivity {
 
+
+	@Override
+	protected void initView() {
+		// TODO Auto-generated method stub
+
+		setContentView(R.layout.slapsh_ui);	
+	}
+
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setTheme(android.R.style.Theme_Light_NoTitleBar);
 		getSupportActionBar().hide();
-		setContentView(R.layout.slapsh_ui);
 
 		if (IsNeedGoLoginPage()) {
 
@@ -68,12 +76,6 @@ public class SlapshActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.finish();
 		overridePendingTransition(0, 0);
-	}
-
-	@Override
-	protected void initView() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

@@ -55,11 +55,12 @@ public class LoginActivity extends BaseActivity{
 	
 	@Override
 	protected void initView() {
+		setContentView(R.layout.login);
 		accountInput = (EditText) findViewById(R.id.login_account);
 		passwordInput = (EditText) findViewById(R.id.login_password);
 		loginBtn = (Button) findViewById(R.id.login_btn);
 		forgetPassword = (TextView) findViewById(R.id.forget_password);
-	
+		initEvent();
 	    fillAccount();
 	}
 	
@@ -70,9 +71,6 @@ public class LoginActivity extends BaseActivity{
 		setTheme(android.R.style.Theme_Light_NoTitleBar);
 		
 		getSupportActionBar().hide();
-		setContentView(R.layout.login);
-		initView();
-		initEvent();
 	}
 
 	
@@ -126,15 +124,20 @@ public class LoginActivity extends BaseActivity{
 	
 	
 	
-	
+	boolean isLogining = false;
+
 	private void executeLoginNetWorkRequest(final String id,final String password) {
 		// TODO Auto-generated method stub
+		if (isLogining) {
+			return;
+		}
 	        getPMSManager().login(id, password, new UINetworkHandler<UserInfo>(this) {
 
 	        
 				@Override
 				public void start() {
 					// TODO Auto-generated method stub
+					isLogining = true;
 					closeInputMethod();
 					showProgressDialog("登录", "正在登录...", null);
 				}
@@ -167,6 +170,7 @@ public class LoginActivity extends BaseActivity{
 
 				@Override
 				public void finish() {
+					isLogining = false;
 					if (isFinishing()) {
 						return;
 					}

@@ -28,7 +28,10 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void initView() {
 		// TODO Auto-generated method stub
-		
+
+		setContentView(R.layout.activity_main);
+		initNavListener();
+
 	}
 	
 	SparseArray<MenuListener> mTabMenus = new SparseArray<MenuListener>();
@@ -38,9 +41,6 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.activity_main);
-		initNavListener();
 
 		String pushTag = getIntent().getStringExtra("pushTag");
 		if (pushTag != null) {
@@ -157,7 +157,10 @@ public class MainActivity extends BaseActivity {
 				selectedMenu.onMenuSelected(null, ft);
 				setBottomItemSeleted(i, true);
 			} else {
-				mTabMenus.get(i).onMenuUnselected(null, ft);
+				MenuListener unSlectedTab = mTabMenus.get(i);
+				if (unSlectedTab!=null) {
+					unSlectedTab.onMenuUnselected(null, ft);	
+				}
 				setBottomItemSeleted(i, false);
 			}
 
@@ -254,7 +257,7 @@ public class MainActivity extends BaseActivity {
 
 		public void onTabSelected(FragmentTransaction ft) {
 			if (mFragment == null) {
-				Log.e(mTag, "sel ********null!!!!!!!!!!!!!!!!");
+				Log.e(mTag, "create the new tab name:"+mTag);
 				mFragment = Fragment.instantiate(mActivity, mClass.getName(),
 						mArgs);
 				ft.add(R.id.fragment_tab_content, mFragment, mTag);
@@ -264,8 +267,7 @@ public class MainActivity extends BaseActivity {
 					ft.attach(mFragment);
 				} else {
 					Log.i(mTag,
-							"sel ********show!!!!!!!!!!!!!!!!"
-									+ (mFragment.getView() == null));
+							"show tab :"+mTag);
 
 					ft.show(mFragment);
 
@@ -277,7 +279,7 @@ public class MainActivity extends BaseActivity {
 			if (mFragment != null) {
 				if (mFragment.isDetached() || mFragment.isRemoving()) {
 					Log.e(mTag,
-							"onTabUnselected ********removew!!!!!!!!!!!!!!!!");
+							"tab is detached or removed:"+mTag);
 					ft.detach(mFragment);
 					// mFragment = null;
 				} else {
