@@ -16,7 +16,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.thirdpart.model.WebResponseContent;
 import com.thirdpart.tasktrackerpms.R;
 
-public abstract class MyAsyncHttpResponseHandler<T> extends
+abstract class MyAsyncHttpResponseHandler<T> extends
 		AsyncHttpResponseHandler implements OnResponseListener<T> {
 	private static final String TAG = "AsyncHttpResponseHandler";
 	Gson gson = new Gson();
@@ -100,11 +100,11 @@ public abstract class MyAsyncHttpResponseHandler<T> extends
 						"" + mResponseContent.getMessage());
 			}
 
-		} catch (JsonSyntaxException e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 			debugHeaders(TAG, headers);
 			Log.i(TAG,
-					"response=" + response + ";JsonSyntaxException="
+					"response=" + response + ";JsonException="
 							+ e.getLocalizedMessage());
 			onFail(statusCode, headers, "" + e.getLocalizedMessage());
 		}

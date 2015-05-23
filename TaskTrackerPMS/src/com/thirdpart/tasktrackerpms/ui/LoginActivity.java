@@ -23,7 +23,6 @@ import com.jameschen.comm.utils.Log;
 import com.jameschen.comm.utils.NetworkUtil;
 import com.jameschen.comm.utils.RegexUtils;
 import com.jameschen.framework.base.BaseActivity;
-import com.jameschen.framework.base.MyAsyncHttpResponseHandler;
 import com.jameschen.framework.base.UINetworkHandler;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.okhttp.internal.Util;

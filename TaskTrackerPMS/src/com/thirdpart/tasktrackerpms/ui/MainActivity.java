@@ -1,7 +1,10 @@
 package com.thirdpart.tasktrackerpms.ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import android.R.integer;
 import android.content.Intent;
@@ -34,9 +37,9 @@ public class MainActivity extends BaseActivity {
 
 	}
 	
-	SparseArray<MenuListener> mTabMenus = new SparseArray<MenuListener>();
-	List<View> menuViews = new ArrayList<View>();
-	static final int PLAN = 0, TASK = 1, ISSUE = 2;
+	HashMap<String,MenuListener> mTabMenus = new HashMap<String,MenuListener>();
+	HashMap<String,View> menuViews = new HashMap<String,View>();
+	static final String PLAN = Item.PLAN, TASK = Item.TASK, ISSUE = Item.ISSUE;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,7 @@ public class MainActivity extends BaseActivity {
 			checkFlag(pushTag);
 		} else {
 			if (savedInstanceState != null) {
-				item = savedInstanceState.getInt("nav_menu");
+				item = savedInstanceState.getString("nav_menu");
 			} else {
 				item = PLAN;// defualt is PLAN
 			}
@@ -75,30 +78,36 @@ public class MainActivity extends BaseActivity {
 
 	}
 
-	private int item = PLAN;
+	private String item = PLAN;
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		// TODO Auto-generated method stub
 		super.onSaveInstanceState(outState);
-		outState.putInt("nav_menu", item);
+		outState.putString("nav_menu", item);
 	}
 
 	private void initNavListener() {
-
-		menuViews.add(findViewById(R.id.btn_menu1));
-		menuViews.add(findViewById(R.id.btn_menu2));
-		menuViews.add(findViewById(R.id.btn_menu3));
-
-		for (int index = 0; index < menuViews.size(); index++) {
-			final int position = index;
-			menuViews.get(index).setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					onNavigateItemSelected(position);
-				}
-			});
-		}
+		
+		menuViews.put(ISSUE,findViewById(R.id.btn_menu1));
+		menuViews.put(PLAN,findViewById(R.id.btn_menu2));
+		menuViews.put(TASK,findViewById(R.id.btn_menu3));
+		
+		
+		
+		
+		 Set<String> key = menuViews.keySet();
+	        for (Iterator<String> it = key.iterator(); it.hasNext();) {
+	            final String menuViewKey = (String) it.next();
+	            menuViews.get(menuViewKey).setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						onNavigateItemSelected(menuViewKey);
+					}
+				});
+	            
+	        }
+		
 
 	}
 
@@ -122,12 +131,12 @@ public class MainActivity extends BaseActivity {
 	 * @param index
 	 *            for selected the tab item
 	 */
-	public void onNavigateItemSelected(int index) {
+	public void onNavigateItemSelected(String item) {
 
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		MenuListener selectedMenu = mTabMenus.get(index);
+		MenuListener selectedMenu = mTabMenus.get(item);
 		if (selectedMenu == null) {
-			switch (index) {
+			switch (item) {
 			case PLAN: {// plan
 				selectedMenu = new MenuListener<PlanFragment>(this, Item.PLAN,
 						PlanFragment.class, null);
@@ -146,40 +155,41 @@ public class MainActivity extends BaseActivity {
 			default:
 				break;
 			}
-			mTabMenus.put(index, selectedMenu);
+			mTabMenus.put(item, selectedMenu);
 		}
 
-		int tab_size = menuViews.size();
-
-		for (int i = 0; i < tab_size; i++) {
-
-			if (index == i) {// Selected
-				selectedMenu.onMenuSelected(null, ft);
-				setBottomItemSeleted(i, true);
-			} else {
-				MenuListener unSlectedTab = mTabMenus.get(i);
-				if (unSlectedTab!=null) {
-					unSlectedTab.onMenuUnselected(null, ft);	
+		
+		 Set<String> key = mTabMenus.keySet();
+	        for (Iterator<String> it = key.iterator(); it.hasNext();) {
+	             String menuViewKey = (String) it.next();
+	            
+	            if (item.equals(menuViewKey)) {// Selected
+					selectedMenu.onMenuSelected(null, ft);
+					setBottomItemSeleted(item, true);
+				} else {
+					MenuListener unSlectedTab = mTabMenus.get(menuViewKey);
+					if (unSlectedTab!=null) {
+						unSlectedTab.onMenuUnselected(null, ft);	
+					}
+					setBottomItemSeleted(item, false);
 				}
-				setBottomItemSeleted(i, false);
-			}
-
-		}
+	            
+	        }
 
 		ft.commit();
-		this.item = index;
+		this.item = item;
 	}
 
-	private void setBottomItemSeleted(int index, boolean foucsStatus) {
-		int num = menuViews.size();
-		if (index >= num) {
-			Log.i(TAG, "current index out of boundary = " + index);
+	private void setBottomItemSeleted(String item, boolean foucsStatus) {
+		 View currentItem = menuViews.get(item);
+		if (currentItem == null) {
+			Log.i(TAG, "current item is null = " + item);
 			return;
 		}
 		if (foucsStatus) {
-			menuViews.get(index).setSelected(true);
+			currentItem.setSelected(true);
 		} else {
-			menuViews.get(index).setSelected(false);
+			currentItem.setSelected(false);
 		}
 
 	}

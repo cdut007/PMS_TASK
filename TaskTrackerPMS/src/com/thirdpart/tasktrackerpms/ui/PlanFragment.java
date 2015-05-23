@@ -75,18 +75,8 @@ public class PlanFragment extends BasePageListFragment<RollingPlan, RollingPlanL
 	@Override
 	protected void callNextPage(int pagesize, int pageNum) {
 		// TODO Auto-generated method stub
-		//executeNextPageNetWorkRequest(pagesize, pageNum);
+		executeNextPageNetWorkRequest(pagesize, pageNum);
 		
-		//test data.
-		RollingPlanList mPageList = new RollingPlanList();
-		
-		 List<RollingPlan> data = new ArrayList<RollingPlan>();
-		 
-		for (int i = 0; i < pageNum; i++) {
-			data.add(new RollingPlan());
-		}
-		mPageList.setDatas(data);
-		addDataToListAndRefresh(mPageList);	
 	}
 	
 	

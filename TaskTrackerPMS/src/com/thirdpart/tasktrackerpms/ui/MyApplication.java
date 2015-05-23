@@ -16,6 +16,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.jameschen.comm.utils.Log;
 import com.jameschen.comm.utils.OttoBusHelper;
 import com.squareup.otto.Bus;
+import com.thirdpart.model.TestReq;
 import com.thirdpart.tasktrackerpms.R;
 
 import de.mindpipe.android.logging.log4j.LogConfigurator;
@@ -43,6 +44,7 @@ public class MyApplication extends Application {
 		mBus.register(this); // listen for "global" events
         JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
+        TestReq.init(this);
 	}
 
 	private void initLogConfig() {

@@ -7,6 +7,7 @@ public class WebResponseContent {
 	private String message;
 	private   String  code;
 	
+	private  String url;//for test
 	
 	public String getCode() {
 		return code;
@@ -32,6 +33,12 @@ public class WebResponseContent {
 	}
 	public void setSuccess(boolean sucess) {
 		this.success = sucess;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
 	}
 	
 }
