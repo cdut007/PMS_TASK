@@ -18,7 +18,7 @@ public class BaseDetailActivity extends BaseActivity{
 		
 	}
 
-	protected <T> void createItemListToUI(List<T> infos,int listId,CreateItemViewListener<T> createItemViewListener,boolean itemLine) {
+	protected <T> void createItemListToUI(List<T> infos,int listId,CreateItemViewListener createItemViewListener,boolean itemLine) {
 
 		ViewGroup viewGroup = (ViewGroup) findViewById(listId);
 		int size =infos.size();
@@ -27,15 +27,20 @@ public class BaseDetailActivity extends BaseActivity{
 	
 			return;//no more
 		}
-		viewGroup.removeViews(1, viewGroup.getChildCount()-1);
+	//	viewGroup.removeViews(1, viewGroup.getChildCount()-1);
 
 		len =size ;
 		
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		for (int i = 0; i < len; i++) {
-			View vGroup = createItemViewListener.oncreateItem(i, infos.get(i),inflater);
-			viewGroup.addView(vGroup);
+			 View convertView = viewGroup.getChildAt(i);
+			 boolean  isNotExsit = (convertView == null);
+			 convertView = createItemViewListener.oncreateItem(i, convertView,inflater);
+			if (!isNotExsit) {
+				continue;
+			}
+			viewGroup.addView(convertView);
 			
 			 if (itemLine && i<len-1) {
 				 
@@ -46,8 +51,8 @@ public class BaseDetailActivity extends BaseActivity{
 	
 	}
 
-static interface CreateItemViewListener<T>{
-	View oncreateItem(int index, T item ,LayoutInflater layoutInflater);
+public static interface CreateItemViewListener{
+	View oncreateItem(int index,View convertView ,LayoutInflater layoutInflater);
 }	
 	
 }

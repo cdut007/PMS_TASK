@@ -1,6 +1,11 @@
 package com.thirdpart.model.entity;
 
-public class RollingPlanDetail {
+public class RollingPlanDetail extends RollingPlan{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String id;
 
 	private String qualityplanno;

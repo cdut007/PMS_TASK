@@ -13,6 +13,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.jameschen.framework.base.BasePageListFragment;
 import com.thirdpart.model.ConstValues;
+import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.RollingPlanList;
 import com.thirdpart.tasktrackerpms.R;
@@ -82,13 +83,13 @@ public class PlanFragment extends BasePageListFragment<RollingPlan, RollingPlanL
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Intent intent = new Intent(getActivity(), WorkStepListActivity.class);
+		Intent intent = new Intent(getActivity(), PlanDetailActivity.class);
 		Object object = parent.getAdapter().getItem(position);
 		if (object == null) {
 			return;
 		}
 		RollingPlan p = (RollingPlan) (object);
-		intent.putExtra(ConstValues.ID, Long.parseLong(p.getId()));
+		intent.putExtra(Item.PLAN, p);
 		startActivity(intent);
 	}
 	
