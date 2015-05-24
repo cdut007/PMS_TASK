@@ -164,6 +164,8 @@ public class LoginActivity extends BaseActivity{
 					}
 					// TODO Auto-generated method stub
 					getLogInController().saveUserToPreference(LoginActivity.this, id, password,response);
+					cancelProgressDialog();
+					go2main();
 				}
 
 
@@ -182,6 +184,16 @@ public class LoginActivity extends BaseActivity{
 	        	
 	        });
 		
+	}
+	
+private void go2main() {
+		
+		Intent intentEx = new Intent();
+		intentEx.setClass(this, MainActivity.class);
+		overridePendingTransition(R.anim.welcome_begin_anim,
+				R.anim.welcome_end_anim);
+		startActivity(intentEx);
+		finish();
 	}
 
 	private void fillAccount() {

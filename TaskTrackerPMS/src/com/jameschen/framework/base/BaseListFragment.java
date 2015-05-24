@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.jameschen.comm.utils.Log;
 import com.jameschen.widget.MyListView;
 import com.thirdpart.model.ManagerService;
 import com.thirdpart.tasktrackerpms.R;
@@ -77,12 +78,14 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 	
 	protected void doFreshFromBottom(MyListView mListView) {
 		// TODO Auto-generated method stub
-		
+		Log.i(TAG, "fresh from bottom");
 		
 	}
 
 	protected void doFreshFromTop(MyListView mListView) {
 		// TODO Auto-generated method stub
+		Log.i(TAG, "fresh from top");
+		
 	}
 
 	protected void showNoResult(boolean noResult, String noResultStr) {

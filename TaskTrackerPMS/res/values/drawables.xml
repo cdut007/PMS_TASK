@@ -5,5 +5,7 @@
     <item type="drawable" name="transparent">#00000000</item>
     <item type="drawable" name="white">#ffffffff</item>
     <item type="drawable" name="black">#ff000000</item>
-       <item type="drawable" name="light_blue">#cdcdcd</item>
+     <item type="drawable" name="light_blue">#cdcdcd</item>
+     <item type="drawable" name="top_title_bg">#22282b</item>
+     
 </resources>

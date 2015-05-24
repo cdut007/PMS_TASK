@@ -89,9 +89,9 @@ public class MainActivity extends BaseActivity {
 
 	private void initNavListener() {
 		
-		menuViews.put(ISSUE,findViewById(R.id.btn_menu1));
-		menuViews.put(PLAN,findViewById(R.id.btn_menu2));
-		menuViews.put(TASK,findViewById(R.id.btn_menu3));
+		menuViews.put(PLAN,findViewById(R.id.btn_menu1));
+		menuViews.put(TASK,findViewById(R.id.btn_menu2));
+		menuViews.put(ISSUE,findViewById(R.id.btn_menu3));
 		
 		
 		
@@ -171,7 +171,7 @@ public class MainActivity extends BaseActivity {
 					if (unSlectedTab!=null) {
 						unSlectedTab.onMenuUnselected(null, ft);	
 					}
-					setBottomItemSeleted(item, false);
+					setBottomItemSeleted(menuViewKey, false);
 				}
 	            
 	        }

@@ -1,5 +1,7 @@
 package com.jameschen.framework.base;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Locale;
 
 import org.apache.http.Header;
@@ -11,13 +13,15 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.jameschen.comm.utils.Log;
 import com.jameschen.comm.utils.NetworkUtil;
+import com.jameschen.comm.utils.Util;
 import com.jameschen.framework.base.ConvertResponseResultAdapter.ReqType;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.thirdpart.model.WebResponseContent;
+import com.thirdpart.model.entity.UserInfo;
 import com.thirdpart.tasktrackerpms.R;
 
 abstract class MyAsyncHttpResponseHandler<T> extends
-		AsyncHttpResponseHandler implements OnResponseListener<T> {
+		AsyncHttpResponseHandler  {
 	private static final String TAG = "AsyncHttpResponseHandler";
 	Gson gson = new Gson();
 
@@ -71,6 +75,8 @@ abstract class MyAsyncHttpResponseHandler<T> extends
 
 	@Override
 	public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+
 		// TODO Auto-generated method stub
 		String response = "";
 		if (responseBody != null) {
@@ -82,26 +88,25 @@ abstract class MyAsyncHttpResponseHandler<T> extends
 		}
 
 		try {
-			WebResponseContent mResponseContent = gson.fromJson(response,
-					new TypeToken<WebResponseContent>() {
-					}.getType());
+			WebResponseContent mResponseContent = WebResponseContent.parseJson(response);
 
 			if ("1000".equals(mResponseContent.getCode())) {
-
+			
 				T responseJsonClass = gson.fromJson(
 						mResponseContent.getResponseResult(),
-						new TypeToken<T>() {
-						}.getType());
+						Util.whatsMyGenericType(this));
 				onSucc(statusCode, headers, responseJsonClass);
 
 			} else {
 
+				Log.i(TAG, "statusCode from server=" + mResponseContent.getCode() + ";Message response=" + mResponseContent.getMessage());
 				onFail(Integer.parseInt(mResponseContent.getCode()), headers,
 						"" + mResponseContent.getMessage());
 			}
 
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			debugHeaders(TAG, headers);
 			Log.i(TAG,
 					"response=" + response + ";JsonException="
@@ -109,14 +114,17 @@ abstract class MyAsyncHttpResponseHandler<T> extends
 			onFail(statusCode, headers, "" + e.getLocalizedMessage());
 		}
 
+	
+	
 	}
-
+	
 	@Override
 	public void onFinish() {
 		// TODO Auto-generated method stub
 		super.onFinish();
 	}
 
+	
 	@Override
 	public void onStart() {
 		// TODO Auto-generated method stub

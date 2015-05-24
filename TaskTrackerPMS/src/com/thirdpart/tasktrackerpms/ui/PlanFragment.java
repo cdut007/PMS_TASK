@@ -1,28 +1,24 @@
 package com.thirdpart.tasktrackerpms.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.http.Header;
 
-import android.R.integer;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.jameschen.framework.base.BasePageListFragment;
-import com.jameschen.framework.base.UINetworkHandler;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.RollingPlanList;
-import com.thirdpart.model.entity.UserInfo;
 import com.thirdpart.tasktrackerpms.R;
-import com.thirdpart.tasktrackerpms.adapter.IssueAdapter;
 import com.thirdpart.tasktrackerpms.adapter.PlanAdapter;
 
 
-public class PlanFragment extends BasePageListFragment<RollingPlan, RollingPlanList>{
+public class PlanFragment extends BasePageListFragment<RollingPlan, RollingPlanList> implements OnItemClickListener{
 
 	
 	
@@ -31,7 +27,8 @@ public class PlanFragment extends BasePageListFragment<RollingPlan, RollingPlanL
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.plan_ui, container, false);
-		bindListView(view,new PlanAdapter(getBaseActivity()));		
+		bindListView(view,new PlanAdapter(getBaseActivity()));
+		mListView.setOnItemClickListener(this);
 		callNextPage(getCurrentPage(), pageNum);
 		return view;
 	}
@@ -41,7 +38,7 @@ public class PlanFragment extends BasePageListFragment<RollingPlan, RollingPlanL
 	private  void executeNextPageNetWorkRequest(int pagesize,int pagenum) {
 		// TODO Auto-generated method stub
 			
-	        getPMSManager().planList(pagesize+"", pagenum+"",new PageUINetworkHandler(getBaseActivity()){
+	        getPMSManager().planList(pagesize+"", pagenum+"",new PageUINetworkHandler<RollingPlanList>(getBaseActivity()){
 
 	    		@Override
 	    		public void startPage() {
@@ -77,6 +74,21 @@ public class PlanFragment extends BasePageListFragment<RollingPlan, RollingPlanL
 		// TODO Auto-generated method stub
 		executeNextPageNetWorkRequest(pagesize, pageNum);
 		
+	}
+
+
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+//		Intent intent = new Intent(getActivity(), CoachDetailActivity.class);
+//		Object object = parent.getAdapter().getItem(position);
+//		if (object == null) {
+//			return;
+//		}
+//		Parcelable p = (Coach) (object);
+//		intent.putExtra(COACH, p);
+//		startActivity(intent);
 	}
 	
 	

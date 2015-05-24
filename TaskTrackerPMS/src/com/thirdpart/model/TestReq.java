@@ -213,7 +213,8 @@ static Handler handler = new Handler();
 				public void run() {
 					// TODO Auto-generated method stub
 
-					mNetworkHandler.onSuccess(200, null, result);			
+					mNetworkHandler.onSuccess(200, null, result);
+					mNetworkHandler.onFinish();
 				}
 			});
 			}
@@ -243,38 +244,38 @@ static Handler handler = new Handler();
 		// TODO Auto-generated method stub
 		String matherUrl = matchString(url, type+"");
 		
-		Gson  gson = new Gson();
 		for (int i = 0; i < results.size(); i++) {
 			
 
 			WebResponseContent mResponseContent ;
 			try {
-				 mResponseContent = gson.fromJson(results.get(i),
-						new TypeToken<WebResponseContent>() {
-						}.getType());	
+				 mResponseContent = WebResponseContent.parseJson(results.get(i));	
 			} catch (Exception e) {
 				// TODO: handle exception
+				Log.i("out", "content="+results.get(i));
 				e.printStackTrace();
 				return null;
 			}
 			
 			if (mResponseContent.getUrl()!=null ) {
-				if ((matherUrl).contains(mResponseContent.getUrl())) {
+				if ((matherUrl).contains(mResponseContent.getUrl())
+						&&
+						(!(matherUrl).contains("hdxt/api/baseservice/rollingplan"))
+						) {
 
-					Log.i("urlJson", "content = "+ results.get(i));
-					return mResponseContent.getResponseResult().getBytes();
+					return results.get(i).getBytes();
 				}else {
 					if (url.contains("hdxt/api/baseservice/rollingplan")){
 						if (url.endsWith("hdxt/api/baseservice/rollingplan/")) {//for page
 							if (matchString(url, "p").contains(mResponseContent.getUrl())) {
 
 								Log.i("urlJson", "content p= "+ results.get(i));
-								return  mResponseContent.getResponseResult().getBytes();
+								return  results.get(i).getBytes();
 							}
 						}else {// for plan id
 
 							Log.i("urlJson", "plan content = "+ results.get(i));
-							return  mResponseContent.getResponseResult().getBytes();
+							return  results.get(i).getBytes();
 						}
 					}
 					
