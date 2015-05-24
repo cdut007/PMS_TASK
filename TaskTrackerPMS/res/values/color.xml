@@ -88,7 +88,9 @@
     <color name="default_title_indicator_selected_color">#ffffffff</color>
     <color name="default_title_indicator_text_color">#ffaaaaaa</color>
     
+    <drawable name="item_bg">#ffffff</drawable>
     <drawable name="dim">#00e0e0</drawable>
+    <drawable name="btn_done">#00a529</drawable>
     <drawable name="blue">#0000ff</drawable>
     <drawable name="green">#00ff00</drawable>
     <drawable name="yellow">#77ffff00</drawable>

@@ -248,14 +248,13 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
-		// case R.id.btn_back: {
-		// if (resultOk) {
-		// setResult(RESULT_OK);
-		// }
-		// //finish();
-		// onBackPressed();
-		// }
-		// break;
+		 case R.id.btn_back: {
+		 if (resultOk) {
+		 setResult(RESULT_OK);
+		 }
+		 onBackPressed();
+		 }
+		 break;
 
 		default:
 			break;
