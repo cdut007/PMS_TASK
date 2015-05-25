@@ -21,9 +21,10 @@ import com.thirdpart.tasktrackerpms.R;
 
 public class PlanAdapter extends BasePageAdapter<RollingPlan,RollingPlanList> {
 	private Context context;
-
+	
+	
 	public PlanAdapter(Context context) {
-		super(context,R.layout.issue_item);
+		super(context,R.layout.plan_item);
 		this.context = context;
 	}
 
@@ -32,7 +33,7 @@ public class PlanAdapter extends BasePageAdapter<RollingPlan,RollingPlanList> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
-		convertView = getView(position, convertView, parent);
+		convertView = super.getView(position, convertView, parent);
 		
 		return convertView;
 

@@ -1,19 +1,31 @@
 package com.thirdpart.model;
 
-import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.concurrent.ConcurrentHashMap;
 
-import android.app.Fragment;
+import org.apache.http.Header;
+
+import com.jameschen.framework.base.UINetworkHandler;
 import android.app.Fragment.InstantiationException;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.ArrayMap;
 
 public abstract class ManagerService {
 
 public final static String ISSUE_SERVICE = "issue_serive";
+
+
+public static interface OnReqHttpCallbackListener{
+	
+	public void start(String name);
+	
+	public void failed(String name,int statusCode,
+			Header[] headers, String response);
+	
+	public void finish(String name);
+	
+	public void succ(String name,int statusCode,
+			Header[] headers, Object response);
+}
 
 
 private static ConcurrentHashMap<String, Class<?>> managerServiceMap = new ConcurrentHashMap<String, Class<?>>();	
@@ -21,14 +33,15 @@ private static ConcurrentHashMap<String, Class<?>> managerServiceMap = new Concu
 public static final String CODE = "code",REASON="reanson",SUCC="succ",DATA="data";
 
 protected Context context;
-
-ManagerService(Context context){
-	this.context = context;
+protected  OnReqHttpCallbackListener reqHttpCallbackListener;
+ManagerService(OnReqHttpCallbackListener reqHttpCallbackListener){
+	this.reqHttpCallbackListener = reqHttpCallbackListener;
 }
 
+public ManagerService(){
+}
 
-
-public static  ManagerService getNewManagerService(Context context,Class<?> mClass){
+public static  ManagerService getNewManagerService(Context context,Class<?> mClass,OnReqHttpCallbackListener reqHttpCallbackListener){
     String serviceName = mClass.getName();
 	try {
         Class<?> clazz = managerServiceMap.get(serviceName);
@@ -43,6 +56,7 @@ public static  ManagerService getNewManagerService(Context context,Class<?> mCla
         }
         ManagerService managerService = (ManagerService)clazz.newInstance();
         managerService.context = context;
+        managerService.reqHttpCallbackListener = reqHttpCallbackListener;
         return managerService;
     } catch (ClassNotFoundException e) {
         throw new InstantiationException("Unable to instantiate managerService " + serviceName
@@ -61,21 +75,58 @@ public static  ManagerService getNewManagerService(Context context,Class<?> mCla
 
 
 
-void  notifyFailedResult(String action,int statusCode,String response){
-	  
-    Intent mIntent = new Intent(action);
-    mIntent.putExtra(CODE, statusCode);
-    mIntent.putExtra(REASON, response);
-	LocalBroadcastManager.getInstance(context).sendBroadcast(mIntent);
+
+
+	protected <T> UINetworkHandler<T> getUiNetworkHandler(final String action,T type){
+	return  new UINetworkHandler<T>(context) {
+
+			@Override
+			public void start() {
+				// TODO Auto-generated method stub
+				notifyStart(action);
+			}
+
+			@Override
+			public void finish() {
+				// TODO Auto-generated method stub
+				notifyFinish(action);
+			}
+
+			@Override
+			public void callbackFailure(int statusCode,
+					Header[] headers, String response) {
+				// TODO Auto-generated method stub
+				notifyFailedResult(action, statusCode,headers,
+						response);
+			}
+
+			@Override
+			public void callbackSuccess(int statusCode,
+					Header[] headers, T response) {
+				
+				notifySuccResult(action, statusCode,headers,response);
+			}
+		};
+ }
+
+
+ protected void  notifyStart(String action){
+	 reqHttpCallbackListener.start(action);
 
 }
 
- void  notifySuccResult(String action,int statusCode){
+ protected void  notifyFinish(String action){
 	  
-    Intent mIntent = new Intent(action);
-    mIntent.putExtra(SUCC, true);
-	LocalBroadcastManager.getInstance(context).sendBroadcast(mIntent);
+	 reqHttpCallbackListener.finish(action);
+}
 
+ protected void  notifyFailedResult(String action,int statusCode,Header[] headers, String response){
+	 reqHttpCallbackListener.failed(action, statusCode, headers, response);
+
+}
+
+ protected void  notifySuccResult(String action,int statusCode, Header[] headers, Object response){
+	 reqHttpCallbackListener.succ(action, statusCode, headers, response);
 }
 
 }

@@ -3,6 +3,8 @@
     android:id="@+id/issue"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/item_bg"
     android:layout_gravity="center_vertical"
     android:minHeight="50dp" >
 
@@ -69,5 +71,8 @@
             android:singleLine="true"
             android:text="deliveryName" />
     </LinearLayout>
-
+ <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/item_line" />
 </LinearLayout>

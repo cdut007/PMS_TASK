@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg_color" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null" >
+
+        <FrameLayout 
+        android:id="@+id/edit_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+            >
+		            
+            
+            
+        </FrameLayout>
+        
+
+            
+    </ScrollView>
+<LinearLayout
+                android:id="@+id/comment_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/comment_btn"
+                    style="@style/common_done_btn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="我要点评一下" />
+            </LinearLayout>
+</RelativeLayout>

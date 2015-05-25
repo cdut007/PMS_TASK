@@ -9,11 +9,13 @@ import android.content.Context;
 
 public class HeadManager  extends ManagerService{
 
-	private	HeadManager(Context context) {
-		super(context);
+
+	
+	private	HeadManager(OnReqHttpCallbackListener reqHttpCallbackListener) {
+		super(reqHttpCallbackListener);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public static String ACTION_ISSUE_HANDLE = "com.jameschen.issue.handle";
 	
 	/**

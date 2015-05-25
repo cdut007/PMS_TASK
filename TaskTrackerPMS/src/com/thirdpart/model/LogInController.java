@@ -3,6 +3,7 @@ package com.thirdpart.model;
 import java.lang.reflect.Type;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
@@ -11,6 +12,9 @@ import com.google.gson.reflect.TypeToken;
 import com.jameschen.comm.utils.AES4all;
 import com.thirdpart.model.ConstValues.CategoryInfo.User;
 import com.thirdpart.model.entity.UserInfo;
+import com.thirdpart.tasktrackerpms.ui.LoginActivity;
+import com.thirdpart.tasktrackerpms.ui.MainActivity;
+import com.thirdpart.tasktrackerpms.ui.SlapshActivity;
 
 public class LogInController {
 
@@ -46,6 +50,10 @@ public class LogInController {
 				0);
 		user.edit().putBoolean(User.logon, false).commit();
 		user.edit().remove(User.password).commit();
+		//go to login page
+		Intent i = new Intent(context, LoginActivity.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(i);
 	}
 
 	private UserInfo myInfo;
@@ -53,6 +61,9 @@ public class LogInController {
 	public UserInfo  getInfo(){
 		if (myInfo == null) {
 			readAccountDataFromPreference();
+		}
+		if (myInfo == null) {//maybe data broken ,just quit			
+		 quit();
 		}
 		return myInfo;
 	}

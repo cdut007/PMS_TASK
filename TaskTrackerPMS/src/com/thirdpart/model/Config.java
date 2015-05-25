@@ -5,7 +5,7 @@ public class Config {
 	
 	public static final class  ReqHttpMethodPath{
 		/** define the http server root url & port */
-		public static final String HTTP_BASE_URL = "http://jameschen.cn";
+		public static final String HTTP_BASE_URL = "http://helloxlb.xicp.net:17905/easycms-website";
 
 		/** define the login url 
 		 * <br>param:Login_ID,Password

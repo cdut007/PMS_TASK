@@ -6,13 +6,16 @@ import org.apache.http.Header;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.jameschen.comm.utils.Log;
 import com.jameschen.widget.MyListView;
 import com.thirdpart.model.entity.base.PageList;
+import com.thirdpart.tasktrackerpms.R;
 
-public class BasePageListFragment<T, PageListType extends PageList<T>> extends
+public abstract class BasePageListFragment<T, PageListType extends PageList<T>> extends
 		BaseListFragment<T> {
 
 	@Override
@@ -114,6 +117,42 @@ public class BasePageListFragment<T, PageListType extends PageList<T>> extends
 		return pageListInfo.getCurrentPage();
 	}
 	
+	protected boolean isEndPage() {
+		if (pageListInfo == null) {
+			return false;
+		}
+		return pageListInfo.getCurrentPage() == pageListInfo.getEndPage();
+	}
+	
+	@Override
+	protected ListView bindListView(View root, MyBaseAdapter<T> adapter) {
+		// TODO Auto-generated method stub
+		ListView listview = super.bindListView(root, adapter);
+		mListView.setMode(Mode.BOTH);//for page
+		return listview;
+	}
+	
+	@Override
+	protected void doFreshFromBottom(MyListView mListView) {
+		// TODO Auto-generated method stub
+		super.doFreshFromBottom(mListView);
+		if (isEndPage()) {
+			Log.i(TAG, "last page, no need refresh");
+			cancelLoading(true);
+			return;
+		}
+		callNextPage(getCurrentPage()+1, pageNum);
+	}
+	@Override
+	protected void doFreshFromTop(MyListView mListView) {
+		// TODO Auto-generated method stub
+		super.doFreshFromTop(mListView);
+		mListView.setMode(Mode.BOTH);//for page
+		callNextPage(0, pageNum);
+		
+	}
+	
+	protected abstract void callNextPage(int pagesize,int pageNum);
 	
 	public void addDataToListAndRefresh(PageListType mPageList) {
 
@@ -127,6 +166,12 @@ public class BasePageListFragment<T, PageListType extends PageList<T>> extends
 		}
 
 		List<T> datas = mPageList.getDatas();
+		
+		//isFromTop 
+		if (mPageList.getCurrentPage()==0) {
+			clearAdapter();
+		}
+		
 		mAdapter.addObjectList(datas);
 		this.pageListInfo = mPageList;
 		
@@ -137,6 +182,7 @@ public class BasePageListFragment<T, PageListType extends PageList<T>> extends
 		}
 
 		if (mPageList.getCurrentPage() == mPageList.getEndPage()) {
+			showToast(getString(R.string.no_more));
 			cancelLoading(true);
 		} else {
 		}
@@ -152,13 +198,19 @@ public class BasePageListFragment<T, PageListType extends PageList<T>> extends
 	protected void cancelLoading(boolean noMoreData) {
 		// TODO Auto-generated method stub
 		if (mListView != null) {
-			mListView.onRefreshComplete();
+			if (noMoreData) {
+				mListView.setMode(Mode.PULL_FROM_START);
+				mListView.onRefreshComplete();
+			}else {
+				mListView.onRefreshComplete();	
+			}
+			
 		}
 	}
 
 
 	
-	protected abstract class PageUINetworkHandler extends UINetworkHandler<PageListType>{
+	protected abstract class PageUINetworkHandler<ListType extends PageListType> extends UINetworkHandler<PageListType>{
 
 		public PageUINetworkHandler(BaseActivity activity) {
 			super(activity);

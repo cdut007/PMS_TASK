@@ -1,11 +1,19 @@
 package com.thirdpart.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.google.gson.JsonObject;
+
+
 public class WebResponseContent {
 	
 	private boolean success;
 	private String responseResult;
 	private String message;
-	private   String  code;
+	private String  code;
+	
+	private  String url;//for test
 	
 	
 	public String getCode() {
@@ -32,6 +40,23 @@ public class WebResponseContent {
 	}
 	public void setSuccess(boolean sucess) {
 		this.success = sucess;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
+	
+	public static WebResponseContent parseJson(String content) throws JSONException{
+		JSONObject jsonObject = new JSONObject(content);
+		WebResponseContent webResponseContent = new WebResponseContent();
+		webResponseContent.responseResult = jsonObject.optString("responseResult", null);
+		webResponseContent.code = jsonObject.optString("code", "0");
+		webResponseContent.message = jsonObject.optString("message",null);
+		webResponseContent.url = jsonObject.optString("url", null);
+		return webResponseContent;
 	}
 	
 }

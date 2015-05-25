@@ -58,6 +58,7 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter implements
 	
 	private  int layoutId=-1;
 	
+	
 	/**
 	 * @param context
 	 * 

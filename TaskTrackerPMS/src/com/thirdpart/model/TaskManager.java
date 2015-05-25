@@ -9,10 +9,12 @@ import android.content.Context;
 
 public class TaskManager  extends ManagerService{
 
-	private TaskManager(Context context) {
-		super(context);
+	private TaskManager(OnReqHttpCallbackListener reqHttpCallbackListener) {
+		super(reqHttpCallbackListener);
 		// TODO Auto-generated constructor stub
 	}
+
+	
 //	
 //	public static String ACTION_ISSUE_HANDLE = "com.jameschen.issue.handle";
 //	

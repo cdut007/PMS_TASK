@@ -1,6 +1,13 @@
 package com.thirdpart.model.entity;
 
-public class RollingPlan {
+import java.io.Serializable;
+
+public class RollingPlan implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String id;
 
 	private String qualityplanno;

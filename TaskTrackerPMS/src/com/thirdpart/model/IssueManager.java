@@ -14,16 +14,20 @@ import android.content.Context;
 public class IssueManager extends ManagerService {
 	
 	
+	private IssueManager(OnReqHttpCallbackListener reqHttpCallbackListener) {
+		super(reqHttpCallbackListener);
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 	public static String ACTION_ISSUE_CONFIRM = "com.jameschen.issue.confirm";
 	public static String ACTION_ISSUE_CREATE = "com.jameschen.issue.create";
 	public static String ACTION_ISSUE_STATUS = "com.jameschen.issue.status";
 	public static String ACTION_ISSUE_DETAIL = "com.jameschen.issue.detail";
 	public static String ACTION_ISSUE_HANDLE = "com.jameschen.issue.handle";
 	
- private IssueManager(Context context) {
-		super(context);
-		// TODO Auto-generated constructor stub
-	}
+ 
 
 	
 	
@@ -34,34 +38,7 @@ public class IssueManager extends ManagerService {
 	 */
 	public void confirmIssue(String userId, String qustionId, boolean iswork) {
 		PMSManagerAPI.getInstance(context).confirmIssue(userId, qustionId,
-				iswork, new UINetworkHandler<IssueResult>(context) {
-
-					@Override
-					public void start() {
-						// TODO Auto-generated method stub
-					}
-
-					@Override
-					public void finish() {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void callbackFailure(int statusCode,
-							Header[] headers, String response) {
-						// TODO Auto-generated method stub
-						notifyFailedResult(ACTION_ISSUE_CONFIRM, statusCode,
-								response);
-					}
-
-					@Override
-					public void callbackSuccess(int statusCode,
-							Header[] headers, IssueResult response) {
-						
-						notifySuccResult(ACTION_ISSUE_CONFIRM, statusCode);
-					}
-				});
+				iswork, getUiNetworkHandler(ACTION_ISSUE_CONFIRM,new IssueResult()));
 
 	}
 
@@ -70,35 +47,7 @@ public class IssueManager extends ManagerService {
 	 * @param iswork
 	 */
 	public void createIssue(IssueResult issueResult, boolean iswork) {
-		PMSManagerAPI.getInstance(context).createIssue(issueResult, new UINetworkHandler<IssueResult>(context) {
-
-					@Override
-					public void start() {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void finish() {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void callbackFailure(int statusCode,
-							Header[] headers, String response) {
-						// TODO Auto-generated method stub
-						notifyFailedResult(ACTION_ISSUE_CREATE, statusCode,
-								response);
-					}
-
-					@Override
-					public void callbackSuccess(int statusCode,
-							Header[] headers, IssueResult response) {
-						// TODO Auto-generated method stub
-						notifySuccResult(ACTION_ISSUE_CREATE, statusCode);
-					}
-				});
+		PMSManagerAPI.getInstance(context).createIssue(issueResult, getUiNetworkHandler(ACTION_ISSUE_CREATE,new IssueResult()));
 
 	}
 	
@@ -107,35 +56,7 @@ public class IssueManager extends ManagerService {
 	 * @param status
 	 */
 	public void IssueStatus(String userId, String status) {
-		PMSManagerAPI.getInstance(context).IssueStatus(userId, status, new UINetworkHandler<IssueResult>(context) {
-
-					@Override
-					public void start() {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void finish() {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void callbackFailure(int statusCode,
-							Header[] headers, String response) {
-						// TODO Auto-generated method stub
-						notifyFailedResult(ACTION_ISSUE_STATUS, statusCode,
-								response);
-					}
-
-					@Override
-					public void callbackSuccess(int statusCode,
-							Header[] headers, IssueResult response) {
-						// TODO Auto-generated method stub
-						notifySuccResult(ACTION_ISSUE_STATUS, statusCode);
-					}
-				});
+		PMSManagerAPI.getInstance(context).IssueStatus(userId, status, getUiNetworkHandler(ACTION_ISSUE_STATUS,new IssueResult()));
 
 	}
 
@@ -144,35 +65,7 @@ public class IssueManager extends ManagerService {
 	 * @param userId
 	 */
 	public void IssueDetail(String userId) {
-		PMSManagerAPI.getInstance(context).IssueDetail(userId, new UINetworkHandler<IssueResult>(context) {
-
-					@Override
-					public void start() {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void finish() {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void callbackFailure(int statusCode,
-							Header[] headers, String response) {
-						// TODO Auto-generated method stub
-						notifyFailedResult(ACTION_ISSUE_DETAIL, statusCode,
-								response);
-					}
-
-					@Override
-					public void callbackSuccess(int statusCode,
-							Header[] headers, IssueResult response) {
-						// TODO Auto-generated method stub
-						notifySuccResult(ACTION_ISSUE_DETAIL, statusCode);
-					}
-				});
+		PMSManagerAPI.getInstance(context).IssueDetail(userId,  getUiNetworkHandler(ACTION_ISSUE_DETAIL,new IssueResult()));
 	}
 	
 
@@ -186,35 +79,7 @@ public class IssueManager extends ManagerService {
 	 * @param solverid
 	 */
 	public void handleIssue(String userid, String problemid, String autoid, String solvedman, String isSolve, String solverid) {
-		PMSManagerAPI.getInstance(context).handleIssue(userid, problemid, autoid, solvedman, isSolve, solverid, new UINetworkHandler<IssueResult>(context) {
-
-					@Override
-					public void start() {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void finish() {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void callbackFailure(int statusCode,
-							Header[] headers, String response) {
-						// TODO Auto-generated method stub
-						notifyFailedResult(ACTION_ISSUE_DETAIL, statusCode,
-								response);
-					}
-
-					@Override
-					public void callbackSuccess(int statusCode,
-							Header[] headers, IssueResult response) {
-						// TODO Auto-generated method stub
-						notifySuccResult(ACTION_ISSUE_DETAIL, statusCode);
-					}
-				});
+		PMSManagerAPI.getInstance(context).handleIssue(userid, problemid, autoid, solvedman, isSolve, solverid,  getUiNetworkHandler(ACTION_ISSUE_HANDLE,new IssueResult()));
 	}
 	
 	
@@ -224,34 +89,6 @@ public class IssueManager extends ManagerService {
 	 * @param files
 	 */
 	public void uploadIssueFiles(String problemId, List<File> files) {
-		PMSManagerAPI.getInstance(context).uploadIssueFiles(problemId, files,new UINetworkHandler<IssueResult>(context) {
-
-					@Override
-					public void start() {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void finish() {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void callbackFailure(int statusCode,
-							Header[] headers, String response) {
-						// TODO Auto-generated method stub
-						notifyFailedResult(ACTION_ISSUE_DETAIL, statusCode,
-								response);
-					}
-
-					@Override
-					public void callbackSuccess(int statusCode,
-							Header[] headers, IssueResult response) {
-						// TODO Auto-generated method stub
-						notifySuccResult(ACTION_ISSUE_DETAIL, statusCode);
-					}
-				});
+		PMSManagerAPI.getInstance(context).uploadIssueFiles(problemId, files, getUiNetworkHandler(ACTION_ISSUE_DETAIL,new IssueResult()));
 	}
 }

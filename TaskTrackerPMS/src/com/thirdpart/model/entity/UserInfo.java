@@ -23,9 +23,9 @@ public class UserInfo {
 
 	private String loginTimes;
 
-	private List<String> roless;
+	private List<String> roles;
 
-	private List<Privilege> privilegess;
+	private List<Privilege> privileges;
 
 	public void setName(String name) {
 		this.name = name;
@@ -108,19 +108,19 @@ public class UserInfo {
 	}
 
 	public void setRoles(List<String> roles) {
-		this.roless = roles;
+		this.roles = roles;
 	}
 
 	public List<String> getRoles() {
-		return this.roless;
+		return this.roles;
 	}
 
 	public void setPrivileges(List<Privilege> privileges) {
-		this.privilegess = privileges;
+		this.privileges = privileges;
 	}
 
 	public List<Privilege> getPrivileges() {
-		return this.privilegess;
+		return this.privileges;
 	}
 
 }
