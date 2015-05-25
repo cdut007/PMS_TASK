@@ -130,10 +130,11 @@
     
     <color name="main_bg_color">#f3f0ed</color>
     <color name="text_foucs">#00a629</color>
+     <color name="container_bg_color">#00a629</color>
     <color name="shop_text_green_color">#7f9e2b</color>
     <color name="orange_red">#f86a39</color>
     <color name="detail_gray">#c8c8c8</color>
 	<color name="item_line">#cccccc</color><!--浅灰色 -->
-		<color name="item_bg">#eeeeee</color><!--浅灰色 -->
+		<color name="item_bg">#ffffff</color><!--浅灰色 -->
 		<color name="item_bg_pressed">#d6d6d6</color>
 </resources>

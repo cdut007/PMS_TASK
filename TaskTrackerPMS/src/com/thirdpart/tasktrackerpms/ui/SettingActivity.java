@@ -59,7 +59,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
 
 		case R.id.btnExit:
 		{
-			getLogInController().quit();
+			getLogInController().quit(this);
 		}
 		break;
 		default:

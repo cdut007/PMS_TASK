@@ -1,10 +1,6 @@
 package com.thirdpart.model;
-import org.apache.http.Header;
 
-import com.jameschen.framework.base.UINetworkHandler;
-import com.thirdpart.model.ManagerService.ManagerNetworkHandler;
-import com.thirdpart.model.entity.IssueResult;
-import com.thirdpart.model.entity.RollingPlanDetail;
+import com.thirdpart.model.entity.RollingPlan;
 
 public class PlanManager  extends ManagerService{
 	
@@ -27,7 +23,7 @@ public class PlanManager  extends ManagerService{
 	
 	 protected  ManagerNetworkHandler getManagerNetWorkHandler(String action){
 		 
-		 return new ManagerNetworkHandler<RollingPlanDetail>(context,action){};
+		 return new ManagerNetworkHandler<RollingPlan>(context,action){};
 	 }
 
 	

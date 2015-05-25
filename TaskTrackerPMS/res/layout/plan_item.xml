@@ -1,10 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/issue"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/item_bg_state"
+    android:orientation="vertical"
     android:layout_gravity="center_vertical"
-    android:minHeight="50dp" >
+    android:minHeight="50dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,60 +15,62 @@
         android:orientation="horizontal" >
 
         <TextView
-            android:id="@+id/issue_index_item"
+            android:id="@+id/plan_class_item"
             style="@style/common_text_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.5"
+            android:layout_weight="3"
             android:gravity="center"
             android:singleLine="true"
             android:text="1" />
 
         <View
-            android:layout_width="1px"
+            android:layout_width="@dimen/item_line_width"
             android:layout_height="match_parent"
             android:background="@color/item_line" />
 
         <TextView
-            android:id="@+id/issue_topic"
+            android:id="@+id/plan_total_num_item"
             android:layout_width="0dp"
              style="@style/common_text_item"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:gravity="center"
             android:singleLine="true"
             android:text="problem" />
 
         <View
-            android:layout_width="1px"
+            android:layout_width="@dimen/item_line_width"
             android:layout_height="match_parent"
             android:background="@color/item_line" />
 
         <TextView
-            android:id="@+id/issue_status"
+            android:id="@+id/plan_finish_num_item"
             android:layout_width="0dp"
              style="@style/common_text_item"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:gravity="center"
             android:singleLine="true"
             android:text="status" />
 
         <View
-            android:layout_width="1px"
+            android:layout_width="@dimen/item_line_width"
             android:layout_height="match_parent"
             android:background="@color/item_line" />
 
         <TextView
-            android:id="@+id/issue_delivery"
+            android:id="@+id/plan_current_num_item"
             android:layout_width="0dp"
              style="@style/common_text_item"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:gravity="center"
-            android:background="@color/gray"
             android:singleLine="true"
             android:text="deliveryName" />
     </LinearLayout>
-
+ <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_line_width"
+            android:background="@color/item_line" />
 </LinearLayout>

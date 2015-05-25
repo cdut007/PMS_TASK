@@ -53,17 +53,24 @@ public class PlanAdapter extends BasePageAdapter<RollingPlan,RollingPlanList> {
 	}
 
 	private final static class PlanHoldView extends HoldView<RollingPlan> {
-
+		
+		
+		TextView classTextView,deliveryNumTextView,finishNumTextView,currentNumTextView;
 		@Override
 		protected void initChildView(View convertView,
 				MyBaseAdapter<RollingPlan> myBaseAdapter) {
 			// TODO Auto-generated method stub
+			classTextView = (TextView) convertView.findViewById(R.id.plan_class_item);
+			currentNumTextView = (TextView) convertView.findViewById(R.id.plan_current_num_item);
+			finishNumTextView = (TextView) convertView.findViewById(R.id.plan_finish_num_item);
+			deliveryNumTextView = (TextView) convertView.findViewById(R.id.plan_total_num_item);
 		}
 
 		@Override
-		protected void setInfo(RollingPlan object) {
+		protected void setInfo(RollingPlan plan) {
 			// TODO Auto-generated method stub
-			
+			//classTextView.setText(plan.getClass());
+			//currentNumTextView.setText(plan.get);
 		}
 		
 	}

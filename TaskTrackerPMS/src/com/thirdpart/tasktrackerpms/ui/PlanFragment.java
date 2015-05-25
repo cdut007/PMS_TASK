@@ -31,12 +31,16 @@ public class PlanFragment extends BasePageListFragment<RollingPlan, RollingPlanL
 		View view = inflater.inflate(R.layout.plan_ui, container, false);
 		bindListView(view,new PlanAdapter(getBaseActivity()));
 		mListView.setOnItemClickListener(this);
-		mListView.setRefreshing(true);
+		
 		callNextPage(pageSize,getCurrentPage());
 		return view;
 	}
 	
-	
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onViewCreated(view, savedInstanceState);
+	}
 	
 	private  void executeNextPageNetWorkRequest(int pagesize,int pagenum) {
 		// TODO Auto-generated method stub

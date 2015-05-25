@@ -117,6 +117,13 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		return pageListInfo.getCurrentPage();
 	}
 	
+	protected boolean isStartPage() {
+		if (pageListInfo == null) {
+			return true;
+		}
+		return pageListInfo.getCurrentPage() == pageListInfo.getStartPage();
+	}
+	
 	protected boolean isEndPage() {
 		if (pageListInfo == null) {
 			return false;
@@ -234,6 +241,19 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
         
 		@Override
 		public void start() {
+			if (isStartPage()) {
+				if (!mListView.isRefreshing()) {
+					mListView.post(new Runnable() {
+						
+						@Override
+						public void run() {
+							mListView.setRefreshing(true);
+						}
+					});
+					
+				}
+			}
+			
 			startPage();
 		}
 		

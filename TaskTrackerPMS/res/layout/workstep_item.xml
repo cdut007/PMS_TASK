@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/item_bg"
+    android:background="@drawable/white"
     android:layout_gravity="center_vertical"
     android:minHeight="50dp" >
 
@@ -13,6 +13,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:padding="4dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
@@ -42,35 +44,33 @@
             android:text="problem" />
 
 
-        <Button
+        <ImageView
             android:id="@+id/issue_feedback"
             android:layout_width="0dp"
-             style="@style/common_done_btn"
-             android:minHeight="20dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:layout_margin="4dp"
             android:textSize="14sp"
             android:singleLine="true"
-            android:text="feedback" />
+            android:src="@drawable/wtfk" />
 
 
-        <Button
+        <ImageView
             android:id="@+id/issue_update"
             android:layout_width="0dp"
-            android:minHeight="20dp"
-             style="@style/common_done_btn"
              android:layout_margin="4dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="14sp"
             android:gravity="center"
             android:singleLine="true"
-            android:text="update" />
+            android:src="@drawable/gengxin"/>
     </LinearLayout>
  <View
             android:layout_width="1px"
             android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:background="@color/item_line" />
 </LinearLayout>

@@ -1,8 +1,10 @@
 package com.thirdpart.model;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -42,15 +44,16 @@ public class LogInController {
 		return mController;
 	}
 
-	public void quit() {
+	public void quit(Context context) {
 		SharedPreferences user = context.getSharedPreferences(User.SharedName,
 				0);
 		user.edit().putBoolean(User.logon, false).commit();
 		user.edit().remove(User.password).commit();
 		//go to login page
 		Intent i = new Intent(context, LoginActivity.class);
-		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+		i.setFlags(IntentCompat.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(i);
+		
 	}
 
 	private UserInfo myInfo;
@@ -60,7 +63,7 @@ public class LogInController {
 			readAccountDataFromPreference();
 		}
 		if (myInfo == null) {//maybe data broken ,just quit			
-		 quit();
+		 quit(context);
 		}
 		return myInfo;
 	}

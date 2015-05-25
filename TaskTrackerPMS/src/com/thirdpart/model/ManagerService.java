@@ -1,18 +1,13 @@
 package com.thirdpart.model;
 
-import java.lang.reflect.Type;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.http.Header;
 
-import cn.jpush.android.util.ab;
-
-import com.jameschen.framework.base.BaseActivity;
-import com.jameschen.framework.base.UINetworkHandler;
-import com.thirdpart.model.entity.RollingPlanDetail;
-
 import android.app.Fragment.InstantiationException;
 import android.content.Context;
+
+import com.jameschen.framework.base.UINetworkHandler;
 
 public abstract class ManagerService {
 

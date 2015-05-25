@@ -29,7 +29,7 @@ public class WorkStepListActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		//setTitle("全部点评");
+		setTitle("工序信息：");
 		Intent intent = getIntent();
 		long id = intent.getLongExtra(ConstValues.ID, 0);
 			// Make sure fragment is created.

@@ -4,14 +4,7 @@ package com.thirdpart.model;
 import java.io.File;
 import java.util.List;
 
-import org.apache.http.Header;
-
-import com.jameschen.framework.base.UINetworkHandler;
-import com.thirdpart.model.ManagerService.ManagerNetworkHandler;
 import com.thirdpart.model.entity.IssueResult;
-import com.thirdpart.model.entity.RollingPlanDetail;
-
-import android.content.Context;
 
 public class IssueManager extends ManagerService {
 	

@@ -55,17 +55,39 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep,WorkStepList> {
 	}
 
 	private final static class WrokStepView extends HoldView<WorkStep> {
-
+		TextView workNo,workName;
+		View issueFeedback, issueUpdate;
 		@Override
 		protected void initChildView(View convertView,
 				MyBaseAdapter<WorkStep> myBaseAdapter) {
 			// TODO Auto-generated method stub
+			workNo = (TextView) convertView.findViewById(R.id.workstep_index_item);
+			workName = (TextView) convertView.findViewById(R.id.workstep_name);
+		   issueFeedback = convertView.findViewById(R.id.issue_feedback);
+		   issueUpdate = convertView.findViewById(R.id.issue_update);
+		   issueFeedback.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		   issueUpdate.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		}
 
 		@Override
-		protected void setInfo(WorkStep object) {
+		protected void setInfo(WorkStep workStep) {
 			// TODO Auto-generated method stub
-			
+			workNo.setText(workStep.getStepno());
+			workName.setText(workStep.getStepname());
 		}
 		
 	}

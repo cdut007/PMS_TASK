@@ -8,7 +8,6 @@ import org.apache.http.Header;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,12 +22,10 @@ import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
 import com.thirdpart.model.PlanManager;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.entity.RollingPlan;
-import com.thirdpart.model.entity.RollingPlanDetail;
 import com.thirdpart.tasktrackerpms.R;
 
 public class PlanDetailActivity extends BaseDetailActivity implements OnReqHttpCallbackListener{
 	
- private RollingPlanDetail mRollingPlanDetail;	
  
  private PlanManager planManager ;
  RollingPlan rollingPlan;
@@ -39,7 +36,8 @@ public class PlanDetailActivity extends BaseDetailActivity implements OnReqHttpC
 		
       rollingPlan = (RollingPlan) getIntent().getSerializableExtra(Item.PLAN);	
       planManager = (PlanManager) ManagerService.getNewManagerService(this, PlanManager.class,this);
-      
+      setTitle("管道"+"xx"+"班");
+      updateInfo();
       execFetechDetail();
  }
  
@@ -53,16 +51,16 @@ public class PlanDetailActivity extends BaseDetailActivity implements OnReqHttpC
 
 		final  List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();
 		 //R.id.  in array String
-		 itemInfos.add(new WidgetItemInfo("0", "焊口号：", "test", WidgetItemInfo.DISPLAY, false));		
-		 itemInfos.add(new WidgetItemInfo("1", "机组号：", "test", WidgetItemInfo.DISPLAY, false));
-		 itemInfos.add(new WidgetItemInfo("2", "区域号：", "test", WidgetItemInfo.DISPLAY, false));
-		 itemInfos.add(new WidgetItemInfo("3", "图纸号：", "test", WidgetItemInfo.DISPLAY, false));
-		 itemInfos.add(new WidgetItemInfo("4", "焊接控制单号：", "test", WidgetItemInfo.DISPLAY, false));
-		 itemInfos.add(new WidgetItemInfo("5", "RCCM：", "test", WidgetItemInfo.DISPLAY, false));
-		 itemInfos.add(new WidgetItemInfo("6", "质量计划号：", "test", WidgetItemInfo.DISPLAY, false));
-		 itemInfos.add(new WidgetItemInfo("7", "计划施工日期：", "test", WidgetItemInfo.DISPLAY, false));
+		 itemInfos.add(new WidgetItemInfo("0", "焊口号：", rollingPlan.getWeldno(), WidgetItemInfo.DISPLAY, false));		
+		 itemInfos.add(new WidgetItemInfo("1", "机组号：", rollingPlan.getId(), WidgetItemInfo.DISPLAY, false));
+		 itemInfos.add(new WidgetItemInfo("2", "区域号：", rollingPlan.getAreano(), WidgetItemInfo.DISPLAY, false));
+		 itemInfos.add(new WidgetItemInfo("3", "图纸号：", rollingPlan.getDrawno(), WidgetItemInfo.DISPLAY, false));
+		 itemInfos.add(new WidgetItemInfo("4", "焊接控制单号：", rollingPlan.getWeldlistno(), WidgetItemInfo.DISPLAY, false));
+		 itemInfos.add(new WidgetItemInfo("5", "RCCM：", rollingPlan.getRccm(), WidgetItemInfo.DISPLAY, false));
+		 itemInfos.add(new WidgetItemInfo("6", "质量计划号：", rollingPlan.getQualityplanno(), WidgetItemInfo.DISPLAY, false));
+		 itemInfos.add(new WidgetItemInfo("7", "计划施工日期：", rollingPlan.getPlandate(), WidgetItemInfo.DISPLAY, false));
 		 itemInfos.add(new WidgetItemInfo("8", "", "", WidgetItemInfo.DEVIDER, false));
-		 itemInfos.add(new WidgetItemInfo("9", "焊查看工序日期：", "test", WidgetItemInfo.DISPLAY, true));
+		 itemInfos.add(new WidgetItemInfo("9", "查看工序详情", "", WidgetItemInfo.DISPLAY, true));
 		 
 		 
 		 
@@ -94,6 +92,7 @@ public class PlanDetailActivity extends BaseDetailActivity implements OnReqHttpC
 					}
 					
 					if (widgetItemInfo.bindClick) {
+						convertView.setBackgroundResource(R.drawable.item_bg_state);
 						convertView.setOnClickListener(new OnClickListener() {
 							
 							@Override
@@ -116,6 +115,9 @@ public class PlanDetailActivity extends BaseDetailActivity implements OnReqHttpC
 				case WidgetItemInfo.DISPLAY:{
 					TextView textView = (TextView) convertView.findViewById(R.id.common_display_item_name);
 					textView.setText(widgetItemInfo.name);
+					
+					TextView contentView = (TextView) convertView.findViewById(R.id.common_display_item_content);
+					contentView.setText(widgetItemInfo.content);
 				}
 					break;
 				case WidgetItemInfo.DEVIDER:
@@ -137,7 +139,6 @@ public class PlanDetailActivity extends BaseDetailActivity implements OnReqHttpC
 		setContentView(R.layout.detail_ui);// TODO Auto-generated method stub
 		super.initView();
 		
-	   updateInfo();
 	}
 	
 	void go2WorkStepDetail(){
@@ -171,6 +172,7 @@ public class PlanDetailActivity extends BaseDetailActivity implements OnReqHttpC
 			Object response) {
 		// TODO Auto-generated method stub
 		if (name.equals(PlanManager.ACTION_PLAN_DETAIL)) {
+			rollingPlan = (RollingPlan) response;
 			updateInfo();
 		}
 		

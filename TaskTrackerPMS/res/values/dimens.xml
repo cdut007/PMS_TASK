@@ -18,6 +18,7 @@
     <dimen name="margin_top">5dp</dimen>
     <dimen name="rating_bar_height">12dp</dimen>
     <dimen name="dp_1">1dp</dimen>
+    <dimen name="item_line_width">1px</dimen>
     <dimen name="image_detail_pager_margin">3dp</dimen>
     <dimen name="margin_10dp">10dp</dimen>
     <dimen name="margin_menu_item_height">40dp</dimen>

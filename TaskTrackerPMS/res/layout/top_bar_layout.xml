@@ -13,7 +13,7 @@
         android:layout_centerVertical="true"
         android:background="@drawable/btn_select"
         android:scaleType="centerInside"
-        android:padding="7dp"
+        android:padding="14dp"
         android:src="@drawable/back"
         android:gravity="center"/>
 
@@ -22,8 +22,10 @@
         style="@style/top_title_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_toEndOf="@+id/btn_back"
+        android:layout_toRightOf="@+id/btn_back"
         android:layout_margin="10dp"
+        android:layout_centerVertical="true"
         android:gravity="center"
         android:text=""
         android:textSize="18sp" />

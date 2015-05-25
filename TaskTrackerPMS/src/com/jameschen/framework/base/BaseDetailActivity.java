@@ -2,6 +2,7 @@ package com.jameschen.framework.base;
 
 import java.util.List;
 
+import com.jameschen.comm.utils.UtilsUI;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.tasktrackerpms.R;
 
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 
 public class BaseDetailActivity extends BaseActivity{
 
@@ -63,7 +65,10 @@ public class BaseDetailActivity extends BaseActivity{
 			 if (itemLine && i<len-1) {
 				 
 				 View line =(View) inflater.inflate(R.layout.item_line, viewGroup, false);
-					viewGroup.addView(line);
+				int padding = UtilsUI.getPixByDPI(this, 10);
+				 LayoutParams param = line.getLayoutParams();
+				 param.width = UtilsUI.getWidth(getApplication()) - 2*padding;
+				 viewGroup.addView(line,param);
 			 }
 		}
 	

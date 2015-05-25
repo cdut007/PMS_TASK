@@ -46,6 +46,9 @@ public class RollingPlan implements Serializable{
 
 	private String createdBy;
 
+	private String plandate;
+	
+	
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -196,6 +199,14 @@ public class RollingPlan implements Serializable{
 
 	public String getCreatedBy() {
 		return this.createdBy;
+	}
+
+	public String getPlandate() {
+		return plandate;
+	}
+
+	public void setPlandate(String plandate) {
+		this.plandate = plandate;
 	}
 
 }
