@@ -110,12 +110,11 @@ public class PlanDetailActivity extends BaseDetailActivity implements OnReqHttpC
 				}else {
 					
 				}
-				Log.i(TAG, "type="+widgetItemInfo.type);
+				
 				//update
 				switch (widgetItemInfo.type) {
 				case WidgetItemInfo.DISPLAY:{
 					TextView textView = (TextView) convertView.findViewById(R.id.common_display_item_name);
-					Log.i(TAG, "name="+widgetItemInfo.name);
 					textView.setText(widgetItemInfo.name);
 				}
 					break;

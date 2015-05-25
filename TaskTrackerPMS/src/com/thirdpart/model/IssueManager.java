@@ -7,7 +7,9 @@ import java.util.List;
 import org.apache.http.Header;
 
 import com.jameschen.framework.base.UINetworkHandler;
+import com.thirdpart.model.ManagerService.ManagerNetworkHandler;
 import com.thirdpart.model.entity.IssueResult;
+import com.thirdpart.model.entity.RollingPlanDetail;
 
 import android.content.Context;
 
@@ -38,7 +40,7 @@ public class IssueManager extends ManagerService {
 	 */
 	public void confirmIssue(String userId, String qustionId, boolean iswork) {
 		PMSManagerAPI.getInstance(context).confirmIssue(userId, qustionId,
-				iswork, getUiNetworkHandler(ACTION_ISSUE_CONFIRM,new IssueResult()));
+				iswork, new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_CONFIRM));
 
 	}
 
@@ -47,7 +49,7 @@ public class IssueManager extends ManagerService {
 	 * @param iswork
 	 */
 	public void createIssue(IssueResult issueResult, boolean iswork) {
-		PMSManagerAPI.getInstance(context).createIssue(issueResult, getUiNetworkHandler(ACTION_ISSUE_CREATE,new IssueResult()));
+		PMSManagerAPI.getInstance(context).createIssue(issueResult, new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_CREATE));
 
 	}
 	
@@ -56,7 +58,7 @@ public class IssueManager extends ManagerService {
 	 * @param status
 	 */
 	public void IssueStatus(String userId, String status) {
-		PMSManagerAPI.getInstance(context).IssueStatus(userId, status, getUiNetworkHandler(ACTION_ISSUE_STATUS,new IssueResult()));
+		PMSManagerAPI.getInstance(context).IssueStatus(userId, status,new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_STATUS));
 
 	}
 
@@ -65,7 +67,7 @@ public class IssueManager extends ManagerService {
 	 * @param userId
 	 */
 	public void IssueDetail(String userId) {
-		PMSManagerAPI.getInstance(context).IssueDetail(userId,  getUiNetworkHandler(ACTION_ISSUE_DETAIL,new IssueResult()));
+		PMSManagerAPI.getInstance(context).IssueDetail(userId,  new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_DETAIL));
 	}
 	
 
@@ -79,7 +81,7 @@ public class IssueManager extends ManagerService {
 	 * @param solverid
 	 */
 	public void handleIssue(String userid, String problemid, String autoid, String solvedman, String isSolve, String solverid) {
-		PMSManagerAPI.getInstance(context).handleIssue(userid, problemid, autoid, solvedman, isSolve, solverid,  getUiNetworkHandler(ACTION_ISSUE_HANDLE,new IssueResult()));
+		PMSManagerAPI.getInstance(context).handleIssue(userid, problemid, autoid, solvedman, isSolve, solverid,new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_HANDLE));
 	}
 	
 	
@@ -89,6 +91,6 @@ public class IssueManager extends ManagerService {
 	 * @param files
 	 */
 	public void uploadIssueFiles(String problemId, List<File> files) {
-		PMSManagerAPI.getInstance(context).uploadIssueFiles(problemId, files, getUiNetworkHandler(ACTION_ISSUE_DETAIL,new IssueResult()));
+		PMSManagerAPI.getInstance(context).uploadIssueFiles(problemId, files,new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_DETAIL));
 	}
 }

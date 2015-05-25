@@ -5,7 +5,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.http.Header;
 
+import cn.jpush.android.util.ab;
+
+import com.jameschen.framework.base.BaseActivity;
 import com.jameschen.framework.base.UINetworkHandler;
+import com.thirdpart.model.entity.RollingPlanDetail;
+
 import android.app.Fragment.InstantiationException;
 import android.content.Context;
 
@@ -75,57 +80,69 @@ public static  ManagerService getNewManagerService(Context context,Class<?> mCla
 
 
 
+protected   ManagerNetworkHandler getManagerNetWorkHandler(String action){
+	return null;
+};
+
+ protected  class ManagerNetworkHandler<T> extends UINetworkHandler<T>{
+	 private String action;
+	public ManagerNetworkHandler(Context context,String action) {
+		super(context);
+		// TODO Auto-generated constructor stub
+		this.action = action;
+	}
+
+	
+
+	@Override
+	public void start() {
+		// TODO Auto-generated method stub
+		notifyStart(action);
+	}
+
+	@Override
+	public void finish() {
+		// TODO Auto-generated method stub
+		notifyFinish(action);
+	}
+
+	@Override
+	public void callbackFailure(int statusCode,
+			Header[] headers, String response) {
+		// TODO Auto-generated method stub
+		notifyFailedResult(action, statusCode,headers,
+				response);
+	}
+
+	@Override
+	public void callbackSuccess(int statusCode,
+			Header[] headers, T response) {
+		
+		notifySuccResult(action, statusCode,headers,response);
+	}
 
 
-	protected <T> UINetworkHandler<T> getUiNetworkHandler(final String action,T type){
-	return  new UINetworkHandler<T>(context) {
+	
 
-			@Override
-			public void start() {
-				// TODO Auto-generated method stub
-				notifyStart(action);
-			}
-
-			@Override
-			public void finish() {
-				// TODO Auto-generated method stub
-				notifyFinish(action);
-			}
-
-			@Override
-			public void callbackFailure(int statusCode,
-					Header[] headers, String response) {
-				// TODO Auto-generated method stub
-				notifyFailedResult(action, statusCode,headers,
-						response);
-			}
-
-			@Override
-			public void callbackSuccess(int statusCode,
-					Header[] headers, T response) {
-				
-				notifySuccResult(action, statusCode,headers,response);
-			}
-		};
- }
+}
 
 
- protected void  notifyStart(String action){
+ private void  notifyStart(String action){
 	 reqHttpCallbackListener.start(action);
 
 }
 
- protected void  notifyFinish(String action){
+ private void  notifyFinish(String action){
 	  
 	 reqHttpCallbackListener.finish(action);
 }
 
- protected void  notifyFailedResult(String action,int statusCode,Header[] headers, String response){
+ private void  notifyFailedResult(String action,int statusCode,Header[] headers, String response){
 	 reqHttpCallbackListener.failed(action, statusCode, headers, response);
 
 }
 
- protected void  notifySuccResult(String action,int statusCode, Header[] headers, Object response){
+ private void  notifySuccResult(String action,int statusCode, Header[] headers, Object response){
 	 reqHttpCallbackListener.succ(action, statusCode, headers, response);
 }
 
