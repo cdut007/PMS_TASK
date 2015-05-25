@@ -99,7 +99,7 @@ public class PlanDetailActivity extends BaseDetailActivity implements OnReqHttpC
 							@Override
 							public void onClick(View v) {
 								// TODO Auto-generated method stub
-								if (widgetItemInfo.tag.equals("xx")) {
+								if (widgetItemInfo.tag.equals("9")) {
 									go2WorkStepDetail();
 								}else {
 									

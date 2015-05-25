@@ -24,7 +24,7 @@ import com.thirdpart.model.entity.RollingPlanList;
 
 public class TestReq {
 
-	public static boolean debug = true;
+	public static boolean debug = false;
 
 
 	static List<String> orList = new ArrayList<String>();
