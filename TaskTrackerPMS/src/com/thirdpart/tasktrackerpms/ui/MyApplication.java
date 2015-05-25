@@ -14,7 +14,9 @@ import cn.jpush.android.api.JPushInterface;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.jameschen.comm.utils.Log;
+import com.jameschen.comm.utils.LogUtils;
 import com.jameschen.comm.utils.OttoBusHelper;
+import com.jameschen.comm.utils.StorageUtils;
 import com.squareup.otto.Bus;
 import com.thirdpart.model.TestReq;
 import com.thirdpart.tasktrackerpms.R;
@@ -54,8 +56,7 @@ public class MyApplication extends Application {
 		// Setting append log coudn't cover by a new log.
 		logConfigurator.setUseFileAppender(true);
 		// Define a file path for output log.
-		String filename = Environment.getExternalStorageDirectory()
-				+ File.separator + "PMSlogs" + File.separator + "log4j.txt";
+		String filename = StorageUtils.getLogFile();
 		Log.i("info", filename);
 		// Setting log output
 		logConfigurator.setFileName(filename);
