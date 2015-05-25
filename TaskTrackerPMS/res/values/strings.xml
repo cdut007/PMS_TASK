@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TaskTrackerPMS</string>
-    <string name="tab_menu_text1">tab 1</string>
-    <string name="tab_menu_text2">tab 2</string>
-    <string name="tab_menu_text3">tab 3</string>
+    <string name="app_name">施工问题跟踪</string>
+    <string name="tab_menu_text1">计划分配</string>
+    <string name="tab_menu_text2">施工确认</string>
+    <string name="tab_menu_text3">问题反馈</string>
     <string name="confirm_password">确认密码:</string>
     <string name="no_value">没有数据</string>
      <string name="no_more">没有更多</string>

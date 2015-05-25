@@ -24,7 +24,7 @@ public class IssueFragment extends BasePageListFragment<IssueResult	, IssueList>
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.issue_ui, container, false);
 		bindListView(view,new IssueAdapter(getBaseActivity()));
-		callNextPage(getCurrentPage(), pageNum);
+		callNextPage(pageSize,getCurrentPage());
 		return view;
 	}
 	

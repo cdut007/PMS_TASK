@@ -3,7 +3,8 @@ package com.thirdpart.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.gson.JsonObject;
+import com.jameschen.comm.utils.Log;
+import com.thirdpart.tasktrackerpms.BuildConfig;
 
 
 public class WebResponseContent {
@@ -27,6 +28,10 @@ public class WebResponseContent {
 		return success;
 	}
 	public String getResponseResult() {
+		if (BuildConfig.DEBUG) {
+			
+			Log.i("getResponseResult","responseResult="+ responseResult);
+		}
 		return responseResult;
 	}
 	public void setResponseResult(String responseResult) {

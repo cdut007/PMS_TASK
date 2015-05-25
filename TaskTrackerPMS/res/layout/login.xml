@@ -20,7 +20,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="30dp"
-            android:background="@drawable/ic_launcher" />
+            android:background="@drawable/logo" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -99,6 +99,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:gravity="right"
+            android:visibility="gone"
             android:text="找回密码？"
             android:textColor="@color/color_636363"
             android:textSize="16.0sp" />

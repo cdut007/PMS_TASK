@@ -31,7 +31,8 @@ public class PlanFragment extends BasePageListFragment<RollingPlan, RollingPlanL
 		View view = inflater.inflate(R.layout.plan_ui, container, false);
 		bindListView(view,new PlanAdapter(getBaseActivity()));
 		mListView.setOnItemClickListener(this);
-		callNextPage(getCurrentPage(), pageNum);
+		mListView.setRefreshing(true);
+		callNextPage(pageSize,getCurrentPage());
 		return view;
 	}
 	

@@ -107,12 +107,12 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 
 	private PageListType  pageListInfo;
 	
-	protected  int pageNum = 10;
+	protected  int pageSize = 10,defaultBeginPageNum=1;
 	
 	protected int getCurrentPage() {
 		// TODO Auto-generated method stub
 		if (pageListInfo == null) {
-			return 0;
+			return defaultBeginPageNum;
 		}
 		return pageListInfo.getCurrentPage();
 	}
@@ -141,14 +141,14 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 			cancelLoading(true);
 			return;
 		}
-		callNextPage(getCurrentPage()+1, pageNum);
+		callNextPage(pageSize,getCurrentPage()+1);
 	}
 	@Override
 	protected void doFreshFromTop(MyListView mListView) {
 		// TODO Auto-generated method stub
 		super.doFreshFromTop(mListView);
 		mListView.setMode(Mode.BOTH);//for page
-		callNextPage(0, pageNum);
+		callNextPage(pageSize,defaultBeginPageNum);
 		
 	}
 	
@@ -166,9 +166,8 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		}
 
 		List<T> datas = mPageList.getDatas();
-		
-		//isFromTop 
-		if (mPageList.getCurrentPage()==0) {
+		//isFromTop.
+		if (mPageList.getCurrentPage()==defaultBeginPageNum) {
 			clearAdapter();
 		}
 		
@@ -182,9 +181,10 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		}
 
 		if (mPageList.getCurrentPage() == mPageList.getEndPage()) {
-			showToast(getString(R.string.no_more));
+			Log.i(TAG, "load finish");
 			cancelLoading(true);
 		} else {
+			cancelLoading(mAdapter.getCount() == 0);
 		}
 
 	}
@@ -199,12 +199,17 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		// TODO Auto-generated method stub
 		if (mListView != null) {
 			if (noMoreData) {
-				mListView.setMode(Mode.PULL_FROM_START);
 				mListView.onRefreshComplete();
+
+				mListView.setMode(Mode.PULL_FROM_START);
 			}else {
 				mListView.onRefreshComplete();	
+
+				mListView.setMode(Mode.BOTH);
 			}
 			
+		}else {
+			Log.i(TAG, "listView is null:"+noMoreData);
 		}
 	}
 

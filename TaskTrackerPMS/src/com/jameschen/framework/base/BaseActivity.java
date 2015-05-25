@@ -8,6 +8,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -58,13 +60,20 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	
 	protected abstract void initView();
 	
-	
+	Configuration config; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		TAG = getLocalClassName();
 		Log.i(TAG, "oncreate");
+		
+		//fix the font scale size
+		config=getResources().getConfiguration();
+		Resources res = getResources();  
+		config.fontScale=1;
+		res.updateConfiguration(config,res.getDisplayMetrics() );  
+		
 		TopBarInit(getSupportActionBar());
 		initView();
 	}

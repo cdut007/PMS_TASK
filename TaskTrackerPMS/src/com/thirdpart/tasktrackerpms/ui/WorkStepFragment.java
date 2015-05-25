@@ -38,7 +38,7 @@ public class WorkStepFragment extends BasePageListFragment<WorkStep, WorkStepLis
 		id = getArguments().getLong(ConstValues.ID);
 		Log.i(TAG, "id = "+id);
 		
-		callNextPage(getCurrentPage(), pageNum);
+		callNextPage(pageSize,getCurrentPage());
 		return view;
 	}
 	
@@ -47,7 +47,7 @@ public class WorkStepFragment extends BasePageListFragment<WorkStep, WorkStepLis
 	private  void executeNextPageNetWorkRequest(int pagesize,int pagenum) {
 		// TODO Auto-generated method stub
 			
-	        getPMSManager().workStepWitnessList(id+"",pagesize+"", pagenum+"",new PageUINetworkHandler<WorkStepList>(getBaseActivity()){
+	        getPMSManager().getWorkStepList(id+"",pagesize+"", pagenum+"",new PageUINetworkHandler<WorkStepList>(getBaseActivity()){
 
 	    		@Override
 	    		public void startPage() {

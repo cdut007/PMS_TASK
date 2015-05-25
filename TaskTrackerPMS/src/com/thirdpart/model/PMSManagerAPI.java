@@ -63,8 +63,8 @@ public class PMSManagerAPI {
 	public void login(String loginId, String password,
 			AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams();
-		params.put("Login_ID", loginId);
-		params.put("Password", password);
+		params.put("LoginId", loginId);
+		params.put("password", password);
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_LOGIN_URL, params,
 				responseHandler);
 
@@ -524,10 +524,10 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	
-	public void getWorkStepList(String pagesize,String pagenum, AsyncHttpResponseHandler responseHandler) {
+	public void getWorkStepList(String id,String pagesize,String pagenum, AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getCommonPageParams(pagesize, pagenum);
 		
-		MyHttpClient.get(ReqHttpMethodPath.REQUST_WORK_STEP_LIST_URL,
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_WORK_STEP_LIST_URL+id,
 				params, responseHandler);
 	}
 	

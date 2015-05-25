@@ -85,6 +85,7 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 	protected void doFreshFromTop(MyListView mListView) {
 		// TODO Auto-generated method stub
 		Log.i(TAG, "fresh from top");
+		showNoResult(false, "");
 		
 	}
 
