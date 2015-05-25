@@ -157,7 +157,11 @@ public class MainActivity extends BaseActivity {
 				selectedMenu.onMenuSelected(null, ft);
 				setBottomItemSeleted(i, true);
 			} else {
-				mTabMenus.get(i).onMenuUnselected(null, ft);
+				MenuListener unseletedTab = mTabMenus.get(i);
+				if (unseletedTab!=null) {
+					mTabMenus.get(i).onMenuUnselected(null, ft);
+				}
+			
 				setBottomItemSeleted(i, false);
 			}
 
