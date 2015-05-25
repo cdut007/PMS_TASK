@@ -33,6 +33,16 @@ public class MainActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 
 		setContentView(R.layout.activity_main);
+		setTopBarLeftBtnVisiable(View.GONE);
+		
+		setTopBarRightBtnListener(R.drawable.setting_icon, new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(MainActivity.this,SettingActivity.class));
+			}
+		});
 		initNavListener();
 
 	}

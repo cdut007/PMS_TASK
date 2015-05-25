@@ -1,7 +1,5 @@
 package com.thirdpart.model;
 
-import java.lang.reflect.Type;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,11 +8,10 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jameschen.comm.utils.AES4all;
+import com.jameschen.comm.utils.CrypToCfg;
 import com.thirdpart.model.ConstValues.CategoryInfo.User;
 import com.thirdpart.model.entity.UserInfo;
 import com.thirdpart.tasktrackerpms.ui.LoginActivity;
-import com.thirdpart.tasktrackerpms.ui.MainActivity;
-import com.thirdpart.tasktrackerpms.ui.SlapshActivity;
 
 public class LogInController {
 
@@ -79,22 +76,17 @@ public class LogInController {
 			user.edit()
 					.putString(
 							User.account,
-							new String(
-									AES4all.encryptAESECB(account.getBytes())))
+							 CrypToCfg.encrypt(account))
 					.commit();
 			if (!TextUtils.isEmpty(pswd)) {
 				user.edit()
 						.putString(
-								User.password,
-								new String(AES4all.encryptAESECB(pswd
-										.getBytes())))
+								User.password, CrypToCfg.encrypt(pswd))
 						.putBoolean(User.logon, true).commit();
 			}
 			user.edit()
 			.putString(
-					User.userinfo,
-					new String(
-							AES4all.encryptAESECB(info.getBytes())))
+					User.userinfo, CrypToCfg.encrypt(info))
 			.commit();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -117,13 +109,11 @@ public class LogInController {
 			return accounts;
 		}
 		try {
-			accounts[0] = new String(AES4all.decryptAESECB(name.getBytes()));
+			accounts[0] =  CrypToCfg.decrypt(name);
 			if (password != null) {
-				accounts[1] = new String(AES4all.decryptAESECB(password
-						.getBytes()));
+				accounts[1] =  CrypToCfg.decrypt(password);
 			}
-			String decryptInfo =  new String(AES4all.decryptAESECB(Info
-					.getBytes()));
+			String decryptInfo =  CrypToCfg.decrypt(Info);
 			Gson gson = new Gson();
 			myInfo = gson.fromJson(decryptInfo,new TypeToken<UserInfo>() {
 			}.getType() );
