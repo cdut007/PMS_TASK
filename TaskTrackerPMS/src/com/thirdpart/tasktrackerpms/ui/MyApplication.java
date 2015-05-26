@@ -1,6 +1,5 @@
 package com.thirdpart.tasktrackerpms.ui;
 
-import java.io.File;
 
 import org.acra.ACRA;
 import org.acra.ReportField;
@@ -9,12 +8,10 @@ import org.acra.annotation.ReportsCrashes;
 import org.apache.log4j.Level;
 
 import android.app.Application;
-import android.os.Environment;
 import cn.jpush.android.api.JPushInterface;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.jameschen.comm.utils.Log;
-import com.jameschen.comm.utils.LogUtils;
 import com.jameschen.comm.utils.OttoBusHelper;
 import com.jameschen.comm.utils.StorageUtils;
 import com.squareup.otto.Bus;

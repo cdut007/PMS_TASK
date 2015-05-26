@@ -7,5 +7,5 @@
     <item type="drawable" name="black">#ff000000</item>
      <item type="drawable" name="light_blue">#cdcdcd</item>
      <item type="drawable" name="top_title_bg">#22282b</item>
-     
+        <item type="drawable" name="tab_bg">#00a629</item>
 </resources>

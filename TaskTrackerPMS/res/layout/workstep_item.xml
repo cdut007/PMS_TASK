@@ -68,8 +68,8 @@
             android:src="@drawable/gengxin"/>
     </LinearLayout>
  <View
-            android:layout_width="1px"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_line_width"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:background="@color/item_line" />

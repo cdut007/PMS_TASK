@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 指定按钮按钮下时的图片 -->
-    <item android:state_selected="true" android:color="@color/white"/>
-    <item android:color="@color/gray"/>
+    <item android:state_pressed="true" android:drawable="@drawable/tab_bg"/>
+    <item android:drawable="@drawable/white"/>
 
 </selector>

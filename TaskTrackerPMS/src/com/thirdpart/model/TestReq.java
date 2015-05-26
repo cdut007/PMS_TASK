@@ -104,6 +104,7 @@ public class TestReq {
 //		    	                			.replaceAll("：", ":").replaceAll("“", "\"")
 //		    	                			.replaceAll("”", "\"").replaceAll("［", "[")
 //		    	                			.replaceAll("］", "]");
+	                				Log.i("addUrl", "url:"+orList.get(interfaceCount));
 	                				results.add(addString);
 		                			interfaceCount++;
 								}else {
@@ -273,9 +274,13 @@ static Handler handler = new Handler();
 								return  results.get(i).getBytes();
 							}
 						}else {// for plan id
-
-							Log.i("urlJson", "plan content = "+ results.get(i));
-							return  results.get(i).getBytes();
+							if ((matherUrl).contains(mResponseContent.getUrl())) {
+								Log.i("urlJson", "plan content = "+ results.get(i));
+								return  results.get(i).getBytes();
+							
+							}
+							
+							
 						}
 					}
 					

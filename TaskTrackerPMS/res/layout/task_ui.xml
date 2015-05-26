@@ -1,0 +1,102 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg_color" >
+
+    <RelativeLayout
+        android:id="@+id/task_indicator_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_title_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+ <LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:background="@color/container_bg_color"
+    android:minHeight="50dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/yesterday_item"
+            style="@style/common_text_inditator_title_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="4日" />
+
+        <TextView
+            android:id="@+id/today_item"
+            style="@style/common_text_inditator_title_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            
+            android:singleLine="true"
+            android:text="5日" />
+
+        <TextView
+            android:id="@+id/tommrow_item"
+            style="@style/common_text_inditator_title_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="6日" />
+
+        <TextView
+            android:id="@+id/week_item"
+            style="@style/common_text_inditator_title_item"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="周" />
+ 		<TextView
+            android:id="@+id/month_item"
+            style="@style/common_text_inditator_title_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="月" />
+
+        <TextView
+            android:id="@+id/year_item"
+            style="@style/common_text_inditator_title_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="年" />
+
+    </LinearLayout>
+
+</LinearLayout>
+    </RelativeLayout>
+
+   
+    <include
+        android:id="@+id/issue_list_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/task_indicator_bar"
+        android:layout_marginTop="1px"
+        layout="@layout/common_grid" />
+    
+</RelativeLayout>

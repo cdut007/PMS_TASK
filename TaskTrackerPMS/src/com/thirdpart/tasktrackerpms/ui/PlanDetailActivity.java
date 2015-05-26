@@ -23,6 +23,7 @@ import com.thirdpart.model.PlanManager;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.widget.DisplayItemView;
 
 public class PlanDetailActivity extends BaseDetailActivity implements OnReqHttpCallbackListener{
 	
@@ -78,7 +79,7 @@ public class PlanDetailActivity extends BaseDetailActivity implements OnReqHttpC
 					LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 					switch (widgetItemInfo.type) {
 					case WidgetItemInfo.DISPLAY:{
-						convertView = inflater.inflate(R.layout.common_display_item, viewgroup,false);
+						convertView = new DisplayItemView(PlanDetailActivity.this);
 					
 					}
 						break;
@@ -113,11 +114,8 @@ public class PlanDetailActivity extends BaseDetailActivity implements OnReqHttpC
 				//update
 				switch (widgetItemInfo.type) {
 				case WidgetItemInfo.DISPLAY:{
-					TextView textView = (TextView) convertView.findViewById(R.id.common_display_item_name);
-					textView.setText(widgetItemInfo.name);
-					
-					TextView contentView = (TextView) convertView.findViewById(R.id.common_display_item_content);
-					contentView.setText(widgetItemInfo.content);
+					DisplayItemView displayItemView = (DisplayItemView) convertView;
+					displayItemView.setNameAndContent(widgetItemInfo.name, widgetItemInfo.content);
 				}
 					break;
 				case WidgetItemInfo.DEVIDER:
