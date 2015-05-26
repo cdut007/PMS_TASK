@@ -33,6 +33,10 @@ public class IssueResult {
 
 	private String solverid;
 	
+	private String issolve;
+	
+	private String currentsolver;
+	
 	public String getSolverid() {
 		return solverid;
 	}
@@ -174,6 +178,22 @@ public class IssueResult {
 				+ solvedate + ", concerman=" + concerman + ", createdBy="
 				+ ", solverid=" + solverid 
 				+ ", userId=" + userId + createdBy + ", file=" + file + "]";
+	}
+
+	public String getIssolve() {
+		return issolve;
+	}
+
+	public void setIssolve(String issolve) {
+		this.issolve = issolve;
+	}
+
+	public String getCurrentsolver() {
+		return currentsolver;
+	}
+
+	public void setCurrentsolver(String currentsolver) {
+		this.currentsolver = currentsolver;
 	}
 
 }

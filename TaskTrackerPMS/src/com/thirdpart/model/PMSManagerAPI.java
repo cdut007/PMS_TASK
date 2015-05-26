@@ -63,7 +63,7 @@ public class PMSManagerAPI {
 	public void login(String loginId, String password,
 			AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams();
-		params.put("LoginId", loginId);
+		params.put("login_id", loginId);
 		params.put("password", password);
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_LOGIN_URL, params,
 				responseHandler);
@@ -113,15 +113,15 @@ public class PMSManagerAPI {
 	}
 
 	/**
-	 * @param userId
+	 * @param loginid
 	 * @param qustionId
 	 * @param iswork
 	 * @param responseHandler
 	 */
-	public void confirmIssue(String userId, String qustionId, boolean iswork,
+	public void confirmIssue(String loginid, String qustionId, boolean iswork,
 			AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams();
-		params.put("userid", userId);
+		params.put("loginid", loginid);
 		params.put("id", qustionId);
 		params.put("iswork", iswork);
 		MyHttpClient.post(ReqHttpMethodPath.REQUST_CONFIRM_ISSUE_URL, params,
@@ -146,7 +146,7 @@ public class PMSManagerAPI {
 			AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams();
 
-		params.put("userid", issue.getUserId());
+		params.put("loginid", issue.getUserId());
 		params.put("workstepid", issue.getWorstepid());
 		params.put("workstepno", issue.getStepno());
 		params.put("stepname", issue.getStepname());
@@ -315,7 +315,7 @@ public class PMSManagerAPI {
 	}
 
 	/**
-	 * @param userid
+	 * @param loginid
 	 * @param problemid
 	 * @param autoid
 	 * @param solvedman
@@ -323,11 +323,11 @@ public class PMSManagerAPI {
 	 * @param solverid
 	 * @param responseHandler
 	 */
-	public void handleIssue(String userid, String problemid, String autoid,
+	public void handleIssue(String loginid, String problemid, String autoid,
 			String solvedman, String isSolve, String solverid,
 			AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams();
-		params.put("userid", userid);
+		params.put("loginid", loginid);
 		params.put("problemid", problemid);
 		params.put("autoid", autoid);
 		params.put("solvedman", solvedman);
@@ -460,9 +460,9 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	
-	public void IssueStatus(String userId,String status, AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
-		params.put("userId", userId);
+	public void IssueStatus(String loginid,String status,String pagesize,String pagenum, AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getCommonPageParams(pagesize, pagenum);
+		params.put("loginid", loginid);
 		params.put("status", status);
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_STATUS_ISSUE_URL,
 				params, responseHandler);

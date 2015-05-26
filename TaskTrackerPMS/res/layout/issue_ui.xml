@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/app_bg_color" >
 
-    <RelativeLayout
+   <RelativeLayout
         android:id="@+id/issue_indicator_bar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -14,10 +14,8 @@
   <include
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        layout="@layout/common_indicator_bar" />
+        layout="@layout/issue_indicator_bar" />
     </RelativeLayout>
-
-   
     <include
         android:id="@+id/issue_list_layout"
         android:layout_width="fill_parent"

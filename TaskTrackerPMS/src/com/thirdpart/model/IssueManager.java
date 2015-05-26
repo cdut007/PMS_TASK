@@ -46,14 +46,7 @@ public class IssueManager extends ManagerService {
 
 	}
 	
-	/**
-	 * @param userId
-	 * @param status
-	 */
-	public void IssueStatus(String userId, String status) {
-		PMSManagerAPI.getInstance(context).IssueStatus(userId, status,new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_STATUS));
-
-	}
+	
 
 	
 	/**

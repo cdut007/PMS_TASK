@@ -64,6 +64,7 @@ public class LogInController {
 		}
 		if (myInfo == null) {//maybe data broken ,just quit			
 		 quit(context);
+		 myInfo = new UserInfo();//create an empty
 		}
 		return myInfo;
 	}

@@ -3,10 +3,13 @@ package com.thirdpart.tasktrackerpms.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -17,6 +20,8 @@ import com.jameschen.framework.base.BaseFragment;
 import com.jameschen.framework.base.MyBaseAdapter;
 import com.jameschen.framework.base.MyBaseAdapter.HoldView;
 import com.jameschen.widget.BadgeView;
+import com.thirdpart.model.ConstValues.Item;
+import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
 
 public class TaskFragment extends BaseFragment {
@@ -37,7 +42,22 @@ public class TaskFragment extends BaseFragment {
 	private void initView(View view) {
 		GridView gridView = (GridView) view.findViewById(R.id.common_list_gv);
 		gridView.setAdapter(new ItemAdapter(this, new ArrayList<TaskItem>()));
+		gridView.setOnItemClickListener(new OnItemClickListener() {
 
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+				Object object = parent.getAdapter().getItem(position);
+				if (object == null) {
+					return;
+				}
+				RollingPlan p = (RollingPlan) (object);
+				intent.putExtra(Item.TASK, p);
+				startActivity(intent);
+			}
+		});
 	}
 
 	static class ItemAdapter extends MyBaseAdapter<TaskItem> {
@@ -101,7 +121,7 @@ public class TaskFragment extends BaseFragment {
 			// TODO Auto-generated method stub
 			badgeView = new BadgeView(bgDraweeView.getContext());
 			badgeView.setBadgeCount(99);
-			contenTextView.setText(object.name);
+			contenTextView.setText(object.name+"90道");
 			RoundingParams roundingParams = 
 					bgDraweeView.getHierarchy().getRoundingParams();
 				roundingParams.setBorder(object.color, 1.0f);

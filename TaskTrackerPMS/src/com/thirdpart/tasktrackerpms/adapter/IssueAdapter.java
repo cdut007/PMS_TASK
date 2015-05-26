@@ -16,6 +16,7 @@ import com.jameschen.framework.base.MyBaseAdapter;
 import com.jameschen.framework.base.MyBaseAdapter.HoldView;
 import com.thirdpart.model.entity.IssueList;
 import com.thirdpart.model.entity.IssueResult;
+import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
 
 public class IssueAdapter extends BasePageAdapter<IssueResult,IssueList> {
@@ -51,17 +52,26 @@ public class IssueAdapter extends BasePageAdapter<IssueResult,IssueList> {
 	}
 
 	private final static class IssueHoldView extends HoldView<IssueResult> {
-
+		
+		
+		TextView noTextView,topicTextView,statusTextView,deliveryTextView;
 		@Override
 		protected void initChildView(View convertView,
 				MyBaseAdapter<IssueResult> myBaseAdapter) {
 			// TODO Auto-generated method stub
+			noTextView = (TextView) convertView.findViewById(R.id.issue_index_item);
+			topicTextView = (TextView) convertView.findViewById(R.id.issue_topic);
+			statusTextView = (TextView) convertView.findViewById(R.id.issue_status);
+			deliveryTextView = (TextView) convertView.findViewById(R.id.issue_delivery);
 		}
 
 		@Override
-		protected void setInfo(IssueResult object) {
+		protected void setInfo(IssueResult issueResult) {
 			// TODO Auto-generated method stub
-			
+			noTextView.setText(issueResult.getId());
+			topicTextView.setText(issueResult.getStepname());
+			deliveryTextView.setText(issueResult.getIsOk().equals("0")?"未解决":"解决");
+			statusTextView.setText(issueResult.getCurrentsolver());
 		}
 		
 	}

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jameschen.framework.base.BaseDetailActivity;
+import com.jameschen.framework.base.BaseEditActivity;
 import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.ManagerService;
