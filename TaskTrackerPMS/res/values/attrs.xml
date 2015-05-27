@@ -4,5 +4,6 @@
         <declare-styleable name="DisplayViewStyle">
         <attr name="customName" format="string"/>
           <attr name="customContent" format="string"/>
+           <attr name="tinySpec" format="boolean"/>
     </declare-styleable>
 </resources>

@@ -7,10 +7,13 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 
+import com.jameschen.comm.utils.UtilsUI;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.tasktrackerpms.R;
 
@@ -58,30 +61,40 @@ public class ChooseItemView extends FrameLayout {
 		super.onDetachedFromWindow();
 	}
 	
-	private TextView nameView, contentView;
+	private TextView nameView;
+	private Button contentView;
 
 	private void InitView(View view, AttributeSet attrs) {
 		// TODO Auto-generated method stub
 		String name = null;
 		String content = null;
+		boolean tinySepc = false;
 		if (attrs!=null) {
 			TypedArray a = getContext().obtainStyledAttributes(attrs,
 					R.styleable.DisplayViewStyle);
 			 name = a.getString(R.styleable.DisplayViewStyle_customName);
 			 content = a
-					.getString(R.styleable.DisplayViewStyle_customContent);
+						.getString(R.styleable.DisplayViewStyle_customContent);
+			 tinySepc = a
+						.getBoolean(R.styleable.DisplayViewStyle_tinySpec,false);
 
 			a.recycle();
 		}
 		
-		nameView = (TextView) view.findViewById(R.id.common_display_item_name);
-		contentView = (TextView) view
-				.findViewById(R.id.common_display_item_content);
+		nameView = (TextView) view.findViewById(R.id.common_choose_item_title);
+		contentView = (Button) view
+				.findViewById(R.id.common_choose_item_content);
 		if (name != null) {
 			nameView.setText(name);
 		}
 		if (content != null) {
 			contentView.setText(content);
+		}
+		
+		if (tinySepc) {
+			LinearLayout.LayoutParams param = (android.widget.LinearLayout.LayoutParams) contentView.getLayoutParams();
+			param.rightMargin = UtilsUI.getPixByDPI(getContext(), 40);
+			contentView.setLayoutParams(param);
 		}
 
 	}
