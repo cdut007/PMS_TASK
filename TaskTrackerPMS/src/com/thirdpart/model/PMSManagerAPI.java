@@ -63,7 +63,7 @@ public class PMSManagerAPI {
 	public void login(String loginId, String password,
 			AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams();
-		params.put("login_id", loginId);
+		params.put("LoginId", loginId);
 		params.put("password", password);
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_LOGIN_URL, params,
 				responseHandler);

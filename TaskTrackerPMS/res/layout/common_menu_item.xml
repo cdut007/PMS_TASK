@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:background="@drawable/item_bg_state"
+    android:orientation="vertical"
     android:minHeight="50dp" >
 
     <LinearLayout
@@ -28,5 +29,8 @@
 
       
     </LinearLayout>
-
+<View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_line_width"
+            android:background="@color/item_line" />
 </LinearLayout>

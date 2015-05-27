@@ -73,12 +73,17 @@
             android:name=".ui.PlanDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-        </activity>  <activity
+        </activity>  
+        <activity
             android:name=".ui.IssueDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
-        
+         <activity
+            android:name=".ui.TaskDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
            <activity
             android:name=".ui.SettingActivity"
             android:label="@string/app_name"

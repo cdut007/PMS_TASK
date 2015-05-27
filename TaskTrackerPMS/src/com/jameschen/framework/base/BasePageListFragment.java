@@ -243,13 +243,9 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		public void start() {
 			if (isStartPage()) {
 				if (!mListView.isRefreshing()) {
-					mListView.post(new Runnable() {
-						
-						@Override
-						public void run() {
-							mListView.setRefreshing(true);
-						}
-					});
+					if (mAdapter!=null&&mAdapter.getCount() <=0) {
+						setListShown(false);
+					}
 					
 				}
 			}
@@ -277,6 +273,7 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 
 		@Override
 		public void finish() {
+			setListShown(true);
 			finishPage();
 		}
 

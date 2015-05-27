@@ -3,6 +3,9 @@ package com.thirdpart.model.entity;
 import java.util.List;
 
 public class UserInfo {
+	
+	private String id;
+	
 	private String name;
 
 	private String realname;
@@ -121,6 +124,14 @@ public class UserInfo {
 
 	public List<Privilege> getPrivileges() {
 		return this.privileges;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }

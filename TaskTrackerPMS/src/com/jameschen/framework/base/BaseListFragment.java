@@ -179,6 +179,9 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 	private void setListShown(boolean shown, boolean animate) {
 
 		if (shown) {
+			if (mListContainer.getVisibility() == View.VISIBLE) {
+				return;
+			}
 			if (animate) {
 				mProgressContainer.startAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_out));
 				mListContainer.startAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_in));

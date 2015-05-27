@@ -1,47 +1,25 @@
 package com.thirdpart.widget;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 
-import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.tasktrackerpms.R;
 
-public class ChooseItemView extends FrameLayout {
-	public ChooseItemView(Context context){
+public class UserInputItemView extends FrameLayout {
+	public UserInputItemView(Context context){
 		this(context ,null);
 	}
-	public ChooseItemView(Context context, AttributeSet attrs) {
+	public UserInputItemView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 		 View view = LayoutInflater.from(context).inflate(
-				R.layout.common_choose_item, this, true);
+				R.layout.common_user_input_item, this, true);
 		InitView(view, attrs);
-	}
-	
-	
-	
-	
-	public <T extends WidgetItemInfo > void showMenuItem(final List<T> items,final OnDismissListener onDismissListener) {
-		// TODO Auto-generated method stub
-		final PopupWindowUtil<T> mPopupWindow = new PopupWindowUtil<T>();
-		mPopupWindow.showActionWindow(this, getContext(), items);
-		mPopupWindow.setItemOnClickListener(new PopupWindowUtil.OnItemClickListener() {
-
-			@Override
-			public void onItemClick(int index) {
-					T item = items.get(index);
-					setTag(item);
-					onDismissListener.onDismiss();
-			}
-		});
 	}
 	
 	@Override

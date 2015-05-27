@@ -53,8 +53,8 @@ public class TaskFragment extends BaseFragment {
 				if (object == null) {
 					return;
 				}
-				RollingPlan p = (RollingPlan) (object);
-				intent.putExtra(Item.TASK, p);
+//				RollingPlan p = (RollingPlan) (object);
+//				intent.putExtra(Item.TASK, p);
 				startActivity(intent);
 			}
 		});

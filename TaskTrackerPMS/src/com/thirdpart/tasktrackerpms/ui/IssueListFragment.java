@@ -56,7 +56,7 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 	private  void executeNetWorkRequest(int pagesize,int pagenum) {
 		// TODO Auto-generated method stub
 			
-	        getPMSManager().IssueStatus(getLogInController().getInfo().getName(),statusid+"",pagesize+"", pagenum+"",new PageUINetworkHandler<IssueList>(getBaseActivity()){
+	        getPMSManager().IssueStatus(getLogInController().getInfo().getId(),statusid+"",pagesize+"", pagenum+"",new PageUINetworkHandler<IssueList>(getBaseActivity()){
 
 	    		@Override
 	    		public void startPage() {

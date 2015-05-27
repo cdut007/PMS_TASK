@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jameschen.framework.base.BaseDetailActivity;
+import com.jameschen.framework.base.BaseEditActivity;
 import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.ManagerService;
@@ -29,7 +30,7 @@ import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.DisplayItemView;
 
-public class TaskDetailActivity extends BaseDetailActivity implements OnReqHttpCallbackListener{
+public class TaskDetailActivity extends BaseEditActivity implements OnReqHttpCallbackListener{
 	
 
 
@@ -76,7 +77,7 @@ public class TaskDetailActivity extends BaseDetailActivity implements OnReqHttpC
 					//create
 					LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 						
-					convertView = inflater.inflate(R.layout.fragment_main, viewgroup, true);	
+					convertView = inflater.inflate(R.layout.fragment_main, viewgroup, false);	
 					
 					
 				}else {
@@ -96,7 +97,7 @@ public class TaskDetailActivity extends BaseDetailActivity implements OnReqHttpC
 			mFragment = fm.findFragmentByTag(WorkStepFragment.class.getName());
 			if (mFragment == null) {
 				Bundle bundle = new Bundle();
-				bundle.putLong(ConstValues.ID, Long.parseLong(issueMenu.getId()));
+			//	bundle.putLong(ConstValues.ID, Long.parseLong(issueMenu.getId()));
 				mFragment = WorkStepFragment.instantiate(this, WorkStepFragment.class.getName(), bundle);
 				ft.add(R.id.fragment_content, mFragment, WorkStepFragment.class.getName());
 			}
@@ -107,7 +108,7 @@ public class TaskDetailActivity extends BaseDetailActivity implements OnReqHttpC
 	
 	@Override
 	protected void initView() {
-		setContentView(R.layout.detail_ui);// TODO Auto-generated method stub
+		setContentView(R.layout.edit_ui);// TODO Auto-generated method stub
 		super.initView();
 		
 	}
