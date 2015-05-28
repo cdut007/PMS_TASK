@@ -31,8 +31,8 @@ public class IssueManager extends ManagerService {
 	 * @param qustionId
 	 * @param iswork
 	 */
-	public void confirmIssue(String userId, String qustionId, boolean iswork) {
-		PMSManagerAPI.getInstance(context).confirmIssue(userId, qustionId,
+	public void confirmIssue(String qustionId, boolean iswork) {
+		PMSManagerAPI.getInstance(context).confirmIssue(qustionId,
 				iswork, new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_CONFIRM));
 
 	}
@@ -52,8 +52,8 @@ public class IssueManager extends ManagerService {
 	/**
 	 * @param userId
 	 */
-	public void IssueDetail(String userId) {
-		PMSManagerAPI.getInstance(context).IssueDetail(userId,  new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_DETAIL));
+	public void IssueDetail(String issueId) {
+		PMSManagerAPI.getInstance(context).IssueDetail(issueId,  new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_DETAIL));
 	}
 	
 
@@ -67,7 +67,7 @@ public class IssueManager extends ManagerService {
 	 * @param solverid
 	 */
 	public void handleIssue(String userid, String problemid, String autoid, String solvedman, String isSolve, String solverid) {
-		PMSManagerAPI.getInstance(context).handleIssue(userid, problemid, autoid, solvedman, isSolve, solverid,new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_HANDLE));
+		PMSManagerAPI.getInstance(context).handleIssue(problemid, autoid, solvedman, isSolve, solverid,new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_HANDLE));
 	}
 	
 	

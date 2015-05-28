@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -36,7 +37,8 @@ public class EditItemView extends FrameLayout {
 		super.onDetachedFromWindow();
 	}
 	
-	private TextView nameView, contentView;
+	private TextView nameView;
+	private TextView contentView;
 
 	private void InitView(View view, AttributeSet attrs) {
 		// TODO Auto-generated method stub
@@ -52,9 +54,9 @@ public class EditItemView extends FrameLayout {
 			a.recycle();
 		}
 		
-		nameView = (TextView) view.findViewById(R.id.common_display_item_name);
-		contentView = (TextView) view
-				.findViewById(R.id.common_display_item_content);
+		nameView = (TextView) view.findViewById(R.id.common_edit_item_title);
+		contentView = (EditText) view
+				.findViewById(R.id.common_edit_item_content);
 		if (name != null) {
 			nameView.setText(name);
 		}

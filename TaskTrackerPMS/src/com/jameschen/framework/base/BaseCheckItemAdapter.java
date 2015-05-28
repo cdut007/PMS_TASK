@@ -7,7 +7,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-public class BaseCheckItemAdapter<T> extends MyBaseAdapter<T> {
+public abstract class  BaseCheckItemAdapter<T> extends MyBaseAdapter<T> {
 	
 	
 

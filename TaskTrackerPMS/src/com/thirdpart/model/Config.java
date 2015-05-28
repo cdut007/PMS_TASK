@@ -250,7 +250,7 @@ public class Config {
 		 * <br>-1001,id is not avaiable
 		 * <br>-1002,unknow Error
 		 * */
-		public static final String REQUST_STATUS_ISSUE_URL = HTTP_BASE_URL+"/workflow/api/hdxt/problem";
+		public static final String REQUST_STATUS_ISSUE_URL = HTTP_BASE_URL+"/hdxt/api/problem";
 
 		
 		/** define the get issue status url 
@@ -258,7 +258,7 @@ public class Config {
 		 * <br>-1001,id is not avaiable
 		 * <br>-1002,unknow Error
 		 * */
-		public static final String REQUST_ISSUE_DETAIL_URL = HTTP_BASE_URL+"/workflow/api/hdxt/problem/detail";
+		public static final String REQUST_ISSUE_DETAIL_URL = HTTP_BASE_URL+"/hdxt/api/problem/detail";
 
 	}	
 

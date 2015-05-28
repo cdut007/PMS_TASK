@@ -75,7 +75,7 @@
             android:screenOrientation="portrait" >
         </activity>  
         <activity
-            android:name=".ui.IssueDetailActivity"
+            android:name=".ui.IssueActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>

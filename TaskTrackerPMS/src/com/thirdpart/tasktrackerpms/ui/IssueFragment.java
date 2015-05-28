@@ -40,7 +40,7 @@ public class IssueFragment extends BasePageListFragment{
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(), IssueDetailActivity.class);
+				Intent intent = new Intent(getActivity(), IssueActivity.class);
 				Object object = parent.getAdapter().getItem(position);
 				if (object == null) {
 					return;

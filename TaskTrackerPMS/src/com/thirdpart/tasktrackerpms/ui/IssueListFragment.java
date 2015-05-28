@@ -1,5 +1,6 @@
 package com.thirdpart.tasktrackerpms.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Header;
@@ -55,8 +56,7 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 	
 	private  void executeNetWorkRequest(int pagesize,int pagenum) {
 		// TODO Auto-generated method stub
-			
-	        getPMSManager().IssueStatus(getLogInController().getInfo().getId(),statusid+"",pagesize+"", pagenum+"",new PageUINetworkHandler<IssueList>(getBaseActivity()){
+	        getPMSManager().IssueStatus(statusid+"",pagesize+"", pagenum+"",new PageUINetworkHandler<IssueList>(getBaseActivity()){
 
 	    		@Override
 	    		public void startPage() {
@@ -67,14 +67,13 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 	    		@Override
 	    		public void finishPage() {
 	    			// TODO Auto-generated method stub
-	    			
+	    			//test data.
 	    		}
 
 	    		@Override
 	    		public void callbackPageFailure(int statusCode,
 	    				Header[] headers, String response) {
 	    			// TODO Auto-generated method stub
-	    			
 	    		}
 
 	    		@Override

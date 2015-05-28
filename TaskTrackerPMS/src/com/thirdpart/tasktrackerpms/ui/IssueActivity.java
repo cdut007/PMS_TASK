@@ -30,7 +30,7 @@ import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.DisplayItemView;
 
-public class IssueDetailActivity extends BaseEditActivity implements OnReqHttpCallbackListener{
+public class IssueActivity extends BaseEditActivity implements OnReqHttpCallbackListener{
 	
 
 
@@ -52,7 +52,7 @@ public class IssueDetailActivity extends BaseEditActivity implements OnReqHttpCa
 		super.onCreate(savedInstanceState);
 		
 		issueMenu = (IssueMenu) getIntent().getSerializableExtra(Item.ISSUE);	
-      setTitle("问题详情");
+      setTitle("我的问题");
       initInfo();
  }
  
@@ -108,7 +108,7 @@ public class IssueDetailActivity extends BaseEditActivity implements OnReqHttpCa
 	
 	@Override
 	protected void initView() {
-		setContentView(R.layout.edit_ui);// TODO Auto-generated method stub
+		setContentView(R.layout.list_edit_ui);// TODO Auto-generated method stub
 		super.initView();
 		
 	}

@@ -19,24 +19,41 @@ public class PMSManagerAPI {
 
 	private Context context;
 
+	private LogInController mLogInController;
+
 	public Map<String, String> getPublicParamRequstMap() {
 		Map<String, String> headers = new HashMap<String, String>();
 
 		return headers;
 	}
 
-	private RequestParams getCommonPageParams(String pageSize, String pageNum) {
+	private RequestParams getCommonPageParams(boolean login, String pageSize, String pageNum) {
 		// TODO Auto-generated method stub
-		RequestParams requestParams = getPublicParams();
+		RequestParams requestParams = getPublicParams(login);
 		requestParams.put("pagesize", pageSize);
 		requestParams.put("pagenum", pageNum);
+		return requestParams;
+	}
+	
+	private RequestParams getCommonPageParams(String pageSize, String pageNum) {
+		// TODO Auto-generated method stub
+		
+		return getCommonPageParams(false, pageSize, pageNum);
+	}
+
+	private RequestParams getPublicParams(boolean loginId) {
+		// TODO Auto-generated method stub
+		RequestParams requestParams = new RequestParams(getPublicParamRequstMap());
+		if (loginId) {
+			requestParams.put("loginid", getLogId());
+		}
 		return requestParams;
 	}
 
 	private RequestParams getPublicParams() {
 		// TODO Auto-generated method stub
 
-		return new RequestParams(getPublicParamRequstMap());
+		return getPublicParams(false);
 	}
 
 	private PMSManagerAPI(Context context) {
@@ -54,6 +71,19 @@ public class PMSManagerAPI {
 		return managerAPI;
 	}
 
+	
+	private String  getLogId() {
+		// TODO Auto-generated method stub
+		return getLogInController().getInfo().getId();
+	}
+	
+	private LogInController getLogInController() {
+		// TODO Auto-generated method stub
+      if (mLogInController == null) {
+    	  mLogInController = LogInController.getInstance(context);
+      }
+      return mLogInController;
+	}
 	/**
 	 * @param loginId
 	 * @param password
@@ -118,10 +148,9 @@ public class PMSManagerAPI {
 	 * @param iswork
 	 * @param responseHandler
 	 */
-	public void confirmIssue(String loginid, String qustionId, boolean iswork,
+	public void confirmIssue(String qustionId, boolean iswork,
 			AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
-		params.put("loginid", loginid);
+		RequestParams params = getPublicParams(true);
 		params.put("id", qustionId);
 		params.put("iswork", iswork);
 		MyHttpClient.post(ReqHttpMethodPath.REQUST_CONFIRM_ISSUE_URL, params,
@@ -144,9 +173,8 @@ public class PMSManagerAPI {
 	 */
 	public void createIssue(IssueResult issue,
 			AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
+		RequestParams params = getPublicParams(true);
 
-		params.put("loginid", issue.getUserId());
 		params.put("workstepid", issue.getWorstepid());
 		params.put("workstepno", issue.getStepno());
 		params.put("stepname", issue.getStepname());
@@ -323,11 +351,10 @@ public class PMSManagerAPI {
 	 * @param solverid
 	 * @param responseHandler
 	 */
-	public void handleIssue(String loginid, String problemid, String autoid,
+	public void handleIssue(String problemid, String autoid,
 			String solvedman, String isSolve, String solverid,
 			AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
-		params.put("loginid", loginid);
+		RequestParams params = getPublicParams(true);
 		params.put("problemid", problemid);
 		params.put("autoid", autoid);
 		params.put("solvedman", solvedman);
@@ -460,9 +487,8 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	
-	public void IssueStatus(String loginid,String status,String pagesize,String pagenum, AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getCommonPageParams(pagesize, pagenum);
-		params.put("loginid", loginid);
+	public void IssueStatus(String status,String pagesize,String pagenum, AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getCommonPageParams(true,pagesize, pagenum);
 		params.put("status", status);
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_STATUS_ISSUE_URL,
 				params, responseHandler);
