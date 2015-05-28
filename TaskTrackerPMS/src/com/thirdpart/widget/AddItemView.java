@@ -123,7 +123,7 @@ public class AddItemView extends FrameLayout {
 
 		len =size ;
 		
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		//LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		for (int i = 0; i < len; i++) {
 			View convertView = getChildViewByTag(viewGroup, infos.get(i).tag); 

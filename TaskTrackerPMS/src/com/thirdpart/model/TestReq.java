@@ -61,13 +61,13 @@ public class TestReq {
 		orList.add("hdxt/api/baseservice/witness/witnesser/result/{1}");
 		orList.add("hdxt/api/baseservice/witness/witnesser/result/{2}");
 		orList.add("hdxt/api/baseservice/witness/myevent/{0}");
-		orList.add("workflow/api/hdxt/problem/add/{1}");
+		orList.add("hdxt/api/problem/add/{1}");
 		
-		orList.add("workflow/api/hdxt/problem/upload/{1}");		
-		orList.add("workflow/api/hdxt/problem/handle/{1}");
-		orList.add("workflow/api/hdxt/confrim/{1}");
-		orList.add("workflow/hdxt/api/problem/{0}");
-		orList.add("workflow/hdxt/api/problem/detail/{0}");
+		orList.add("hdxt/api/problem/upload/{1}");		
+		orList.add("hdxt/api/problem/handle/{1}");
+		orList.add("hdxt/api/confrim/{1}");
+		orList.add("hdxt/api/problem/{0}");
+		orList.add("hdxt/api/problem/detail/{0}");
 		
 		
 	}

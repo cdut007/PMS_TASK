@@ -70,7 +70,7 @@ public class IssueAdapter extends BasePageAdapter<IssueResult,IssueList> {
 			// TODO Auto-generated method stub
 			noTextView.setText(issueResult.getId());
 			topicTextView.setText(issueResult.getStepname());
-			//deliveryTextView.setText(issueResult.getIsOk().equals("0")?"未解决":"解决");
+			deliveryTextView.setText("0".equals(issueResult.getIsOk())?"未解决":"解决");
 			statusTextView.setText(issueResult.getCurrentsolver());
 		}
 		

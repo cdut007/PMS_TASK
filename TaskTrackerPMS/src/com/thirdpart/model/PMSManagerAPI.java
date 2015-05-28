@@ -45,7 +45,7 @@ public class PMSManagerAPI {
 		// TODO Auto-generated method stub
 		RequestParams requestParams = new RequestParams(getPublicParamRequstMap());
 		if (loginId) {
-			requestParams.put("loginid", getLogId());
+			requestParams.put("loginId", getLogId());
 		}
 		return requestParams;
 	}
@@ -196,11 +196,11 @@ public class PMSManagerAPI {
 	 *            (format:2015-05-26)
 	 * @param responseHandler
 	 */
-	public void deliveryPlanToHeadMan(String loginUserId,
+	public void deliveryPlanToHeadMan(
 			List<String> rollingPlanIds, String endManId, String startTime,
 			String endTime, AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
-		params.put("loginUserId", loginUserId);
+		RequestParams params = getPublicParams(true);
+		
 		params.put("ids", rollingPlanIds);
 		params.put("endManId", endManId);
 		params.put("startTime", startTime);
@@ -211,11 +211,11 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	
-	public void modifyPlanToHeadMan(String loginUserId,
+	public void modifyPlanToHeadMan(
 			List<String> rollingPlanIds, String endManId, String startTime,
 			String endTime, AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
-		params.put("loginUserId", loginUserId);
+		RequestParams params = getPublicParams(true);
+		
 		params.put("ids", rollingPlanIds);
 		params.put("endManId", endManId);
 		params.put("startTime", startTime);
@@ -269,13 +269,12 @@ public class PMSManagerAPI {
 	 * 
 	 * @param responseHandler
 	 */
-	public void deliveryWitness(String loginUserId, String witnessid,
+	public void deliveryWitness( String witnessid,
 			String witnesseraqa, String witnesseraqc2, String witnesseraqc1,
 			String witnesserb, String witnesserc, String witnesserd,
 			AsyncHttpResponseHandler responseHandler) {
 
-		RequestParams params = getPublicParams();
-		params.put("loginUserId", loginUserId);
+		RequestParams params = getPublicParams(true);
 		params.put("witnessid", witnessid);
 
 		if (witnesseraqa != null) {
@@ -311,12 +310,12 @@ public class PMSManagerAPI {
 	 * @param witnesserd
 	 * @param responseHandler
 	 */
-	public void modifyWitness(String loginUserId, String witnessid,
+	public void modifyWitness(String witnessid,
 			String witnesseraqa, String witnesseraqc2, String witnesseraqc1,
 			String witnesserb, String witnesserc, String witnesserd,
 			AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
-		params.put("loginUserId", loginUserId);
+		RequestParams params = getPublicParams(true);
+		
 		params.put("witnessid", witnessid);
 
 		if (witnesseraqa != null) {
@@ -368,10 +367,9 @@ public class PMSManagerAPI {
 	 * @param loginUserId
 	 * @param responseHandler
 	 */
-	public void headmens(String loginUserId,
+	public void headmens(
 			AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
-		params.put("loginUserId", loginUserId);
+		RequestParams params = getPublicParams(true);
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_HEADMEN_URL, params,
 				responseHandler);
 	}
@@ -394,10 +392,9 @@ public class PMSManagerAPI {
 	 * @param loginUserId 
 	 * @param id 
 	 */
-	public void modifyWitnesserWriteResult(String noticeresult, String loginUserId, String id,AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
+	public void modifyWitnesserWriteResult(String noticeresult, String id,AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams(true);
 		params.put("noticeresult", noticeresult);
-		params.put("loginUserId", loginUserId);
 		params.put("id", id);
 		MyHttpClient.put(ReqHttpMethodPath.REQUST_MODIFY_WITNESSER_WIRTE_RESULT_URL,
 				params, responseHandler);
@@ -412,9 +409,8 @@ public class PMSManagerAPI {
 	 * @param enddate
 	 * @param responseHandler
 	 */
-	public void confirmMyPlanFinish(String loginUserId, String rollingPlanid, String welder,String enddate,AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
-		params.put("loginUserId", loginUserId);
+	public void confirmMyPlanFinish( String rollingPlanid, String welder,String enddate,AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams(true);
 		params.put("id", rollingPlanid);
 		params.put("welder", welder);
 		params.put("enddate", enddate);
@@ -422,9 +418,8 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	
-	public void modifyMyPlanFinishResult(String loginUserId, String rollingPlanid, String welder,String enddate,AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
-		params.put("loginUserId", loginUserId);
+	public void modifyMyPlanFinishResult(String rollingPlanid, String welder,String enddate,AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams(true);
 		params.put("id", rollingPlanid);
 		params.put("welder", welder);
 		params.put("enddate", enddate);
@@ -439,9 +434,8 @@ public class PMSManagerAPI {
 	 * @param operatedate
 	 * @param responseHandler
 	 */
-	public void modifyMyTaskByWorkStep(String loginUserId, String rollingPlanid, String operater,String operatedate,AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
-		params.put("loginUserId", loginUserId);
+	public void modifyMyTaskByWorkStep( String rollingPlanid, String operater,String operatedate,AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams(true);
 		params.put("id", rollingPlanid);
 		params.put("operater", operater);
 		params.put("operatedate", operatedate);
@@ -449,9 +443,8 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	
-	public void finishMyTaskByWorkStep(String loginUserId, String rollingPlanid, String operater,String operatedate,AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
-		params.put("loginUserId", loginUserId);
+	public void finishMyTaskByWorkStep( String rollingPlanid, String operater,String operatedate,AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams(true);
 		params.put("id", rollingPlanid);
 		params.put("operater", operater);
 		params.put("operatedate", operatedate);
@@ -459,9 +452,9 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	
-	public void myWitnessList(String loginUserId, String pagesize, String pagenum,AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getCommonPageParams(pagesize, pagenum);
-		params.put("loginUserId", loginUserId);
+	public void myWitnessList(String pagesize, String pagenum,AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getCommonPageParams(true,pagesize, pagenum);
+	
 		MyHttpClient.post(ReqHttpMethodPath.REQUST_MY_WITNESS_LIST_URL,
 				params, responseHandler);
 	}
@@ -514,11 +507,10 @@ public class PMSManagerAPI {
 	 * @param condition
 	 * @param responseHandler
 	 */
-	public void deliveryWitnessList(String loginUserId, 
+	public void deliveryWitnessList(
 			String pageSize,String pageNum,String condition,
 			AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getCommonPageParams(pageSize, pageNum);
-		params.put("loginUserId", loginUserId);
+		RequestParams params = getCommonPageParams(true,pageSize, pageNum);
 		params.put("condition", condition);
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_WITNESS_LIST_OF_DISTRIBUTE_URL,
 				params, responseHandler);
@@ -558,10 +550,9 @@ public class PMSManagerAPI {
 	}
 	
 	//noticeresult(1 ok ,3 bad),loginUserId,id 
-	public void wirteWitnessResult(String noticeresult,String loginUserId,String id, AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
+	public void wirteWitnessResult(String noticeresult,String id, AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams(true);
 		params.put("noticeresult", noticeresult);
-		params.put("loginUserId", loginUserId);
 		params.put("id", id);
 		MyHttpClient.post(ReqHttpMethodPath.REQUST_WITNESSER_WIRTE_RESULT_URL,
 				params, responseHandler);

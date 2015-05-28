@@ -54,21 +54,21 @@ public class WorkStepDetailActivity extends BaseEditActivity implements OnReqHtt
 
 		final  List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();
 		 //R.id.  in array String
-		 itemInfos.add(new WidgetItemInfo("0", "操作者：", rollingPlan.getWeldno(), WidgetItemInfo.CHOOSE, false));		
-		 itemInfos.add(new WidgetItemInfo("1", "完成日期：", rollingPlan.getId(), WidgetItemInfo.CHOOSE, false));
-		 itemInfos.add(new WidgetItemInfo("2", "见证地点：", rollingPlan.getAreano(), WidgetItemInfo.DISPLAY, false));
-		 itemInfos.add(new WidgetItemInfo("3", "见证时间：", rollingPlan.getDrawno(), WidgetItemInfo.CHOOSE, false));
-		 itemInfos.add(new WidgetItemInfo("4", "见证负责人：", rollingPlan.getWeldlistno(), WidgetItemInfo.CHOOSE, false));
-		 
-		 
-		 itemInfos.add(new WidgetItemInfo("8", "", "", WidgetItemInfo.DEVIDER, false));
-
-		 
-		 itemInfos.add(new WidgetItemInfo("5", "A-QC1：", rollingPlan.getRccm(), WidgetItemInfo.DISPLAY, false));
-		 itemInfos.add(new WidgetItemInfo("6", "A-QC2：", rollingPlan.getQualityplanno(), WidgetItemInfo.DISPLAY, false));
-		 itemInfos.add(new WidgetItemInfo("7", "A-QA：", rollingPlan.getPlandate(), WidgetItemInfo.DISPLAY, false));
-		 itemInfos.add(new WidgetItemInfo("8", "B：", "", WidgetItemInfo.DEVIDER, false));
-		 itemInfos.add(new WidgetItemInfo("9", "C：", "", WidgetItemInfo.DISPLAY, true));
+//		 itemInfos.add(new WidgetItemInfo("0", "操作者：", workStep.getWeldno(), WidgetItemInfo.CHOOSE, false));		
+//		 itemInfos.add(new WidgetItemInfo("1", "完成日期：", rollingPlan.getId(), WidgetItemInfo.CHOOSE, false));
+//		 itemInfos.add(new WidgetItemInfo("2", "见证地点：", rollingPlan.getAreano(), WidgetItemInfo.DISPLAY, false));
+//		 itemInfos.add(new WidgetItemInfo("3", "见证时间：", rollingPlan.getDrawno(), WidgetItemInfo.CHOOSE, false));
+//		 itemInfos.add(new WidgetItemInfo("4", "见证负责人：", rollingPlan.getWeldlistno(), WidgetItemInfo.CHOOSE, false));
+//		 
+//		 
+//		 itemInfos.add(new WidgetItemInfo("8", "", "", WidgetItemInfo.DEVIDER, false));
+//
+//		 
+//		 itemInfos.add(new WidgetItemInfo("5", "A-QC1：", rollingPlan.getRccm(), WidgetItemInfo.DISPLAY, false));
+//		 itemInfos.add(new WidgetItemInfo("6", "A-QC2：", rollingPlan.getQualityplanno(), WidgetItemInfo.DISPLAY, false));
+//		 itemInfos.add(new WidgetItemInfo("7", "A-QA：", rollingPlan.getPlandate(), WidgetItemInfo.DISPLAY, false));
+//		 itemInfos.add(new WidgetItemInfo("8", "B：", "", WidgetItemInfo.DEVIDER, false));
+//		 itemInfos.add(new WidgetItemInfo("9", "C：", "", WidgetItemInfo.DISPLAY, true));
 		 
 		 
 		 
@@ -149,7 +149,7 @@ public class WorkStepDetailActivity extends BaseEditActivity implements OnReqHtt
 	void go2WorkStepDetail(){
 		Intent intent = new Intent(this, WorkStepListActivity.class);
 		
-		intent.putExtra(ConstValues.ID, Long.parseLong(rollingPlan.getId()));
+		//intent.putExtra(ConstValues.ID, Long.parseLong(rollingPlan.getId()));
 		startActivity(intent);
 	}
 
@@ -177,7 +177,7 @@ public class WorkStepDetailActivity extends BaseEditActivity implements OnReqHtt
 			Object response) {
 		// TODO Auto-generated method stub
 		if (name.equals(PlanManager.ACTION_PLAN_DETAIL)) {
-			rollingPlan = (RollingPlan) response;
+		//	rollingPlan = (RollingPlan) response;
 			updateInfo();
 		}
 		
