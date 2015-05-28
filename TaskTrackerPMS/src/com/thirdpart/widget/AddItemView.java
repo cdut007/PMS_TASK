@@ -1,5 +1,6 @@
 package com.thirdpart.widget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -110,20 +111,25 @@ public class AddItemView extends FrameLayout {
 		return null;
 	}
 	
-	protected <T extends WidgetItemInfo> void createItemListToUI(List<T> infos,int listId,CreateItemViewListener createItemViewListener,boolean itemLine) {
+	public static final class AddItem{
+		
+	}
+	List<AddItem> mItems = new ArrayList<AddItemView.AddItem>();
+	
+	
+	protected void createItemListToUI(AddItem info,CreateItemViewListener createItemViewListener) {
 
-		ViewGroup viewGroup = (ViewGroup) findViewById(listId);
-		int size =infos.size();
+		ViewGroup viewGroup = (ViewGroup) findViewById(R.id.common_add_item_container);
+		int size =mItems.size();
 		int len=0;
 		if (size == 0) {
 	
 			return;//no more
 		}
-	//	viewGroup.removeViews(1, viewGroup.getChildCount()-1);
 
 		len =size ;
 		
-		//LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		for (int i = 0; i < len; i++) {
 			View convertView = getChildViewByTag(viewGroup, infos.get(i).tag); 
@@ -142,5 +148,6 @@ public class AddItemView extends FrameLayout {
 
 public static interface CreateItemViewListener{
 	View oncreateItem(int index,View convertView ,ViewGroup viewGroup);
+	void deleteItem(int index);
 }	
 }

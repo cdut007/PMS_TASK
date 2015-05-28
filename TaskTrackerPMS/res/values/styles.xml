@@ -31,6 +31,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">18.0sp</item>
+          <item name="android:text">确认提交</item>
     </style>
         
         

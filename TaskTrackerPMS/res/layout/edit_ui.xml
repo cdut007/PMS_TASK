@@ -34,7 +34,6 @@
                     android:id="@+id/comment_btn"
                     style="@style/common_done_btn"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="我要点评一下" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 </RelativeLayout>
