@@ -246,6 +246,10 @@ public abstract class BaseActivity extends ActionBarActivity implements
 		titleTv.setText(title);
 	}
 
+	public void changeTitle(String content) {
+		// TODO Auto-generated method stub
+		setTitle(content);
+	}
 	
 	//*****************************************//
 		//*****************top bar end************//

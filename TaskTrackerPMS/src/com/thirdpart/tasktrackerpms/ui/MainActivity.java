@@ -50,7 +50,7 @@ public class MainActivity extends BaseActivity {
 
 	HashMap<String, MenuListener> mTabMenus = new HashMap<String, MenuListener>();
 	HashMap<String, View> menuViews = new HashMap<String, View>();
-	static final String PLAN = Item.PLAN, TASK = Item.TASK, ISSUE = Item.ISSUE;
+	static final String PLAN = Item.PLAN, TASK = Item.TASK, MINE = Item.MINE;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +79,8 @@ public class MainActivity extends BaseActivity {
 
 	private void checkFlag(String flag) {
 
-		if (Item.ISSUE.equals(flag)) {
-			onNavigateItemSelected(item = ISSUE);
+		if (Item.MINE.equals(flag)) {
+			onNavigateItemSelected(item = MINE);
 		} else if (Item.TASK.equals(flag)) {
 			onNavigateItemSelected(item = TASK);
 		} else if (Item.PLAN.equals(flag)) {
@@ -102,7 +102,7 @@ public class MainActivity extends BaseActivity {
 
 		menuViews.put(PLAN, findViewById(R.id.btn_menu1));
 		menuViews.put(TASK, findViewById(R.id.btn_menu2));
-		menuViews.put(ISSUE, findViewById(R.id.btn_menu3));
+		menuViews.put(MINE, findViewById(R.id.btn_menu3));
 
 		Set<String> key = menuViews.keySet();
 		for (Iterator<String> it = key.iterator(); it.hasNext();) {
@@ -152,9 +152,9 @@ public class MainActivity extends BaseActivity {
 						TaskFragment.class, null);
 			}
 				break;
-			case ISSUE: {// issue
-				selectedMenu = new MenuListener<IssueFragment>(this,
-						Item.ISSUE, IssueFragment.class, null);
+			case MINE: {// MINE
+				selectedMenu = new MenuListener<MineFragment>(this,
+						Item.MINE, MineFragment.class, null);
 			}
 				break;
 			default:
@@ -184,27 +184,8 @@ public class MainActivity extends BaseActivity {
 		this.item = item;
 	}
 
-	private void showTopbar(String item, boolean show) {
-		// TODO Auto-generated method stub
-		switch (item) {
-		case PLAN:
-			
-			break;
-		case ISSUE:
-
-			break;
-		case TASK:
-			if (show) {
-				setTitle("焊口");
-			}else {
-				setTitle("");
-			}
-			break;
-		default:
-			break;
-		}
-	}
-
+	
+	
 	private void setBottomItemSeleted(String item, boolean foucsStatus) {
 
 		View currentItem = menuViews.get(item);
@@ -212,7 +193,6 @@ public class MainActivity extends BaseActivity {
 			Log.i(TAG, "current item is null = " + item);
 			return;
 		}
-		showTopbar(item, foucsStatus);
 
 		if (foucsStatus) {
 
@@ -274,7 +254,7 @@ public class MainActivity extends BaseActivity {
 		private final String mTag;
 		private final Class<T> mClass;
 		private final Bundle mArgs;
-		private Fragment mFragment;
+		public Fragment mFragment;
 
 		public MenuListener(FragmentActivity activity, String tag, Class<T> clz) {
 			this(activity, tag, clz, null);
@@ -294,6 +274,8 @@ public class MainActivity extends BaseActivity {
 
 		}
 
+		
+		
 		public void onTabSelected(FragmentTransaction ft) {
 			if (mFragment == null) {
 				Log.e(mTag, "create the new tab name:" + mTag);
@@ -365,5 +347,7 @@ public class MainActivity extends BaseActivity {
 		super.onBackPressed();
 
 	}
+
+	
 
 }

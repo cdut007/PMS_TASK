@@ -95,10 +95,11 @@ public class PlanAdapter extends BasePageAdapter<DepartmentInfo> {
 		}
 		
 		boolean isHanKouType(Task task){
-			if ("焊口".equals(task.getType())) {
-				return true;
-			}
-			return false;
+			
+//			if ("焊口".equals(task.getType())) {
+//				return true;
+//			}
+			return true;
 		}
 		
 		private int getComplateTask(List<Task> mList) {

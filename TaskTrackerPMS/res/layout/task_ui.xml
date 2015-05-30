@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:widgets="http://schemas.android.com/apk/res-auto"
     android:background="@color/app_bg_color" >
 
     <RelativeLayout
@@ -14,9 +15,8 @@
  <LinearLayout 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical"
-    android:background="@color/container_bg_color"
-    android:minHeight="50dp" >
+    android:orientation="vertical"
+    android:layout_gravity="center_vertical" >
 
     <LinearLayout
           android:id="@+id/task_indicator_date_container"
@@ -24,6 +24,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
+        
+    android:background="@color/container_bg_color"
+    android:minHeight="50dp"
         android:orientation="horizontal" >
 
         <TextView
@@ -87,7 +90,13 @@
             android:text="年" />
 
     </LinearLayout>
-
+	<com.thirdpart.widget.TabItemView
+         android:id="@+id/task_type"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         widgets:customName="task"
+         
+     />
 </LinearLayout>
     </RelativeLayout>
 

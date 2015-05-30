@@ -23,35 +23,20 @@ import com.jameschen.comm.utils.UtilsUI;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.tasktrackerpms.R;
 
-public class IndicatorView extends FrameLayout {
-	public IndicatorView(Context context){
+public class TabItemView extends FrameLayout {
+	public TabItemView(Context context){
 		this(context ,null);
 	}
-	public IndicatorView(Context context, AttributeSet attrs) {
+	public TabItemView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 		 View view = LayoutInflater.from(context).inflate(
-				R.layout.issue_indicator_bar, this, true);
+				R.layout.tab_container, this, true);
 		InitView(view, attrs);
 	}
 	
 	
 	
-	
-	public <T extends WidgetItemInfo > void showMenuItem(final List<T> items,final OnDismissListener onDismissListener) {
-		// TODO Auto-generated method stub
-		final PopupWindowUtil<T> mPopupWindow = new PopupWindowUtil<T>();
-		mPopupWindow.showActionWindow(this, getContext(), items);
-		mPopupWindow.setItemOnClickListener(new PopupWindowUtil.OnItemClickListener() {
-
-			@Override
-			public void onItemClick(int index) {
-					T item = items.get(index);
-					setTag(item);
-					onDismissListener.onDismiss();
-			}
-		});
-	}
 	
 	@Override
 	public void setBackgroundResource(int resid) {
@@ -86,21 +71,18 @@ public class IndicatorView extends FrameLayout {
 
 	}
 
+	
+	
+	
 	private void checkMode(String barmode) {
 		// TODO Auto-generated method stub
-		if ("delivery".equals(barmode)) {//2,4,1 焊口号／支架号  图纸号 分配
+		if ("task".equals(barmode)) {//
 			List<WidgetItemInfo> mInfos = new ArrayList<WidgetItemInfo>();
-			mInfos.add(new WidgetItemInfo(null, null, "焊口号／支架号", 2, false));
-			mInfos.add(new WidgetItemInfo(null, null, "图纸号", 4, false));
-			mInfos.add(new WidgetItemInfo(null, null, "分配", 1, false));
+			mInfos.add(new WidgetItemInfo(null, null, "焊口", 0, false));
+			mInfos.add(new WidgetItemInfo(null, null, "支架", 1, false));
 			attachContent(mInfos);
-			hiddenChild(3);
 		} else if ("witness".equals(barmode)) {//1,7 序号，见证地点
-			List<WidgetItemInfo> mInfos = new ArrayList<WidgetItemInfo>();
-			mInfos.add(new WidgetItemInfo(null, null, "序号", 1, false));
-			mInfos.add(new WidgetItemInfo(null, null, "见证地点", 7, false));
-			attachContent(mInfos);
-			hiddenChild(2);
+			
 		}else {//default
 			
 		}
@@ -108,35 +90,45 @@ public class IndicatorView extends FrameLayout {
 	private void attachContent(List<WidgetItemInfo> conteList) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
-		ViewGroup viewGroup = (ViewGroup) findViewById(R.id.indicator_container);
+		ViewGroup viewGroup = (ViewGroup) findViewById(R.id.tab_item_container);
 		
 		int count=conteList.size();
 		
 		for (int i = 0; i <count; i++) {
-			TextView view = (TextView) viewGroup.getChildAt(i);
-			LinearLayout.LayoutParams param = (android.widget.LinearLayout.LayoutParams) view.getLayoutParams();
-			param.weight=conteList.get(i).type;
+			LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			
+			TextView view = (TextView) inflater.inflate(R.layout.tab_item_text, viewGroup, false);	
+			
 			view.setText(conteList.get(i).content);
-			view.setLayoutParams(param);
+			view.setTag(conteList.get(i));
+			final int index = i;
+			view.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					if (mLastViewSelect!=null) {
+						mLastViewSelect.setSelected(false);
+					}
+					if (oItemSelectedLisnter!=null) {
+						WidgetItemInfo widgetItemInfo = (WidgetItemInfo) v.getTag();
+						oItemSelectedLisnter.onTabSelected(index, widgetItemInfo);
+					}
+					v.setSelected(true);
+					mLastViewSelect = v;
+				}
+			});
+			viewGroup.addView(view);
 		}
-	
+	  viewGroup.getChildAt(0).performClick();
 	}
+private View  mLastViewSelect;
+private  onItemSelectedLisnter oItemSelectedLisnter;
 
-
-	private void hiddenChild(int start) {
-		// TODO Auto-generated method stub
-		ViewGroup viewGroup = (ViewGroup) findViewById(R.id.indicator_container);
-		
-		int count=viewGroup.getChildCount()-start;
-
-		for (int i = 0; i <count; i++) {
-			View view = viewGroup.getChildAt(i+start);
-			LinearLayout.LayoutParams param = (android.widget.LinearLayout.LayoutParams) view.getLayoutParams();
-			param.weight=0;
-			param.width=0;
-			view.setLayoutParams(param);
-			view.setVisibility(View.GONE);
-		}
-
-	}
+public void setItemSelectedLisnter(onItemSelectedLisnter oItemSelectedLisnter) {
+	this.oItemSelectedLisnter = oItemSelectedLisnter;
+}
+public static interface  onItemSelectedLisnter{
+	void onTabSelected(int pos,WidgetItemInfo tag);
+}
 }

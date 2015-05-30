@@ -4,7 +4,7 @@
     <string name="app_name">施工问题跟踪</string>
     <string name="tab_menu_text1">计划分配</string>
     <string name="tab_menu_text2">施工确认</string>
-    <string name="tab_menu_text3">问题反馈</string>
+    <string name="tab_menu_text3">我的</string>
     <string name="confirm_password">确认密码:</string>
     <string name="no_value">没有数据</string>
      <string name="no_more">没有更多</string>
