@@ -1,55 +1,52 @@
-//package com.thirdpart.model;
-//
-//import org.apache.http.Header;
-//
-//import com.jameschen.framework.base.UINetworkHandler;
-//import com.thirdpart.model.entity.RollingPlanList;
-//
-//import android.content.Context;
-//
-//public class WitnessManager extends ManagerService{
-//
-//	
-//	private WitnessManager(OnReqHttpCallbackListener reqHttpCallbackListener) {
-//		super(reqHttpCallbackListener);
-//		// TODO Auto-generated constructor stub
-//	}
-//
-//	public static String ACTION_ISSUE_HANDLE = "com.jameschen.issue.handle";
-//	
-//	/**
-//	 * @param pagesize
-//	 * @param pagenum
-//	 */
-//	public void planList(String pagesize, String pagenum) {
-//		PMSManagerAPI.getInstance(context).planList(pagesize, pagenum, new UINetworkHandler<RollingPlanList>(context) {
-//
-//					@Override
-//					public void start() {
-//						// TODO Auto-generated method stub
-//					}
-//
-//					@Override
-//					public void finish() {
-//						// TODO Auto-generated method stub
-//
-//					}
-//
-//					@Override
-//					public void callbackFailure(int statusCode,
-//							Header[] headers, String response) {
-//						// TODO Auto-generated method stub
-//						notifyFailedResult(ACTION_ISSUE_HANDLE, statusCode,
-//								response);
-//					}
-//
-//					@Override
-//					public void callbackSuccess(int statusCode,
-//							Header[] headers, RollingPlanList response) {
-//						
-//						notifySuccResult(ACTION_ISSUE_HANDLE, statusCode);
-//					}
-//				});
-//
-//	}
-//}
+package com.thirdpart.model;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
+import org.apache.http.Header;
+
+import com.google.gson.reflect.TypeToken;
+import com.jameschen.framework.base.UINetworkHandler;
+import com.thirdpart.model.ManagerService.ManagerNetworkHandler;
+import com.thirdpart.model.entity.DepartmentInfo;
+import com.thirdpart.model.entity.RollingPlan;
+import com.thirdpart.model.entity.RollingPlanList;
+import com.thirdpart.model.entity.WitnesserList;
+
+import android.content.Context;
+
+public class WitnessManager extends ManagerService{
+
+	public WitnessManager(){
+		super();
+	}
+	
+
+	public static String ACTION_WITNESS_CHOOSE_WITNESSER = "com.jameschen.witnesser";
+	public static String ACTION_WITNESS_CHOOSE_COMMIT = "com.jameschen.plan.witness.commit";
+	
+	private WitnessManager(OnReqHttpCallbackListener reqHttpCallbackListener) {
+		super(reqHttpCallbackListener);
+		// TODO Auto-generated constructor stub
+	}
+
+
+	 protected  ManagerNetworkHandler getManagerNetWorkHandler(String action){
+		 
+		ManagerNetworkHandler<List<WitnesserList>> hander = new ManagerNetworkHandler<List<WitnesserList>>(context,action){};
+		Type sToken = new TypeToken<List<WitnesserList>>() {
+		}.getType();
+		hander.setType(sToken);
+		return hander;
+	 }
+
+	
+	public void commit(String planId) {
+		PMSManagerAPI.getInstance(context).planDetail(planId,getManagerNetWorkHandler(ACTION_WITNESS_CHOOSE_COMMIT) );
+
+	}
+	public void chooseWitnessList(String witnessId) {
+		PMSManagerAPI.getInstance(context).witnesserList(witnessId, getManagerNetWorkHandler(ACTION_WITNESS_CHOOSE_WITNESSER) );
+
+	}
+}

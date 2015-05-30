@@ -2,17 +2,19 @@ package com.jameschen.framework.base;
 
 import java.util.List;
 
-import com.jameschen.comm.utils.UtilsUI;
-import com.thirdpart.model.WidgetItemInfo;
-import com.thirdpart.tasktrackerpms.R;
-
-import android.R.integer;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+
+import com.jameschen.comm.utils.UtilsUI;
+import com.jameschen.framework.base.CommonCallBack.OnRetryLisnter;
+import com.thirdpart.model.WidgetItemInfo;
+import com.thirdpart.tasktrackerpms.R;
 
 public class BaseDetailActivity extends BaseActivity{
 
@@ -22,6 +24,52 @@ public class BaseDetailActivity extends BaseActivity{
 		
 	}
 
+	private ProgressBar progressBar;
+	protected void showLoadingView(boolean isShown){
+		View customView = getSupportActionBar().getCustomView();
+		ViewGroup topbar = (ViewGroup) customView.findViewById(R.id.top_bar);
+		if (isShown) {
+			if (progressBar!=null) {
+				topbar.removeView(progressBar);
+				progressBar = null;
+			}
+			 progressBar = new ProgressBar(this);
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT, android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
+			params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+			params.addRule(RelativeLayout.CENTER_VERTICAL);
+			params.rightMargin = UtilsUI.getPixByDPI(this, 10);
+			params.topMargin = UtilsUI.getPixByDPI(this, 5);
+			params.bottomMargin = UtilsUI.getPixByDPI(this, 5);
+			
+			topbar.addView(progressBar, params);  
+		}else {
+			if (progressBar!=null) {
+				topbar.removeView(progressBar);
+				progressBar = null;
+			}
+		}
+	}
+	
+	
+	protected void setLoadSucc() {
+		showLoadingView(false);
+		setTopBarRightBtnVisiable(View.GONE);
+	}
+	
+	protected void showRetryView(final OnRetryLisnter retryLisnter) {
+		// TODO Auto-generated method stub
+
+		showLoadingView(false);
+		setTopBarRightBtnListener("重试", new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+
+				setTopBarRightBtnVisiable(View.GONE);
+				retryLisnter.doRetry();
+			}
+		});
+	}
 	
 	
 	private View getChildViewByTag(ViewGroup viewGroup,String tag) {
@@ -65,9 +113,9 @@ public class BaseDetailActivity extends BaseActivity{
 			 if (itemLine && i<len-1) {
 				 
 				 View line =(View) inflater.inflate(R.layout.item_line, viewGroup, false);
-				int padding = UtilsUI.getPixByDPI(this, 10);
+				//int padding = UtilsUI.getPixByDPI(this, 10);
 				 LayoutParams param = line.getLayoutParams();
-				 param.width = UtilsUI.getWidth(getApplication()) - 2*padding;
+				// param.width = UtilsUI.getWidth(getApplication()) - 2*padding;
 				 viewGroup.addView(line,param);
 			 }
 		}

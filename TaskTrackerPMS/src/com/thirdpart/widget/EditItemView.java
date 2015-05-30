@@ -57,6 +57,8 @@ public class EditItemView extends FrameLayout {
 		nameView = (TextView) view.findViewById(R.id.common_edit_item_title);
 		contentView = (EditText) view
 				.findViewById(R.id.common_edit_item_content);
+		((View)contentView.getParent()).setFocusableInTouchMode(true);
+		contentView.clearFocus();
 		if (name != null) {
 			nameView.setText(name);
 		}

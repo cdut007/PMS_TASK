@@ -2,29 +2,27 @@ package com.thirdpart.widget;
 
 import java.util.List;
 
-import com.thirdpart.model.WidgetItemInfo;
-import com.thirdpart.tasktrackerpms.R;
-
-
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Looper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
-public class PopupWindowUtil<T extends WidgetItemInfo > implements OnClickListener {
+import com.thirdpart.model.WidgetItemInfo;
+import com.thirdpart.tasktrackerpms.R;
+
+public class PopupWindowUtil implements OnClickListener {
 	PopupWindow popupWindow;
 	TextView mView;
 	Object selectItem;
-	List<T> mList;
+	List<String> mList;
 
 	public PopupWindowUtil() {
 	}
@@ -53,7 +51,7 @@ public class PopupWindowUtil<T extends WidgetItemInfo > implements OnClickListen
 	int width = 0;
 	Context context;
 	
-	public void showActionWindow(View parent, Context context, List<T> list,
+	public void showActionWindow(View parent, Context context, List<String> list,
 			int  width) {
 		this.context = context;
 		// final RingtoneclipModel currentData = model;
@@ -73,7 +71,7 @@ public class PopupWindowUtil<T extends WidgetItemInfo > implements OnClickListen
 		popupWindow.showAsDropDown(parent, 0, 0);
 	}
 	
-	public void showActionWindow(View parent, Context context, List<T> list) {
+	public void showActionWindow(View parent, Context context, List<String> list) {
 		// final RingtoneclipModel currentData = model;
 		// final int res_id = currentData.getId();
 		mList = list;
@@ -82,7 +80,7 @@ public class PopupWindowUtil<T extends WidgetItemInfo > implements OnClickListen
 				R.dimen.popupWindow_width);
 		parent.getLocationOnScreen(location);
 		View view = getView(context, list);
-		popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);// new
+		popupWindow = new PopupWindow(view, popWidth, LayoutParams.WRAP_CONTENT);// new
 																					// PopupWindow(view,
 																					// popWidth,
 																					// LayoutParams.WRAP_CONTENT);
@@ -92,7 +90,7 @@ public class PopupWindowUtil<T extends WidgetItemInfo > implements OnClickListen
 		popupWindow.showAsDropDown(parent, 0, 0);
 	}
 
-	private View getView(Context context, List<T> list) {
+	private View getView(Context context, List<String> list) {
 		LinearLayout layout = new LinearLayout(context);
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -104,7 +102,7 @@ public class PopupWindowUtil<T extends WidgetItemInfo > implements OnClickListen
 		for (int i = 0; i < size; i++) {
 			if (i != size - 1) {
 				String name = "";
-				name = list.get(i).name;
+				name = list.get(i);
 				
 				Button btn = getButton(context, name, i, size);
 				ImageView img = getImageView(context);
@@ -112,7 +110,7 @@ public class PopupWindowUtil<T extends WidgetItemInfo > implements OnClickListen
 				layout.addView(img);
 			} else {
 				String name = "";
-				name = list.get(i).name;
+				name = list.get(i);
 				Button btn = getButton(context, name, i, size);
 				layout.addView(btn);
 			}
@@ -177,7 +175,7 @@ public class PopupWindowUtil<T extends WidgetItemInfo > implements OnClickListen
 		Integer numInteger = Integer.valueOf(v.getTag().toString());
 		String text = null;
 		
-		text = mList.get(numInteger).name;
+		text = mList.get(numInteger);
 		
 		if (mView != null) {
 			mView.setText(text);

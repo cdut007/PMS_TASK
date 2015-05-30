@@ -27,6 +27,10 @@ abstract class MyAsyncHttpResponseHandler<T> extends
 
 	protected Type type;
 	
+	public void setType(Type type) {
+		this.type = type;
+	}
+	
 	private  ReqType  ThirdPartReqType = ReqType.NULL;
 	
 	public MyAsyncHttpResponseHandler() {

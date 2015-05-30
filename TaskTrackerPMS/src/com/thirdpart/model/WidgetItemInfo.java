@@ -13,7 +13,7 @@ public class WidgetItemInfo {
 	}
 
 	public String  tag, name,content;
-	
+	public Object obj;
 	public int  type =DISPLAY;
 	
 	

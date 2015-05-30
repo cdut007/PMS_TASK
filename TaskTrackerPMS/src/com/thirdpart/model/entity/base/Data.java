@@ -1,8 +1,10 @@
 package com.thirdpart.model.entity.base;
 
+import java.io.Serializable;
+
 import com.thirdpart.model.entity.WorkStep;
 
-public class Data {
+public class Data implements Serializable{
 
 	private String id;
 

@@ -11,7 +11,8 @@
          android:id="@+id/issue_topic"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         widgets:customName="主题："         
+         widgets:customName="主题："
+                  
      />
 	
      <View

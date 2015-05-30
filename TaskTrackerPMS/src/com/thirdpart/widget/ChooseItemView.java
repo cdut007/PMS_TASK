@@ -30,19 +30,21 @@ public class ChooseItemView extends FrameLayout {
 	}
 	
 	
+	public static interface onDismissListener<T> {
+		void onDismiss(T item);
+	}
 	
-	
-	public <T extends WidgetItemInfo > void showMenuItem(final List<T> items,final OnDismissListener onDismissListener) {
+	public <T> void showMenuItem(final List<T> items,final List<String> titles, final onDismissListener<T> onDismissListener) {
 		// TODO Auto-generated method stub
-		final PopupWindowUtil<T> mPopupWindow = new PopupWindowUtil<T>();
-		mPopupWindow.showActionWindow(this, getContext(), items);
+		final PopupWindowUtil mPopupWindow = new PopupWindowUtil();
+		mPopupWindow.showActionWindow(contentView, getContext(), titles);
 		mPopupWindow.setItemOnClickListener(new PopupWindowUtil.OnItemClickListener() {
 
 			@Override
 			public void onItemClick(int index) {
 					T item = items.get(index);
-					setTag(item);
-					onDismissListener.onDismiss();
+					contentView.setText(titles.get(index));
+					onDismissListener.onDismiss(item);
 			}
 		});
 	}

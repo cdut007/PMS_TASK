@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/issue"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/item_bg_state"
+    android:layout_gravity="center_vertical"
+    android:minHeight="50dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/witness_index_item"
+            style="@style/common_text_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="1" />
+
+        <View
+            android:layout_width="@dimen/item_line_width"
+            android:layout_height="match_parent"
+            android:background="@color/item_line" />
+
+        <com.thirdpart.widget.SorcllTextView
+            android:id="@+id/witnenss_address"
+            android:layout_width="0dp"
+             style="@style/common_text_item"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="adress" />
+
+        <View
+            android:layout_width="@dimen/item_line_width"
+            android:layout_height="match_parent"
+            android:background="@color/item_line" />
+
+        <com.thirdpart.widget.TouchImage
+            android:id="@+id/witness_choose"
+            android:layout_width="0dp"
+             style="@style/common_text_item"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:src="@drawable/jianzheng"
+            android:layout_margin="4dp"
+             />
+
+       
+    </LinearLayout>
+ <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_line_width"
+            android:background="@color/item_line" />
+</LinearLayout>

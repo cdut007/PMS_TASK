@@ -28,6 +28,7 @@ import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.entity.IssueMenu;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.ui.TaskFragment.TaskItem;
 import com.thirdpart.widget.DisplayItemView;
 
 public class TaskDetailActivity extends BaseEditActivity implements OnReqHttpCallbackListener{
@@ -45,16 +46,17 @@ public class TaskDetailActivity extends BaseEditActivity implements OnReqHttpCal
 	}
 
 
- IssueMenu issueMenu;
+ TaskItem taskItem;
  @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		issueMenu = (IssueMenu) getIntent().getSerializableExtra(Item.ISSUE);	
-      setTitle("我的问题");
+		taskItem = (TaskItem) getIntent().getSerializableExtra(Item.TASK);	
+      setTitle(""+taskItem.name+"-"+(taskItem.type==0?"焊口":"支架"));
       initInfo();
  }
+ //
  
 	
 	

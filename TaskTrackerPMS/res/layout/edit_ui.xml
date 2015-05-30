@@ -10,16 +10,15 @@
         android:layout_height="wrap_content"
         android:background="@null" >
 
-        <FrameLayout 
+         <LinearLayout 
         android:id="@+id/edit_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-            >
-		            
-            
-            
-        </FrameLayout>
         
+        android:orientation="vertical"
+            >
+            
+        </LinearLayout>
 
             
     </com.thirdpart.widget.CustomScrollView>

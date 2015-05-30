@@ -9,6 +9,7 @@ public class TouchImage extends ImageView{
 
 	public TouchImage(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		setScaleType(ScaleType.CENTER_INSIDE);
 		// TODO Auto-generated constructor stub
 	}
 	

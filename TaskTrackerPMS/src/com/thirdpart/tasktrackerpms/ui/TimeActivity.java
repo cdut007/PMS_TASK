@@ -3,156 +3,188 @@ package com.thirdpart.tasktrackerpms.ui;
 import java.util.Calendar;
 
 import kankan.wheel.widget.OnWheelChangedListener;
-import kankan.wheel.widget.OnWheelClickedListener;
-import kankan.wheel.widget.OnWheelScrollListener;
 import kankan.wheel.widget.WheelView;
+import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 import kankan.wheel.widget.adapters.NumericWheelAdapter;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.thirdpart.tasktrackerpms.R;
 
 public class TimeActivity extends Activity {
-	// Time changed flag
-	private boolean timeChanged = false;
-	
-	// Time scrolled flag
-	private boolean timeScrolled = false;
-	 WheelView hours ;
-	 WheelView mins;
-	 WheelView endhours ;
-	 WheelView endmins;
-	 boolean sameday=true;
+    private WheelView month;
+	private WheelView day;
+    private WheelView monthEnd;
+	private WheelView dayEnd;
+	private int curMonth;
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.time_layout);
 
-		setContentView(R.layout.time_layout);
-		sameday=getIntent().getBooleanExtra("sameday", false);
-		
-		 hours = (WheelView) findViewById(R.id.hour);
-		hours.setViewAdapter(new NumericWheelAdapter(this, 0, 23));
-	
-		 mins = (WheelView) findViewById(R.id.mins);
-		mins.setViewAdapter(new NumericWheelAdapter(this, 0, 59, "%02d"));
-		mins.setCyclic(true);
-	
-		 endhours = (WheelView) findViewById(R.id.endhour);
-		 endhours.setViewAdapter(new NumericWheelAdapter(this, 0, 23));
-		
-			 endmins = (WheelView) findViewById(R.id.endmins);
-			 endmins.setViewAdapter(new NumericWheelAdapter(this, 0, 59, "%02d"));
-			 endmins.setCyclic(true);
-		
-		
-//		final TimePicker picker = (TimePicker) findViewById(R.id.time);
-//		picker.setIs24HourView(true);
-//	
-		// set current time
-		Calendar c = Calendar.getInstance();
-		int curHours = c.get(Calendar.HOUR_OF_DAY);
-		int curMinutes = c.get(Calendar.MINUTE);
-	//
-		hours.setCurrentItem(10);
-		mins.setCurrentItem(0);
-	
-		endhours.setCurrentItem(18);
-		mins.setCurrentItem(0);
-		
-//		picker.setCurrentHour(curHours);
-//		picker.setCurrentMinute(curMinutes);
-	
-		// add listeners
-		addChangingListener(mins, "min");
-		addChangingListener(hours, "hour");
-	
-		OnWheelChangedListener wheelListener = new OnWheelChangedListener() {
-			public void onChanged(WheelView wheel, int oldValue, int newValue) {
-				if (!timeScrolled) {
-					timeChanged = true;
-//					picker.setCurrentHour(hours.getCurrentItem());
-//					picker.setCurrentMinute(mins.getCurrentItem());
-					timeChanged = false;
-				}
-			}
-		};
-		hours.addChangingListener(wheelListener);
-		mins.addChangingListener(wheelListener);
-		
-		OnWheelClickedListener click = new OnWheelClickedListener() {
-            public void onItemClicked(WheelView wheel, int itemIndex) {
-                wheel.setCurrentItem(itemIndex, true);
+        Calendar calendar = Calendar.getInstance();
+
+        month = (WheelView) findViewById(R.id.month);
+     //   final WheelView year = (WheelView) findViewById(R.id.year);
+        day = (WheelView) findViewById(R.id.day);
+        monthEnd = (WheelView) findViewById(R.id.month_end);
+     //   final WheelView year = (WheelView) findViewById(R.id.year);
+        dayEnd = (WheelView) findViewById(R.id.day_end);
+        OnWheelChangedListener listener = new OnWheelChangedListener() {
+            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+                updateDays(month, day,monthEnd,dayEnd);
             }
         };
-        hours.addClickingListener(click);
-        mins.addClickingListener(click);
 
-		OnWheelScrollListener scrollListener = new OnWheelScrollListener() {
-			public void onScrollingStarted(WheelView wheel) {
-				timeScrolled = true;
-			}
-			public void onScrollingFinished(WheelView wheel) {
-				timeScrolled = false;
-				timeChanged = true;
-//				picker.setCurrentHour(hours.getCurrentItem());
-//				picker.setCurrentMinute(mins.getCurrentItem());
-				timeChanged = false;
-			}
-		};
-		
-		hours.addScrollingListener(scrollListener);
-		mins.addScrollingListener(scrollListener);
-		
-//		picker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-//			public void onTimeChanged(TimePicker  view, int hourOfDay, int minute) {
-//				if (!timeChanged) {
-//					hours.setCurrentItem(hourOfDay, true);
-//					mins.setCurrentItem(minute, true);
-//				}
-//			}
-//		});
-	     findViewById(R.id.done).setOnClickListener(new OnClickListener() {
+        // month
+         curMonth = calendar.get(Calendar.MONTH);
+        String months[] = new String[] {"一月", "二月", "三月", "四月", "五月",
+                "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"};
+        month.setViewAdapter(new DateArrayAdapter(this, months, curMonth));
+        month.setCurrentItem(curMonth);
+        month.addChangingListener(listener);
+        
+        monthEnd.setViewAdapter(new DateArrayAdapter(this, months, curMonth));
+        monthEnd.setCurrentItem(curMonth);
+        monthEnd.addChangingListener(listener);
+        
+        findViewById(R.id.done).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
 				
-				@Override
-				public void onClick(View v) {
-					if (sameday) {
-						if (endhours.getCurrentItem()<hours.getCurrentItem()) {
-							Toast.makeText(getBaseContext(), "提问时间重新选择！", Toast.LENGTH_SHORT).show();
-							return;	
-						}
-						if (endhours.getCurrentItem()-hours.getCurrentItem()<=1) {
-							Toast.makeText(getBaseContext(), "时间不能小于2个小时", Toast.LENGTH_SHORT).show();
 
-							return;	
-						}
-						
-						
-					}
-					Intent intent = new Intent();
-					intent.putExtra("min", mins.getCurrentItem());
-					intent.putExtra("hour", hours.getCurrentItem());
-					intent.putExtra("minEnd", endmins.getCurrentItem());
-					intent.putExtra("hourEnd", endhours.getCurrentItem());
-						setResult(RESULT_OK,intent);
-						finish();
+				//check date is ok or not....
+				
+				if (monthEnd.getCurrentItem()<curMonth) {
+					Toast.makeText(getBaseContext(), "呀灭地，开始日期必须是当月以及以后哟!", Toast.LENGTH_SHORT).show();
+					return;
 				}
-			});
-	}
-
-	/**
-	 * Adds changing listener for wheel that updates the wheel label
-	 * @param wheel the wheel
-	 * @param label the wheel label
-	 */
-	private void addChangingListener(final WheelView wheel, final String label) {
-		wheel.addChangingListener(new OnWheelChangedListener() {
-			public void onChanged(WheelView wheel, int oldValue, int newValue) {
-				//wheel.setLabel(newValue != 1 ? label + "s" : label);
+				
+				if (monthEnd.getCurrentItem()<month.getCurrentItem()) {
+					Toast.makeText(getBaseContext(), "结束日期不能小于开始日期", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				if (monthEnd.getCurrentItem()==month.getCurrentItem()) {
+					
+					if (dayEnd.getCurrentItem()<day.getCurrentItem()) {
+						Toast.makeText(getBaseContext(), "结束日期不能小于开始日期", Toast.LENGTH_SHORT).show();
+						return;
+					}
+				}
+				Intent intent = new Intent();
+				intent.putExtra("month", month.getCurrentItem());
+				intent.putExtra("day", day.getCurrentItem()+1);
+				//intent.put
+				intent.putExtra("monthEnd", monthEnd.getCurrentItem());
+				intent.putExtra("dayEnd", dayEnd.getCurrentItem()+1);
+					setResult(RESULT_OK,intent);
+					finish();
 			}
 		});
-	}
+    
+        
+        //day
+        updateDays(month, day,monthEnd,dayEnd);
+        day.setCurrentItem(calendar.get(Calendar.DAY_OF_MONTH) - 1);
+        dayEnd.setCurrentItem(calendar.get(Calendar.DAY_OF_MONTH) - 1);
+    }
+    
+    /**
+     * Updates day wheel. Sets max days according to selected month and year
+     */
+    void updateDays(WheelView month, WheelView day,WheelView monthEnd, WheelView dayEnd) {
+        Calendar calendar = Calendar.getInstance();
+     //   calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + year.getCurrentItem());
+    
+     //   calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) );
+        calendar.set(Calendar.MONTH, month.getCurrentItem());   
+        int maxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        day.setViewAdapter(new DateNumericAdapter(this, 1, maxDays, calendar.get(Calendar.DAY_OF_MONTH) - 1));
+        int curDay = Math.min(maxDays, day.getCurrentItem() + 1);
+        day.setCurrentItem(curDay - 1, true);
+        
+        //
+        calendar.set(Calendar.MONTH, monthEnd.getCurrentItem());
+         maxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+         dayEnd.setViewAdapter(new DateNumericAdapter(this, 1, maxDays, calendar.get(Calendar.DAY_OF_MONTH) - 1));
+         curDay = Math.min(maxDays, day.getCurrentItem() + 1);
+         dayEnd.setCurrentItem(curDay - 1, true);
+    }
+    
+    /**
+     * Adapter for numeric wheels. Highlights the current value.
+     */
+    private class DateNumericAdapter extends NumericWheelAdapter {
+        // Index of current item
+        int currentItem;
+        // Index of item to be highlighted
+        int currentValue;
+        
+        /**
+         * Constructor
+         */
+        public DateNumericAdapter(Context context, int minValue, int maxValue, int current) {
+            super(context, minValue, maxValue);
+            this.currentValue = current;
+            setTextSize(16);
+        }
+        
+        @Override
+        protected void configureTextView(TextView view) {
+            super.configureTextView(view);
+            if (currentItem == currentValue) {
+                view.setTextColor(0xFF0000F0);
+            }
+            view.setTypeface(Typeface.SANS_SERIF);
+        }
+        
+        @Override
+        public View getItem(int index, View cachedView, ViewGroup parent) {
+            currentItem = index;
+            return super.getItem(index, cachedView, parent);
+        }
+    }
+    
+    /**
+     * Adapter for string based wheel. Highlights the current value.
+     */
+    private class DateArrayAdapter extends ArrayWheelAdapter<String> {
+        // Index of current item
+        int currentItem;
+        // Index of item to be highlighted
+        int currentValue;
+        
+        /**
+         * Constructor
+         */
+        public DateArrayAdapter(Context context, String[] items, int current) {
+            super(context, items);
+            this.currentValue = current;
+            setTextSize(16);
+        }
+        
+        @Override
+        protected void configureTextView(TextView view) {
+            super.configureTextView(view);
+            if (currentItem == currentValue) {
+                view.setTextColor(0xFF0000F0);
+            }
+            view.setTypeface(Typeface.SANS_SERIF);
+        }
+        
+        @Override
+        public View getItem(int index, View cachedView, ViewGroup parent) {
+            currentItem = index;
+            return super.getItem(index, cachedView, parent);
+        }
+    }
 }

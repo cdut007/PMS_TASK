@@ -155,6 +155,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
 				BitmapFactory.decodeResource(getResources(),
 						R.drawable.top_title_bg)));
 		actionBar.setCustomView(R.layout.top_bar_layout);
+		
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		ViewGroup customView = (ViewGroup) actionBar.getCustomView();

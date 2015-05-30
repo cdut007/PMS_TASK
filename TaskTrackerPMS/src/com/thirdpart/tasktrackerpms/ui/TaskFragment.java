@@ -1,10 +1,9 @@
 package com.thirdpart.tasktrackerpms.ui;
 
-import java.util.AbstractList;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -13,8 +12,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.MediaStore.Video;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +28,7 @@ import com.jameschen.framework.base.BaseFragment;
 import com.jameschen.framework.base.MyBaseAdapter;
 import com.jameschen.framework.base.MyBaseAdapter.HoldView;
 import com.jameschen.widget.BadgeView;
+import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.TabItemView;
@@ -81,8 +79,8 @@ private void initView(View view) {
 				if (object == null) {
 					return;
 				}
-//				RollingPlan p = (RollingPlan) (object);
-//				intent.putExtra(Item.TASK, p);
+				TaskItem p = (TaskItem) (object);
+				intent.putExtra(Item.TASK, p);
 				startActivity(intent);
 			}
 		});
@@ -194,8 +192,12 @@ public void onHiddenChanged(boolean hidden) {
 
 	
 	
-	static class TaskItem{
-		 public TaskItem(String name, int color,int type) {
+	public static class TaskItem implements Serializable{
+		 /**
+		 * 
+		 */
+		private static final long serialVersionUID = -6732693444174428835L;
+		public TaskItem(String name, int color,int type) {
 			super();
 			this.name = name;
 			this.color = color;

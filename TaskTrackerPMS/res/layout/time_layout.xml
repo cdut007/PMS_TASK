@@ -3,21 +3,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="wrap_content"
 	android:layout_width="wrap_content"
-	android:orientation="vertical"
 	 android:paddingBottom="10dp"
+	   android:layout_gravity="center"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-      android:layout_gravity="center"
+    android:paddingTop="30dp" 
+	android:orientation="vertical"
 	android:background="@color/app_bg_color">
-	<TextView 
+	 <TextView 
                android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_marginTop="20dp"
-            android:text="开始时间 "
             android:textColor="@color/black"
+            android:text="开始日期"
             />
+    
 	<LinearLayout 
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
@@ -26,45 +28,43 @@
 		android:paddingRight="12dp"
 		android:paddingTop="20dp">
 	  
-	  	<kankan.wheel.widget.WheelView android:id="@+id/hour"
-			android:layout_height="wrap_content"
-			android:layout_width="140dp"/>
-		<kankan.wheel.widget.WheelView android:id="@+id/mins"
-			android:layout_height="wrap_content"
-			android:layout_width="140dp"/>
+	  	        <kankan.wheel.widget.WheelView android:id="@+id/month"
+            android:layout_height="wrap_content"
+            android:layout_width="140dp"/>
+        <kankan.wheel.widget.WheelView android:id="@+id/day"
+            android:layout_height="wrap_content"
+            android:layout_width="140dp"/>
+        
 	</LinearLayout>
-		<TextView 
+    <TextView 
                android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_marginTop="20dp"
-            android:text="结束时间 "
             android:textColor="@color/black"
+            android:text="结束日期"
             />
-	<LinearLayout 
+    
+    	<LinearLayout 
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_gravity="center_horizontal"
 		android:paddingLeft="12dp"
 		android:paddingRight="12dp"
 		android:paddingTop="20dp">
-	  
-	  	<kankan.wheel.widget.WheelView android:id="@+id/endhour"
-			android:layout_height="wrap_content"
-			android:layout_width="140dp"/>
-		<kankan.wheel.widget.WheelView android:id="@+id/endmins"
-			android:layout_height="wrap_content"
-			android:layout_width="140dp"/>
+        
+                <kankan.wheel.widget.WheelView android:id="@+id/month_end"
+            android:layout_height="wrap_content"
+            android:layout_width="140dp"/>
+        <kankan.wheel.widget.WheelView android:id="@+id/day_end"
+            android:layout_height="wrap_content"
+            android:layout_width="140dp"/>
+        
 	</LinearLayout>
-<!-- 	<TimePicker android:id="@+id/time" -->
-<!-- 		android:layout_marginTop="20dp" -->
-<!-- 		android:layout_height="wrap_content" -->
-<!-- 		android:layout_width="fill_parent" -->
-<!-- 		android:layout_weight="1"/> -->
 		  <Button
         android:id="@+id/done"
-             style="@style/common_btn"
+        style="@style/common_btn"
         android:layout_width="match_parent"
         android:layout_margin="10dp"
         android:layout_height="wrap_content"

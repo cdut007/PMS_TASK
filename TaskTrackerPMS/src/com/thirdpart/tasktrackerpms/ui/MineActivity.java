@@ -51,6 +51,18 @@ public class MineActivity extends BaseActivity {
 			ft.commit();
 		}
 			break;
+			case "2":
+			{
+				mFragment = fm.findFragmentByTag(WitnessListFragment.class.getName());
+				if (mFragment == null) {
+					Bundle bundle = new Bundle();
+					mFragment = IssueFragment.instantiate(this, WitnessListFragment.class.getName(), bundle);
+					ft.add(R.id.fragment_content, mFragment, WitnessListFragment.class.getName());
+				}
+
+				ft.commit();
+			}
+				break;
 
 		default:
 			break;

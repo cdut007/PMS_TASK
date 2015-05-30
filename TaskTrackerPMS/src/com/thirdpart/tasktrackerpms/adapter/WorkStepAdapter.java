@@ -88,13 +88,13 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Context context = v.getContext();
-				
-				Intent intent= new Intent(context,WorkStepDetailActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				WorkStep workStep = (WorkStep) v.getTag();
-				intent.putExtra("workstep", workStep);
-				context.startActivity(intent);
+//				Context context = v.getContext();
+//				
+//				Intent intent= new Intent(context,WorkStepDetailActivity.class);
+//				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//				WorkStep workStep = (WorkStep) v.getTag();
+//				intent.putExtra("workstep", workStep);
+//				context.startActivity(intent);
 			}
 		});
 		}

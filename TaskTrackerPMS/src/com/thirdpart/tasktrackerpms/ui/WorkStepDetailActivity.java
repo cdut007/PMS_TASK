@@ -24,6 +24,7 @@ import com.thirdpart.model.PlanManager;
 import com.thirdpart.model.TaskManager;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.entity.RollingPlan;
+import com.thirdpart.model.entity.WitnessDistributed;
 import com.thirdpart.model.entity.WorkStep;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.DisplayItemView;
@@ -32,15 +33,15 @@ public class WorkStepDetailActivity extends BaseEditActivity implements OnReqHtt
 	
  
  private TaskManager taskManager ;
- WorkStep workStep;
+ WitnessDistributed witness;
  @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-      workStep = (WorkStep) getIntent().getSerializableExtra(Item.TASK);	
+      witness = (WitnessDistributed) getIntent().getSerializableExtra(Item.WITNESS);	
       taskManager = (TaskManager) ManagerService.getNewManagerService(this, TaskManager.class,this);
-      setTitle("工序完工信息：");
+      setTitle("工序详情");
       updateInfo();
       execFetechDetail();
  }
@@ -69,8 +70,8 @@ public class WorkStepDetailActivity extends BaseEditActivity implements OnReqHtt
 //		 itemInfos.add(new WidgetItemInfo("7", "A-QA：", rollingPlan.getPlandate(), WidgetItemInfo.DISPLAY, false));
 //		 itemInfos.add(new WidgetItemInfo("8", "B：", "", WidgetItemInfo.DEVIDER, false));
 //		 itemInfos.add(new WidgetItemInfo("9", "C：", "", WidgetItemInfo.DISPLAY, true));
-		 
-		 
+//		 
+//		 
 		 
 		  createItemListToUI(itemInfos, R.id.detail_container, new CreateItemViewListener() {
 

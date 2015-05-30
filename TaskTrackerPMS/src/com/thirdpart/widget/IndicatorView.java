@@ -38,20 +38,7 @@ public class IndicatorView extends FrameLayout {
 	
 	
 	
-	public <T extends WidgetItemInfo > void showMenuItem(final List<T> items,final OnDismissListener onDismissListener) {
-		// TODO Auto-generated method stub
-		final PopupWindowUtil<T> mPopupWindow = new PopupWindowUtil<T>();
-		mPopupWindow.showActionWindow(this, getContext(), items);
-		mPopupWindow.setItemOnClickListener(new PopupWindowUtil.OnItemClickListener() {
-
-			@Override
-			public void onItemClick(int index) {
-					T item = items.get(index);
-					setTag(item);
-					onDismissListener.onDismiss();
-			}
-		});
-	}
+	
 	
 	@Override
 	public void setBackgroundResource(int resid) {
