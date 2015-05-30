@@ -36,8 +36,6 @@ public class IssueFeedbackActivity extends BaseEditActivity implements OnReqHttp
 	
 	List<File> mFiles = new ArrayList<File>();
 	
-	IssueResult   issueResult ;
-	
 	
 
 
@@ -54,8 +52,7 @@ public class IssueFeedbackActivity extends BaseEditActivity implements OnReqHttp
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		issueResult = (IssueResult) getIntent().getSerializableExtra(Item.ISSUE);	
-      setTitle("问题详情");
+      setTitle("问题反馈");
       initInfo();
  }
  
@@ -80,7 +77,7 @@ public class IssueFeedbackActivity extends BaseEditActivity implements OnReqHttp
 					//create
 					LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 						
-					convertView = inflater.inflate(R.layout.issue_solve_ui, viewgroup, false);	
+					convertView = inflater.inflate(R.layout.issue_feedback_ui, viewgroup, false);	
 					
 					
 				}else {

@@ -20,9 +20,8 @@
       <com.facebook.drawee.view.SimpleDraweeView
   		    fresco:roundAsCircle="true"
             android:id="@+id/common_circle_item_img"
-            android:layout_width="130dp"
-            fresco:placeholderImage="@drawable/blue"
-            android:layout_height="130dp"
+            android:layout_width="@dimen/task_icon_img_Heigth"
+            android:layout_height="@dimen/task_icon_img_Heigth"
             android:gravity="center_vertical" />
 
         <TextView

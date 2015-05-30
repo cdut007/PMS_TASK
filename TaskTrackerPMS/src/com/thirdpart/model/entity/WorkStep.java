@@ -1,6 +1,8 @@
 package com.thirdpart.model.entity;
 
-public class WorkStep {
+import java.io.Serializable;
+
+public class WorkStep implements Serializable{
 	private String id;
 
 	private String stepno;

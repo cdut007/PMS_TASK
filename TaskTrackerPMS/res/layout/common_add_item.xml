@@ -42,7 +42,7 @@
 		        
 		    </FrameLayout>
 		    <com.thirdpart.widget.TouchImage
-            android:id="@+id/common_choose_item_content"
+            android:id="@+id/common_add_item_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
               android:src="@drawable/tianjiaqt"

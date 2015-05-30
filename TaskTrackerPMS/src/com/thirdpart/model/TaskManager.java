@@ -9,6 +9,11 @@ import android.content.Context;
 
 public class TaskManager  extends ManagerService{
 
+	
+	public TaskManager(){
+		super();
+	}
+	
 	private TaskManager(OnReqHttpCallbackListener reqHttpCallbackListener) {
 		super(reqHttpCallbackListener);
 		// TODO Auto-generated constructor stub

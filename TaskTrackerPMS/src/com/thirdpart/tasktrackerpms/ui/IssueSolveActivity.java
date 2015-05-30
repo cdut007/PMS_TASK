@@ -1,5 +1,6 @@
 package com.thirdpart.tasktrackerpms.ui;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,28 +14,31 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import com.jameschen.framework.base.BaseDetailActivity;
 import com.jameschen.framework.base.BaseEditActivity;
+import com.jameschen.framework.base.BaseDetailActivity.CreateItemViewListener;
 import com.thirdpart.model.ConstValues;
-import com.thirdpart.model.ConstValues.Item;
-import com.thirdpart.model.ManagerService;
-import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
-import com.thirdpart.model.PlanManager;
 import com.thirdpart.model.WidgetItemInfo;
+import com.thirdpart.model.ConstValues.Item;
+import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
 import com.thirdpart.model.entity.IssueMenu;
-import com.thirdpart.model.entity.RollingPlan;
+import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.tasktrackerpms.R;
-import com.thirdpart.widget.DisplayItemView;
 
-public class IssueActivity extends BaseEditActivity implements OnReqHttpCallbackListener{
+public class IssueSolveActivity extends BaseEditActivity implements OnReqHttpCallbackListener{
 	
-
-
-	private Fragment mFragment;
+	private EditText issueNameEditText;
+	
+	private EditText  issueDescriptionEditText;
+	
+	List<File> mFiles = new ArrayList<File>();
+	
+	IssueResult   issueResult ;
+	
+	
 
 
 	@Override
@@ -45,14 +49,13 @@ public class IssueActivity extends BaseEditActivity implements OnReqHttpCallback
 	}
 
 
- IssueMenu issueMenu;
  @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		issueMenu = (IssueMenu) getIntent().getSerializableExtra(Item.ISSUE);	
-      setTitle("我的问题");
+		issueResult = (IssueResult) getIntent().getSerializableExtra(Item.ISSUE);	
+      setTitle("问题详情");
       initInfo();
  }
  
@@ -62,7 +65,7 @@ public class IssueActivity extends BaseEditActivity implements OnReqHttpCallback
 
 		final  List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();
 		 //R.id.  in array String
-		 itemInfos.add(new WidgetItemInfo("0", null, null, 0, false));		
+		 itemInfos.add(new WidgetItemInfo(null, null, null, 0, false));		
 		
 		  createItemListToUI(itemInfos, R.id.edit_container, new CreateItemViewListener() {
 
@@ -77,7 +80,7 @@ public class IssueActivity extends BaseEditActivity implements OnReqHttpCallback
 					//create
 					LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 						
-					convertView = inflater.inflate(R.layout.fragment_main, viewgroup, false);	
+					convertView = inflater.inflate(R.layout.issue_solve_ui, viewgroup, false);	
 					
 					
 				}else {
@@ -91,25 +94,12 @@ public class IssueActivity extends BaseEditActivity implements OnReqHttpCallback
 		}, false);
 		  
 		  //make container
-		  
-		  FragmentManager fm = getSupportFragmentManager();
-			FragmentTransaction ft = fm.beginTransaction();
-			mFragment = fm.findFragmentByTag(IssueListFragment.class.getName());
-			if (mFragment == null) {
-				Bundle bundle = new Bundle();
-				bundle.putLong(ConstValues.ID, Long.parseLong(issueMenu.getId()));
-				mFragment = IssueListFragment.instantiate(this, IssueListFragment.class.getName(), bundle);
-				ft.add(R.id.fragment_content, mFragment, IssueListFragment.class.getName());
-			}
-
-			ft.commit();
-		  
+		 
 	}
 	
 	@Override
 	protected void initView() {
-		setContentView(R.layout.list_edit_ui);// TODO Auto-generated method stub
-		findViewById(R.id.commit_btn_layout).setVisibility(View.GONE);
+		setContentView(R.layout.edit_ui);// TODO Auto-generated method stub
 		super.initView();
 		
 	}
@@ -142,5 +132,7 @@ public class IssueActivity extends BaseEditActivity implements OnReqHttpCallback
 		
 	}
 	
+
+
 
 }

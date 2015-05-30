@@ -27,6 +27,13 @@ public class Config {
 		 * <br>-1002,unknow Error
 		 * */
 		public static final String REQUST_ROLLINGPLAN_LIST_URL = HTTP_BASE_URL+"/hdxt/api/baseservice/rollingplan/";
+		
+		/** define the teamwork list url 
+		 * <br>param:pagesize,pagenum
+		 * <br>-1001,id is not avaiable
+		 * <br>-1002,unknow Error
+		 * */
+		public static final String REQUST_TEAM_WROK_LIST_URL = HTTP_BASE_URL+"/hdxt/api/statistics/task";
 
 		/** define the workstep detail url 
 		 * <br>param:{id}

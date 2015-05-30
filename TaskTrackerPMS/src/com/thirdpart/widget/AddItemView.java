@@ -5,10 +5,12 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.provider.Telephony.Sms.Conversations;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -29,7 +31,7 @@ public class AddItemView extends FrameLayout {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 		 View view = LayoutInflater.from(context).inflate(
-				R.layout.common_choose_item, this, true);
+				R.layout.common_add_item, this, true);
 		InitView(view, attrs);
 	}
 	
@@ -53,48 +55,45 @@ public class AddItemView extends FrameLayout {
 	}
 	
 	private TextView nameView;
-	private Button contentView;
-
+	private TouchImage contentView;
+	String type = null;
+	
 	private void InitView(View view, AttributeSet attrs) {
 		// TODO Auto-generated method stub
 		String name = null;
-		String content = null;
-		boolean tinySepc = false;
+		
 		if (attrs!=null) {
 			TypedArray a = getContext().obtainStyledAttributes(attrs,
 					R.styleable.DisplayViewStyle);
 			 name = a.getString(R.styleable.DisplayViewStyle_customName);
-			 content = a
-						.getString(R.styleable.DisplayViewStyle_customContent);
-			 tinySepc = a
-						.getBoolean(R.styleable.DisplayViewStyle_tinySpec,false);
+			
+			 type = a
+						.getString(R.styleable.DisplayViewStyle_customType);
 
 			a.recycle();
 		}
 		
 		nameView = (TextView) view.findViewById(R.id.common_choose_item_title);
-		contentView = (Button) view
-				.findViewById(R.id.common_choose_item_content);
+		contentView = (TouchImage) view
+				.findViewById(R.id.common_add_item_content);
 		if (name != null) {
 			nameView.setText(name);
 		}
-		if (content != null) {
-			contentView.setText(content);
+		if ("file".equals(type)) {
+			
+			contentView.setImageResource(R.drawable.tianjia);
+		}else {
+			contentView.setImageResource(R.drawable.tianjiaqt);
 		}
 		
-		if (tinySepc) {
-			LinearLayout.LayoutParams param = (android.widget.LinearLayout.LayoutParams) contentView.getLayoutParams();
-			param.rightMargin = UtilsUI.getPixByDPI(getContext(), 40);
-			contentView.setLayoutParams(param);
-		}
+		
 
 	}
 
 	
-	public void setNameAndContent(String name,String content) {
+	public void setNameAndContent(String name) {
 		// TODO Auto-generated method stub
 			nameView.setText(name);
-			contentView.setText(content);
 	}
 	
 	
@@ -112,7 +111,7 @@ public class AddItemView extends FrameLayout {
 	}
 	
 	public static final class AddItem{
-		
+		String tag;
 	}
 	List<AddItem> mItems = new ArrayList<AddItemView.AddItem>();
 	
@@ -120,31 +119,83 @@ public class AddItemView extends FrameLayout {
 	protected void createItemListToUI(AddItem info,CreateItemViewListener createItemViewListener) {
 
 		ViewGroup viewGroup = (ViewGroup) findViewById(R.id.common_add_item_container);
-		int size =mItems.size();
-		int len=0;
-		if (size == 0) {
+		
+
+		View convertView = getChildViewByTag(viewGroup, info.tag); 
+		 boolean  isNotExsit = (convertView == null);
+		 convertView = oncreateItem(info, convertView,viewGroup);
+		if (!isNotExsit) {
+			return ;
+		}
+		mItems.add(info);
+		viewGroup.addView(convertView);
+		
+		
 	
-			return;//no more
-		}
-
-		len =size ;
-		
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
-		for (int i = 0; i < len; i++) {
-			View convertView = getChildViewByTag(viewGroup, infos.get(i).tag); 
-			 boolean  isNotExsit = (convertView == null);
-			 convertView = createItemViewListener.oncreateItem(i, convertView,viewGroup);
-			if (!isNotExsit) {
-				continue;
-			}
-
-			viewGroup.addView(convertView);
-			
-			
-		}
 	
 	}
+
+private View oncreateItem( AddItem addItem, View convertView, ViewGroup viewGroup) {
+	
+	// TODO Auto-generated method stub
+	//if exsit just update , otherwise create it.
+	
+	if (convertView ==null) {
+		//create
+		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		switch (type) {
+		case "file":
+			convertView = inflater.inflate(R.layout.issue_choose_file_item, viewGroup, false);	
+						
+			break;
+
+		default:
+			convertView = inflater.inflate(R.layout.issue_choose_foucs_member_item, viewGroup, false);	
+			
+			break;
+		}
+		
+		convertView.findViewById(R.id.common_choose_item_title).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AddItem addItem = (AddItem) v.getTag();
+				chooseItem(addItem);
+			}
+		});
+		convertView.findViewById(R.id.common_choose_item_content).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AddItem addItem = (AddItem) v.getTag();
+				updateItem(addItem);
+			}
+		});
+	}else {
+		
+	}
+	
+	//bind tag
+	convertView.findViewById(R.id.common_choose_item_title).setTag(addItem);
+	convertView.findViewById(R.id.common_choose_item_content).setTag(addItem);
+	return convertView;
+
+	}
+
+protected void updateItem(AddItem addItem) {
+	// TODO Auto-generated method stub
+	
+}
+protected void chooseItem(AddItem addItem) {
+	// TODO Auto-generated method stub
+	
+}
+
+
+protected void removeItem(AddItem addItem) {
+	// TODO Auto-generated method stub
+	mItems.remove(addItem);
+}
 
 public static interface CreateItemViewListener{
 	View oncreateItem(int index,View convertView ,ViewGroup viewGroup);

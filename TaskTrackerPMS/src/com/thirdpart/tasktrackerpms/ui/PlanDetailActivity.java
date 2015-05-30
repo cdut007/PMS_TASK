@@ -38,7 +38,7 @@ public class PlanDetailActivity extends BaseDetailActivity implements OnReqHttpC
 		
       rollingPlan = (RollingPlan) getIntent().getSerializableExtra(Item.PLAN);	
       planManager = (PlanManager) ManagerService.getNewManagerService(this, PlanManager.class,this);
-      setTitle("管道"+"xx"+"班");
+      setTitle("焊口明细");
       updateInfo();
       execFetechDetail();
  }

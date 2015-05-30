@@ -1,6 +1,8 @@
 package com.thirdpart.model.entity;
 
-public class IssuePhoto {
+import java.io.Serializable;
+
+public class IssuePhoto implements Serializable{
 	private String path;
 
 	private String fileName;

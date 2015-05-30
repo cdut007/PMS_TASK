@@ -1,8 +1,14 @@
 package com.thirdpart.model.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class IssueResult {
+public class IssueResult implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String id;
 
 	private String worstepid;

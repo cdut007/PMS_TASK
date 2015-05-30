@@ -61,6 +61,7 @@
     <dimen name="product_icon_bg_height">78dp</dimen>
     <dimen name="product_icon_img_width">96dp</dimen>
     <dimen name="product_icon_img_height">76dp</dimen>
-    <dimen name="banner_icon_img_Heigth">160dp</dimen>
+    <dimen name="task_icon_img_Heigth">80dp</dimen>
+    
     
 </resources>

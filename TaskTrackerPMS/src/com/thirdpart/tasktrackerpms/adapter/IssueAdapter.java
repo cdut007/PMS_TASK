@@ -19,7 +19,7 @@ import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
 
-public class IssueAdapter extends BasePageAdapter<IssueResult,IssueList> {
+public class IssueAdapter extends BasePageAdapter<IssueResult> {
 	private Context context;
 
 	public IssueAdapter(Context context) {
@@ -70,8 +70,8 @@ public class IssueAdapter extends BasePageAdapter<IssueResult,IssueList> {
 			// TODO Auto-generated method stub
 			noTextView.setText(issueResult.getId());
 			topicTextView.setText(issueResult.getStepname());
-			deliveryTextView.setText("0".equals(issueResult.getIsOk())?"未解决":"解决");
-			statusTextView.setText(issueResult.getCurrentsolver());
+			statusTextView.setText("0".equals(issueResult.getIsOk())?"未解决":"解决");
+			deliveryTextView.setText(issueResult.getCurrentsolver());
 		}
 		
 	}

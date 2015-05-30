@@ -49,6 +49,8 @@ public class LogInController {
 				0);
 		user.edit().putBoolean(User.logon, false).commit();
 		user.edit().remove(User.password).commit();
+		user.edit().remove(User.userinfo).commit();
+		mController=null;
 		//go to login page
 		Intent i = new Intent(context, LoginActivity.class);
 		i.setFlags(IntentCompat.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);

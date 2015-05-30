@@ -1,8 +1,12 @@
 package com.jameschen.framework.base;
 
+import java.lang.reflect.Type;
+
 import org.apache.http.Header;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
 import com.jameschen.comm.utils.NetworkUtil;
 import com.thirdpart.tasktrackerpms.R;
@@ -14,9 +18,14 @@ public abstract class UINetworkHandler<T> extends MyAsyncHttpResponseHandler<T> 
 
     		
 	public UINetworkHandler(Context context) {
+		this(context, null);
+	}
+
+	public UINetworkHandler(Context context, Type sToken) {
+		// TODO Auto-generated constructor stub
 		super();
 		this.context = context;
-		
+		this.type = sToken;
 		executeNetWorkRequest();
 	}
 
@@ -43,15 +52,29 @@ public abstract class UINetworkHandler<T> extends MyAsyncHttpResponseHandler<T> 
 				response = context.getString(R.string.warning_no_internet);
 			}
 		} 
-		
+		if (isFinishing()) {
+			return;
+		}
 		callbackFailure(statusCode, headers, response);
 		
 
 	}
 
+	private boolean isFinishing() {
+		// TODO Auto-generated method stub
+		if ( context instanceof Activity) {
+			if (((Activity)context).isFinishing()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	protected void onSucc(int statusCode, Header[] headers, T response) {
-		
+		if (isFinishing()) {
+			return;
+		}
 		// do something
 		callbackSuccess(statusCode, headers, response);
 	}
@@ -60,7 +83,9 @@ public abstract class UINetworkHandler<T> extends MyAsyncHttpResponseHandler<T> 
 	public void onFinish() {
 		// TODO Auto-generated method stub
 		super.onFinish();
-		
+		if (isFinishing()) {
+			return;
+		}
 		finish();
 	}
 

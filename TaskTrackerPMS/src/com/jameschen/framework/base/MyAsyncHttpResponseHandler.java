@@ -25,6 +25,8 @@ abstract class MyAsyncHttpResponseHandler<T> extends
 	private static final String TAG = "AsyncHttpResponseHandler";
 	Gson gson = new Gson();
 
+	protected Type type;
+	
 	private  ReqType  ThirdPartReqType = ReqType.NULL;
 	
 	public MyAsyncHttpResponseHandler() {
@@ -91,10 +93,12 @@ abstract class MyAsyncHttpResponseHandler<T> extends
 			WebResponseContent mResponseContent = WebResponseContent.parseJson(response);
 
 			if ("1000".equals(mResponseContent.getCode())) {
-			
+			    if (type == null) {
+					type = Util.whatsMyGenericType(this);
+				}
 				T responseJsonClass = gson.fromJson(
 						mResponseContent.getResponseResult(),
-						Util.whatsMyGenericType(this));
+						type);
 				onSucc(statusCode, headers, responseJsonClass);
 
 			} else {

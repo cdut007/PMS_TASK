@@ -43,4 +43,26 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_line_width"
             android:background="@color/item_line" />
+       <com.thirdpart.widget.AddItemView 
+         android:id="@+id/issue_add_file"
+         android:layout_marginTop="10dp"
+         android:layout_marginBottom="10dp"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         widgets:customName="文件："
+          widgets:customType="file"
+     />
+         <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_line_width"
+            android:background="@color/item_line" />
+        <com.thirdpart.widget.AddItemView 
+         android:id="@+id/issue_add_person"
+         android:layout_marginTop="10dp"
+         android:layout_marginBottom="10dp"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         widgets:customName="关注人："
+          widgets:customType="person"
+     />
 </LinearLayout>

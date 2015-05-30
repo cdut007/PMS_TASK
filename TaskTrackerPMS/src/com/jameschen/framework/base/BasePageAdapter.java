@@ -6,7 +6,7 @@ import android.content.Context;
 
 import com.thirdpart.model.entity.base.PageList;
 
-public abstract class BasePageAdapter<T, PageType extends PageList<T>> extends MyBaseAdapter<T>{
+public abstract class BasePageAdapter<T> extends MyBaseAdapter<T>{
 
 	
 	public BasePageAdapter(Context context,int layoutId) {

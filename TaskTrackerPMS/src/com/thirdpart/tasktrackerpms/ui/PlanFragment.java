@@ -1,26 +1,31 @@
 package com.thirdpart.tasktrackerpms.ui;
 
+import java.lang.reflect.Type;
+import java.util.List;
+
 import org.apache.http.Header;
+import org.w3c.dom.Comment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.jameschen.framework.base.BasePageListFragment;
-import com.thirdpart.model.ConstValues;
+import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.jameschen.framework.base.BaseListFragment;
+import com.jameschen.framework.base.UINetworkHandler;
+import com.jameschen.widget.MyListView;
 import com.thirdpart.model.ConstValues.Item;
-import com.thirdpart.model.entity.RollingPlan;
-import com.thirdpart.model.entity.RollingPlanList;
+import com.thirdpart.model.entity.DepartmentInfo;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.tasktrackerpms.adapter.PlanAdapter;
 
 
-public class PlanFragment extends BasePageListFragment<RollingPlan, RollingPlanList> implements OnItemClickListener{
+public class PlanFragment extends BaseListFragment<DepartmentInfo> implements OnItemClickListener{
 
 	
 	
@@ -31,8 +36,10 @@ public class PlanFragment extends BasePageListFragment<RollingPlan, RollingPlanL
 		View view = inflater.inflate(R.layout.plan_ui, container, false);
 		bindListView(view,new PlanAdapter(getBaseActivity()));
 		mListView.setOnItemClickListener(this);
+		mListView.setMode(Mode.PULL_FROM_START);
+		setListShown(false);
+		executeNextPageNetWorkRequest();
 		
-		callNextPage(pageSize,getCurrentPage());
 		return view;
 	}
 	
@@ -42,58 +49,61 @@ public class PlanFragment extends BasePageListFragment<RollingPlan, RollingPlanL
 		super.onViewCreated(view, savedInstanceState);
 	}
 	
-	private  void executeNextPageNetWorkRequest(int pagesize,int pagenum) {
-		// TODO Auto-generated method stub
-			
-	        getPMSManager().planList(pagesize+"", pagenum+"",new PageUINetworkHandler<RollingPlanList>(getBaseActivity()){
-
-	    		@Override
-	    		public void startPage() {
-	    			// TODO Auto-generated method stub
-	    			
-	    		}
-
-	    		@Override
-	    		public void finishPage() {
-	    			// TODO Auto-generated method stub
-	    			
-	    		}
-
-	    		@Override
-	    		public void callbackPageFailure(int statusCode,
-	    				Header[] headers, String response) {
-	    			// TODO Auto-generated method stub
-	    			
-	    		}
-
-	    		@Override
-	    		public void callbackPageSuccess(int statusCode,
-	    				Header[] headers, RollingPlanList response) {
-	    			// TODO Auto-generated method stub
-	    			
-	    		}
-	    	});
-		
-	}
-
 	@Override
-	protected void callNextPage(int pagesize, int pageNum) {
+	protected void doFreshFromTop(MyListView mListView) {
 		// TODO Auto-generated method stub
-		executeNextPageNetWorkRequest(pagesize, pageNum);
+		super.doFreshFromTop(mListView);
+		executeNextPageNetWorkRequest();
+	}
+	private  void executeNextPageNetWorkRequest() {
+		// TODO Auto-generated method stub
+			 Type sToken = new TypeToken<List<DepartmentInfo>>() {
+			}.getType();
+	        getPMSManager().teamWorkList(new UINetworkHandler<List<DepartmentInfo>>(getActivity(),sToken) {
+
+				@Override
+				public void start() {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void finish() {
+					// TODO Auto-generated method stub
+					setListShown(true);
+					checkIsNeedShowEmptyView();
+				}
+
+				@Override
+				public void callbackFailure(int statusCode, Header[] headers,
+						String response) {
+					// TODO Auto-generated method stub
+					showToast(response);
+				}
+
+				@Override
+				public void callbackSuccess(int statusCode, Header[] headers,
+						List<DepartmentInfo> response) {
+					// TODO Auto-generated method stub
+					addDataToListAndRefresh(true, response);
+				}
+			});
 		
 	}
+
+	
 
 
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Intent intent = new Intent(getActivity(), PlanDetailActivity.class);
+		Intent intent = new Intent(getActivity(), DeliveryPlanListActivity.class);
 		Object object = parent.getAdapter().getItem(position);
 		if (object == null) {
 			return;
 		}
-		RollingPlan p = (RollingPlan) (object);
+		DepartmentInfo p = (DepartmentInfo) (object);
 		intent.putExtra(Item.PLAN, p);
 		startActivity(intent);
 	}

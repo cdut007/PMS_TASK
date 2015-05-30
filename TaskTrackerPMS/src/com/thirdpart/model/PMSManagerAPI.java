@@ -79,9 +79,8 @@ public class PMSManagerAPI {
 	
 	private LogInController getLogInController() {
 		// TODO Auto-generated method stub
-      if (mLogInController == null) {
     	  mLogInController = LogInController.getInstance(context);
-      }
+      
       return mLogInController;
 	}
 	/**
@@ -116,6 +115,19 @@ public class PMSManagerAPI {
 
 	}
 
+	/**
+	 * @param pagesize
+	 * @param pagenum
+	 * @param responseHandler
+	 */
+	public void teamWorkList(
+			AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams();
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_TEAM_WROK_LIST_URL, params,
+				responseHandler);
+
+	}
+	
 	/**
 	 * @param pagesize
 	 * @param pagenum

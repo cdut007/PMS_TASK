@@ -1,16 +1,29 @@
 package com.jameschen.framework.base;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.thirdpart.model.entity.RollingPlan;
+import com.thirdpart.model.entity.base.PageList;
+
+import android.content.Context;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-public abstract class  BaseCheckItemAdapter<T> extends MyBaseAdapter<T> {
+public abstract class  BaseCheckItemAdapter<T> extends BasePageAdapter<T> {
 	
 	
 
+
+		public BaseCheckItemAdapter(Context context, int layoutId) {
+		super(context, layoutId);
+		// TODO Auto-generated constructor stub
+	}
 
 		@Override
 		public void addObjectList(List<T> mList) {
@@ -36,28 +49,28 @@ public abstract class  BaseCheckItemAdapter<T> extends MyBaseAdapter<T> {
 
 		}
 
-		public class OptionCheckListener implements OnCheckedChangeListener {
-			int position;
-
-			public void setCheckOption(int positon) {
-				this.position = positon;
-			}
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				// TODO Auto-generated method stub
-
-				getIsSelected().put(position, isChecked);
-
-			}
-
-		}
-
 		// 用来控制CheckBox的选中状况
 		private HashMap<Integer, Boolean> isSelected;
 
-		private void clearCheck() {
+		public List<T> getAllCheckOptions() {
+			// TODO Auto-generated method stub
+			int count = getCount();
+			List<T> mList = new ArrayList<T>();
+			for (int i = 0; i < count; i++) {
+				if (getIsSelected().get(i)) {
+					mList.add(getItem(i));
+				}
+			}
+			return mList;
+		}
+		@Override
+		public void clear(boolean fresh) {
+		clearCheck();// TODO Auto-generated method stub
+		super.clear(fresh);
+		
+		}
+	
+		public void clearCheck() {
 			// TODO Auto-generated method stub
 			if (isSelected == null) {
 				return;
@@ -88,18 +101,33 @@ public abstract class  BaseCheckItemAdapter<T> extends MyBaseAdapter<T> {
 		}
 		
 		
-		private void markItemCheckStatus(int position,CheckBox checkBox) {
+		public void markItemCheckStatus(int position,CheckBox checkBox) {
 			// TODO Auto-generated method stub
-			
-			checkBox.setChecked(getIsSelected().get(position));
+			Boolean checkBoolean = getIsSelected().get(position);
+			if (checkBoolean!=null) {
+				checkBox.setChecked(checkBoolean);				
+			}
+		}
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+		// TODO Auto-generated method stub
+		View view =  super.getView(position, convertView, parent);
+		CheckItemHoldView<T> holdView = (CheckItemHoldView<T>) view.getTag();
+		 holdView.setCheckedInfo(this, position, getItem(position));
+		return view;
 		}
 		
-		public void setItemChecked(int position,CheckBox checkBox) {
+		
+		public abstract static class CheckItemHoldView<T> extends HoldView<T>{
+			public abstract void  setCheckedInfo(BaseCheckItemAdapter<T> adapter,int position,T item);
+		}
+		
+		public void setItemChecked(String position,CheckBox checkBox) {
 			// TODO Auto-generated method stub
 			// 取得ViewHolder对象，这样就省去了通过层层的findViewById去实例化我们需要的cb实例的步骤
 			// 改变CheckBox的状态
 			checkBox.toggle();
-			getIsSelected().put(position, checkBox.isChecked());
+			getIsSelected().put(Integer.parseInt(position), checkBox.isChecked());
 			notifyDataSetChanged();
 		}
 

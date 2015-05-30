@@ -164,6 +164,12 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter implements
 		}
 	}
 
+	public int getItemIndex(T item) {
+		// TODO Auto-generated method stub
+		synchronized (mLock) {
+			return mObjectInfos.indexOf(item);
+		}
+	}
 	@Override
 	public long getItemId(int paramInt) {
 		// TODO Auto-generated method stub

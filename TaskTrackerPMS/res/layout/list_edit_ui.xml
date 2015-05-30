@@ -18,14 +18,14 @@
         
 
 <LinearLayout
-                android:id="@+id/comment_layout"
+                android:id="@+id/commit_btn_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:orientation="vertical" >
 
                 <Button
-                    android:id="@+id/comment_btn"
+                    android:id="@+id/commit_btn"
                     style="@style/common_done_btn"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"/>

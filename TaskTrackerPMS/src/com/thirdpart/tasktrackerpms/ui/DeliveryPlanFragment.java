@@ -1,7 +1,6 @@
 package com.thirdpart.tasktrackerpms.ui;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.Header;
@@ -9,56 +8,49 @@ import org.apache.http.Header;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.jameschen.framework.base.BasePageListFragment;
-import com.jameschen.framework.base.UINetworkHandler;
 import com.thirdpart.model.ConstValues;
+import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.model.ConstValues.Item;
-import com.thirdpart.model.entity.DepartmentInfo;
-import com.thirdpart.model.entity.IssueList;
-import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.RollingPlanList;
 import com.thirdpart.tasktrackerpms.R;
-import com.thirdpart.tasktrackerpms.adapter.IssueAdapter;
+import com.thirdpart.tasktrackerpms.adapter.DeliveryPlanAdapter;
 import com.thirdpart.tasktrackerpms.adapter.PlanAdapter;
 
 
-public class IssueListFragment extends BasePageListFragment<IssueResult, IssueList> implements OnItemClickListener{
+public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, RollingPlanList> implements OnItemClickListener{
 
 	
-	
+	String title;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View view = inflater.inflate(R.layout.issue_ui, container, false);
-		bindListView(view,new IssueAdapter(getBaseActivity()));
+		View view = inflater.inflate(R.layout.delivery_plan_ui, container, false);
+		bindListView(view,new DeliveryPlanAdapter(getBaseActivity()));
 		mListView.setOnItemClickListener(this);
-		statusid = getArguments().getLong(ConstValues.ID);
-		Log.i(TAG, "issue id = "+statusid);
+		title = getArguments().getString(Item.PLAN);
 		callNextPage(pageSize,getCurrentPage());
 		return view;
 	}
-	long statusid ;
 	
-
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
 	}
 	
-	private  void executeNetWorkRequest(int pagesize,int pagenum) {
+	private  void executeNextPageNetWorkRequest(int pagesize,int pagenum) {
 		// TODO Auto-generated method stub
-	        getPMSManager().IssueStatus(statusid+"",pagesize+"", pagenum+"",new PageUINetworkHandler<IssueList>(getBaseActivity()){
+			
+	        getPMSManager().planList(pagesize+"", pagenum+"",new PageUINetworkHandler<RollingPlanList>(getBaseActivity()){
 
 	    		@Override
 	    		public void startPage() {
@@ -69,28 +61,31 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 	    		@Override
 	    		public void finishPage() {
 	    			// TODO Auto-generated method stub
-	    			//test data.
+	    			
 	    		}
 
 	    		@Override
 	    		public void callbackPageFailure(int statusCode,
 	    				Header[] headers, String response) {
 	    			// TODO Auto-generated method stub
+	    			
 	    		}
 
 	    		@Override
 	    		public void callbackPageSuccess(int statusCode,
-	    				Header[] headers, IssueList response) {
+	    				Header[] headers, RollingPlanList response) {
 	    			// TODO Auto-generated method stub
 	    			
 	    		}
 	    	});
 		
 	}
-	
+
 	@Override
 	protected void callNextPage(int pagesize, int pageNum) {
-	executeNetWorkRequest( pagesize, pageNum);
+		// TODO Auto-generated method stub
+		executeNextPageNetWorkRequest(pagesize, pageNum);
+		
 	}
 
 
@@ -98,14 +93,35 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Intent intent = new Intent(getActivity(), IssueSolveActivity.class);
+		Intent intent = new Intent(getActivity(), PlanDetailActivity.class);
 		Object object = parent.getAdapter().getItem(position);
 		if (object == null) {
 			return;
 		}
-		IssueResult p = (IssueResult) (object);
-		intent.putExtra(Item.ISSUE, (Serializable)p);
+		RollingPlan p = (RollingPlan) (object);
+		p.setClassName(title);
+		intent.putExtra(Item.PLAN, p);
 		startActivity(intent);
+	}
+
+	public void commit() {
+		// TODO Auto-generated method stub
+		DeliveryPlanAdapter deliveryPlanAdapter = (DeliveryPlanAdapter) mAdapter;
+		int selectCount = deliveryPlanAdapter.getAllCheckOptionsCount();
+		if (selectCount<=0) {
+			showToast("没有选择计划分配");
+			return;
+		}
+		List<RollingPlan> mSeletedItems = deliveryPlanAdapter.getAllCheckOptions();
+		executeCommitPlanNetWorkRequest(mSeletedItems);
+	}
+
+	private void executeCommitPlanNetWorkRequest(
+			List<RollingPlan> mSeletedItems) {
+		// TODO Auto-generated method stub
+	//	getPMSManager().planDetail(planId,getManagerNetWorkHandler(ACTION_PLAN_DETAIL) );
+
+		
 	}
 	
 	

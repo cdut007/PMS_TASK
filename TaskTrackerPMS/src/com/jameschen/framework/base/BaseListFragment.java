@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.jameschen.comm.utils.Log;
 import com.jameschen.widget.MyListView;
 import com.thirdpart.model.ManagerService;
@@ -182,6 +183,8 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 			if (mListContainer.getVisibility() == View.VISIBLE) {
 				return;
 			}
+			
+		try {
 			if (animate) {
 				mProgressContainer.startAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_out));
 				mListContainer.startAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_in));
@@ -189,6 +192,11 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 				mProgressContainer.clearAnimation();
 				mListContainer.clearAnimation();
 			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+			
 			mProgressContainer.setVisibility(View.GONE);
 			mListContainer.setVisibility(View.VISIBLE);
 		} else {
@@ -205,7 +213,53 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 	}
 
 
+	public void addDataToListAndRefresh(boolean clearData,List<T> datas) {
+
+		// page ,
+		if (mListView == null) {
+			// some error...
+			Log.i(TAG, "mListView is null issue");
+			return;
+		} else {
+
+		}
+
+		//isFromTop.
+		if (clearData) {
+			clearAdapter();
+		}
+		
+		mAdapter.addObjectList(datas);
+		
+		checkIsNeedShowEmptyView();
+
+		if (isVisible() || isResumed()) {
+			mAdapter.notifyDataSetChanged();
+		}
+
+		Log.i(TAG, "load finish");
+		cancelLoading();
+
+	}
 	
+	 private void cancelLoading() {
+		// TODO Auto-generated method stub
+		 if (mListView != null) {
+			 mListView.onRefreshComplete();
+
+				mListView.setMode(Mode.PULL_FROM_START);
+		 }
+	}
+
+	
+		
+	private void clearAdapter() {
+		// TODO Auto-generated method stub
+		if (mAdapter != null) {
+			mAdapter.clear(true);
+			checkIsNeedShowEmptyView();
+		}
+	}
 	
 	protected void setEmptyView(View emptyView) {
 		this.mStandardEmptyView = (TextView) emptyView;
