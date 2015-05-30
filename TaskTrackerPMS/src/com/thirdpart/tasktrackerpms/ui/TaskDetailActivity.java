@@ -31,7 +31,7 @@ import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.tasktrackerpms.ui.TaskFragment.TaskItem;
 import com.thirdpart.widget.DisplayItemView;
 
-public class TaskDetailActivity extends BaseEditActivity implements OnReqHttpCallbackListener{
+public class TaskDetailActivity extends BaseEditActivity  {
 	
 
 
@@ -115,33 +115,6 @@ public class TaskDetailActivity extends BaseEditActivity implements OnReqHttpCal
 		
 	}
 	
-
-	@Override
-	public void start(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void failed(String name, int statusCode, Header[] headers,
-			String response) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void finish(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void succ(String name, int statusCode, Header[] headers,
-			Object response) {
-		// TODO Auto-generated method stub
-		
-		
-	}
 	
 
 }

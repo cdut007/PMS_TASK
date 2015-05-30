@@ -4,31 +4,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.Header;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.jameschen.framework.base.BaseEditActivity;
-import com.jameschen.framework.base.BaseDetailActivity.CreateItemViewListener;
-import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.WidgetItemInfo;
-import com.thirdpart.model.ConstValues.Item;
-import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
-import com.thirdpart.model.entity.IssueMenu;
-import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.tasktrackerpms.R;
 
-public class WitnessUpdateActivity extends BaseEditActivity implements OnReqHttpCallbackListener{
+public class WitnessUpdateActivity extends BaseEditActivity {
 	
 	private EditText issueNameEditText;
 	
@@ -101,35 +89,5 @@ public class WitnessUpdateActivity extends BaseEditActivity implements OnReqHttp
 		
 	}
 	
-
-	@Override
-	public void start(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void failed(String name, int statusCode, Header[] headers,
-			String response) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void finish(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void succ(String name, int statusCode, Header[] headers,
-			Object response) {
-		// TODO Auto-generated method stub
-		
-		
-	}
-	
-
-
 
 }

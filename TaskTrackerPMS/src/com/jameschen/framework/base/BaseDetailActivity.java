@@ -2,6 +2,9 @@ package com.jameschen.framework.base;
 
 import java.util.List;
 
+import org.apache.http.Header;
+
+import android.R.integer;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +17,11 @@ import android.widget.RelativeLayout;
 import com.jameschen.comm.utils.UtilsUI;
 import com.jameschen.framework.base.CommonCallBack.OnRetryLisnter;
 import com.thirdpart.model.WidgetItemInfo;
+import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
 import com.thirdpart.tasktrackerpms.R;
 
-public class BaseDetailActivity extends BaseActivity{
+public class BaseDetailActivity extends BaseActivity implements
+OnReqHttpCallbackListener{
 
 	@Override
 	protected void initView() {
@@ -85,8 +90,14 @@ public class BaseDetailActivity extends BaseActivity{
 		return null;
 	}
 	
+	
+	protected View getViewByWidget(WidgetItemInfo widgetItemInfo){
+		ViewGroup viewGroup = (ViewGroup) findViewById(containerId);
+		return getChildViewByTag(viewGroup, widgetItemInfo.tag);
+	}
+	private int containerId=0;
 	protected <T extends WidgetItemInfo> void createItemListToUI(List<T> infos,int listId,CreateItemViewListener createItemViewListener,boolean itemLine) {
-
+		containerId = listId;
 		ViewGroup viewGroup = (ViewGroup) findViewById(listId);
 		int size =infos.size();
 		int len=0;
@@ -124,6 +135,34 @@ public class BaseDetailActivity extends BaseActivity{
 
 public static interface CreateItemViewListener{
 	View oncreateItem(int index,View convertView ,ViewGroup viewGroup);
+}
+
+@Override
+public void start(String name) {
+	// TODO Auto-generated method stub
+	
+}
+
+
+@Override
+public void failed(String name, int statusCode, Header[] headers,
+		String response) {
+	// TODO Auto-generated method stub
+	showToast(response);
+}
+
+
+@Override
+public void finish(String name) {
+	// TODO Auto-generated method stub
+	
+}
+
+
+@Override
+public void succ(String name, int statusCode, Header[] headers, Object response) {
+	// TODO Auto-generated method stub
+	
 }	
 	
 }

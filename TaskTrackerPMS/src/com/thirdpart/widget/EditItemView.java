@@ -62,12 +62,15 @@ public class EditItemView extends FrameLayout {
 		if (name != null) {
 			nameView.setText(name);
 		}
-		if (content != null) {
-			contentView.setText(content);
-		}
+		
+		contentView.setText(content);
+		
 
 	}
 
+	public CharSequence getContent() {
+		return contentView.getText();
+	}
 	
 	public void setNameAndContent(String name,String content) {
 		// TODO Auto-generated method stub

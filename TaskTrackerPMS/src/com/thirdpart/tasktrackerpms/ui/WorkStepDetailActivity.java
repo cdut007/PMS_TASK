@@ -29,7 +29,7 @@ import com.thirdpart.model.entity.WorkStep;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.DisplayItemView;
 
-public class WorkStepDetailActivity extends BaseEditActivity implements OnReqHttpCallbackListener{
+public class WorkStepDetailActivity extends BaseEditActivity {
 	
  
  private TaskManager taskManager ;
@@ -154,24 +154,6 @@ public class WorkStepDetailActivity extends BaseEditActivity implements OnReqHtt
 		startActivity(intent);
 	}
 
-	@Override
-	public void start(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void failed(String name, int statusCode, Header[] headers,
-			String response) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void finish(String name) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void succ(String name, int statusCode, Header[] headers,

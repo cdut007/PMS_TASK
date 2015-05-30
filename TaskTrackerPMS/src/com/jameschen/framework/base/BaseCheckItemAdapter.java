@@ -106,6 +106,8 @@ public abstract class  BaseCheckItemAdapter<T> extends BasePageAdapter<T> {
 			Boolean checkBoolean = getIsSelected().get(position);
 			if (checkBoolean!=null) {
 				checkBox.setChecked(checkBoolean);				
+			}else {
+				checkBox.setChecked(false);
 			}
 		}
 		@Override
@@ -113,7 +115,7 @@ public abstract class  BaseCheckItemAdapter<T> extends BasePageAdapter<T> {
 		// TODO Auto-generated method stub
 		View view =  super.getView(position, convertView, parent);
 		CheckItemHoldView<T> holdView = (CheckItemHoldView<T>) view.getTag();
-		 holdView.setCheckedInfo(this, position, getItem(position));
+		 holdView.setCheckedInfo(this, position, null);
 		return view;
 		}
 		

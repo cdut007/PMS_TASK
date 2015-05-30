@@ -2,6 +2,8 @@ package com.jameschen.framework.base;
 
 import java.util.List;
 
+import org.apache.http.Header;
+
 import com.thirdpart.tasktrackerpms.R;
 
 import android.content.Context;
@@ -24,8 +26,22 @@ public class BaseEditActivity extends BaseDetailActivity{
 	}
 
 public  void callCommitBtn(View v){
-	
+	showProgressDialog("正在提交", "请稍候...",null);
 };
+@Override
+public void failed(String name, int statusCode, Header[] headers,
+		String response) {
+	// TODO Auto-generated method stub
+	super.failed(name, statusCode, headers, response);
+}
+@Override
+public void finish(String name) {
+	// TODO Auto-generated method stub
+	super.finish(name);
+    cancelProgressDialog();
+}
+	
+
 	private void initCommit() {
 		// TODO Auto-generated method stub
 		findViewById(R.id.commit_btn).setOnClickListener(new OnClickListener() {

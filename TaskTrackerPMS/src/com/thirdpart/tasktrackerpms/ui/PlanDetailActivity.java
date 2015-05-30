@@ -26,7 +26,7 @@ import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.DisplayItemView;
 
-public class PlanDetailActivity extends BaseDetailActivity implements OnReqHttpCallbackListener{
+public class PlanDetailActivity extends BaseDetailActivity {
 	
  
  private PlanManager planManager ;
@@ -147,24 +147,15 @@ public class PlanDetailActivity extends BaseDetailActivity implements OnReqHttpC
 		startActivity(intent);
 	}
 
+	
 	@Override
-	public void start(String name) {
-		// TODO Auto-generated method stub
-		
-	}
+		public void failed(String name, int statusCode, Header[] headers,
+				String response) {
+			// TODO Auto-generated method stub
+			super.failed(name, statusCode, headers, response);
+		}
 
-	@Override
-	public void failed(String name, int statusCode, Header[] headers,
-			String response) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void finish(String name) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public void succ(String name, int statusCode, Header[] headers,

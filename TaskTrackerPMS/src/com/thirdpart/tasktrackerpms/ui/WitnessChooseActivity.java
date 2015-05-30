@@ -36,8 +36,7 @@ import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.DisplayItemView;
 import com.thirdpart.widget.EditItemView;
 
-public class WitnessChooseActivity extends BaseEditActivity implements
-		OnReqHttpCallbackListener {
+public class WitnessChooseActivity extends BaseEditActivity  {
 
 	private static final int REQUEST_PICK_DATE = 0x11;
 	private WitnessManager witnessManager;
@@ -59,10 +58,26 @@ public class WitnessChooseActivity extends BaseEditActivity implements
 		execFetechDetail(WitnessManager.ACTION_WITNESS_CHOOSE_WITNESSER);
 	}
 
+	String getWitnesserId (WidgetItemInfo widgetItemInfo){
+
+		Witnesser witnesser = getWitnessByType(widgetItemInfo);
+		if (witnesser!=null) {
+			return witnesser.getId();
+		}
+		return null;
+	}
+	
 	private void execFetechDetail(String action) {
 		showLoadingView(true);
 		if (action.equals(WitnessManager.ACTION_WITNESS_CHOOSE_COMMIT)) {
-			
+			String witnessid=witness.getWitness();
+			String witnesseraqa=getWitnesserId(qaWidgetItemInfo);
+			String witnesseraqc2=getWitnesserId(c2qaWidgetItemInfo);
+			String witnesseraqc1=getWitnesserId(c1qaWidgetItemInfo);
+			String witnesserb=getWitnesserId(notibWidgetItemInfo);
+			String witnesserc=getWitnesserId(noticWidgetItemInfo);
+			String witnesserd=getWitnesserId(notidWidgetItemInfo);
+			witnessManager.commit(witnessid, witnesseraqa, witnesseraqc2, witnesseraqc1, witnesserb, witnesserc, witnesserd);
 		} else {
 			witnessManager.chooseWitnessList(witness.getWitness());	
 		}
@@ -76,58 +91,60 @@ public class WitnessChooseActivity extends BaseEditActivity implements
 			// R.id. in array String
 			itemInfos.add(new WidgetItemInfo("0", "操作工序：", witness.getWorkStep()
 					.getStepname(), WidgetItemInfo.DISPLAY, false));
-			itemInfos.add(new WidgetItemInfo("1", "见证地点：", witness
+			itemInfos.add(addressWidgetItemInfo=new WidgetItemInfo("1", "见证地点：", witness
 					.getWitnessaddress(), WidgetItemInfo.EDIT, false));
-			itemInfos.add(new WidgetItemInfo("2", "见证时间：",
+			itemInfos.add(timeWidgetItemInfo=new WidgetItemInfo("2", "见证时间：",
 					witness.getWitnessdate(), WidgetItemInfo.CHOOSE, true));
 
 			WorkStep workStep = witness.getWorkStep();
 
 			if (!isEmpty(workStep.getNoticeaqc1())) {
-				itemInfos.add(new WidgetItemInfo("3", "A-QC1：", workStep
+				itemInfos.add(c1qaWidgetItemInfo=new WidgetItemInfo("3", "A-QC1：", workStep
 						.getNoticeaqc1(), WidgetItemInfo.CHOOSE, true));
 
 			}
 
 			if (!isEmpty(workStep.getNoticeaqc2())) {
-				itemInfos.add(new WidgetItemInfo("4", "A-QC2：", workStep
+				itemInfos.add(c2qaWidgetItemInfo=new WidgetItemInfo("4", "A-QC2：", workStep
 						.getNoticeaqc2(), WidgetItemInfo.CHOOSE, true));
 
 			}
 
 			if (!isEmpty(workStep.getNoticeaqa())) {
-				itemInfos.add(new WidgetItemInfo("5", "A-QA：", workStep
+				itemInfos.add(qaWidgetItemInfo=new WidgetItemInfo("5", "A-QA：", workStep
 						.getNoticeaqc1(), WidgetItemInfo.CHOOSE, true));
 
 			}
 
 			if (!isEmpty(workStep.getWitnesserb())) {
-				itemInfos.add(new WidgetItemInfo("6", "通知点B：", workStep
+				itemInfos.add(notibWidgetItemInfo=new WidgetItemInfo("6", "通知点B：", workStep
 						.getWitnesserc(), WidgetItemInfo.CHOOSE, true));
 
 			}
 
 			if (!isEmpty(workStep.getWitnesserc())) {
-				itemInfos.add(new WidgetItemInfo("7", "通知点C：", workStep
+				itemInfos.add(noticWidgetItemInfo=new WidgetItemInfo("7", "通知点C：", workStep
 						.getWitnesserc(), WidgetItemInfo.CHOOSE, true));
 
 			}
 			if (!isEmpty(workStep.getWitnesserd())) {
-				itemInfos.add(new WidgetItemInfo("8", "通知点D：", workStep
+				itemInfos.add(notidWidgetItemInfo=new WidgetItemInfo("8", "通知点D：", workStep
 						.getWitnesserd(), WidgetItemInfo.CHOOSE, true));
 
 			}
+			
+			View view = findViewById(R.id.edit_container);
+			FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) view
+					.getLayoutParams();
+			params.width = UtilsUI.getWidth(getApplication())
+					- UtilsUI.getPixByDPI(this, 20);
+			params.topMargin = UtilsUI.getPixByDPI(this, 10);
+			params.gravity = Gravity.CENTER;
+			view.setLayoutParams(params);
 	
 		}
 		
-		View view = findViewById(R.id.edit_container);
-		FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) view
-				.getLayoutParams();
-		params.width = UtilsUI.getWidth(getApplication())
-				- UtilsUI.getPixByDPI(this, 20);
-		params.topMargin = UtilsUI.getPixByDPI(this, 10);
-		params.gravity = Gravity.CENTER;
-		view.setLayoutParams(params);
+	
 
 		createItemListToUI(itemInfos, R.id.edit_container,
 				new CreateItemViewListener() {
@@ -152,7 +169,7 @@ public class WitnessChooseActivity extends BaseEditActivity implements
 							case WidgetItemInfo.EDIT: {
 								convertView = new EditItemView(
 										WitnessChooseActivity.this);
-
+								
 							}
 								break;
 							case WidgetItemInfo.CHOOSE: {
@@ -255,6 +272,12 @@ public class WitnessChooseActivity extends BaseEditActivity implements
 		}
 	}
 
+	
+	public CharSequence getAddress() {
+		EditItemView editItemView = (EditItemView) getViewByWidget(addressWidgetItemInfo);
+		return editItemView.getContent();
+	}
+	
 	private void showWindow(
 			final ChooseItemView chooseItemView,
 			List<Witnesser> obj) {
@@ -279,30 +302,31 @@ public class WitnessChooseActivity extends BaseEditActivity implements
 		});	
 	}
 	
+	
+	private Witnesser getWitnessByType(WidgetItemInfo widgetItemInfo) {
+		// TODO Auto-generated method stub
+		if (widgetItemInfo==null) {
+			return null;
+		}
+		View view = getViewByWidget(widgetItemInfo);
+		if (view!=null) {
+			List<Witnesser> witnessers=(List<Witnesser>) widgetItemInfo.obj;
+			if (witnessers!=null) {
+				for (Witnesser witnesser : witnessers) {
+					if (witnesser.getRealname().equals(widgetItemInfo.content)) {
+						return witnesser;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
 	protected void updateItem(WidgetItemInfo widgetItemInfo, Witnesser item) {
 		// TODO Auto-generated method stub
-		switch (widgetItemInfo.tag) {
-		case "3":// qc1
-		//	witness.getWorkStep().setNoticeaqa(item.);		
-			break;
-		case "4":// qc2
-
-			break;
-		case "5":// qa
-
-			break;
-		case "6":// b
-
-			break;
-		case "7":// c
-
-			break;
-		case "8":// d
-
-			break;
-		default:
-			break;
-		}
+		widgetItemInfo.content = item.getRealname();
+		
+		updateInfo();
 		
 	}
 
@@ -345,24 +369,30 @@ public class WitnessChooseActivity extends BaseEditActivity implements
 	@Override
 	public void failed(final String name, int statusCode, Header[] headers,
 			String response) {
-		// TODO Auto-generated method stub
-		  showToast(response);
-		showRetryView(new OnRetryLisnter() {
+		super.failed(name, statusCode, headers, response);
+		if (name.equals(WitnessManager.ACTION_WITNESS_CHOOSE_COMMIT)) {
 			
-			@Override
-			public void doRetry() {
-				// TODO Auto-generated method stub
-				execFetechDetail(name);
-			}
-		});
+		}else {
+			showRetryView(new OnRetryLisnter() {
+				
+				@Override
+				public void doRetry() {
+					// TODO Auto-generated method stub
+					execFetechDetail(name);
+				}
+			});	
+		}
+		
 	}
 
-	@Override
-	public void finish(String name) {
-		// TODO Auto-generated method stub
 
+
+	
+	public long getTimeInfo() {
+		//return timeWidgetItemInfo.content;
+		return 0;
 	}
-
+	
 	private String getdateformat(long times) {
 		// TODO Auto-generated method stub
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
@@ -382,22 +412,25 @@ public class WitnessChooseActivity extends BaseEditActivity implements
 		return getTimeFormat(1 + month) + "月" + getTimeFormat(day) + "日";
 	}
 
-	int yearVal, monthVal, dayVal, monthEndVal, dayEndVal, hourVal, minVal,
-			endHourVal, endMinVal;
+	
 
 	Calendar calendar = Calendar.getInstance();
 	private List<WitnesserList> witnessList;
 
 	String getDefualtTimeFormat() {
-		yearVal = calendar.get(Calendar.YEAR);
-		hourVal = 10;
+		int yearVal = calendar.get(Calendar.YEAR);
+		int hourVal = 10;
 		if (hourVal > 24) {
 			hourVal = 24;
 		}
-		endHourVal = 18;
+		int endHourVal = 18;
 		if (endHourVal > 24) {
 			endHourVal = 24;
 		}
+		int monthVal;
+		int dayVal;
+		int monthEndVal;
+		int dayEndVal;
 		return forMatDate(monthVal = calendar.get(Calendar.MONTH),
 				dayVal = calendar.get(Calendar.DAY_OF_MONTH))
 				+ " - "
@@ -412,10 +445,10 @@ public class WitnessChooseActivity extends BaseEditActivity implements
 		switch (arg0) {
 		case REQUEST_PICK_DATE: {
 			if (arg1 == RESULT_OK) {
-				monthVal = intent.getIntExtra("month", 1);
-				dayVal = intent.getIntExtra("day", 1);
-				monthEndVal = intent.getIntExtra("monthEnd", 1);
-				dayEndVal = intent.getIntExtra("dayEnd", 1);
+				int monthVal = intent.getIntExtra("month", 1);
+				int dayVal = intent.getIntExtra("day", 1);
+				int monthEndVal = intent.getIntExtra("monthEnd", 1);
+				int dayEndVal = intent.getIntExtra("dayEnd", 1);
 				updateTime(forMatDate(monthVal, dayVal) + " - "
 						+ forMatDate(monthEndVal, dayEndVal));
 			}
@@ -427,9 +460,15 @@ public class WitnessChooseActivity extends BaseEditActivity implements
 		}
 	}
 
+	WidgetItemInfo timeWidgetItemInfo,addressWidgetItemInfo,qaWidgetItemInfo,
+	c1qaWidgetItemInfo,c2qaWidgetItemInfo,notibWidgetItemInfo,noticWidgetItemInfo,notidWidgetItemInfo;
+	
+	
+	
 	private void updateTime(String date) {
 		// TODO Auto-generated method stub
-		witness.setWitnessdate(date);
+		timeWidgetItemInfo.content = date;
+		
 		updateInfo();
 	}
 
@@ -438,13 +477,19 @@ public class WitnessChooseActivity extends BaseEditActivity implements
 			Object response) {
 		setLoadSucc();
 		if (name.equals(WitnessManager.ACTION_WITNESS_CHOOSE_COMMIT)) {
-
+			showToast("修改成功");
 		} else {// get witless..
 			witnessList = (List<WitnesserList>) response;
 			Log.i(TAG, "update....");
 			updateInfo();
 		}
 
+	}
+	@Override
+	public void callCommitBtn(View v) {
+		// TODO Auto-generated method stub
+		super.callCommitBtn(v);
+		execFetechDetail(WitnessManager.ACTION_WITNESS_CHOOSE_COMMIT);
 	}
 
 }

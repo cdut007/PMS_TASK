@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.http.Header;
 
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.jameschen.framework.base.UINetworkHandler;
 import com.thirdpart.model.ManagerService.ManagerNetworkHandler;
@@ -33,16 +34,22 @@ public class WitnessManager extends ManagerService{
 
 	 protected  ManagerNetworkHandler getManagerNetWorkHandler(String action){
 		 
-		ManagerNetworkHandler<List<WitnesserList>> hander = new ManagerNetworkHandler<List<WitnesserList>>(context,action){};
-		Type sToken = new TypeToken<List<WitnesserList>>() {
-		}.getType();
-		hander.setType(sToken);
-		return hander;
+		if (action.equals(ACTION_WITNESS_CHOOSE_WITNESSER)) {
+			ManagerNetworkHandler<List<WitnesserList>> hander = new ManagerNetworkHandler<List<WitnesserList>>(context,action){};
+			Type sToken = new TypeToken<List<WitnesserList>>() {
+			}.getType();
+			hander.setType(sToken);
+			return hander;
+		} else {
+
+			return new ManagerNetworkHandler<JsonObject>(context,action){};
+		}
+		
 	 }
 
 	
-	public void commit(String planId) {
-		PMSManagerAPI.getInstance(context).planDetail(planId,getManagerNetWorkHandler(ACTION_WITNESS_CHOOSE_COMMIT) );
+	public void commit(String witnessid, String witnesseraqa, String witnesseraqc2, String witnesseraqc1, String witnesserb, String witnesserc, String witnesserd) {
+		PMSManagerAPI.getInstance(context).modifyWitness(witnessid, witnesseraqa, witnesseraqc2, witnesseraqc1, witnesserb, witnesserc, witnesserd,getManagerNetWorkHandler(ACTION_WITNESS_CHOOSE_COMMIT) );
 
 	}
 	public void chooseWitnessList(String witnessId) {
