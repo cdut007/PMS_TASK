@@ -59,7 +59,8 @@ public class PlanFragment extends BaseListFragment<DepartmentInfo> implements On
 		// TODO Auto-generated method stub
 			 Type sToken = new TypeToken<List<DepartmentInfo>>() {
 			}.getType();
-	        getPMSManager().teamWorkList(new UINetworkHandler<List<DepartmentInfo>>(getActivity(),sToken) {
+			
+			UINetworkHandler<List<DepartmentInfo>> hanlder = new UINetworkHandler<List<DepartmentInfo>>(getActivity(),sToken) {
 
 				@Override
 				public void start() {
@@ -87,7 +88,14 @@ public class PlanFragment extends BaseListFragment<DepartmentInfo> implements On
 					// TODO Auto-generated method stub
 					addDataToListAndRefresh(true, response);
 				}
-			});
+			};
+			
+			if (getLogInController().matchRoles("班组承包人")) {
+				getPMSManager().teamGroupList(hanlder);
+			}else {
+				getPMSManager().teamWorkList(hanlder);
+			}
+	        
 		
 	}
 

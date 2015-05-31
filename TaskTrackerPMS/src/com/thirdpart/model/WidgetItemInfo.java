@@ -2,6 +2,9 @@ package com.thirdpart.model;
 
 public class WidgetItemInfo {
 
+	public WidgetItemInfo(){
+		
+	}
 	public WidgetItemInfo(String tag, String name, String content, int type,
 			boolean bindClick) {
 		super();

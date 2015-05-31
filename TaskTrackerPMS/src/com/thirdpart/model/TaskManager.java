@@ -1,10 +1,15 @@
 package com.thirdpart.model;
 
+import java.util.List;
+
 import org.apache.http.Header;
 
 import com.jameschen.framework.base.UINetworkHandler;
 import com.thirdpart.model.entity.RollingPlanList;
+import com.thirdpart.model.entity.TaskCategoryInfo;
+import com.thirdpart.model.entity.TaskCategoryItem;
 
+import android.R.integer;
 import android.content.Context;
 
 public class TaskManager  extends ManagerService{
@@ -58,4 +63,33 @@ public class TaskManager  extends ManagerService{
 //				});
 //
 //	}
+	
+	public static final int TYPE_ZHIJIA=0,TYPE_HANKOU=1;
+	public int getCount(List<TaskCategoryItem> mCategoryItems,String type,String name){
+		    TaskCategoryItem mTaskCategoryItem=null;
+		    for (TaskCategoryItem findTaskCategoryItem : mCategoryItems) {
+				if (type.equals(findTaskCategoryItem.type)) {
+					mTaskCategoryItem = findTaskCategoryItem;
+					break;
+				}
+			}
+		    
+		    if (mTaskCategoryItem == null) {
+				return 0;
+			}
+		  List<TaskCategoryInfo> result = mTaskCategoryItem.result;
+	
+		  if (result == null || result.size() == 0) {
+			return 0;
+		}
+		  
+		  
+		  for (TaskCategoryInfo taskCategoryInfo : result) {
+			if (name.equals( taskCategoryInfo.getStatus())) {
+				return Integer.parseInt(taskCategoryInfo.getResult());
+			}
+		}
+		  return 0;
+	}
+	
 }

@@ -100,10 +100,16 @@ abstract class MyAsyncHttpResponseHandler<T> extends
 			    if (type == null) {
 					type = Util.whatsMyGenericType(this);
 				}
-				T responseJsonClass = gson.fromJson(
-						mResponseContent.getResponseResult(),
-						type);
-				onSucc(statusCode, headers, responseJsonClass);
+			    String result = mResponseContent.getResponseResult();
+				if (Util.isJsonNull(result)) {
+					onSucc(statusCode, headers, null);	
+				}else {
+					   T responseJsonClass = gson.fromJson(result,
+								type);	
+					   onSucc(statusCode, headers, responseJsonClass);
+				}
+			 
+				
 
 			} else {
 

@@ -103,8 +103,39 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 		if (object == null) {
 			return;
 		}
+
 		IssueResult p = (IssueResult) (object);
 		intent.putExtra(Item.ISSUE, (Serializable)p);
+		int type = (int) statusid;
+		switch (type) {
+		
+		case 1://需要解决的问题
+		{
+			//编辑问题
+			
+		}
+			break;
+		case 0://未解决的问题
+		case 2://已解决的问题
+		case 3://发起的问题
+		case 5://关注的问题
+		{
+			//问题详情
+			intent.setClass(getBaseActivity(), IssueDetailActivity.class);
+			
+		}
+			break;
+
+		case 4://需要确认的问题，单独页面，确认
+		{
+			intent.setClass(getBaseActivity(), IssueDetailActivity.class);
+			
+		}
+			break;
+		default:
+			break;
+		}
+
 		startActivity(intent);
 	}
 	

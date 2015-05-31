@@ -34,7 +34,15 @@ public class SlapshActivity extends BaseActivity {
 
 			go2main();
 		}
+		
+		regPush();
 	}
+
+	private void regPush() {
+		// TODO Auto-generated method stub
+		getLogInController().registerPush();
+	}
+
 
 	@Override
 	protected void onDestroy() {
@@ -43,6 +51,9 @@ public class SlapshActivity extends BaseActivity {
 		handler.removeCallbacksAndMessages(null);
 	}
 
+	
+	
+	
 	private boolean IsNeedGoLoginPage() {
 
 		return !getLogInController().IsLogOn();

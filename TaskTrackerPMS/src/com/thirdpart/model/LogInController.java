@@ -1,17 +1,23 @@
 package com.thirdpart.model;
 
-import android.app.Activity;
+import java.util.List;
+import java.util.Set;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.jameschen.comm.utils.AES4all;
 import com.jameschen.comm.utils.CrypToCfg;
+import com.jameschen.comm.utils.Log;
 import com.thirdpart.model.ConstValues.CategoryInfo.User;
+import com.thirdpart.model.entity.Role;
 import com.thirdpart.model.entity.UserInfo;
 import com.thirdpart.tasktrackerpms.ui.LoginActivity;
 
@@ -25,7 +31,7 @@ public class LogInController {
 		SharedPreferences user = context.getSharedPreferences(User.SharedName,
 				0);
 		hasLoginInfo = user.getBoolean(User.logon, false);
-
+		
 		return hasLoginInfo;
 	}
 
@@ -44,6 +50,18 @@ public class LogInController {
 		return mController;
 	}
 
+	public boolean matchRoles(String seaerchRole){
+		List<Role> roles = getInfo().getRoles();
+		for (Role role : roles) {
+			if (seaerchRole.equals(role.name)) {
+				Log.i("role", "find role:"+seaerchRole);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	public void quit(Context context) {
 		SharedPreferences user = context.getSharedPreferences(User.SharedName,
 				0);
@@ -130,4 +148,33 @@ public class LogInController {
 		return accounts;
 	}
 
+	public void registerPush() {
+		String id =getInfo().getId();
+		if (id == null) {
+			return;
+		}
+		JPushInterface.setAliasAndTags(context, "loginId_"+id, null,new TagAliasCallback() {
+			
+			@Override
+			public void gotResult(int arg0, String arg1, Set<String> arg2) {
+				// TODO Auto-generated method stub
+				Log.i("push","code="+arg0);	
+				if (arg0!=0) {//try later
+					sHandler.postDelayed(new Runnable() {
+						
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+						registerPush();	
+						}
+					}, 60*1000);
+				}else {
+					sHandler.removeCallbacksAndMessages(null);
+				}
+			}
+		} );
+		
+		
+	}
+static Handler sHandler = new Handler();
 }

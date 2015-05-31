@@ -26,8 +26,8 @@ public class UserInfo {
 
 	private String loginTimes;
 
-	private List<String> roles;
-
+	private List<Role> roles;
+	public List<Department> departments;
 	private List<Privilege> privileges;
 
 	public void setName(String name) {
@@ -110,11 +110,11 @@ public class UserInfo {
 		return this.loginTimes;
 	}
 
-	public void setRoles(List<String> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
 
-	public List<String> getRoles() {
+	public List<Role> getRoles() {
 		return this.roles;
 	}
 

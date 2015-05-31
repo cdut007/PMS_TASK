@@ -1,6 +1,5 @@
 package com.thirdpart.tasktrackerpms.ui;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,35 +8,36 @@ import org.apache.http.Header;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.jameschen.framework.base.BaseEditActivity;
-import com.jameschen.framework.base.BaseDetailActivity.CreateItemViewListener;
-import com.thirdpart.model.ConstValues;
-import com.thirdpart.model.WidgetItemInfo;
+import com.jameschen.widget.CustomSelectPopupWindow.Category;
 import com.thirdpart.model.ConstValues.Item;
-import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
-import com.thirdpart.model.entity.IssueMenu;
+import com.thirdpart.model.IssueManager;
+import com.thirdpart.model.ManagerService;
+import com.thirdpart.model.TeamMemberManager;
+import com.thirdpart.model.TeamMemberManager.LoadUsersListener;
+import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.widget.ChooseItemView;
+import com.thirdpart.widget.UserInputItemView;
 
 public class IssueSolveActivity extends BaseEditActivity {
 	
-	private EditText issueNameEditText;
-	
-	private EditText  issueDescriptionEditText;
-	
-	List<File> mFiles = new ArrayList<File>();
+	private UserInputItemView issueDesc;
+	private CheckBox issueCheckBox;
+	private ChooseItemView deliveryChooseItemView;
 	
 	IssueResult   issueResult ;
-	
+	IssueManager issueManager;
 	
 
 
@@ -55,12 +55,130 @@ public class IssueSolveActivity extends BaseEditActivity {
 		super.onCreate(savedInstanceState);
 		
 		issueResult = (IssueResult) getIntent().getSerializableExtra(Item.ISSUE);	
-      setTitle("问题详情");
+      setTitle("问题解决");
       initInfo();
+      bindViews();
+      issueManager = (IssueManager) ManagerService.getNewManagerService(this, IssueManager.class, this);
+      teamMemberManager = TeamMemberManager.getInstance(this); 
+      getDeliveryList(false);
  }
  
+TeamMemberManager teamMemberManager;
+ 
 	
+	private void bindViews() {
+	// TODO Auto-generated method stub
+	issueDesc = (UserInputItemView) findViewById(R.id.issue_plan_desc);
+	issueCheckBox = (CheckBox) findViewById(R.id.issue_solved_check);
+	deliveryChooseItemView = (ChooseItemView) findViewById(R.id.issue_choose_deliver);
+	deliveryChooseItemView.setContent("选择指派人");
+	issueCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			// TODO Auto-generated method stub
+			if (isChecked) {
+			deliveryChooseItemView.setVisibility(View.GONE);	
+			}else {
+			deliveryChooseItemView.setVisibility(View.VISIBLE);
+			}
+		}
+	});
 	
+	deliveryChooseItemView.setChooseItemClickListener(new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+				getDeliveryList(true);	
+			
+			
+		}
+	});
+	}
+	
+	Category mCategory;
+	
+	private void getDeliveryList(boolean showWindowView) {
+		// TODO Auto-generated method stub
+	//	showLoadingView(true);
+		teamMemberManager.findDepartmentInfos(showWindowView,deliveryChooseItemView, new LoadUsersListener() {
+			
+			@Override
+			public void onSelcted(Category mParent, Category category) {
+				// TODO Auto-generated method stub
+				mCategory = category;
+				solverid = mCategory.getId();
+				solvedman = mCategory.getName();
+				deliveryChooseItemView.setContent(category.getName());
+			}
+			
+			@Override
+			public void loadEndSucc(int type) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void loadEndFailed(int type) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beginLoad(int type) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+	
+	@Override
+	public void callCommitBtn(View v) {
+		if (TextUtils.isEmpty(issueDesc.getContent())) {
+			showToast("请填写问题描述");
+			return;
+		}
+		
+		if (!issueCheckBox.isChecked()&&TextUtils.isEmpty(solvedman)) {
+			showToast("请选择指派人");
+			return;
+		}
+		
+		
+		
+		String isSolve = issueCheckBox.isChecked()?"1":"0";
+		
+		if (issueCheckBox.isChecked()) {
+			solvedman=getLogInController().getInfo().getName();
+			solverid=null;
+		}else {
+			if (mCategory!=null) {
+				solverid = mCategory.getId();
+				solvedman = mCategory.getName();
+			}
+		}
+		
+		super.callCommitBtn(v);
+	    issueManager.handleIssue(issueResult.getId(),issueDesc.getContent().toString(), issueResult.getWorstepid(), solvedman, isSolve, solverid);
+	} 
+	
+	public void failed(String name, int statusCode, Header[] headers, String response) {
+		super.failed(name, statusCode, headers, response);
+//		if () {
+//			
+//		}
+	};
+	
+	public void succ(String name, int statusCode, Header[] headers, Object response) {
+		super.succ(name, statusCode, headers, response);
+		if (name.equals(IssueManager.ACTION_ISSUE_HANDLE)) {
+			showToast("问题提交成功");
+		}
+	};
+	
+String  solvedman,solverid;
+
 	private void initInfo() {
 
 		final  List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();

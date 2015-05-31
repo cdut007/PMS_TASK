@@ -6,27 +6,28 @@
     android:orientation="vertical"
     android:padding="10dp"
     android:background="@color/app_bg_color" >
-	
-	<com.thirdpart.widget.UserInputItemView 
-         android:id="@+id/issue_plan_desc"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         widgets:customName="解决方案描述"
-         
-     />
-     <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_line_width"
-            android:background="@color/item_line" />
+	   
      <com.thirdpart.widget.ChooseItemView 
-         android:id="@+id/issue_choose_deliver"
+         android:id="@+id/witness_choose_ok"
          android:layout_marginTop="10dp"
          android:layout_marginBottom="10dp"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         widgets:customName="指派给："
+         widgets:customName="见证结果："
           widgets:tinySpec="true"
      />
+      <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_line_width"
+            android:background="@color/item_line" />
+	<com.thirdpart.widget.UserInputItemView 
+         android:id="@+id/witness_result_desc"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         widgets:customName="见证描述"
+         
+     />
+ 
       <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_line_width"

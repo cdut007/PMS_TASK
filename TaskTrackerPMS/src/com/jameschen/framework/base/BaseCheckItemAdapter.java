@@ -140,7 +140,7 @@ public abstract class  BaseCheckItemAdapter<T> extends BasePageAdapter<T> {
 				return 0;
 			}
 			for (int i = 0; i < count; i++) {
-				if (getIsSelected().get(i)) {
+				if (getIsSelected().get(i)!=null&&getIsSelected().get(i).booleanValue()) {
 					value += 1;
 				}
 			}

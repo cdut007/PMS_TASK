@@ -35,6 +35,9 @@ public class Config {
 		 * */
 		public static final String REQUST_TEAM_WROK_LIST_URL = HTTP_BASE_URL+"/hdxt/api/statistics/task";
 
+		
+		public static final String REQUST_TEAM_GROUP_LIST_URL = HTTP_BASE_URL+"/hdxt/api/statistics/teamgroup/task";
+
 		/** define the workstep detail url 
 		 * <br>param:{id}
 		 * <br>-1001,id is not avaiable
@@ -48,6 +51,10 @@ public class Config {
 		 * <br>-1002,unknow Error
 		 * */
 		public static final String REQUST_WORK_STEP_LIST_URL = HTTP_BASE_URL+"/hdxt/api/baseservice/workstep/rollingplan/";
+
+	
+		public static final String REQUST_ALL_DEPARTMENT_URL = HTTP_BASE_URL+"/hdxt/api/core/department";
+		public static final String REQUST_DEPARTMENT_USERS_URL = HTTP_BASE_URL+"/hdxt/api/core/user";
 
 		/** define the construction team list url 
 		 * <br>param:pagesize,pagenum,condition,consteam
@@ -227,14 +234,14 @@ public class Config {
 		 * <br>-1001,id is not avaiable
 		 * <br>-1002,unknow Error
 		 * */
-		public static final String REQUST_CREATE_ISSUE_URL = HTTP_BASE_URL+"/workflow/api/hdxt/problem/add";
+		public static final String REQUST_CREATE_ISSUE_URL = HTTP_BASE_URL+"/hdxt/api/problem/add";
 
 		/** define the upload issue files url 
 		 * <br>POST param:problemId,
 		 * <br>-1001,id is not avaiable
 		 * <br>-1002,unknow Error
 		 * */
-		public static final String REQUST_UPLOAD_ISSUE_FILES_URL = HTTP_BASE_URL+"/workflow/api/hdxt/problem/upload";
+		public static final String REQUST_UPLOAD_ISSUE_FILES_URL = HTTP_BASE_URL+"/hdxt/api/problem/upload";
 
 		/** define the handl issue  url 
 		 * <br>POST param:userid,problemid,autoid,solvedman,
@@ -242,14 +249,14 @@ public class Config {
 		 * <br>-1001,id is not avaiable
 		 * <br>-1002,unknow Error
 		 * */
-		public static final String REQUST_HANDLE_ISSUE_URL = HTTP_BASE_URL+"/workflow/api/hdxt/problem/handle";
+		public static final String REQUST_HANDLE_ISSUE_URL = HTTP_BASE_URL+"/hdxt/api/problem/handle";
 
 		/** define the confirm issue  url 
 		 * <br>POST param:userid,id,iswork
 		 * <br>-1001,id is not avaiable
 		 * <br>-1002,unknow Error
 		 * */
-		public static final String REQUST_CONFIRM_ISSUE_URL = HTTP_BASE_URL+"/workflow/api/hdxt/problem/confirm";
+		public static final String REQUST_CONFIRM_ISSUE_URL = HTTP_BASE_URL+"/hdxt/api/problem/confirm";
 
 		
 		/** define the get issue status url 

@@ -16,7 +16,6 @@
             android:id="@+id/common_edit_item_title"
             style="@style/common_text_item"
             android:layout_width="0dp"
-            android:paddingLeft="10dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
             android:gravity="center_vertical"

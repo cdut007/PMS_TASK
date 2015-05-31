@@ -61,8 +61,7 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 	
 	private  void executeNextPageNetWorkRequest(int pagesize,int pagenum) {
 		// TODO Auto-generated method stub
-			
-	        getPMSManager().planList(scanMode?"notequal":"equal",pagesize+"", pagenum+"",new PageUINetworkHandler<RollingPlanList>(getBaseActivity()){
+		BasePageListFragment<RollingPlan, RollingPlanList>.PageUINetworkHandler<RollingPlanList> pageUINetworkHandler = new PageUINetworkHandler<RollingPlanList>(getBaseActivity()){
 
 	    		@Override
 	    		public void startPage() {
@@ -89,8 +88,23 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 	    			// TODO Auto-generated method stub
 	    			
 	    		}
-	    	});
-		
+	    	};
+	    	
+	    	if (getLogInController().matchRoles("班组承包人")) {
+	    		
+	    		if (scanMode) {//see my group plan
+					
+				}else {
+					
+				}
+	    		 getPMSManager().teamList(pagesize+"", pagenum+"",scanMode?"notequal":"equal","21",pageUINetworkHandler);
+	    				
+			} else {
+				
+				 getPMSManager().planList(scanMode?"notequal":"equal",pagesize+"", pagenum+"",pageUINetworkHandler);
+		    		
+			}
+	     
 	}
 
 	@Override
@@ -158,8 +172,6 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 					String response) {
 				// TODO Auto-generated method stub
 				showToast(response);
-				mListView.setRefreshing(true);
-				callNextPage(pageSize,defaultBeginPageNum);
 			}
 
 			@Override

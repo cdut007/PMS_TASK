@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.Header;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -29,12 +31,15 @@ import com.jameschen.framework.base.MyBaseAdapter;
 import com.jameschen.framework.base.MyBaseAdapter.HoldView;
 import com.jameschen.widget.BadgeView;
 import com.thirdpart.model.ConstValues.Item;
+import com.thirdpart.model.ManagerService;
+import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
+import com.thirdpart.model.TaskManager;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.TabItemView;
 import com.thirdpart.widget.TabItemView.onItemSelectedLisnter;
 
-public class TaskFragment extends BaseFragment {
+public class TaskFragment extends BaseFragment implements OnReqHttpCallbackListener{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -48,7 +53,7 @@ public class TaskFragment extends BaseFragment {
 		super.onSaveInstanceState(outState);
 	}
 	
-	
+	TaskManager taskManager;
 	private static int screenWidth = 0;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,12 +61,20 @@ public class TaskFragment extends BaseFragment {
 		View view = inflater.inflate(R.layout.task_ui, container, false);
 		screenWidth = UtilsUI.getWidth(getActivity().getApplication());
 		initView(view);
+		taskManager = (TaskManager) ManagerService.getNewManagerService(getBaseActivity(), TaskManager.class, this);
+		aquireCount();
 		return view;
 	}
+	
+private void aquireCount() {
+		// TODO Auto-generated method stub
+		
+	}
+
 ItemAdapter itemAdapter;
 List<TaskItem> mHankouList = new ArrayList<TaskItem>();
 List<TaskItem> mZhijiaList = new ArrayList<TaskItem>();
-static final int HANKOU=0,ZHIJIA=1;
+static final int HANKOU=TaskManager.TYPE_HANKOU,ZHIJIA=TaskManager.TYPE_ZHIJIA;
 private void initView(View view) {
 		initList(mHankouList,HANKOU);
 		initList(mZhijiaList,ZHIJIA);
@@ -281,6 +294,35 @@ public void onHiddenChanged(boolean hidden) {
 		}
 		
 
+	}
+
+	@Override
+	public void start(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void failed(String name, int statusCode, Header[] headers,
+			String response) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void finish(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void succ(String name, int statusCode, Header[] headers,
+			Object response) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

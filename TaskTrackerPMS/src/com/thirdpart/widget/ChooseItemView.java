@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -101,11 +102,33 @@ public class ChooseItemView extends FrameLayout {
 
 	}
 
+	public void setContent(String content) {
+		// TODO Auto-generated metho
+			contentView.setText(content);
+	}
 	
+	
+	public String getContent() {
+		// TODO Auto-generated method stub
+		if (contentView.getText() == null) {
+			return null;
+		}
+		return contentView.getText().toString();
+	}
+	
+	public void setName(String name) {
+		// TODO Auto-generated metho
+		nameView.setText(name);
+	}
 	public void setNameAndContent(String name,String content) {
 		// TODO Auto-generated method stub
-			nameView.setText(name);
-			contentView.setText(content);
+		setName(name);
+		setContent(content);
+	}
+	
+	public void setChooseItemClickListener(OnClickListener onClickListener) {
+		// TODO Auto-generated method stub
+		contentView.setOnClickListener(onClickListener);
 	}
 	
 }

@@ -8,7 +8,9 @@ import com.thirdpart.model.entity.IssueResult;
 
 public class IssueManager extends ManagerService {
 	
-	
+	public IssueManager(){
+		super();
+	}
 	private IssueManager(OnReqHttpCallbackListener reqHttpCallbackListener) {
 		super(reqHttpCallbackListener);
 		// TODO Auto-generated constructor stub
@@ -33,7 +35,7 @@ public class IssueManager extends ManagerService {
 	 */
 	public void confirmIssue(String qustionId, boolean iswork) {
 		PMSManagerAPI.getInstance(context).confirmIssue(qustionId,
-				iswork, new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_CONFIRM));
+				iswork, new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_CONFIRM){});
 
 	}
 
@@ -61,13 +63,14 @@ public class IssueManager extends ManagerService {
 	/**
 	 * @param userid
 	 * @param problemid
+	 * @param solvemethod 
 	 * @param autoid
 	 * @param solvedman
 	 * @param isSolve
 	 * @param solverid
 	 */
-	public void handleIssue(String userid, String problemid, String autoid, String solvedman, String isSolve, String solverid) {
-		PMSManagerAPI.getInstance(context).handleIssue(problemid, autoid, solvedman, isSolve, solverid,new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_HANDLE));
+	public void handleIssue(String problemid, String solvemethod, String autoid, String solvedman, String isSolve, String solverid) {
+		PMSManagerAPI.getInstance(context).handleIssue(problemid,solvemethod, autoid, solvedman, isSolve, solverid,new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_HANDLE){});
 	}
 	
 	

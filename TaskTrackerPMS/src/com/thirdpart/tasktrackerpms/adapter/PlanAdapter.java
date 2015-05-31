@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.jameschen.comm.utils.Util;
 import com.jameschen.framework.base.BaseActivity;
 import com.jameschen.framework.base.BasePageAdapter;
 import com.jameschen.framework.base.MyBaseAdapter;
@@ -106,7 +110,10 @@ public class PlanAdapter extends BasePageAdapter<DepartmentInfo> {
 			// TODO Auto-generated method stub
 			int count =0;
 			for (Task task : mList) {
-				int value = Integer.parseInt(task.getTotal());
+				if (Util.isJsonNull(task.getComplate())) {
+					continue;
+				}
+				int value = Integer.parseInt(task.getComplate());
 				if (value>0 &&isHanKouType(task)) {
 					count+=value;
 				}
@@ -128,6 +135,9 @@ public class PlanAdapter extends BasePageAdapter<DepartmentInfo> {
 			// TODO Auto-generated method stub
 			int count =0;
 			for (Task task : mList) {
+				if (Util.isJsonNull(task.getSurplus())) {
+					continue;
+				}
 				int value = Integer.parseInt(task.getSurplus());
 				if (value>0 &&isHanKouType(task)) {
 					count+=value;
@@ -139,6 +149,9 @@ public class PlanAdapter extends BasePageAdapter<DepartmentInfo> {
 			// TODO Auto-generated method stub
 			int count =0;
 			for (Task task : mList) {
+				if (Util.isJsonNull(task.getTotal())) {
+					continue;
+				}
 				int value = Integer.parseInt(task.getTotal());
 				if (value>0 &&isHanKouType(task)) {
 					count+=value;

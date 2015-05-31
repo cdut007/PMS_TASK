@@ -1,0 +1,105 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg_color" >
+			<include
+     				android:id="@+id/item_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    layout="@layout/item_line" />
+    <LinearLayout
+        android:id="@+id/area_top_indicator"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/item_line"
+        android:layout_height="wrap_content"
+        android:background="@color/container_bg_color"
+        android:minHeight="40dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="部门"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/child_area_title"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="成员"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/hot_search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/area_top_indicator"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp" >
+
+        <ListView
+            android:id="@+id/area_label_listView"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+           android:background="@null"
+        android:cacheColorHint="@null"
+        android:scrollbarStyle="outsideOverlay"
+        android:divider="@null"
+        android:drawSelectorOnTop="false"
+        android:fadingEdge="none"
+        android:scrollingCache="false" 
+        android:fastScrollEnabled="false"
+        android:listSelector="@null">
+        </ListView>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+
+            <ListView
+                android:id="@+id/child_area_label_listView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+               android:background="@null"
+        android:cacheColorHint="@null"
+        android:scrollbarStyle="outsideOverlay"
+        android:divider="@null"
+        android:drawSelectorOnTop="false"
+        android:fadingEdge="none"
+        android:scrollingCache="false" 
+        android:fastScrollEnabled="false"
+        android:listSelector="@null" >
+            </ListView>
+
+            <ProgressBar
+                android:id="@+id/child_area_label_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/child_area_label_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

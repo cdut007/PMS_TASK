@@ -26,16 +26,13 @@ import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
 import com.thirdpart.model.PlanManager;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.entity.IssueMenu;
+import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.DisplayItemView;
 
-public class IssueDetailActivity extends BaseEditActivity {
+public class IssueDetailActivity extends BaseDetailActivity {
 	
-
-
-	private Fragment mFragment;
-
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -45,13 +42,13 @@ public class IssueDetailActivity extends BaseEditActivity {
 	}
 
 
- IssueMenu issueMenu;
+ IssueResult issueResult;
  @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		issueMenu = (IssueMenu) getIntent().getSerializableExtra(Item.ISSUE);	
+		issueResult = (IssueResult) getIntent().getSerializableExtra(Item.ISSUE);	
       setTitle("问题详情");
       initInfo();
  }
@@ -64,7 +61,7 @@ public class IssueDetailActivity extends BaseEditActivity {
 		 //R.id.  in array String
 		 itemInfos.add(new WidgetItemInfo("0", null, null, 0, false));		
 		
-		  createItemListToUI(itemInfos, R.id.edit_container, new CreateItemViewListener() {
+		  createItemListToUI(itemInfos, R.id.detail_container, new CreateItemViewListener() {
 
 			@Override
 			public View oncreateItem(int index, View convertView,
@@ -92,23 +89,12 @@ public class IssueDetailActivity extends BaseEditActivity {
 		  
 		  //make container
 		  
-		  FragmentManager fm = getSupportFragmentManager();
-			FragmentTransaction ft = fm.beginTransaction();
-			mFragment = fm.findFragmentByTag(IssueListFragment.class.getName());
-			if (mFragment == null) {
-				Bundle bundle = new Bundle();
-				bundle.putLong(ConstValues.ID, Long.parseLong(issueMenu.getId()));
-				mFragment = IssueListFragment.instantiate(this, IssueListFragment.class.getName(), bundle);
-				ft.add(R.id.fragment_content, mFragment, IssueListFragment.class.getName());
-			}
-
-			ft.commit();
 		  
 	}
 	
 	@Override
 	protected void initView() {
-		setContentView(R.layout.edit_ui);// TODO Auto-generated method stub
+		setContentView(R.layout.detail_ui);// TODO Auto-generated method stub
 		super.initView();
 		
 	}

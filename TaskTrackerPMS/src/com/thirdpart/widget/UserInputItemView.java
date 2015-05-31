@@ -60,11 +60,14 @@ public class UserInputItemView extends FrameLayout {
 		if (name != null) {
 			nameView.setText(name);
 		}
-		if (content != null) {
+		
 			contentView.setText(content);
-		}
-
 	}
+
+	public CharSequence getContent() {
+		return contentView.getText();
+	}
+	
 
 	
 	public void setNameAndContent(String name,String content) {

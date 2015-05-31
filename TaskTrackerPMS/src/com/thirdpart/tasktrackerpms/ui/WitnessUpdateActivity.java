@@ -4,25 +4,34 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.Header;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import cn.jpush.android.data.w;
 
+import com.google.gson.JsonObject;
 import com.jameschen.framework.base.BaseEditActivity;
+import com.jameschen.framework.base.UINetworkHandler;
+import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.WidgetItemInfo;
+import com.thirdpart.model.entity.WitnessDistributed;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.widget.ChooseItemView;
+import com.thirdpart.widget.ChooseItemView.onDismissListener;
+import com.thirdpart.widget.UserInputItemView;
 
 public class WitnessUpdateActivity extends BaseEditActivity {
 	
-	private EditText issueNameEditText;
+	private UserInputItemView witnessInputItemView;
 	
-	private EditText  issueDescriptionEditText;
-	
-	List<File> mFiles = new ArrayList<File>();
+	private ChooseItemView  chooseTypeView;
 	
 	
 
@@ -34,18 +43,88 @@ public class WitnessUpdateActivity extends BaseEditActivity {
 		
 	}
 
-
+WitnessDistributed mWitnessDistributed;
  @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
+	
+	 mWitnessDistributed = (WitnessDistributed)getIntent().getSerializableExtra(Item.WITNESS);;
+	
       setTitle("填写见证结果");
       initInfo();
+      bindView();
  }
  
+	@Override
+	public void callCommitBtn(View v) {
+		if (TextUtils.isEmpty(witnessInputItemView.getContent())) {
+			showToast("填写见证结果");
+			return;
+		}
+		
+		String okType ="不合格".equals(chooseTypeView.getContent())?"1":"3";
+		
+		getPMSManager().wirteWitnessResult(okType, mWitnessDistributed.getWorkStep().getId(), new UINetworkHandler<JsonObject>(this) {
+
+			@Override
+			public void start() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void finish() {
+				// TODO Auto-generated method stub
+				cancelProgressDialog();
+			}
+
+			@Override
+			public void callbackFailure(int statusCode, Header[] headers,
+					String response) {
+				// TODO Auto-generated method stub
+				showToast(response);
+			}
+
+			@Override
+			public void callbackSuccess(int statusCode, Header[] headers,
+					JsonObject response) {
+				// TODO Auto-generated method stub
+				showToast("提交成功");
+			}
+		});
+		super.callCommitBtn(v);
+	}
 	
-	
+	private void bindView() {
+	// TODO Auto-generated method stub
+		witnessInputItemView = (UserInputItemView) findViewById(R.id.witness_result_desc);
+	    chooseTypeView = (ChooseItemView) findViewById(R.id.witness_choose_ok);
+	   
+	   
+	   chooseTypeView.setChooseItemClickListener(new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			List<String> items = new ArrayList<String>();
+			   items.add("合格");
+			   items.add("不合格");
+			 chooseTypeView.showMenuItem(items, items, new onDismissListener<String>() {
+
+					@Override
+					public void onDismiss(String item) {
+						// TODO Auto-generated method stub
+						
+					}
+				});	
+		}
+	});
+	   
+	   chooseTypeView.setContent("合格");
+	}
+
+
 	private void initInfo() {
 
 		final  List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();

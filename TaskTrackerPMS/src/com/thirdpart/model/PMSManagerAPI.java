@@ -115,6 +115,18 @@ public class PMSManagerAPI {
 
 	}
 
+
+	/**
+	 *
+	 * @param responseHandler
+	 */
+	public void teamGroupList(
+			AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams(true);
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_TEAM_GROUP_LIST_URL, params,
+				responseHandler);
+
+	}
 	/**
 	 * @param pagesize
 	 * @param pagenum
@@ -361,13 +373,15 @@ public class PMSManagerAPI {
 	 * @param solvedman
 	 * @param isSolve
 	 * @param solverid
+	 * @param solveramethod 
 	 * @param responseHandler
 	 */
-	public void handleIssue(String problemid, String autoid,
+	public void handleIssue(String problemid,String solvemethod, String autoid,
 			String solvedman, String isSolve, String solverid,
-			AsyncHttpResponseHandler responseHandler) {
+			 AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams(true);
-		params.put("problemid", problemid);
+		params.put("id", problemid);
+		params.put("solvemethod", solvemethod);
 		params.put("autoid", autoid);
 		params.put("solvedman", solvedman);
 		params.put("isSolve", isSolve);
@@ -552,6 +566,21 @@ public class PMSManagerAPI {
 	public void getWitnessType( AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams();
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_WITNESS_TYPE_LIST_URL,
+				params, responseHandler);
+	}
+	
+	
+	public void getDepartmentUser( String departmentId,AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams();
+		params.put("departmentId", departmentId);
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_DEPARTMENT_USERS_URL,
+				params, responseHandler);
+	}
+	
+	public void getDepartment( AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams();
+		
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_ALL_DEPARTMENT_URL,
 				params, responseHandler);
 	}
 	
