@@ -68,7 +68,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 	}
 	
 	private void execFetechDetail(String action) {
-		showLoadingView(true);
+		
 		if (action.equals(WitnessManager.ACTION_WITNESS_CHOOSE_COMMIT)) {
 			String witnessid=witness.getWitness();
 			String witnesseraqa=getWitnesserId(qaWidgetItemInfo);
@@ -79,6 +79,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 			String witnesserd=getWitnesserId(notidWidgetItemInfo);
 			witnessManager.commit(witnessid, witnesseraqa, witnesseraqc2, witnesseraqc1, witnesserb, witnesserc, witnesserd);
 		} else {
+			showLoadingView(true);
 			witnessManager.chooseWitnessList(witness.getWitness());	
 		}
 		

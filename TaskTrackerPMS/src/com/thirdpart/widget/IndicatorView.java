@@ -56,10 +56,10 @@ public class IndicatorView extends FrameLayout {
 	
 	private TextView nameView;
 	private Button contentView;
-
+	String name = null;
 	private void InitView(View view, AttributeSet attrs) {
 		// TODO Auto-generated method stub
-		String name = null;
+		
 		if (attrs!=null) {
 			TypedArray a = getContext().obtainStyledAttributes(attrs,
 					R.styleable.DisplayViewStyle);
@@ -78,16 +78,22 @@ public class IndicatorView extends FrameLayout {
 		if ("delivery".equals(barmode)) {//2,4,1 焊口号／支架号  图纸号 分配
 			List<WidgetItemInfo> mInfos = new ArrayList<WidgetItemInfo>();
 			mInfos.add(new WidgetItemInfo(null, null, "焊口号／支架号", 2, false));
-			mInfos.add(new WidgetItemInfo(null, null, "图纸号", 4, false));
-			mInfos.add(new WidgetItemInfo(null, null, "分配", 1, false));
+			if (scanMode) {
+				mInfos.add(new WidgetItemInfo(null, null, "图纸号", 5, false));
+					
+			}else {
+				mInfos.add(new WidgetItemInfo(null, null, "图纸号", 4, false));
+				mInfos.add(new WidgetItemInfo(null, null, "分配", 1, false));
+					
+			}
 			attachContent(mInfos);
-			hiddenChild(3);
+			hiddenChild(mInfos.size());
 		} else if ("witness".equals(barmode)) {//1,7 序号，见证地点
 			List<WidgetItemInfo> mInfos = new ArrayList<WidgetItemInfo>();
 			mInfos.add(new WidgetItemInfo(null, null, "序号", 1, false));
 			mInfos.add(new WidgetItemInfo(null, null, "见证地点", 7, false));
 			attachContent(mInfos);
-			hiddenChild(2);
+			hiddenChild(mInfos.size());
 		}else {//default
 			
 		}
@@ -125,5 +131,11 @@ public class IndicatorView extends FrameLayout {
 			view.setVisibility(View.GONE);
 		}
 
+	}
+	boolean scanMode ;
+	public void setScanMode(boolean scan) {
+		// TODO Auto-generated method stub
+		scanMode = scan;
+		checkMode(name);
 	}
 }

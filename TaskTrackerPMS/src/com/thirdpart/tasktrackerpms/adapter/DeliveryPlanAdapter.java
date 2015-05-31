@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.jameschen.framework.base.BaseCheckItemAdapter;
 import com.jameschen.framework.base.MyBaseAdapter;
+import com.squareup.okhttp.Cache;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
 
@@ -62,8 +63,8 @@ public class DeliveryPlanAdapter extends BaseCheckItemAdapter<RollingPlan> {
 			drawNoTextView = (TextView) convertView.findViewById(R.id.task_draw_no);
 			isChecked = (CheckBox) convertView.findViewById(R.id.task_delivery_check);
 			mCheckItemAdapter = (BaseCheckItemAdapter<RollingPlan>) myBaseAdapter;
-		
-			((View)isChecked.getParent()).setOnClickListener(new OnClickListener() {
+		View checkContainer = (View)isChecked.getParent();
+		checkContainer.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
@@ -71,6 +72,10 @@ public class DeliveryPlanAdapter extends BaseCheckItemAdapter<RollingPlan> {
 					mCheckItemAdapter.setItemChecked((String)isChecked.getTag(), isChecked);
 				}
 			});
+			if (((DeliveryPlanAdapter)myBaseAdapter).scanMode) {
+				checkContainer.setVisibility(View.GONE);
+			}
+			
 		}
 		
 		
@@ -86,6 +91,12 @@ public class DeliveryPlanAdapter extends BaseCheckItemAdapter<RollingPlan> {
 			mCheckItemAdapter.markItemCheckStatus(position, isChecked);
 			isChecked.setTag(position+"");
 		 }
+	}
+
+	boolean scanMode;
+	public void setScanMode(boolean scanMode) {
+		// TODO Auto-generated method stub
+		this.scanMode = scanMode;
 	}
 
 	

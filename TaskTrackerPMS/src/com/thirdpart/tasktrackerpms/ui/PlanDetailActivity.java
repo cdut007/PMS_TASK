@@ -38,7 +38,12 @@ public class PlanDetailActivity extends BaseDetailActivity {
 		
       rollingPlan = (RollingPlan) getIntent().getSerializableExtra(Item.PLAN);	
       planManager = (PlanManager) ManagerService.getNewManagerService(this, PlanManager.class,this);
-      setTitle("焊口明细");
+      if ("GDZJ".equals(rollingPlan.getSpeciality())) {
+    	  setTitle("支架明细");
+	}else if ("GDHK".equals(rollingPlan.getSpeciality())) {
+		setTitle("焊口明细");
+	}
+      
       updateInfo();
       execFetechDetail();
  }
@@ -53,16 +58,25 @@ public class PlanDetailActivity extends BaseDetailActivity {
 
 		final  List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();
 		 //R.id.  in array String
-		 itemInfos.add(new WidgetItemInfo("0", "焊口号：", rollingPlan.getWeldno(), WidgetItemInfo.DISPLAY, false));		
+		boolean  isHankou = false;
+		  if ("GDZJ".equals(rollingPlan.getSpeciality())) {
+	    	  
+		}else if ("GDHK".equals(rollingPlan.getSpeciality())) {
+			isHankou = true;
+		}
+		 itemInfos.add(new WidgetItemInfo("0", isHankou?"焊口号：":"支架号：", rollingPlan.getWeldno(), WidgetItemInfo.DISPLAY, false));		
 		 itemInfos.add(new WidgetItemInfo("1", "机组号：", rollingPlan.getId(), WidgetItemInfo.DISPLAY, false));
 		 itemInfos.add(new WidgetItemInfo("2", "区域号：", rollingPlan.getAreano(), WidgetItemInfo.DISPLAY, false));
 		 itemInfos.add(new WidgetItemInfo("3", "图纸号：", rollingPlan.getDrawno(), WidgetItemInfo.DISPLAY, false));
-		 itemInfos.add(new WidgetItemInfo("4", "焊接控制单号：", rollingPlan.getWeldlistno(), WidgetItemInfo.DISPLAY, false));
+		 itemInfos.add(new WidgetItemInfo("4", isHankou?"焊接控制单号：":"支架控制单号：", rollingPlan.getWeldlistno(), WidgetItemInfo.DISPLAY, false));
 		 itemInfos.add(new WidgetItemInfo("5", "RCCM：", rollingPlan.getRccm(), WidgetItemInfo.DISPLAY, false));
 		 itemInfos.add(new WidgetItemInfo("6", "质量计划号：", rollingPlan.getQualityplanno(), WidgetItemInfo.DISPLAY, false));
 		 itemInfos.add(new WidgetItemInfo("7", "计划施工日期：", rollingPlan.getPlandate(), WidgetItemInfo.DISPLAY, false));
 		 itemInfos.add(new WidgetItemInfo("8", "", "", WidgetItemInfo.DEVIDER, false));
-		 itemInfos.add(new WidgetItemInfo("9", "查看工序详情", "", WidgetItemInfo.DISPLAY, true));
+		if (isHankou) {
+			 itemInfos.add(new WidgetItemInfo("9", "查看工序详情", "", WidgetItemInfo.DISPLAY, true));
+					
+		}
 		 
 		 
 		 
@@ -141,7 +155,7 @@ public class PlanDetailActivity extends BaseDetailActivity {
 	}
 	
 	void go2WorkStepDetail(){
-		Intent intent = new Intent(this, WorkStepListActivity.class);
+		Intent intent = new Intent(this, PlanWorkStepListActivity.class);
 		
 		intent.putExtra(ConstValues.ID, Long.parseLong(rollingPlan.getId()));
 		startActivity(intent);

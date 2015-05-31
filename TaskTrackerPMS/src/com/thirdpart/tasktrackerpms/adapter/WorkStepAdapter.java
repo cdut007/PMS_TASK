@@ -97,6 +97,10 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 //				context.startActivity(intent);
 			}
 		});
+		   if (((WorkStepAdapter)myBaseAdapter).scan ){
+			issueFeedback.setVisibility(View.GONE);
+			issueUpdate.setVisibility(View.GONE);
+		}
 		}
 
 		@Override
@@ -108,6 +112,12 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 			issueUpdate.setTag(workStep);
 		}
 		
+	}
+
+	boolean scan;
+	public void setScanMode(boolean fromPlan) {
+		// TODO Auto-generated method stub
+		scan = fromPlan;
 	}
 	
 

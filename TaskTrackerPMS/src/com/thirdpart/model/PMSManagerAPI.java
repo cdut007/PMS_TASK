@@ -133,9 +133,10 @@ public class PMSManagerAPI {
 	 * @param pagenum
 	 * @param responseHandler
 	 */
-	public void planList(String pagesize, String pagenum,
+	public void planList(String condition,String pagesize, String pagenum,
 			AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getCommonPageParams(pagesize, pagenum);
+		params.put("condition", condition);
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_ROLLINGPLAN_LIST_URL, params,
 				responseHandler);
 

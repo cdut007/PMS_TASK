@@ -136,6 +136,9 @@ public abstract class  BaseCheckItemAdapter<T> extends BasePageAdapter<T> {
 		public int getAllCheckOptionsCount() {
 			int value = 0;
 			int count = getCount();
+			if (getIsSelected() == null) {
+				return 0;
+			}
 			for (int i = 0; i < count; i++) {
 				if (getIsSelected().get(i)) {
 					value += 1;

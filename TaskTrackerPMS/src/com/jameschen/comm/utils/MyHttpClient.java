@@ -1,5 +1,9 @@
 package com.jameschen.comm.utils;
 
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -41,7 +45,7 @@ public class MyHttpClient  {
 			  TestReq.simultor(url,params,responseHandler,2);
 			return;
 		  }
-	      client.put(getAbsoluteUrl(url), params, responseHandler);
+		  client.put(getAbsoluteUrl(url), params, responseHandler);
 	  }
 	  
 	  public static void delete(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {

@@ -2,9 +2,7 @@ package com.thirdpart.tasktrackerpms.ui;
 
 import org.apache.http.Header;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +12,16 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.jameschen.framework.base.BasePageListFragment;
 import com.thirdpart.model.ConstValues;
-import com.thirdpart.model.entity.RollingPlan;
-import com.thirdpart.model.entity.RollingPlanList;
+import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.entity.WorkStep;
 import com.thirdpart.model.entity.WorkStepList;
 import com.thirdpart.tasktrackerpms.R;
-import com.thirdpart.tasktrackerpms.adapter.PlanAdapter;
 import com.thirdpart.tasktrackerpms.adapter.WorkStepAdapter;
 
 
 public class WorkStepFragment extends BasePageListFragment<WorkStep, WorkStepList> implements OnItemClickListener{
 
-	
+	boolean fromPlan = false;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +32,10 @@ public class WorkStepFragment extends BasePageListFragment<WorkStep, WorkStepLis
 		mListView.setOnItemClickListener(this);
 		
 		id = getArguments().getLong(ConstValues.ID);
-		Log.i(TAG, "id = "+id);
+		fromPlan = getArguments().getBoolean(Item.PLAN);
+		WorkStepAdapter workStepAdapter = (WorkStepAdapter) mAdapter;
+		workStepAdapter.setScanMode(fromPlan);
+		Log.i(TAG, "scanMode="+fromPlan+";id = "+id);
 		
 		callNextPage(pageSize,getCurrentPage());
 		return view;

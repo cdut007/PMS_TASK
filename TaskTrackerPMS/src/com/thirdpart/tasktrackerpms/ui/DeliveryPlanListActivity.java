@@ -84,6 +84,7 @@ public class DeliveryPlanListActivity extends BaseEditActivity {
 			if (mFragment == null) {
 				Bundle bundle = new Bundle();
 				bundle.putString(Item.PLAN, ""+title);
+				bundle.putString("teamId", departmentInfo.getDepartment().getId());
 				mFragment = DeliveryPlanFragment.instantiate(this, DeliveryPlanFragment.class.getName(), bundle);
 				ft.add(R.id.fragment_content, mFragment, DeliveryPlanFragment.class.getName());
 			}

@@ -12,7 +12,7 @@
         android:name="com.thirdpart.tasktrackerpms.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.thirdpart.tasktrack.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="com.thirdpart.tasktrackerpms.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
@@ -71,6 +71,11 @@
         </activity>
         <activity
             android:name=".ui.WorkStepListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+         <activity
+            android:name=".ui.PlanWorkStepListActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity> 
@@ -209,7 +214,7 @@
         
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
-        <meta-data android:name="JPUSH_APPKEY" android:value="您的Appkey" /> <!--  </>值来自开发者平台取得的AppKey-->
+        <meta-data android:name="JPUSH_APPKEY" android:value="c4e2d7a8f42dd42ec2f738a1" /> <!--  </>值来自开发者平台取得的AppKey-->
         
         
     </application>

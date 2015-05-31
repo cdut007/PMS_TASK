@@ -39,7 +39,7 @@ public class MineActivity extends BaseActivity {
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
 		switch (menu.getId()) {
-		case "0":
+		case "0"://my issue
 		{
 			mFragment = fm.findFragmentByTag(IssueFragment.class.getName());
 			if (mFragment == null) {
@@ -51,7 +51,20 @@ public class MineActivity extends BaseActivity {
 			ft.commit();
 		}
 			break;
-			case "2":
+		case "1"://my delivery plan
+		{
+		  mFragment = fm.findFragmentByTag(DeliveryPlanFragment.class.getName());
+			if (mFragment == null) {
+				Bundle bundle = new Bundle();
+				bundle.putBoolean("scan", true);
+				mFragment = DeliveryPlanFragment.instantiate(this, DeliveryPlanFragment.class.getName(), bundle);
+				ft.add(R.id.fragment_content, mFragment, DeliveryPlanFragment.class.getName());
+			}
+
+			ft.commit();
+		}
+			break;
+			case "2"://my witness
 			{
 				mFragment = fm.findFragmentByTag(WitnessListFragment.class.getName());
 				if (mFragment == null) {

@@ -1,5 +1,6 @@
 package com.thirdpart.tasktrackerpms.ui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,7 +15,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.google.gson.JsonObject;
 import com.jameschen.framework.base.BasePageListFragment;
+import com.jameschen.framework.base.UINetworkHandler;
 import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.model.ConstValues.Item;
@@ -23,12 +26,14 @@ import com.thirdpart.model.entity.RollingPlanList;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.tasktrackerpms.adapter.DeliveryPlanAdapter;
 import com.thirdpart.tasktrackerpms.adapter.PlanAdapter;
+import com.thirdpart.widget.IndicatorView;
 
 
 public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, RollingPlanList> implements OnItemClickListener{
 
 	
-	String title;
+	String title,teamId;
+	boolean  scanMode ;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -37,6 +42,13 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 		bindListView(view,new DeliveryPlanAdapter(getBaseActivity()));
 		mListView.setOnItemClickListener(this);
 		title = getArguments().getString(Item.PLAN);
+		teamId = getArguments().getString("teamId");
+		
+		DeliveryPlanAdapter deliveryPlanAdapter = (DeliveryPlanAdapter) mAdapter;
+		scanMode = getArguments().getBoolean("scan");
+		deliveryPlanAdapter.setScanMode(scanMode);
+		IndicatorView indicatorView = (IndicatorView) view.findViewById(R.id.plan_delivery_indicator);
+		indicatorView.setScanMode(scanMode);
 		callNextPage(pageSize,getCurrentPage());
 		return view;
 	}
@@ -50,7 +62,7 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 	private  void executeNextPageNetWorkRequest(int pagesize,int pagenum) {
 		// TODO Auto-generated method stub
 			
-	        getPMSManager().planList(pagesize+"", pagenum+"",new PageUINetworkHandler<RollingPlanList>(getBaseActivity()){
+	        getPMSManager().planList(scanMode?"notequal":"equal",pagesize+"", pagenum+"",new PageUINetworkHandler<RollingPlanList>(getBaseActivity()){
 
 	    		@Override
 	    		public void startPage() {
@@ -110,6 +122,7 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 		int selectCount = deliveryPlanAdapter.getAllCheckOptionsCount();
 		if (selectCount<=0) {
 			showToast("没有选择计划分配");
+			getBaseActivity().cancelProgressDialog();
 			return;
 		}
 		List<RollingPlan> mSeletedItems = deliveryPlanAdapter.getAllCheckOptions();
@@ -119,7 +132,44 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 	private void executeCommitPlanNetWorkRequest(
 			List<RollingPlan> mSeletedItems) {
 		// TODO Auto-generated method stub
-	//	getPMSManager().planDetail(planId,getManagerNetWorkHandler(ACTION_PLAN_DETAIL) );
+		List<String> ids = new ArrayList<String>();
+		
+		for (RollingPlan plan : mSeletedItems) {
+			ids.add(plan.getId());
+			
+		}
+		getPMSManager().deliveryPlanToTeam(teamId, ids, new UINetworkHandler<JsonObject>(getActivity()) {
+
+			@Override
+			public void start() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void finish() {
+				// TODO Auto-generated method stub
+				getBaseActivity().cancelProgressDialog();
+						
+			}
+
+			@Override
+			public void callbackFailure(int statusCode, Header[] headers,
+					String response) {
+				// TODO Auto-generated method stub
+				showToast(response);
+				mListView.setRefreshing(true);
+				callNextPage(pageSize,defaultBeginPageNum);
+			}
+
+			@Override
+			public void callbackSuccess(int statusCode, Header[] headers,
+					JsonObject response) {
+				showToast("分配计划成功");
+				mListView.setRefreshing(true);
+				callNextPage(pageSize,defaultBeginPageNum);
+			}
+		});
 
 		
 	}
