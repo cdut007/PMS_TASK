@@ -59,10 +59,14 @@ public class IssueSolveActivity extends BaseEditActivity {
       initInfo();
       bindViews();
       issueManager = (IssueManager) ManagerService.getNewManagerService(this, IssueManager.class, this);
-      teamMemberManager = TeamMemberManager.getInstance(this); 
-      getDeliveryList(false);
+      teamMemberManager =new TeamMemberManager(this); 
+     
  }
  
+ public void onAttachedToWindow() {
+	 super.onAttachedToWindow();
+	 getDeliveryList(false);
+ };
 TeamMemberManager teamMemberManager;
  
 	

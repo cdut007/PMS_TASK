@@ -30,7 +30,6 @@ import com.jameschen.widget.CustomSelectPopupWindow.CategoryAdapter;
 import com.thirdpart.model.entity.Department;
 
 public class TeamMemberManager {
-private static TeamMemberManager manager;
 Context context;
 
 
@@ -39,17 +38,9 @@ public TeamMemberManager(Context context){
 }
 	
 
-public static TeamMemberManager getInstance(Context context) {
-	// TODO Auto-generated method stub
-	synchronized (TeamMemberManager.class) {
-		if (manager == null) {
-			manager = new TeamMemberManager(context);
-		}
-	}
-	return manager;
-}
 
-List<Category> mCategories = new ArrayList<Category>();
+
+static List<Category> mCategories = new ArrayList<Category>();
 List<Category> mChildCategories = new ArrayList<Category>();
 	
 public interface LoadUsersListener{
@@ -64,13 +55,18 @@ public interface LoadUsersListener{
 	
 }	
 private LoadUsersListener listener;	
-public void findDepartmentInfos(final boolean show,final View view,LoadUsersListener loadUsersListener) {
+boolean showWindow;
+public void findDepartmentInfos( boolean show,final View view,LoadUsersListener loadUsersListener) {
 	listener = loadUsersListener;
+	showWindow = show;
 	Type sToken = new TypeToken<List<Category>>() {
 		}.getType();
 
 	if (mCategories.size()>0) {
-		showCategory(view, mCategories);
+		if (show) {
+			showCategory(view, mCategories);	
+		}
+		
 	}else {
 		listener.beginLoad(0);
 	}
@@ -101,7 +97,7 @@ public void findDepartmentInfos(final boolean show,final View view,LoadUsersList
 			// TODO Auto-generated method stub
 			if (response!=null&&response.size()>0) {
 				mCategories = response;
-				update(view,show);	
+				update(view);	
 			}else {
 				Log.i("member Error", "empty return");
 			}
@@ -110,11 +106,14 @@ public void findDepartmentInfos(final boolean show,final View view,LoadUsersList
 	});
 }
 
-protected void update(View view, boolean showView) {
-	if (!showView) {
+
+protected void update(View view ) {
+	if (!showWindow) {
 		return;
 	}
-	
+	if (Util.isActivyFinish(context)) {
+		return;
+	}
 	if (customSelectPopupWindow.isShown()) {
 		customSelectPopupWindow.updateParentData(mCategories);	
 	}else {
@@ -154,6 +153,7 @@ CustomSelectPopupWindow customSelectPopupWindow = new CustomSelectPopupWindow();
 
 				@Override
 				public void onDismiss() {
+					showWindow = false;
 				}
 			});
 		}
@@ -226,6 +226,9 @@ CustomSelectPopupWindow customSelectPopupWindow = new CustomSelectPopupWindow();
 	}
 	 private void updateChild(Category parent) {
 			// TODO Auto-generated method stub
+		 if (Util.isActivyFinish(context)) {
+				return;
+			}
 			showChildArea(mChildCategories, parent);
 		}
 }
