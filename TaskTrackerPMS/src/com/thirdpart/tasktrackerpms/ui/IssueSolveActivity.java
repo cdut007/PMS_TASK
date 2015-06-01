@@ -178,6 +178,8 @@ TeamMemberManager teamMemberManager;
 		super.succ(name, statusCode, headers, response);
 		if (name.equals(IssueManager.ACTION_ISSUE_HANDLE)) {
 			showToast("问题提交成功");
+			setResult(RESULT_OK);
+			finish();
 		}
 	};
 	
