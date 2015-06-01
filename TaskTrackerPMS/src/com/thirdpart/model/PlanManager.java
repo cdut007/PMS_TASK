@@ -31,6 +31,11 @@ public class PlanManager  extends ManagerService{
 		PMSManagerAPI.getInstance(context).planDetail(planId,getManagerNetWorkHandler(ACTION_PLAN_DETAIL) );
 
 	}
+
+	public static boolean isHankou(String speciality) {
+		// TODO Auto-generated method stub
+		return "GDHK".equals(speciality);
+	}
 	
 	
 }

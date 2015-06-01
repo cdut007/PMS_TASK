@@ -23,11 +23,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.TextView;
-
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jameschen.comm.utils.UtilsUI;
 import com.jameschen.framework.base.BaseFragment;
 import com.jameschen.framework.base.MyBaseAdapter;
+import com.jameschen.framework.base.UINetworkHandler;
 import com.jameschen.framework.base.MyBaseAdapter.HoldView;
 import com.jameschen.widget.BadgeView;
 import com.thirdpart.model.ConstValues.Item;
@@ -35,6 +35,9 @@ import com.thirdpart.model.ManagerService;
 import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
 import com.thirdpart.model.TaskManager;
 import com.thirdpart.model.WidgetItemInfo;
+import com.thirdpart.model.entity.TaskCategory;
+import com.thirdpart.model.entity.TaskCategoryInfo;
+import com.thirdpart.model.entity.TaskCategoryItem;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.TabItemView;
 import com.thirdpart.widget.TabItemView.onItemSelectedLisnter;
@@ -110,7 +113,9 @@ private void initView(View view) {
 			}
 		});
 	}
-	 dateContainer.getChildAt(0).performClick();
+	 
+	 
+	 dateContainer.getChildAt(1).performClick();//today
 	 
 	TabItemView tabItemView = (TabItemView) view.findViewById(R.id.task_type);
 		tabItemView.setItemSelectedLisnter(new onItemSelectedLisnter() {
@@ -166,18 +171,80 @@ public void onHiddenChanged(boolean hidden) {
 		lastSelectDateView = v;
 		
 		//do network call action.
+		queryDate(v.getTag().toString());
+	}
+	
+	//dateYear, dateWeek, dateMonth, dateAfter, dateCurrent, dateBefore
+	private void queryDate(String category) {
+		// TODO Auto-generated method stub
+		getPMSManager().getTaskFinishCountStatus(category, new UINetworkHandler<TaskCategory>(getActivity()) {
+
+			@Override
+			public void start() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void finish() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void callbackFailure(int statusCode, Header[] headers,
+					String response) {
+				// TODO Auto-generated method stub
+				showToast(response);
+			}
+
+			@Override
+			public void callbackSuccess(int statusCode, Header[] headers,
+					TaskCategory response) {
+				// TODO Auto-generated method stub
+				updateInfo(response);
+			}
+		});
+	}
+	
+	private void updateInfo(TaskCategory response) {
+		// TODO Auto-generated method stub
+		List<TaskCategoryItem> resuls = response.retuls;
+		
+		for (TaskCategoryItem taskCategoryItem : resuls) {
+				if (taskCategoryItem.type.equals("支架")) {
+					updateDataList(taskCategoryItem.result,mZhijiaList);
+				}else if (taskCategoryItem.type.equals("焊口")) {
+					updateDataList(taskCategoryItem.result,mHankouList);
+				}
+		}
+		itemAdapter.notifyDataSetChanged();
+	}
+	
+	private void updateDataList(List<TaskCategoryInfo> result,
+			List<TaskItem> mDataItems) {
+		for (TaskItem taskItem : mDataItems) {
+				
+			for (TaskCategoryInfo categoryInfo : result) {
+				if (taskItem.name.equals(categoryInfo.getStatus())) {
+					taskItem.count = Integer.parseInt(categoryInfo.getResult());
+					continue;
+				}
+			}
+			
+		}
 		
 	}
 
-	
+
 	void initList(List<TaskItem> mList,int type){
 		mList.add(new TaskItem("计划",0x7f0290d3,type));// 计划
 		mList.add(new TaskItem("完成",0x7f0090d7,type));// 完成
 		mList.add(new TaskItem("未完成",0x7fe56200,type));// 未完成
 		mList.add(new TaskItem("施工",0x7fe78d00,type));// 施工
 		mList.add(new TaskItem("处理",0x7f029d84,type));// 处理
-		mList.get(0).count=99;
-		mList.get(4).count=99;
+		mList.get(0).count=0;
+		mList.get(4).count=0;
 	}
 	
 	static class ItemAdapter extends MyBaseAdapter<TaskItem> {

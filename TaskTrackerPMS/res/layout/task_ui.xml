@@ -28,30 +28,33 @@
     android:background="@color/container_bg_color"
     android:minHeight="50dp"
         android:orientation="horizontal" >
-
-        <TextView
+<!-- dateYear, dateWeek, dateMonth, dateAfter, dateCurrent, dateBefore -->
+        <com.thirdpart.widget.DateTextView
             android:id="@+id/yesterday_item"
             style="@style/common_text_inditator_title_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:tag="@string/yesterday"
             android:singleLine="true"
             android:text="4日" />
 
-        <TextView
+        <com.thirdpart.widget.DateTextView
             android:id="@+id/today_item"
             style="@style/common_text_inditator_title_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:tag="@string/today"
             android:gravity="center"
             
             android:singleLine="true"
             android:text="5日" />
 
-        <TextView
+        <com.thirdpart.widget.DateTextView
             android:id="@+id/tommrow_item"
+            android:tag="@string/tommorw"
             style="@style/common_text_inditator_title_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -68,7 +71,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:singleLine="true"
+            android:tag="@string/week"
             android:text="周" />
+
  		<TextView
             android:id="@+id/month_item"
             style="@style/common_text_inditator_title_item"
@@ -77,10 +82,12 @@
             android:layout_weight="1"
             android:gravity="center"
             android:singleLine="true"
+              android:tag="@string/month"
             android:text="月" />
 
         <TextView
             android:id="@+id/year_item"
+              android:tag="@string/year"
             style="@style/common_text_inditator_title_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

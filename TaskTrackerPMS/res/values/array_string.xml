@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="max_file_size">40960000</string>
+    <string name="week">dateWeek</string>
+    <string name="year">dateYear</string>
+    <string name="month">dateMonth</string>
+    <string name="today">dateCurrent</string>
+    <string name="yesterday">dateBefore</string>
+    <string name="tommorw">dateAfter</string>
+
 </resources>

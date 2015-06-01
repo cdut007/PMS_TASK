@@ -126,7 +126,7 @@ public class LogInController {
 	/**
 	 * @return 设备唯一标识符
 	 */
-	public  String getUUID() {
+	public static  String getUUID(Context context) {
 		 TelephonyManager tm =(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
 	
 		 String tmDevice = "", tmSerial = "", tmPhone, androidId;
@@ -179,8 +179,9 @@ public class LogInController {
 		if (id == null) {
 			return;
 		}
-		Log.i("login", "uuid="+getUUID());//
-		JPushInterface.setAliasAndTags(context, "loginId_"+id, null,new TagAliasCallback() {
+		String uuid = getUUID(context);
+		Log.i("login", "uuid="+uuid);//
+		JPushInterface.setAliasAndTags(context, "uuid_"+uuid+"_loginId_"+id, null,new TagAliasCallback() {
 			
 			@Override
 			public void gotResult(int arg0, String arg1, Set<String> arg2) {

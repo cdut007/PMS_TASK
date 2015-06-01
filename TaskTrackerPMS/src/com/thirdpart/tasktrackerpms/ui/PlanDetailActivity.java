@@ -31,17 +31,23 @@ public class PlanDetailActivity extends BaseDetailActivity {
  
  private PlanManager planManager ;
  RollingPlan rollingPlan;
+ boolean fromPlan = true;
  @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
       rollingPlan = (RollingPlan) getIntent().getSerializableExtra(Item.PLAN);	
+      if (rollingPlan == null) {
+    	  fromPlan  = false;
+    	  rollingPlan = (RollingPlan) getIntent().getSerializableExtra(Item.TASK);	
+      }
+      
       planManager = (PlanManager) ManagerService.getNewManagerService(this, PlanManager.class,this);
-      if ("GDZJ".equals(rollingPlan.getSpeciality())) {
-    	  setTitle("支架明细");
-	}else if ("GDHK".equals(rollingPlan.getSpeciality())) {
-		setTitle("焊口明细");
+      if (PlanManager.isHankou(rollingPlan.getSpeciality())) {
+    	  setTitle("焊口明细"); 
+	}else  {
+		setTitle("支架明细");
 	}
       
       updateInfo();
@@ -59,11 +65,11 @@ public class PlanDetailActivity extends BaseDetailActivity {
 		final  List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();
 		 //R.id.  in array String
 		boolean  isHankou = false;
-		  if ("GDZJ".equals(rollingPlan.getSpeciality())) {
-	    	  
-		}else if ("GDHK".equals(rollingPlan.getSpeciality())) {
-			isHankou = true;
+		
+		 if (PlanManager.isHankou(rollingPlan.getSpeciality())) {
+			  isHankou = true;
 		}
+		  
 		 itemInfos.add(new WidgetItemInfo("0", isHankou?"焊口号：":"支架号：", rollingPlan.getWeldno(), WidgetItemInfo.DISPLAY, false));		
 		 itemInfos.add(new WidgetItemInfo("1", "机组号：", rollingPlan.getId(), WidgetItemInfo.DISPLAY, false));
 		 itemInfos.add(new WidgetItemInfo("2", "区域号：", rollingPlan.getAreano(), WidgetItemInfo.DISPLAY, false));
@@ -157,6 +163,7 @@ public class PlanDetailActivity extends BaseDetailActivity {
 	void go2WorkStepDetail(){
 		Intent intent = new Intent(this, PlanWorkStepListActivity.class);
 		
+		intent.putExtra("fromPlan",fromPlan);
 		intent.putExtra(ConstValues.ID, Long.parseLong(rollingPlan.getId()));
 		startActivity(intent);
 	}

@@ -36,6 +36,9 @@ public class Config {
 		public static final String REQUST_TEAM_WROK_LIST_URL = HTTP_BASE_URL+"/hdxt/api/statistics/task";
 
 		
+		public static final String REQUST_TASK_STATUS_URL = HTTP_BASE_URL+"/hdxt/api/statistics/task/status";
+
+		
 		public static final String REQUST_TEAM_GROUP_LIST_URL = HTTP_BASE_URL+"/hdxt/api/statistics/teamgroup/task";
 
 		/** define the workstep detail url 

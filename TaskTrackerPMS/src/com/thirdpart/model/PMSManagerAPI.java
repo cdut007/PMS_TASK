@@ -1,6 +1,8 @@
 package com.thirdpart.model;
 
 import java.io.File;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +96,7 @@ public class PMSManagerAPI {
 		RequestParams params = getPublicParams();
 		params.put("LoginId", loginId);
 		params.put("password", password);
+		params.put("device", LogInController.getUUID(context));
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_LOGIN_URL, params,
 				responseHandler);
 
@@ -606,6 +609,28 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	
+/**	taskDate		R		查询的时间
+	格式：yyyy-MM-dd
+	category		R		查询的类型
+	允许的值：dateYear, dateWeek, dateMonth, dateAfter, dateCurrent, dateBefore*/
+	/**
+	 * @param category
+	 * @param responseHandler
+	 */
+	public void getTaskFinishCountStatus(String category, AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams(true);
+		params.put("taskDate", getdateformat(System.currentTimeMillis()));
+		params.put("category", category);
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_TASK_STATUS_URL,
+				params, responseHandler);
+	}
+	
+	private String getdateformat(long times) {
+		// TODO Auto-generated method stub
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date(times);
+		return sdf.format(date);
+	}
 	
 	
 	

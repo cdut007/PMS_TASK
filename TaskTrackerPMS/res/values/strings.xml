@@ -25,5 +25,6 @@
     <string name="name_is_null">请输入姓名！</string>
     <string name="password_too_long">密码太长！</string>
     <string name="password_too_short">密码太短！</string>
+   
 
 </resources>

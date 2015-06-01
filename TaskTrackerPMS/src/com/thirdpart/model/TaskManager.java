@@ -91,5 +91,10 @@ public class TaskManager  extends ManagerService{
 		}
 		  return 0;
 	}
+
+	public static String getTaskType(int type) {
+		// TODO Auto-generated method stub
+		return type==TYPE_HANKOU?"焊口":"支架";
+	}
 	
 }

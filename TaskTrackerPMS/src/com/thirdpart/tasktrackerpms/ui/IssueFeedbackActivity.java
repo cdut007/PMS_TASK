@@ -9,30 +9,20 @@ import org.apache.http.Header;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.jameschen.framework.base.BaseEditActivity;
-import com.jameschen.framework.base.BaseDetailActivity.CreateItemViewListener;
 import com.jameschen.widget.CustomSelectPopupWindow.Category;
-import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.IssueManager;
 import com.thirdpart.model.WidgetItemInfo;
-import com.thirdpart.model.ConstValues.Item;
-import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
-import com.thirdpart.model.entity.IssueMenu;
 import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.AddItemView;
 import com.thirdpart.widget.ChooseItemView;
-import com.thirdpart.widget.DisplayItemView;
+import com.thirdpart.widget.EditItemView;
 import com.thirdpart.widget.UserInputItemView;
 
 public class IssueFeedbackActivity extends BaseEditActivity {
@@ -49,7 +39,8 @@ public class IssueFeedbackActivity extends BaseEditActivity {
 		
 	}
 
-	UserInputItemView issueDescView,issueTopic;
+	UserInputItemView issueDescView;
+	EditItemView  issueTopic;
 	AddItemView addFile,addPerson;
 	ChooseItemView solverMan;
  @Override
@@ -68,7 +59,7 @@ public class IssueFeedbackActivity extends BaseEditActivity {
 	private void bindView() {
 	// TODO Auto-generated method stub
 		issueDescView = (UserInputItemView) findViewById(R.id.issue_desc);		
-		issueTopic = (UserInputItemView) findViewById(R.id.issue_topic);
+		issueTopic = (EditItemView) findViewById(R.id.issue_topic);
 		addFile = (AddItemView) findViewById(R.id.issue_add_file);
 		solverMan = (ChooseItemView) findViewById(R.id.issue_choose_deliver);
 		solverMan.setContent("选择解决人");
@@ -87,7 +78,7 @@ public class IssueFeedbackActivity extends BaseEditActivity {
 	@Override
 	public void callCommitBtn(View v) {
 		// TODO Auto-generated method stub
-		super.callCommitBtn(v);
+		
 		if (TextUtils.isEmpty(issueDescView.getContent())) {
 			showToast("请填写问题描述");
 			return;
@@ -97,6 +88,7 @@ public class IssueFeedbackActivity extends BaseEditActivity {
 			return;
 		}
 		sIssueManager.createIssue(issueResult);
+		super.callCommitBtn(v);
 	}
 
 	
