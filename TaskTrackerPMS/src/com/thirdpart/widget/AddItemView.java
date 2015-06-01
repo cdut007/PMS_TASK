@@ -38,7 +38,6 @@ public class AddItemView extends FrameLayout {
 	
 	
 	
-	public <T extends WidgetItemInfo > void showMenuItem(final List<T> items,final OnDismissListener onDismissListener) {}
 	
 	@Override
 	public void setBackgroundResource(int resid) {
@@ -86,11 +85,35 @@ public class AddItemView extends FrameLayout {
 			contentView.setImageResource(R.drawable.tianjiaqt);
 		}
 		
-		
+		contentView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				addNewItem();
+			}
+		});
 
 	}
 
 	
+	protected void addNewItem() {
+		// TODO Auto-generated method stub
+		createItemListToUI(new AddItem(), new CreateItemViewListener() {
+			
+			@Override
+			public void oncreateItem(int index, View convertView, ViewGroup viewGroup) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void deleteItem(int index) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
 	public void setNameAndContent(String name) {
 		// TODO Auto-generated method stub
 			nameView.setText(name);
@@ -198,7 +221,7 @@ protected void removeItem(AddItem addItem) {
 }
 
 public static interface CreateItemViewListener{
-	View oncreateItem(int index,View convertView ,ViewGroup viewGroup);
+	void oncreateItem(int index,View convertView ,ViewGroup viewGroup);
 	void deleteItem(int index);
 }	
 }

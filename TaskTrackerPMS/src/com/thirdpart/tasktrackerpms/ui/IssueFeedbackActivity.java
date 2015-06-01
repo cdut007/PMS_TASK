@@ -80,6 +80,10 @@ public class IssueFeedbackActivity extends BaseEditActivity {
 				getDeliveryList(true);	
 			}
 		});
+		
+		
+		//addFile.bindManager(teamMemberManager);
+		
 }
 	IssueResult issueResult = new IssueResult();
 	Category solverCategory;

@@ -6,25 +6,16 @@
     android:orientation="vertical" >
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15.0dip"
-        android:text="消息提醒"
-        android:textColor="@color/gray3"
-        android:textSize="18.0sp"
-        android:visibility="gone" />
-
-    <LinearLayout
+    <Button
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10.0dip"
-        android:layout_marginRight="10.0dip"
-        android:orientation="vertical"
-        android:visibility="gone" >
-
-
-    </LinearLayout>
+        android:layout_height="40dp"
+        android:id="@+id/feedback_log"
+        android:text="日志反馈"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        style="@style/common_done_btn"
+        android:textSize="18.0sp"/>
 
 
 <TextView

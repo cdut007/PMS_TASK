@@ -27,6 +27,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import com.thirdpart.model.PMSManagerAPI;
+
+
 
 
 import android.content.Context;
@@ -37,6 +40,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.text.format.DateUtils;
 
 public class CollectLogs {
 
@@ -56,7 +60,16 @@ public class CollectLogs {
 
 	protected final static LogResult getLogs(Context ctxt) {
 		//Clear old files
-		StorageUtils.cleanLogsFiles(ctxt);
+		File file = new File(StorageUtils.getLogFile());
+		File parent = file.getParentFile();
+		String dest = parent.getAbsolutePath()+File.separator+PMSManagerAPI.getdateformat(System.currentTimeMillis())+"logs.zip";
+		try {
+			FileUtils.zipFolder(StorageUtils.getLogFile(),dest, false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	/*	StorageUtils.cleanLogsFiles(ctxt);
 		
         final StringBuilder log = new StringBuilder();
         File outFile = null;
@@ -87,14 +100,14 @@ public class CollectLogs {
             Log.e(THIS_FILE, "Collect logs failed : "+e.getLocalizedMessage());//$NON-NLS-1$
             log.append("Unable to get logs : " + e.toString());
         }
-
-        return new LogResult(log, outFile);
+*/
+        return new LogResult(new StringBuilder(), new File(dest));
 	}
 	
 	protected final static StringBuilder getDeviceInfo() {
 		final StringBuilder log = new StringBuilder();
 		
-		log.append( "Here are important informations about Device : ");
+		log.append( "设备信息 : ");
         log.append(LINE_SEPARATOR); 
         log.append("android.os.Build.BOARD : " + android.os.Build.BOARD );
         log.append(LINE_SEPARATOR); 
@@ -154,9 +167,9 @@ public class CollectLogs {
 		
 		Intent sendIntent = new Intent(Intent.ACTION_SEND);
 		
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Error-Log report");
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "日志报告");
         
-        sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {LogUtils.getSupportEmail(PreferenceManager.getDefaultSharedPreferences(ctx))});
+        sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"316458704@qq.com"});
         
         
         

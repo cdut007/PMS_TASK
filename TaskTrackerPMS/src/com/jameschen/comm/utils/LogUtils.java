@@ -33,7 +33,7 @@ public class LogUtils {
 
 		try {
 
-			context.startActivity(CollectLogs.getLogReportIntent("<<<PLEASE ADD THE BUG DESCRIPTION HERE>>>", context));
+			context.startActivity(CollectLogs.getLogReportIntent("<<<请添加bug问题描述>>>", context));
 
 		} catch (Exception e) {
 
@@ -53,81 +53,7 @@ public class LogUtils {
 		 preferences.edit().putString("SUPPORT_MAIL", supportMail).commit();
 		 
 	}
-	public static void sendHuaweiLogFile3(Context context,String filePath){
-		
-		String versionName="";
-		
-		try {
-			
-			versionName=context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
-			
-			
-		} catch (NameNotFoundException e) {
 	
-			e.printStackTrace();
-		}
-	
-		StringBuffer sb=new StringBuffer();
-		UserInfo info = LogInController.getInstance(context).getInfo();
-		String name = info==null?"":info.getName();
-		sb.append("MSISDN : ").append(name).append("\r\n")
-	    .append("Please describe problem :").append("\r\n").append("\r\n").append("\r\n").append("\r\n")
-	    .append("Attach Screenshots (if any) : ").append("\r\n").append("\r\n").append("\r\n").append("\r\n")
-		.append("Running on ").append(android.os.Build.MODEL).append("\r\n")
-		.append("OS Version : ").append(android.os.Build.VERSION.RELEASE).append("\r\n")
-		.append("Client Version : ").append(versionName);
-	
-	     File zipFile=new File(filePath);
-		
-		    List<Intent> targetShareIntents=new ArrayList<Intent>();
-		    Intent shareIntent=new Intent();
-		    shareIntent.setAction(Intent.ACTION_SEND);
-		    shareIntent.setType("message/rfc822");
-		    List<ResolveInfo> resInfos=context.getPackageManager().queryIntentActivities(shareIntent, 0);
-		    
-		    removeDuplicateWithOrder(resInfos);
-		    
-		    if(!resInfos.isEmpty()){
-		       
-		        for(ResolveInfo resInfo : resInfos){
-		        	
-		            String packageName=resInfo.activityInfo.packageName;
-		            
-		            Log.i(TAG,"packageName = "+ packageName);
-		            
-		            if(packageName.contains("mail")||"com.google.android.gm".equals(packageName)){
-		            	
-		                Intent intent=new Intent();
-		                intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
-		                intent.setAction(Intent.ACTION_SEND);		       
-		                intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"appslog@starhub.com"});
-		                intent.putExtra(Intent.EXTRA_SUBJECT, "Message+ - Bug Report");
-		                intent.putExtra(Intent.EXTRA_TEXT, sb.toString());
-		                intent.setType("application/zip");
-		                intent.putExtra(Intent.EXTRA_STREAM,Uri.fromFile(zipFile));
-		                intent.setPackage(packageName);
-		                targetShareIntents.add(intent);
-		            }
-		        }
-		        if(!targetShareIntents.isEmpty()){
-		        	
-		        	Log.i(TAG, "Do not Have Intent size is "+targetShareIntents.size());
-		        	
-		            Intent chooserIntent=Intent.createChooser(targetShareIntents.remove(0), "Choose email client");
-		            
-		            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
-		            
-		            context.startActivity(chooserIntent);
-		            
-		        }else{
-		        	
-		        	Log.i(TAG, "Do not Have Intent");
-		        }
-		    }
-		
-		
-		
-	}
 
  public static void  sendFeedback2(Context context){
 	

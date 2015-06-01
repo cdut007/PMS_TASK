@@ -625,7 +625,7 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	
-	private String getdateformat(long times) {
+	public static String getdateformat(long times) {
 		// TODO Auto-generated method stub
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date(times);

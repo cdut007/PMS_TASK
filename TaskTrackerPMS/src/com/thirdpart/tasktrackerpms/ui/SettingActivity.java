@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
+import com.jameschen.comm.utils.LogUtils;
 import com.jameschen.framework.base.BaseActivity;
 import com.thirdpart.tasktrackerpms.R;
 
@@ -25,7 +26,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
 		setContentView(R.layout.system_setting);	
 
 		(logout =findViewById(R.id.btnExit)).setOnClickListener(this);
-			
+		findViewById(R.id.feedback_log).setOnClickListener(this);
 		
 	}
 	@Override
@@ -62,9 +63,19 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
 			getLogInController().quit(this);
 		}
 		break;
+		case R.id.feedback_log:
+		{
+			feedbackLog();
+		}
+		break;
+		
 		default:
 			break;
 		}
+	}
+	private void feedbackLog() {
+		// TODO Auto-generated method stub
+		LogUtils.sendLog(this);
 	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
