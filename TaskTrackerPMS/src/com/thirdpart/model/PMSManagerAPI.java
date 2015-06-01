@@ -93,7 +93,7 @@ public class PMSManagerAPI {
 	 */
 	public void login(String loginId, String password,
 			AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
+		RequestParams params = getPublicParams(false);
 		params.put("LoginId", loginId);
 		params.put("password", password);
 		params.put("device", LogInController.getUUID(context));

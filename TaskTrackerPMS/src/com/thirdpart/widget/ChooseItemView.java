@@ -57,7 +57,11 @@ public class ChooseItemView extends FrameLayout {
 		getChildAt(0).setBackgroundResource(resid);
 	
 	}
-	
+	@Override
+	public void setOnClickListener(OnClickListener l) {
+		// TODO Auto-generated method stub
+		setChooseItemClickListener(l);
+	}
 	@Override
 	protected void onDetachedFromWindow() {
 		// TODO Auto-generated method stub
@@ -71,7 +75,7 @@ public class ChooseItemView extends FrameLayout {
 		// TODO Auto-generated method stub
 		String name = null;
 		String content = null;
-		boolean tinySepc = false;
+		boolean tinySepc = false,onlyBtn = false;
 		if (attrs!=null) {
 			TypedArray a = getContext().obtainStyledAttributes(attrs,
 					R.styleable.DisplayViewStyle);
@@ -80,6 +84,8 @@ public class ChooseItemView extends FrameLayout {
 						.getString(R.styleable.DisplayViewStyle_customContent);
 			 tinySepc = a
 						.getBoolean(R.styleable.DisplayViewStyle_tinySpec,false);
+			 onlyBtn = a
+						.getBoolean(R.styleable.DisplayViewStyle_onlybtn,false);
 
 			a.recycle();
 		}
@@ -98,6 +104,13 @@ public class ChooseItemView extends FrameLayout {
 			LinearLayout.LayoutParams param = (android.widget.LinearLayout.LayoutParams) contentView.getLayoutParams();
 			param.rightMargin = UtilsUI.getPixByDPI(getContext(), 40);
 			contentView.setLayoutParams(param);
+		}
+		
+		if (onlyBtn) {
+			LinearLayout.LayoutParams param = (android.widget.LinearLayout.LayoutParams) contentView.getLayoutParams();
+			param.width = LayoutParams.MATCH_PARENT;
+			contentView.setLayoutParams(param);
+			nameView.setVisibility(View.GONE);
 		}
 
 	}

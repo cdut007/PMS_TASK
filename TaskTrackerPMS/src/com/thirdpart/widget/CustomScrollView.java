@@ -15,8 +15,8 @@ public class CustomScrollView extends ScrollView {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-            return false;
-    }
+//	@Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//            return false;
+//    }
 }

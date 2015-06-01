@@ -14,16 +14,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
+import com.jameschen.comm.utils.Log;
 import com.jameschen.framework.base.BaseEditActivity;
 import com.jameschen.widget.CustomSelectPopupWindow.Category;
 import com.thirdpart.model.IssueManager;
 import com.thirdpart.model.TeamMemberManager;
-import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.TeamMemberManager.LoadUsersListener;
+import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.AddItemView;
+import com.thirdpart.widget.AddItemView.AddItem;
 import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.EditItemView;
 import com.thirdpart.widget.UserInputItemView;
@@ -31,7 +34,7 @@ import com.thirdpart.widget.UserInputItemView;
 public class IssueFeedbackActivity extends BaseEditActivity {
 	
 	
-	List<File> mFiles = new ArrayList<File>();
+	List<String> mFiles = new ArrayList<String>();
 	
 	List<Category> mGuanzhuList = new ArrayList<Category>();
 	IssueManager sIssueManager;
@@ -60,12 +63,17 @@ public class IssueFeedbackActivity extends BaseEditActivity {
  
  public void onAttachedToWindow() {
 	 super.onAttachedToWindow();
-	 getDeliveryList(false);
+	 getDeliveryList(false,solverMan);
  };
  TeamMemberManager teamMemberManager;
  
 	private void bindView() {
 	// TODO Auto-generated method stub
+		View container = findViewById(R.id.sroll_container);
+		RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams) container.getLayoutParams();
+		param.addRule(RelativeLayout.ABOVE, R.id.commit_layout);
+		container.setLayoutParams(param);
+		//
 		issueDescView = (UserInputItemView) findViewById(R.id.issue_desc);		
 		issueTopic = (EditItemView) findViewById(R.id.issue_topic);
 		addFile = (AddItemView) findViewById(R.id.issue_add_file);
@@ -77,26 +85,106 @@ public class IssueFeedbackActivity extends BaseEditActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				getDeliveryList(true);	
+				getDeliveryList(true,solverMan);	
 			}
 		});
 		
-		
-		//addFile.bindManager(teamMemberManager);
+		addFile.setOnCreateItemViewListener(addfileListenr);
+		addPerson.setOnCreateItemViewListener(addfoucsPersonCreateListenr);
+	
 		
 }
+	
+	AddItemView.CreateItemViewListener	addfileListenr=new AddItemView.CreateItemViewListener() {
+		
+		@Override
+		public void oncreateItem(String tag, View convertView) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void deleteItem(int index) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void chooseItem(int index, View convertView) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+	};
+	
+	
+AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.CreateItemViewListener() {
+		
+		@Override
+		public void oncreateItem(String tag, View convertView) {
+			// TODO Auto-generated method stub
+			mGuanzhuList.add(new Category(tag));//empty
+		}
+		
+		@Override
+		public void deleteItem(int index) {
+			// TODO Auto-generated method stub
+			mGuanzhuList.remove(index);
+		}
+		
+		@Override
+		public void chooseItem(int index, View convertView) {
+			// TODO Auto-generated method stub
+			getDeliveryList(true,convertView);
+		}
+
+
+	};
+
+	
+	
 	IssueResult issueResult = new IssueResult();
 	Category solverCategory;
-	private void getDeliveryList(boolean showWindowView) {
+	private void getDeliveryList(boolean showWindowView,final View view) {
 		// TODO Auto-generated method stub
 	//	showLoadingView(true);
-		teamMemberManager.findDepartmentInfos(showWindowView,solverMan, new LoadUsersListener() {
+		teamMemberManager.findDepartmentInfos(showWindowView,view, new LoadUsersListener() {
 			
 			@Override
 			public void onSelcted(Category mParent, Category category) {
 				// TODO Auto-generated method stub
-				solverCategory = category;
-				solverMan.setContent(category.getName());
+				if (view== solverMan) {
+					solverCategory = category;
+					solverMan.setContent(category.getName());	
+				}else {//check is foucs choose person
+					ChooseItemView chooseItemView = (ChooseItemView) view.findViewById(R.id.common_add_item_title);
+					
+					for (Category mCategory : mGuanzhuList) {
+						if (category.getId().equals(mCategory.getId())) {
+							//modify  do nothing.
+							if (!category.getName().equals(chooseItemView.getContent())) {
+								showToast("该关注人已经在列表了");//not in current chooseItem,but other already has this name.
+							    }
+							
+							return;
+						}
+					}
+					chooseItemView.setContent(category.getName());
+					
+					
+					AddItem addItem =(AddItem) chooseItemView.getTag();
+					//关注人是否已经存在，就只更新
+					for (Category mCategory : mGuanzhuList) {
+						if (addItem.tag.equals(mCategory.tag)) {
+							//modify .
+							mCategory = category;
+							return;
+						}
+					}
+					mGuanzhuList.add(category);
+				}
+				
 			}
 			
 			@Override

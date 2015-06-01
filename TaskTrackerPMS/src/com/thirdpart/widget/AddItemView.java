@@ -3,10 +3,12 @@ package com.thirdpart.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R.integer;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.provider.Telephony.Sms.Conversations;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
+import android.widget.Toast;
+import cn.jpush.android.api.m;
 
 import com.jameschen.comm.utils.UtilsUI;
 import com.jameschen.framework.base.BaseDetailActivity.CreateItemViewListener;
@@ -35,9 +39,12 @@ public class AddItemView extends FrameLayout {
 		InitView(view, attrs);
 	}
 	
+	CreateItemViewListener mCreateItemViewListener; 
 	
-	
-	
+	public void setOnCreateItemViewListener(CreateItemViewListener l) {
+		// TODO Auto-generated method stub
+		mCreateItemViewListener = l;
+	}
 	
 	@Override
 	public void setBackgroundResource(int resid) {
@@ -56,7 +63,7 @@ public class AddItemView extends FrameLayout {
 	private TextView nameView;
 	private TouchImage contentView;
 	String type = null;
-	
+	boolean fileChoose;
 	private void InitView(View view, AttributeSet attrs) {
 		// TODO Auto-generated method stub
 		String name = null;
@@ -74,16 +81,17 @@ public class AddItemView extends FrameLayout {
 		
 		nameView = (TextView) view.findViewById(R.id.common_choose_item_title);
 		contentView = (TouchImage) view
-				.findViewById(R.id.common_add_item_content);
+				.findViewById(R.id.common_add_more_btn);
 		if (name != null) {
 			nameView.setText(name);
 		}
 		if ("file".equals(type)) {
-			
+			fileChoose = true;
 			contentView.setImageResource(R.drawable.tianjia);
 		}else {
 			contentView.setImageResource(R.drawable.tianjiaqt);
 		}
+		TouchImage.buttonEffect(contentView);
 		
 		contentView.setOnClickListener(new OnClickListener() {
 			
@@ -96,23 +104,15 @@ public class AddItemView extends FrameLayout {
 
 	}
 
+	int count = 0;
 	
-	protected void addNewItem() {
+	private void addNewItem() {
 		// TODO Auto-generated method stub
-		createItemListToUI(new AddItem(), new CreateItemViewListener() {
-			
-			@Override
-			public void oncreateItem(int index, View convertView, ViewGroup viewGroup) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void deleteItem(int index) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		if (fileChoose&&mItems.size()>=5) {
+			Toast.makeText(getContext(), "最多添加5个文件", Toast.LENGTH_LONG).show();
+			return;
+		}
+		createItemListToUI(new AddItem((count++)+"") );
 	}
 	public void setNameAndContent(String name) {
 		// TODO Auto-generated method stub
@@ -124,8 +124,9 @@ public class AddItemView extends FrameLayout {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < viewGroup.getChildCount(); i++) {
 			View childView = viewGroup.getChildAt(i);
-			WidgetItemInfo sInfo = (WidgetItemInfo) childView.getTag();
+			AddItem sInfo = (AddItem) childView.getTag();
 				if (sInfo!=null&&tag.equals(sInfo.tag)) {
+
 					return childView;
 				}
 			
@@ -134,12 +135,15 @@ public class AddItemView extends FrameLayout {
 	}
 	
 	public static final class AddItem{
-		String tag;
+		AddItem(String tag){
+			this.tag = tag;
+		}
+		public String tag;
 	}
 	List<AddItem> mItems = new ArrayList<AddItemView.AddItem>();
 	
 	
-	protected void createItemListToUI(AddItem info,CreateItemViewListener createItemViewListener) {
+	protected void createItemListToUI(AddItem info ) {
 
 		ViewGroup viewGroup = (ViewGroup) findViewById(R.id.common_add_item_container);
 		
@@ -152,10 +156,29 @@ public class AddItemView extends FrameLayout {
 		}
 		mItems.add(info);
 		viewGroup.addView(convertView);
-		
+		if (mCreateItemViewListener!=null) {
+			mCreateItemViewListener.oncreateItem(info.tag,convertView);
+		}
 		
 	
 	
+	}
+	
+	protected void removeItemListFromUI(AddItem info) {
+
+		ViewGroup viewGroup = (ViewGroup) findViewById(R.id.common_add_item_container);
+		
+
+		View convertView = getChildViewByTag(viewGroup, info.tag); 
+		 boolean  isNotExsit = (convertView == null);
+		if (isNotExsit) {
+			return ;
+		}
+		if (mCreateItemViewListener!=null) {
+			mCreateItemViewListener.deleteItem(mItems.indexOf(info));
+		}
+		mItems.remove(info);
+		viewGroup.removeView(convertView);
 	}
 
 private View oncreateItem( AddItem addItem, View convertView, ViewGroup viewGroup) {
@@ -177,21 +200,21 @@ private View oncreateItem( AddItem addItem, View convertView, ViewGroup viewGrou
 			
 			break;
 		}
-		
-		convertView.findViewById(R.id.common_choose_item_title).setOnClickListener(new OnClickListener() {
+		final View parentView = convertView;
+		convertView.findViewById(R.id.common_add_item_title).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				AddItem addItem = (AddItem) v.getTag();
-				chooseItem(addItem);
+				chooseItem(addItem,parentView);
 			}
 		});
-		convertView.findViewById(R.id.common_choose_item_content).setOnClickListener(new OnClickListener() {
+		convertView.findViewById(R.id.common_remove_item_content).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				AddItem addItem = (AddItem) v.getTag();
-				updateItem(addItem);
+				removeItem(addItem);
 			}
 		});
 	}else {
@@ -199,29 +222,32 @@ private View oncreateItem( AddItem addItem, View convertView, ViewGroup viewGrou
 	}
 	
 	//bind tag
-	convertView.findViewById(R.id.common_choose_item_title).setTag(addItem);
-	convertView.findViewById(R.id.common_choose_item_content).setTag(addItem);
+	convertView.setTag(addItem);
+	convertView.findViewById(R.id.common_add_item_title).setTag(addItem);
+	convertView.findViewById(R.id.common_remove_item_content).setTag(addItem);
 	return convertView;
 
 	}
 
-protected void updateItem(AddItem addItem) {
+
+protected void chooseItem(AddItem addItem, View parentView) {
 	// TODO Auto-generated method stub
-	
-}
-protected void chooseItem(AddItem addItem) {
-	// TODO Auto-generated method stub
-	
+	if (mCreateItemViewListener!=null) {
+		mCreateItemViewListener.chooseItem(mItems.indexOf(addItem),parentView);
+	}
 }
 
 
-protected void removeItem(AddItem addItem) {
+private void removeItem(AddItem addItem) {
 	// TODO Auto-generated method stub
-	mItems.remove(addItem);
+	
+	removeItemListFromUI(addItem);
+	
 }
 
 public static interface CreateItemViewListener{
-	void oncreateItem(int index,View convertView ,ViewGroup viewGroup);
+	void oncreateItem(String tag,View convertView);
 	void deleteItem(int index);
+	void chooseItem(int index,View convertView);
 }	
 }

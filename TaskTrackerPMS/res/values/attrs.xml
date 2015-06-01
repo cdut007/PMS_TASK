@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-        <declare-styleable name="DisplayViewStyle">
-        <attr name="customName" format="string"/>
-          <attr name="customContent" format="string"/>
-          <attr name="customType" format="string"/>
-           <attr name="tinySpec" format="boolean"/>
-             <attr name="scan" format="boolean"/>
+
+    <declare-styleable name="DisplayViewStyle">
+        <attr name="customName" format="string" />
+        <attr name="customContent" format="string" />
+        <attr name="customType" format="string" />
+        <attr name="tinySpec" format="boolean" />
+        <attr name="scan" format="boolean" />
+        <attr name="onlybtn" format="boolean" />
     </declare-styleable>
+
 </resources>

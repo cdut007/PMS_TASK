@@ -26,7 +26,10 @@ import com.thirdpart.tasktrackerpms.R;
 public class CustomSelectPopupWindow   {
 	
 	public static final class Category extends Department{
-		
+		public Category(String tag) {
+			// TODO Auto-generated constructor stub
+		}
+		public String tag;
 	}
 	PopupWindow popupWindow;
 	TextView mView;

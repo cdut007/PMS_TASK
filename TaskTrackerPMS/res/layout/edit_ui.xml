@@ -6,6 +6,7 @@
     android:background="@color/app_bg_color" >
 
     <com.thirdpart.widget.CustomScrollView
+        android:id="@+id/sroll_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null" >
