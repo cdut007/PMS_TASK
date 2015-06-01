@@ -20,7 +20,9 @@ import com.jameschen.comm.utils.Log;
 import com.jameschen.framework.base.BaseEditActivity;
 import com.jameschen.widget.CustomSelectPopupWindow.Category;
 import com.thirdpart.model.IssueManager;
+import com.thirdpart.model.MediaManager;
 import com.thirdpart.model.TeamMemberManager;
+import com.thirdpart.model.UploadFileManager;
 import com.thirdpart.model.TeamMemberManager.LoadUsersListener;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.entity.IssueResult;
@@ -34,7 +36,7 @@ import com.thirdpart.widget.UserInputItemView;
 public class IssueFeedbackActivity extends BaseEditActivity {
 	
 	
-	List<String> mFiles = new ArrayList<String>();
+	List<Category> mFiles = new ArrayList<Category>();
 	
 	List<Category> mGuanzhuList = new ArrayList<Category>();
 	IssueManager sIssueManager;
@@ -42,7 +44,7 @@ public class IssueFeedbackActivity extends BaseEditActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		
+		mediaManager.onActivityResult(requestCode, resultCode, data);
 	}
 
 	UserInputItemView issueDescView;
@@ -59,6 +61,7 @@ public class IssueFeedbackActivity extends BaseEditActivity {
       bindView();
       sIssueManager = (IssueManager) IssueManager.getNewManagerService(this, IssueManager.class, this);
       teamMemberManager =new TeamMemberManager(this); 
+      mediaManager = new MediaManager(this);
  }
  
  public void onAttachedToWindow() {
@@ -66,6 +69,8 @@ public class IssueFeedbackActivity extends BaseEditActivity {
 	 getDeliveryList(false,solverMan);
  };
  TeamMemberManager teamMemberManager;
+ MediaManager mediaManager;
+ UploadFileManager uploadFileManager;
  
 	private void bindView() {
 	// TODO Auto-generated method stub
@@ -100,19 +105,21 @@ public class IssueFeedbackActivity extends BaseEditActivity {
 		@Override
 		public void oncreateItem(String tag, View convertView) {
 			// TODO Auto-generated method stub
-			
+
+			mFiles.add(new Category(tag));//empty
 		}
 		
 		@Override
 		public void deleteItem(int index) {
 			// TODO Auto-generated method stub
-			
+			mFiles.remove(index);
 		}
 		
 		@Override
 		public void chooseItem(int index, View convertView) {
 			// TODO Auto-generated method stub
-			
+			chooseMedia(convertView);
+		
 		}
 
 
@@ -206,6 +213,42 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 			}
 		});
 	}
+	
+	protected void chooseMedia(View convertView) {
+		// TODO Auto-generated method stub
+		if (true) {
+			return;
+		}
+		String fileName = null;
+		Category category = null;
+		ChooseItemView chooseItemView = (ChooseItemView) convertView.findViewById(R.id.common_add_item_title);
+		
+		for (Category mCategory : mFiles) {
+			if (fileName.equals(mCategory.getName())) {
+				//modify  do nothing.
+				if (!fileName.equals(chooseItemView.getContent())) {
+					showToast("该文件在列表了");//not in current chooseItem,but other already has this name.
+				    }
+				
+				return;
+			}
+		}
+		//load image
+		//chooseItemView.setContent(category.getName());
+		
+		
+		AddItem addItem =(AddItem) chooseItemView.getTag();
+		//是否已经存在，就只更新
+		for (Category mCategory : mFiles) {
+			if (addItem.tag.equals(mCategory.tag)) {
+				//modify .
+				mCategory.setName(fileName);
+				return;
+			}
+		}
+		mFiles.add(category);
+	}
+
 	/*params.put("workstepid", issue.getWorstepid());
 	params.put("workstepno", issue.getStepno());
 	params.put("stepname", issue.getStepname());
@@ -292,5 +335,6 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 		
 	}
 
+	
 
 }

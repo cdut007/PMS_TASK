@@ -1,4 +1,4 @@
-package com.thirdpart.model.upload;
+package com.thirdpart.model;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.jameschen.comm.utils.FileUtils;
 
-public class UploadManager {
+public class UploadFileManager {
 
 	public static String getPhotoFileName() {
 		
