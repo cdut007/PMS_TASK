@@ -12,12 +12,15 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.jameschen.framework.base.BaseEditActivity;
 import com.jameschen.widget.CustomSelectPopupWindow.Category;
 import com.thirdpart.model.IssueManager;
+import com.thirdpart.model.TeamMemberManager;
 import com.thirdpart.model.WidgetItemInfo;
+import com.thirdpart.model.TeamMemberManager.LoadUsersListener;
 import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.AddItemView;
@@ -52,10 +55,15 @@ public class IssueFeedbackActivity extends BaseEditActivity {
       initInfo();
       bindView();
       sIssueManager = (IssueManager) IssueManager.getNewManagerService(this, IssueManager.class, this);
+      teamMemberManager =new TeamMemberManager(this); 
  }
  
-	
-	
+ public void onAttachedToWindow() {
+	 super.onAttachedToWindow();
+	 getDeliveryList(false);
+ };
+ TeamMemberManager teamMemberManager;
+ 
 	private void bindView() {
 	// TODO Auto-generated method stub
 		issueDescView = (UserInputItemView) findViewById(R.id.issue_desc);		
@@ -64,10 +72,48 @@ public class IssueFeedbackActivity extends BaseEditActivity {
 		solverMan = (ChooseItemView) findViewById(R.id.issue_choose_deliver);
 		solverMan.setContent("选择解决人");
 		addPerson = (AddItemView) findViewById(R.id.issue_add_person);
+		solverMan.setChooseItemClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				getDeliveryList(true);	
+			}
+		});
 }
 	IssueResult issueResult = new IssueResult();
 	Category solverCategory;
-	
+	private void getDeliveryList(boolean showWindowView) {
+		// TODO Auto-generated method stub
+	//	showLoadingView(true);
+		teamMemberManager.findDepartmentInfos(showWindowView,solverMan, new LoadUsersListener() {
+			
+			@Override
+			public void onSelcted(Category mParent, Category category) {
+				// TODO Auto-generated method stub
+				solverCategory = category;
+				solverMan.setContent(category.getName());
+			}
+			
+			@Override
+			public void loadEndSucc(int type) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void loadEndFailed(int type) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beginLoad(int type) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
 	/*params.put("workstepid", issue.getWorstepid());
 	params.put("workstepno", issue.getStepno());
 	params.put("stepname", issue.getStepname());

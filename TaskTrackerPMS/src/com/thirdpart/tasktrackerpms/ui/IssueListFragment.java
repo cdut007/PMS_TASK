@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.http.Header;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -35,6 +36,10 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 
 	
 	
+	private static final int ISSUE_HANDLE = 0x11;
+	private static final int ISSUE_CONFIRM = 0x13;
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -103,7 +108,7 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 		if (object == null) {
 			return;
 		}
-
+		int requestCode=0;
 		IssueResult p = (IssueResult) (object);
 		intent.putExtra(Item.ISSUE, (Serializable)p);
 		int type = (int) statusid;
@@ -112,7 +117,7 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 		case 1://需要解决的问题
 		{
 			//编辑问题
-			
+			requestCode = ISSUE_HANDLE;
 		}
 			break;
 		case 0://未解决的问题
@@ -128,16 +133,33 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 
 		case 4://需要确认的问题，单独页面，确认
 		{
-			intent.setClass(getBaseActivity(), IssueDetailActivity.class);
-			
+			intent.setClass(getBaseActivity(), IssueConfirmActivity.class);
+			requestCode = ISSUE_CONFIRM;
 		}
 			break;
 		default:
 			break;
 		}
 
-		startActivity(intent);
+		startActivityForResult(intent,requestCode);
 	}
-	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode) {
+		case ISSUE_HANDLE:
+		{
+			if (resultCode == Activity.RESULT_OK) {
+				 mListView.setRefreshing(true);
+				callNextPage(pageSize,defaultBeginPageNum);
+			}
+		}
+			break;
+
+		default:
+			break;
+		}
+	}
 	
 }
