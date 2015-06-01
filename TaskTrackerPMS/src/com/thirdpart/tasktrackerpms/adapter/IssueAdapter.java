@@ -14,6 +14,7 @@ import com.jameschen.framework.base.BaseActivity;
 import com.jameschen.framework.base.BasePageAdapter;
 import com.jameschen.framework.base.MyBaseAdapter;
 import com.jameschen.framework.base.MyBaseAdapter.HoldView;
+import com.thirdpart.model.IssueManager;
 import com.thirdpart.model.entity.IssueList;
 import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.model.entity.RollingPlan;
@@ -70,7 +71,7 @@ public class IssueAdapter extends BasePageAdapter<IssueResult> {
 			// TODO Auto-generated method stub
 			noTextView.setText(issueResult.getId());
 			topicTextView.setText(issueResult.getStepname());
-			statusTextView.setText("0".equals(issueResult.getIsOk())?"未解决":"解决");
+			statusTextView.setText(IssueManager.getIssueStatus(issueResult.getIsOk()));
 			deliveryTextView.setText(issueResult.getCurrentsolver());
 		}
 		

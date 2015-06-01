@@ -44,7 +44,7 @@ public class IssueManager extends ManagerService {
 	 * @param iswork
 	 */
 	public void createIssue(IssueResult issueResult, boolean iswork) {
-		PMSManagerAPI.getInstance(context).createIssue(issueResult, new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_CREATE));
+		PMSManagerAPI.getInstance(context).createIssue(issueResult, new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_CREATE){});
 
 	}
 	
@@ -55,7 +55,7 @@ public class IssueManager extends ManagerService {
 	 * @param userId
 	 */
 	public void IssueDetail(String issueId) {
-		PMSManagerAPI.getInstance(context).IssueDetail(issueId,  new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_DETAIL));
+		PMSManagerAPI.getInstance(context).IssueDetail(issueId,  new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_DETAIL){});
 	}
 	
 
@@ -80,6 +80,9 @@ public class IssueManager extends ManagerService {
 	 * @param files
 	 */
 	public void uploadIssueFiles(String problemId, List<File> files) {
-		PMSManagerAPI.getInstance(context).uploadIssueFiles(problemId, files,new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_DETAIL));
+		PMSManagerAPI.getInstance(context).uploadIssueFiles(problemId, files,new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_DETAIL){});
+	}
+	public static String getIssueStatus(String isOk) {
+		return "0".equals(isOk)?"未解决":"解决";
 	}
 }

@@ -243,6 +243,9 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	}
 
 	protected void setTitle(String title) {
+		if (titleTv == null) {
+			return;
+		}
 		titleTv.setBackgroundDrawable(null);
 		titleTv.setText(title);
 	}
@@ -253,8 +256,8 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	}
 	
 	//*****************************************//
-		//*****************top bar end************//
-		//*****************************************//
+	//*****************top bar end************//
+	//*****************************************//
 	
 	protected boolean resultOk = false;
 

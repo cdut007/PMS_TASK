@@ -135,6 +135,7 @@ public void updateTitle() {
 	if (title ==null) {
 		title="焊口";
 	}
+	
 	(getBaseActivity()).changeTitle(title);
 	
 	

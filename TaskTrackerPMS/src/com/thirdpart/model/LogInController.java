@@ -2,12 +2,14 @@ package com.thirdpart.model;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v4.content.IntentCompat;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
@@ -119,6 +121,30 @@ public class LogInController {
 
 	}
 
+	
+	
+	/**
+	 * @return 设备唯一标识符
+	 */
+	public  String getUUID() {
+		 TelephonyManager tm =(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+	
+		 String tmDevice = "", tmSerial = "", tmPhone, androidId;
+		// 357784053869432
+		 if (tm!=null) {
+			tmDevice = "" + tm.getDeviceId(); 
+			tmSerial = "" + tm.getSimSerialNumber();	
+		}
+		
+		//357784053869432
+		androidId = "" + android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+		UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
+		//ffffffff-e2ef-4fa0-fad7-dd880033c587
+		String uniqueId = deviceUuid.toString();
+		return uniqueId;
+		
+	}
+	
 	public String[] readAccountDataFromPreference() {
 		// TODO Auto-generated method stub
 		// 如果文件不存在，则进行创建
@@ -153,6 +179,7 @@ public class LogInController {
 		if (id == null) {
 			return;
 		}
+		Log.i("login", "uuid="+getUUID());//
 		JPushInterface.setAliasAndTags(context, "loginId_"+id, null,new TagAliasCallback() {
 			
 			@Override
@@ -164,7 +191,7 @@ public class LogInController {
 						
 						@Override
 						public void run() {
-							// TODO Auto-generated method stub
+							
 						registerPush();	
 						}
 					}, 60*1000);

@@ -128,7 +128,9 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		if (pageListInfo == null) {
 			return false;
 		}
-		return pageListInfo.getCurrentPage() == pageListInfo.getEndPage();
+		return pageListInfo.getCurrentPage() == pageListInfo.getEndPage()||
+				pageListInfo.getCurrentPage() == pageListInfo.totalpage
+				;
 	}
 	
 	@Override
@@ -187,7 +189,9 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 			mAdapter.notifyDataSetChanged();
 		}
 
-		if (mPageList.getCurrentPage() == mPageList.getEndPage()) {
+		if (mPageList.getCurrentPage() == mPageList.getEndPage()||
+				pageListInfo.getCurrentPage() == pageListInfo.totalpage	
+				) {
 			Log.i(TAG, "load finish");
 			cancelLoading(true);
 		} else {

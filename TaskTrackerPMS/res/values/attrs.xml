@@ -6,5 +6,6 @@
           <attr name="customContent" format="string"/>
           <attr name="customType" format="string"/>
            <attr name="tinySpec" format="boolean"/>
+             <attr name="scan" format="boolean"/>
     </declare-styleable>
 </resources>

@@ -20,6 +20,8 @@ public class PageList <T>{
 
 	private int endPage;
 
+	public int totalpage;
+	
 	private List<T> datas;
 
 	private int currentPage;

@@ -68,7 +68,11 @@ public class DisplayItemView extends FrameLayout {
 	public void setNameAndContent(String name,String content) {
 		// TODO Auto-generated method stub
 			nameView.setText(name);
-			contentView.setText(content);
+			setContent(content);
+	}
+	public void setContent(String describe) {
+		// TODO Auto-generated method stub
+		contentView.setText(describe);
 	}
 	
 }

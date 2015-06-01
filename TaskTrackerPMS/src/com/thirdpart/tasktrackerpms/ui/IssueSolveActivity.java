@@ -154,8 +154,8 @@ TeamMemberManager teamMemberManager;
 		String isSolve = issueCheckBox.isChecked()?"1":"0";
 		
 		if (issueCheckBox.isChecked()) {
-			solvedman=getLogInController().getInfo().getName();
-			solverid=null;
+			solvedman=getLogInController().getInfo().getRealname();
+			solverid=getLogInController().getInfo().getId();
 		}else {
 			if (mCategory!=null) {
 				solverid = mCategory.getId();
