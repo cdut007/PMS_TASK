@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.IntentCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +79,7 @@ public class LoginActivity extends BaseActivity{
 		
 		Intent intentEx = new Intent();
 		intentEx.setClass(this, MainActivity.class);
+		intentEx.setFlags(IntentCompat.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
 		overridePendingTransition(R.anim.welcome_begin_anim,
 				R.anim.welcome_end_anim);
 		startActivity(intentEx);

@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import com.jameschen.comm.utils.Log;
 import com.thirdpart.model.ConstValues;
+import com.thirdpart.model.LogInController;
 import com.thirdpart.model.ConstValues.CategoryInfo.User;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.tasktrackerpms.ui.MainActivity;
@@ -58,8 +59,8 @@ public class JpushReceiver extends BroadcastReceiver {
 			Log.d(TAG,
 					"接收到推送下来的自定义消息: "
 							+ bundle.getString(JPushInterface.EXTRA_MESSAGE));
-			SharedPreferences user =context. getSharedPreferences(User.SharedName, 0);
-			logon = user.getBoolean(User.logon, false);
+			
+			logon = LogInController.getInstance(context).IsLogOn();
 			processCustomMessage(context, bundle,logon);
 
 		} else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent
