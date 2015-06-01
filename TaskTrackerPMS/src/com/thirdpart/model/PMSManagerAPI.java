@@ -55,7 +55,7 @@ public class PMSManagerAPI {
 	private RequestParams getPublicParams() {
 		// TODO Auto-generated method stub
 
-		return getPublicParams(false);
+		return getPublicParams(true);
 	}
 
 	private PMSManagerAPI(Context context) {
