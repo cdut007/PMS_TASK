@@ -16,11 +16,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.google.gson.JsonObject;
+import com.jameschen.comm.utils.Log;
 import com.jameschen.framework.base.BasePageListFragment;
 import com.jameschen.framework.base.UINetworkHandler;
 import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.model.ConstValues.Item;
+import com.thirdpart.model.entity.Department;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.RollingPlanList;
 import com.thirdpart.tasktrackerpms.R;
@@ -91,13 +93,16 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 	    	};
 	    	
 	    	if (getLogInController().matchRoles("班组承包人")) {
-	    		
 	    		if (scanMode) {//see my group plan
-					
-				}else {
-					
+	    			List<Department> departments = getLogInController().getInfo().departments;
+	    			if (departments== null||departments.size() == 0) {
+						Log.i(TAG, "department is empty...");
+	    				return;
+					}
+					teamId = departments.get(0).getId();
 				}
-	    		 getPMSManager().teamList(pagesize+"", pagenum+"",scanMode?"notequal":"equal","21",pageUINetworkHandler);
+	    		
+	    		 getPMSManager().teamList(pagesize+"", pagenum+"",scanMode?"notequal":"equal",teamId,pageUINetworkHandler);
 	    				
 			} else {
 				

@@ -43,7 +43,7 @@ public class IssueManager extends ManagerService {
 	 * @param issueResult
 	 * @param iswork
 	 */
-	public void createIssue(IssueResult issueResult, boolean iswork) {
+	public void createIssue(IssueResult issueResult ) {
 		PMSManagerAPI.getInstance(context).createIssue(issueResult, new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_CREATE){});
 
 	}
