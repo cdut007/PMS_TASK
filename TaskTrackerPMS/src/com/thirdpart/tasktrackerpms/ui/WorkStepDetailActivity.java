@@ -48,13 +48,13 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 	
  
  private TaskManager taskManager ;
- WitnessDistributed witness;
+ WorkStep workStep;
  @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-      witness = (WitnessDistributed) getIntent().getSerializableExtra(Item.WITNESS);	
+		workStep = (WorkStep) getIntent().getSerializableExtra("workstep");	
       taskManager = (TaskManager) ManagerService.getNewManagerService(this, TaskManager.class,this);
       setTitle("工序详情");
       updateInfo();
@@ -75,7 +75,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 	private void execFetechDetail(String action) {
 		
 		if (action.equals(WitnessManager.ACTION_WITNESS_CHOOSE_COMMIT)) {
-			String witnessid=witness.getWitness();
+		//	String witnessid=witness.getWitness();
 			String witnesseraqa=getWitnesserId(qaWidgetItemInfo);
 			String witnesseraqc2=getWitnesserId(c2qaWidgetItemInfo);
 			String witnesseraqc1=getWitnesserId(c1qaWidgetItemInfo);
@@ -97,7 +97,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 	private void updateInfo() {
 		if (itemInfos.isEmpty()) {
 			// R.id. in array String
-			itemInfos.add(new WidgetItemInfo("0", "操作者：", witness.getTriggerName()
+			/*itemInfos.add(new WidgetItemInfo("0", "操作者：", witness.getTriggerName()
 				, WidgetItemInfo.DISPLAY, false));
 			
 			itemInfos.add(new WidgetItemInfo("20", "完成日期：", witness.getWitnessdate(), WidgetItemInfo.DISPLAY, false));
@@ -107,9 +107,8 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			itemInfos.add(addressWidgetItemInfo=new WidgetItemInfo("1", "见证地点：", witness
 					.getWitnessaddress(), WidgetItemInfo.EDIT, false));
 			itemInfos.add(timeWidgetItemInfo=new WidgetItemInfo("2", "见证时间：",
-					witness.getWitnessdate(), WidgetItemInfo.CHOOSE, true));
+					witness.getWitnessdate(), WidgetItemInfo.CHOOSE, true));*/
 
-			WorkStep workStep = witness.getWorkStep();
 
 			if (!isEmpty(workStep.getNoticeaqc1())) {
 				itemInfos.add(c1qaWidgetItemInfo=new WidgetItemInfo("3", "A-QC1：", workStep

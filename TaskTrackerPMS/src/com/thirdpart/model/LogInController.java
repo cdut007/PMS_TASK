@@ -127,20 +127,20 @@ public class LogInController {
 	 * @return 设备唯一标识符
 	 */
 	public static  String getUUID(Context context) {
-		 TelephonyManager tm =(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+	/*	 TelephonyManager tm =(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
 	
 		 String tmDevice = "", tmSerial = "", tmPhone, androidId;
 		// 357784053869432
 		 if (tm!=null) {
 			tmDevice = "" + tm.getDeviceId(); 
 			tmSerial = "" + tm.getSimSerialNumber();	
-		}
+		}*/
 		
 		//357784053869432
-		androidId = "" + android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-		UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
+		String androidId = "" + android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+		//UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
 		//ffffffff-e2ef-4fa0-fad7-dd880033c587
-		String uniqueId = deviceUuid.toString();
+		String uniqueId = androidId.toString();
 		return uniqueId;
 		
 	}
@@ -181,7 +181,7 @@ public class LogInController {
 		}
 		String uuid = getUUID(context);
 		Log.i("login", "uuid="+uuid);//
-		JPushInterface.setAliasAndTags(context, "uuid_"+uuid+"_loginId_"+id, null,new TagAliasCallback() {
+		JPushInterface.setAliasAndTags(context, ""+uuid+"_"+id, null,new TagAliasCallback() {
 			
 			@Override
 			public void gotResult(int arg0, String arg1, Set<String> arg2) {
