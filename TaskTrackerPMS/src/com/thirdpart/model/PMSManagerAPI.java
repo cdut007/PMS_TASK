@@ -212,9 +212,17 @@ public class PMSManagerAPI {
 		params.put("describe", issue.getDescribe());
 		params.put("solverid", issue.getSolverid());
 		params.put("concernman", issue.getConcerman());
-		params.put("files", mFiles);
+		params.put("files", getHashFileSet(mFiles));
 		MyHttpClient.post(ReqHttpMethodPath.REQUST_CREATE_ISSUE_URL, params,
 				responseHandler);
+	}
+
+	HashSet<File> getHashFileSet(List<File> mList){
+		HashSet<File> mHashSet = new HashSet<File>();
+		for (File file : mList) {
+			mHashSet.add(file);
+		}
+		return mHashSet;
 	}
 
 	/**
@@ -254,7 +262,7 @@ public class PMSManagerAPI {
 			String endTime, AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams(true);
 		
-		params.put("ids", rollingPlanIds);
+		params.put("ids", getHashSet(rollingPlanIds));
 		params.put("endManId", endManId);
 		params.put("startTime", startTime);
 		params.put("endTime", endTime);
@@ -285,7 +293,7 @@ public class PMSManagerAPI {
 
 		RequestParams params = getPublicParams();
 		params.put("teamId", teamId);
-		params.put("ids", rollingPlanIds);
+		params.put("ids", getHashSet(rollingPlanIds));
 
 		MyHttpClient.put(ReqHttpMethodPath.REQUST_MODIFY_TASK_TO_TEAM_URL,
 				params, responseHandler);
@@ -501,7 +509,7 @@ public class PMSManagerAPI {
 	
 	public void removePlansToHeadman(List<String> rollingPlanIds, AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams();
-		params.put("ids", rollingPlanIds);
+		params.put("ids", getHashSet(rollingPlanIds));
 		MyHttpClient.delete(ReqHttpMethodPath.REQUST_REMOVE_ROLLINGPLAN_TO_HEADMAN_URL,
 				params, responseHandler);
 	}
@@ -509,7 +517,7 @@ public class PMSManagerAPI {
 	public void removeTaskToTeam(String teamId,List<String> taskIds, AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams();
 		params.put("teamId", teamId);
-		params.put("ids", taskIds);
+		params.put("ids", getHashSet(taskIds));
 		MyHttpClient.delete(ReqHttpMethodPath.REQUST_REMOVE_TASK_TO_TEAM_URL,
 				params, responseHandler);
 	}
