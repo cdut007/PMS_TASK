@@ -97,7 +97,7 @@ public class PMSManagerAPI {
 		RequestParams params = getPublicParams(false);
 		params.put("LoginId", loginId);
 		params.put("password", password);
-		params.put("device", LogInController.getUUID(context));
+		params.put("uuid", LogInController.getUUID(context));
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_LOGIN_URL, params,
 				responseHandler);
 
