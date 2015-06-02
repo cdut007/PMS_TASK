@@ -46,10 +46,21 @@ public class MyApplication extends Application {
         TestReq.init(this);
 	}
 
+	
+	public void fulshLog() {
+		// TODO Auto-generated method stub
+		if (logConfigurator!=null) {
+			logConfigurator.setImmediateFlush(true);
+			logConfigurator.setImmediateFlush(false);
+			logConfigurator.configure();
+		}
+	}
+	
+	LogConfigurator logConfigurator ;
 	private void initLogConfig() {
 		// TODO Auto-generated method stub
 		// Create log Configurator
-		LogConfigurator logConfigurator = new LogConfigurator();
+		 logConfigurator = new LogConfigurator();
 		// Setting append log coudn't cover by a new log.
 		logConfigurator.setUseFileAppender(true);
 		// Define a file path for output log.
@@ -62,7 +73,6 @@ public class MyApplication extends Application {
 		logConfigurator.setLevel("org.apache", Level.ERROR);
 		logConfigurator.setFilePattern("%d %-5p [%c{2}]-[%L] %m%n");
 		logConfigurator.setMaxFileSize(1024 * 1024 * 5);
-
 		// Set up to use the cache first and then output to a file for a period
 		// of time
 		logConfigurator.setImmediateFlush(false);

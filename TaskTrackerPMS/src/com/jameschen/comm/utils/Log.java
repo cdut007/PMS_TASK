@@ -22,6 +22,7 @@ public class Log {
 			logger = Logger.getLogger(Log.class);
 		}
 		logger.info("["+tag+"]:"+msg);
+		
 	}
 	
 	public static void i(String tag, String info) {

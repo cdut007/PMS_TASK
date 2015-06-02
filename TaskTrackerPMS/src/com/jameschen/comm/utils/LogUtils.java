@@ -9,7 +9,9 @@ import java.util.Set;
 
 import com.thirdpart.model.LogInController;
 import com.thirdpart.model.entity.UserInfo;
+import com.thirdpart.tasktrackerpms.ui.MyApplication;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -29,10 +31,10 @@ public class LogUtils {
 
 	private final static String TAG = "LogUtils";
 
-	public static void sendLog(Context context) {
+	public static void sendLog(Activity context) {
 
 		try {
-
+			((MyApplication)context.getApplication()).fulshLog();
 			context.startActivity(CollectLogs.getLogReportIntent("<<<请添加bug问题描述>>>", context));
 
 		} catch (Exception e) {

@@ -41,10 +41,11 @@ public class IssueManager extends ManagerService {
 
 	/**
 	 * @param issueResult
+	 * @param mFiles 
 	 * @param iswork
 	 */
-	public void createIssue(IssueResult issueResult ) {
-		PMSManagerAPI.getInstance(context).createIssue(issueResult, new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_CREATE){});
+	public void createIssue(IssueResult issueResult, List<File> mFiles ) {
+		PMSManagerAPI.getInstance(context).createIssue(issueResult, mFiles,new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_CREATE){});
 
 	}
 	

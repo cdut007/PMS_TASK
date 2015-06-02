@@ -322,7 +322,9 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 		}
 		issueResult.setSolverid(solverCategory.getId());
 		
-		//issueResult.setConcerman(concerman);
+		String concerman = getConcerMan();
+		issueResult.setConcerman(concerman);
+		List<File> mFiles = getFiles();
 		
 		issueResult.setQuestionname(issueTopic.getContent().toString());
 		issueResult.setDescribe(issueDescView.getContent().toString());
@@ -330,12 +332,30 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 		issueResult.setStepno(workStep.getStepno());
 		issueResult.setStepname(workStep.getStepname());
 		issueResult.setWorstepid(workStep.getId());
-		sIssueManager.createIssue(issueResult);
+		sIssueManager.createIssue(issueResult,mFiles);
 		super.callCommitBtn(v);
 	}
 
 	
-	 @Override
+	 private List<File> getFiles() {
+	// TODO Auto-generated method stub
+		 List<File> mFileLists = new ArrayList<File>();
+		 for (Category category : mFiles) {
+			mFileLists.add(new File(category.getName()));
+		}
+	return  mFileLists;
+}
+
+	private String getConcerMan() {
+	// TODO Auto-generated method stub
+		String concerman = "";
+		for (Category category : mGuanzhuList) {
+			concerman+=category.getName()+"|";
+		}
+	return concerman;
+}
+
+	@Override
 	 public void failed(String name, int statusCode, Header[] headers,
 	 		String response) {
 	 	// TODO Auto-generated method stub
@@ -349,6 +369,8 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 	 	// TODO Auto-generated method stub
 	 	super.succ(name, statusCode, headers, response);
 	 	showToast("提交成功");
+	 	setResult(RESULT_OK);
+	 	finish();
 	 	
 	 }
 

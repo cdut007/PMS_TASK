@@ -197,20 +197,21 @@ public class PMSManagerAPI {
 
 	/**
 	 * @param issue
+	 * @param mFiles 
 	 * @param responseHandler
 	 */
 	public void createIssue(IssueResult issue,
-			AsyncHttpResponseHandler responseHandler) {
+			List<File> mFiles, AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams(true);
 
 		params.put("workstepid", issue.getWorstepid());
-		params.put("workstepno", issue.getStepno());
+		params.put("stepno", issue.getStepno());
 		params.put("stepname", issue.getStepname());
 		params.put("questionname", issue.getQuestionname());
 		params.put("describe", issue.getDescribe());
 		params.put("solverid", issue.getSolverid());
 		params.put("concernman", issue.getConcerman());
-
+		params.put("files", mFiles);
 		MyHttpClient.post(ReqHttpMethodPath.REQUST_CREATE_ISSUE_URL, params,
 				responseHandler);
 	}
