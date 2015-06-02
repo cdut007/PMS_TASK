@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -13,10 +14,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,8 +41,78 @@ public class MediaManager {
 	
 BaseActivity context;
 public static interface MediaChooseListener{
+
+	void chooseImage(int reqCodeTakePicture, String filePath);
 	
 }
+
+MediaChooseListener mediaChooseListener ;
+public Dialog showMediaChooseDialog(MediaChooseListener mediaChooseListener) {
+	this.mediaChooseListener = mediaChooseListener;
+	final Dialog dlg = new Dialog(context, R.style.MMTheme_DataSheet);
+	LayoutInflater inflater = (LayoutInflater) context
+			.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	LinearLayout layout = (LinearLayout) inflater.inflate(
+			R.layout.choose_image_dialog_layout, null);
+	final int cFullFillWidth = 10000;
+	layout.setMinimumWidth(cFullFillWidth);
+
+	// only 3 button .
+	TextView btn0 = (TextView) layout
+			.findViewById(R.id.menu_dialog_take_by_camera);
+	TextView btn1 = (TextView) layout
+			.findViewById(R.id.menu_dialog_choose_from_exist);
+	TextView btn2 = (TextView) layout
+			.findViewById(R.id.menu_dialog_cancel);
+	btn0.setOnClickListener(new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(Intent.ACTION_PICK,
+					android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+			intent.setType("image/*");
+			context.startActivityForResult(
+					Intent.createChooser(intent, "Select content"),
+					REQUEST_CODE_FOR_SELECT_IMAGE);
+			dlg.dismiss();
+		}
+	});
+
+	btn1.setOnClickListener(new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			takePhoto(uploadimageCachePath);
+			dlg.dismiss();
+		}
+	});
+	btn2.setOnClickListener(new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			dlg.dismiss();
+		}
+	});
+	// set a large value put it in bottom
+	Window w = dlg.getWindow();
+	WindowManager.LayoutParams lp = w.getAttributes();
+//	lp.x = 0;
+//	final int cMakeBottom = -1000;
+//	lp.y = cMakeBottom;
+//	lp.gravity = Gravity.BOTTOM;
+	lp.height = (int) TypedValue.applyDimension(
+			TypedValue.COMPLEX_UNIT_DIP, 160, context.getResources()
+					.getDisplayMetrics());
+	dlg.onWindowAttributesChanged(lp);
+	dlg.setCanceledOnTouchOutside(true);
+
+	dlg.setContentView(layout);
+	dlg.show();
+
+	return dlg;
+}
+
+
 	public MediaManager(BaseActivity baseActivity) {
 	// TODO Auto-generated constructor stub
 		context = baseActivity;
@@ -64,9 +141,9 @@ public static interface MediaChooseListener{
 	
 
 
-	private static final int REQ_CODE_TAKE_PICTURE = 0x11;
+	public static final int REQ_CODE_TAKE_PICTURE = 0x11;
 	
-	protected static final int REQUEST_CODE_FOR_SELECT_IMAGE = 0x12;
+	public static final int REQUEST_CODE_FOR_SELECT_IMAGE = 0x12;
 
 
 	private static final String TAG = "mediaManager";
@@ -111,11 +188,8 @@ public static interface MediaChooseListener{
 		return null;
 	}
 
-	protected ImageView photo;
 	protected String picPath;
 	private void updateImageUri(String path) {
-			photo.setTag(path);
-			photo.setImageBitmap(BitmapFactory.decodeFile(path));
 
       }
 	
@@ -131,6 +205,7 @@ public static interface MediaChooseListener{
 				Log.i(TAG, "picPathString ==" + picPathString);
 				MediaManager.compressImage(context, picPathString);
 				updateImageUri(picPathString);
+				mediaChooseListener.chooseImage(REQ_CODE_TAKE_PICTURE,picPathString);
 				break;
 
 			case REQUEST_CODE_FOR_SELECT_IMAGE:
@@ -172,7 +247,7 @@ public static interface MediaChooseListener{
 					showToast("请选择图片文件!");
 					return;
 				}
-			
+				mediaChooseListener.chooseImage(REQUEST_CODE_FOR_SELECT_IMAGE,sendingFile.getAbsolutePath());
 				break;
 			default:
 				break;

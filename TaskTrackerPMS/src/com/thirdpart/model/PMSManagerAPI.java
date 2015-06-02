@@ -40,7 +40,7 @@ public class PMSManagerAPI {
 	private RequestParams getCommonPageParams(String pageSize, String pageNum) {
 		// TODO Auto-generated method stub
 		
-		return getCommonPageParams(false, pageSize, pageNum);
+		return getCommonPageParams(true, pageSize, pageNum);
 	}
 
 	private RequestParams getPublicParams(boolean loginId) {

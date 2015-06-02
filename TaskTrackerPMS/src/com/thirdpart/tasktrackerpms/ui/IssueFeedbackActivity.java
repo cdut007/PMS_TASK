@@ -8,6 +8,7 @@ import org.apache.http.Header;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,12 +16,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.jameschen.comm.utils.Log;
 import com.jameschen.framework.base.BaseEditActivity;
 import com.jameschen.widget.CustomSelectPopupWindow.Category;
 import com.thirdpart.model.IssueManager;
 import com.thirdpart.model.MediaManager;
+import com.thirdpart.model.MediaManager.MediaChooseListener;
 import com.thirdpart.model.TeamMemberManager;
 import com.thirdpart.model.UploadFileManager;
 import com.thirdpart.model.TeamMemberManager.LoadUsersListener;
@@ -105,7 +109,6 @@ public class IssueFeedbackActivity extends BaseEditActivity {
 		@Override
 		public void oncreateItem(String tag, View convertView) {
 			// TODO Auto-generated method stub
-
 			mFiles.add(new Category(tag));//empty
 		}
 		
@@ -185,11 +188,12 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 					for (Category mCategory : mGuanzhuList) {
 						if (addItem.tag.equals(mCategory.tag)) {
 							//modify .
-							mCategory = category;
+							mCategory.setName(category.getName());
+							mCategory.setId(category.getId());
 							return;
 						}
 					}
-					mGuanzhuList.add(category);
+					Log.i(TAG, "can not find the select item from fouc:");
 				}
 				
 			}
@@ -214,39 +218,52 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 		});
 	}
 	
-	protected void chooseMedia(View convertView) {
-		// TODO Auto-generated method stub
-		if (true) {
-			return;
-		}
-		String fileName = null;
-		Category category = null;
-		ChooseItemView chooseItemView = (ChooseItemView) convertView.findViewById(R.id.common_add_item_title);
-		
-		for (Category mCategory : mFiles) {
-			if (fileName.equals(mCategory.getName())) {
-				//modify  do nothing.
-				if (!fileName.equals(chooseItemView.getContent())) {
-					showToast("该文件在列表了");//not in current chooseItem,but other already has this name.
-				    }
+	protected void chooseMedia(final View convertView) {
+		// TODO Auto-gener
+			mediaManager.showMediaChooseDialog(new MediaChooseListener() {
 				
-				return;
-			}
-		}
-		//load image
-		//chooseItemView.setContent(category.getName());
+				@Override
+				public void chooseImage(int reqCodeTakePicture, String filePath) {
+					String fileName = filePath;	
+					View chooseItemView = convertView.findViewById(R.id.common_add_item_title);
+					View imgItemView = convertView.findViewById(R.id.img_container);
+					
+					TextView sTextView = (TextView) convertView.findViewById(R.id.common_add_item_content);
+					
+					
+					AddItem addItem =(AddItem) chooseItemView.getTag();
+					for (Category mCategory : mFiles) {
+						if (fileName.equals(mCategory.getName())) {
+							//modify  do nothing.
+							if (!fileName.equals(sTextView.getTag())) {
+								showToast("该文件在列表了");//not in current chooseItem,but other already has this name.
+							    }
+							
+							return;
+						}
+					}
+					imgItemView.setVisibility(View.VISIBLE);
+					//load image
+					SimpleDraweeView prewImg = (SimpleDraweeView) convertView.findViewById(R.id.common_prew_img);
+					prewImg.setImageURI(Uri.parse("file://"+filePath));
+					sTextView.setText(new File(fileName).getName());
+					sTextView.setTag(fileName);
+					
+					//衣衣对应 是否已经存在，就只更新
+					for (Category mCategory : mFiles) {
+
+						if (addItem.tag.equals(mCategory.tag)) {
+							//modify .
+							
+							mCategory.setName(fileName);
+							return;
+						}
+					}
+					Log.i(TAG, "can not find the select item from file:");
+				}
+			});
 		
 		
-		AddItem addItem =(AddItem) chooseItemView.getTag();
-		//是否已经存在，就只更新
-		for (Category mCategory : mFiles) {
-			if (addItem.tag.equals(mCategory.tag)) {
-				//modify .
-				mCategory.setName(fileName);
-				return;
-			}
-		}
-		mFiles.add(category);
 	}
 
 	/*params.put("workstepid", issue.getWorstepid());
@@ -268,6 +285,7 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 			showToast("请选择解决人");
 			return;
 		}
+		//issueResult.setWorstepid(worstepid);
 		sIssueManager.createIssue(issueResult);
 		super.callCommitBtn(v);
 	}

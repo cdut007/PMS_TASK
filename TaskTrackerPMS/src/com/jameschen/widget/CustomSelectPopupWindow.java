@@ -28,6 +28,7 @@ public class CustomSelectPopupWindow   {
 	public static final class Category extends Department{
 		public Category(String tag) {
 			// TODO Auto-generated constructor stub
+			this.tag = tag;
 		}
 		public String tag;
 	}
