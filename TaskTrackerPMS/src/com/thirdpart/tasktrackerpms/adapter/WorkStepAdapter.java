@@ -97,10 +97,10 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 				context.startActivity(intent);
 			}
 		});
-		   if (((WorkStepAdapter)myBaseAdapter).scan ){
-			issueFeedback.setVisibility(View.GONE);
-			issueUpdate.setVisibility(View.GONE);
-		}
+//		   if (((WorkStepAdapter)myBaseAdapter).scan ){
+//			issueFeedback.setVisibility(View.GONE);
+//			issueUpdate.setVisibility(View.GONE);
+//		}
 		}
 
 		@Override
@@ -110,6 +110,12 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 			workName.setText(workStep.getStepname());
 			issueFeedback.setTag(workStep);
 			issueUpdate.setTag(workStep);
+			
+			if ("PREPARE".equals(workStep.getStepflag())) {
+				issueFeedback.setVisibility(View.VISIBLE);
+			}else {
+				issueFeedback.setVisibility(View.GONE);
+			}
 		}
 		
 	}

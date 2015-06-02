@@ -157,36 +157,70 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 			ids.add(plan.getId());
 			
 		}
-		getPMSManager().deliveryPlanToTeam(teamId, ids, new UINetworkHandler<JsonObject>(getActivity()) {
+		if (getLogInController().matchRoles("班组承包人")) {
+			getPMSManager().deliveryPlanToTeam(teamId, "2015-05-12",ids, new UINetworkHandler<Object>(getActivity()) {
 
-			@Override
-			public void start() {
-				// TODO Auto-generated method stub
-				
-			}
+				@Override
+				public void start() {
+					// TODO Auto-generated method stub
+					
+				}
 
-			@Override
-			public void finish() {
-				// TODO Auto-generated method stub
-				getBaseActivity().cancelProgressDialog();
-						
-			}
+				@Override
+				public void finish() {
+					// TODO Auto-generated method stub
+					getBaseActivity().cancelProgressDialog();
+							
+				}
 
-			@Override
-			public void callbackFailure(int statusCode, Header[] headers,
-					String response) {
-				// TODO Auto-generated method stub
-				showToast(response);
-			}
+				@Override
+				public void callbackFailure(int statusCode, Header[] headers,
+						String response) {
+					// TODO Auto-generated method stub
+					showToast(response);
+				}
 
-			@Override
-			public void callbackSuccess(int statusCode, Header[] headers,
-					JsonObject response) {
-				showToast("分配计划成功");
-				mListView.setRefreshing(true);
-				callNextPage(pageSize,defaultBeginPageNum);
-			}
-		});
+				@Override
+				public void callbackSuccess(int statusCode, Header[] headers,
+						Object response) {
+					showToast("分配计划成功");
+					mListView.setRefreshing(true);
+					callNextPage(pageSize,defaultBeginPageNum);
+				}
+			});
+		}else {
+			getPMSManager().deliveryPlanToHeadMan( ids,teamId, "2015-05-11", "2015-05-12",new UINetworkHandler<Object>(getActivity()) {
+
+				@Override
+				public void start() {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void finish() {
+					// TODO Auto-generated method stub
+					getBaseActivity().cancelProgressDialog();
+							
+				}
+
+				@Override
+				public void callbackFailure(int statusCode, Header[] headers,
+						String response) {
+					// TODO Auto-generated method stub
+					showToast(response);
+				}
+
+				@Override
+				public void callbackSuccess(int statusCode, Header[] headers,
+						Object response) {
+					showToast("分配计划成功");
+					mListView.setRefreshing(true);
+					callNextPage(pageSize,defaultBeginPageNum);
+				}
+			});
+		}
+		
 
 		
 	}

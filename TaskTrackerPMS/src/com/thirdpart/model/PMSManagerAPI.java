@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -225,12 +226,20 @@ public class PMSManagerAPI {
 	 *            (format:2015-05-26)
 	 * @param responseHandler
 	 */
+	HashSet<String> getHashSet(List<String> mList){
+		HashSet<String> mHashSet = new HashSet<String>();
+		for (String string : mList) {
+			mHashSet.add(string);
+		}
+		return mHashSet;
+	}
+	
 	public void deliveryPlanToHeadMan(
 			List<String> rollingPlanIds, String endManId, String startTime,
 			String endTime, AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams(true);
 		
-		params.put("ids", rollingPlanIds);
+		params.put("ids", getHashSet(rollingPlanIds));
 		params.put("endManId", endManId);
 		params.put("startTime", startTime);
 		params.put("endTime", endTime);
@@ -260,13 +269,13 @@ public class PMSManagerAPI {
 	 * @param rollingPlanIds
 	 * @param responseHandler
 	 */
-	public void deliveryPlanToTeam(String teamId, List<String> rollingPlanIds,
+	public void deliveryPlanToTeam(String teamId,String finishDate, List<String> rollingPlanIds,
 			AsyncHttpResponseHandler responseHandler) {
 
 		RequestParams params = getPublicParams();
 		params.put("teamId", teamId);
-		params.put("ids", rollingPlanIds);
-
+		params.put("ids", getHashSet(rollingPlanIds));
+		params.put("planfinishdate", finishDate);
 		MyHttpClient.post(ReqHttpMethodPath.REQUST_DISTRIBUTE_TASK_TO_TEAM_URL,
 				params, responseHandler);
 	}
@@ -518,18 +527,7 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	
-	/**
-	 * @param problemId
-	 * @param files
-	 * @param responseHandler
-	 */
-	public void uploadIssueFiles(String problemId,List<File> files, AsyncHttpResponseHandler responseHandler) {
-		RequestParams params = getPublicParams();
-		params.put("problemId", problemId);
-		params.put("files", files);
-		MyHttpClient.post(ReqHttpMethodPath.REQUST_UPLOAD_ISSUE_FILES_URL,
-				params, responseHandler);
-	}
+	
 	//param:loginUserId,pagesize,pagenum,condition (equal) 
 	/**
 	 * @param loginUserId

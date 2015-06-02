@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:background="@color/item_line" />
 
-        <TextView
+        <com.thirdpart.widget.SorcllTextView
             android:id="@+id/issue_topic"
             android:layout_width="0dp"
              style="@style/common_text_item"
@@ -60,7 +60,7 @@
             android:layout_height="match_parent"
             android:background="@color/item_line" />
 
-        <TextView
+        <com.thirdpart.widget.SorcllTextView
             android:id="@+id/issue_delivery"
             android:layout_width="0dp"
              style="@style/common_text_item"

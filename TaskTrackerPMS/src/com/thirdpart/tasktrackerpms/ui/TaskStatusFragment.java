@@ -157,7 +157,7 @@ public class TaskStatusFragment extends BasePageListFragment<RollingPlan, Rollin
 			ids.add(plan.getId());
 			
 		}
-		getPMSManager().deliveryPlanToTeam(teamId, ids, new UINetworkHandler<JsonObject>(getActivity()) {
+		getPMSManager().deliveryPlanToTeam(teamId, "",ids, new UINetworkHandler<JsonObject>(getActivity()) {
 
 			@Override
 			public void start() {

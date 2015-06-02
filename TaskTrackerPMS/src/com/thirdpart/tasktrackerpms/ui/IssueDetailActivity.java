@@ -81,7 +81,7 @@ private void updateInfo() {
 	issueDescView.setContent(issueResult.getDescribe(), false);
 	issueMethod.setContent(issueResult.getSolvemethod(), false);
 	issueStepTopic.setContent(issueResult.getStepname());
-	solverMan.setContent(issueResult.getStepname());
+	solverMan.setContent(issueResult.getCurrentsolver());
 	issueStatus.setContent(IssueManager.getIssueStatus(issueResult.getIsOk()));
 
 }

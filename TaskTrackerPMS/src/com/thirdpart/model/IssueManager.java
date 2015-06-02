@@ -74,15 +74,7 @@ public class IssueManager extends ManagerService {
 		PMSManagerAPI.getInstance(context).handleIssue(problemid,solvemethod, autoid, solvedman, isSolve, solverid,new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_HANDLE){});
 	}
 	
-	
-	
-	/**
-	 * @param problemId
-	 * @param files
-	 */
-	public void uploadIssueFiles(String problemId, List<File> files) {
-		PMSManagerAPI.getInstance(context).uploadIssueFiles(problemId, files,new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_DETAIL){});
-	}
+
 	public static String getIssueStatus(String isOk) {
 		return "0".equals(isOk)?"未解决":"解决";
 	}
