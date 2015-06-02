@@ -30,6 +30,7 @@ import com.thirdpart.model.UploadFileManager;
 import com.thirdpart.model.TeamMemberManager.LoadUsersListener;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.entity.IssueResult;
+import com.thirdpart.model.entity.WorkStep;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.AddItemView;
 import com.thirdpart.widget.AddItemView.AddItem;
@@ -55,12 +56,14 @@ public class IssueFeedbackActivity extends BaseEditActivity {
 	EditItemView  issueTopic;
 	AddItemView addFile,addPerson;
 	ChooseItemView solverMan;
+	WorkStep workStep;
  @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
       setTitle("问题反馈");
+      workStep = (WorkStep) getIntent().getSerializableExtra("feedback");
       initInfo();
       bindView();
       sIssueManager = (IssueManager) IssueManager.getNewManagerService(this, IssueManager.class, this);
@@ -266,6 +269,35 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 		
 	}
 
+	
+/**	{"witnessdateaqc1":null,"operatedesc":"s","witnessdateaqc2":null,
+		
+		"rollingPlan":{"technologyAsk":null,"remark":null,"qcsign":0,"consteam":"21",
+		"consdate":1426348800000,"qualityRiskCtl":null,"welder":null,"updatedBy":null,
+		"id":28,"assigndate":1432957400000,"drawno":"07060DY-JPS01-JPD-003","qualitynum":1,
+		"weldno":"M1","areano":"DY","updatedOn":null,"qcdate":null,"qcman":null,
+		"qualityplanno":"NZPT-TQP-0DY-JPD-P-20519","speciality":"GDHK","plandate":"2015-05-30至2015-05-31",
+		"materialtype":"CS","workTool":null,"weldlistno":"HJKZ-TQP-20519-00518","isend":1,"experienceFeedback":null,
+		"createdOn":1432957324000,"createdBy":"admin","unitno":"0","planfinishdate":1432915200000,"consendman":"22",
+		"doissuedate":null,"enddate":null,"worktime":1,"securityRiskCtl":null,"workpoint":0.325,"rccm":"NA"},
+		
+		"operater":"dd","witnesseraqa":null,"updatedBy":"zhangxu","noticed":null,
+		"witnesserb":null,"id":61,"witnesserc":null,"witnesserd":null,"operatedate":1432979974000,"noticeaqa":null,
+		"noticeb":null,"noticec":null,"updatedOn":1432979977000,"stepname":"坡口加工","witnessdateaqa":null,
+		"stepflag":"DONE","noticeainfo":null,"stepno":1,"noticeresul
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		tdesc":null,"createdOn":1432957324000,"" +
+				"createdBy":"admin","noticeresult":null,"witnesseraqc2":null,"witnesseraqc1":null,"witnessdatec":null,
+				"witnessdated":null,"noticeaqc1":null,"noticeaqc2":null,"witnessdateb":null}*/
+
 	/*params.put("workstepid", issue.getWorstepid());
 	params.put("workstepno", issue.getStepno());
 	params.put("stepname", issue.getStepname());
@@ -276,7 +308,10 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 	@Override
 	public void callCommitBtn(View v) {
 		// TODO Auto-generated method stub
-		
+		if (TextUtils.isEmpty(issueTopic.getContent())) {
+			showToast("请填写问题主题");
+			return;
+		}
 		if (TextUtils.isEmpty(issueDescView.getContent())) {
 			showToast("请填写问题描述");
 			return;
@@ -285,7 +320,16 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 			showToast("请选择解决人");
 			return;
 		}
-		//issueResult.setWorstepid(worstepid);
+		issueResult.setSolverid(solverCategory.getId());
+		
+		//issueResult.setConcerman(concerman);
+		
+		issueResult.setQuestionname(issueTopic.getContent().toString());
+		issueResult.setDescribe(issueDescView.getContent().toString());
+		
+		issueResult.setStepno(workStep.getStepno());
+		issueResult.setStepname(workStep.getStepname());
+		issueResult.setWorstepid(workStep.getId());
 		sIssueManager.createIssue(issueResult);
 		super.callCommitBtn(v);
 	}

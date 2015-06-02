@@ -79,7 +79,7 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 				Intent intent= new Intent(context,IssueFeedbackActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				WorkStep workStep = (WorkStep) v.getTag();
-				intent.putExtra("feedback", workStep.getId());
+				intent.putExtra("feedback",workStep);
 				context.startActivity(intent);
 			}
 		});
