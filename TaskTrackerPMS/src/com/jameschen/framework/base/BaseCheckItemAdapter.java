@@ -57,7 +57,8 @@ public abstract class  BaseCheckItemAdapter<T> extends BasePageAdapter<T> {
 			int count = getCount();
 			List<T> mList = new ArrayList<T>();
 			for (int i = 0; i < count; i++) {
-				if (getIsSelected().get(i)) {
+				Boolean ischecked = getIsSelected().get(i);
+				if (ischecked!=null && ischecked) {
 					mList.add(getItem(i));
 				}
 			}
