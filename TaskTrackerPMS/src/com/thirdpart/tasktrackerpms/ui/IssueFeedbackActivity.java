@@ -1,7 +1,9 @@
 package com.thirdpart.tasktrackerpms.ui;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.http.Header;
@@ -20,10 +22,14 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jameschen.comm.utils.Log;
+import com.jameschen.comm.utils.MyHttpClient;
 import com.jameschen.framework.base.BaseEditActivity;
 import com.jameschen.widget.CustomSelectPopupWindow.Category;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.thirdpart.model.IssueManager;
 import com.thirdpart.model.MediaManager;
+import com.thirdpart.model.Config.ReqHttpMethodPath;
 import com.thirdpart.model.MediaManager.MediaChooseListener;
 import com.thirdpart.model.TeamMemberManager;
 import com.thirdpart.model.UploadFileManager;
@@ -307,6 +313,7 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 	params.put("concernman", issue.getConcerman());*/
 	@Override
 	public void callCommitBtn(View v) {
+		
 		// TODO Auto-generated method stub
 		if (TextUtils.isEmpty(issueTopic.getContent())) {
 			showToast("请填写问题主题");
@@ -336,8 +343,15 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 		super.callCommitBtn(v);
 	}
 
-	
-	 private List<File> getFiles() {
+	HashSet<File> getHashFileSet(List<File> mList){
+		HashSet<File> mHashSet = new HashSet<File>();
+		for (File file : mList) {
+			mHashSet.add(file);
+		}
+		return mHashSet;
+	}
+
+	private List<File> getFiles() {
 	// TODO Auto-generated method stub
 		 List<File> mFileLists = new ArrayList<File>();
 		 for (Category category : mFiles) {

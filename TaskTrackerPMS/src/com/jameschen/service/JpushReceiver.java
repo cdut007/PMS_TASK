@@ -162,7 +162,10 @@ public class JpushReceiver extends BroadcastReceiver {
 	
 	// send msg to MainActivity
 	public static void processCustomMessage(Context context, Bundle bundle, boolean islogon) {
-
+		if (!islogon) {
+			
+			return;
+		}
 		String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
 		String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
 		String title = bundle.getString(JPushInterface.EXTRA_TITLE);

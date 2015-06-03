@@ -5,6 +5,8 @@ import java.lang.reflect.Type;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.text.TextUtils;
 
 import com.google.gson.JsonNull;
@@ -19,7 +21,10 @@ public class Util {
 		// TODO Auto-generated method stub
 		if (context instanceof Activity) {
 			Activity activity = (Activity) context;
-			if (activity.isFinishing() || activity.isDestroyed()) {
+			if (activity.isFinishing() ) {
+				return true;
+			}
+			if (VERSION.SDK_INT>=VERSION_CODES.KITKAT&&activity.isDestroyed()) {
 				return true;
 			}
 		}

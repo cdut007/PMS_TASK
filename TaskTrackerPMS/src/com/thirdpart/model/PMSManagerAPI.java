@@ -1,6 +1,7 @@
 package com.thirdpart.model;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -212,18 +213,22 @@ public class PMSManagerAPI {
 		params.put("describe", issue.getDescribe());
 		params.put("solverid", issue.getSolverid());
 		params.put("concernman", issue.getConcerman());
-		params.put("files", getHashFileSet(mFiles));
+
+		for (int j = 0; j < mFiles.size(); j++) {
+			try {
+				params.put("file"+j, mFiles.get(j));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	
 		MyHttpClient.post(ReqHttpMethodPath.REQUST_CREATE_ISSUE_URL, params,
 				responseHandler);
 	}
 
-	HashSet<File> getHashFileSet(List<File> mList){
-		HashSet<File> mHashSet = new HashSet<File>();
-		for (File file : mList) {
-			mHashSet.add(file);
-		}
-		return mHashSet;
-	}
+	
 
 	/**
 	 * @param loginUserId
