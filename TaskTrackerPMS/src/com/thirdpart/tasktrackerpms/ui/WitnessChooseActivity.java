@@ -38,7 +38,6 @@ import com.thirdpart.widget.EditItemView;
 
 public class WitnessChooseActivity extends BaseEditActivity  {
 
-	private static final int REQUEST_PICK_DATE = 0x11;
 	private WitnessManager witnessManager;
 	WitnessDistributed witness;
 
@@ -358,7 +357,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 		Intent intent = new Intent(this, TimeActivity.class);
 
 		// intent.putExtra(ConstValues.ID, Long.parseLong(rollingPlan.getId()));
-		startActivityForResult(intent, REQUEST_PICK_DATE);
+		startActivityForResult(intent, TimeActivity.REQUEST_PICK_DATE);
 	}
 
 	@Override
@@ -404,7 +403,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 		// TODO Auto-generated method stub
 		super.onActivityResult(arg0, arg1, intent);
 		switch (arg0) {
-		case REQUEST_PICK_DATE: {
+		case TimeActivity.REQUEST_PICK_DATE: {
 			if (arg1 == RESULT_OK) {
 				int monthVal = intent.getIntExtra("month", 1);
 				int dayVal = intent.getIntExtra("day", 1);

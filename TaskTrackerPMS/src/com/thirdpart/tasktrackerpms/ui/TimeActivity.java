@@ -6,6 +6,7 @@ import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 import kankan.wheel.widget.adapters.NumericWheelAdapter;
+import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -17,20 +18,31 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.tasktrackerpms.R;
 
 public class TimeActivity extends Activity {
+
+	public static final int REQUEST_PICK_DATE = 0x11;
     private WheelView month;
 	private WheelView day;
     private WheelView monthEnd;
 	private WheelView dayEnd;
 	private int curMonth;
+	private boolean oneday;
+
+    Calendar calendar = Calendar.getInstance();
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.time_layout);
+        oneday = getIntent().getBooleanExtra("oneday", false);
 
-        Calendar calendar = Calendar.getInstance();
+        if (oneday) {
+			findViewById(R.id.enddate).setVisibility(View.GONE);
+			((TextView)findViewById(R.id.beginText)).setText("选择日期");
+		}
+        
 
         month = (WheelView) findViewById(R.id.month);
      //   final WheelView year = (WheelView) findViewById(R.id.year);
@@ -69,11 +81,11 @@ public class TimeActivity extends Activity {
 					return;
 				}
 				
-				if (monthEnd.getCurrentItem()<month.getCurrentItem()) {
+				if (!oneday&&monthEnd.getCurrentItem()<month.getCurrentItem()) {
 					Toast.makeText(getBaseContext(), "结束日期不能小于开始日期", Toast.LENGTH_SHORT).show();
 					return;
 				}
-				if (monthEnd.getCurrentItem()==month.getCurrentItem()) {
+				if (!oneday&&monthEnd.getCurrentItem()==month.getCurrentItem()) {
 					
 					if (dayEnd.getCurrentItem()<day.getCurrentItem()) {
 						Toast.makeText(getBaseContext(), "结束日期不能小于开始日期", Toast.LENGTH_SHORT).show();
@@ -86,9 +98,17 @@ public class TimeActivity extends Activity {
 				//intent.put
 				intent.putExtra("monthEnd", monthEnd.getCurrentItem());
 				intent.putExtra("dayEnd", dayEnd.getCurrentItem()+1);
+				intent.putExtra("format", forSendMatDate(calendar.get(Calendar.YEAR), month.getCurrentItem(), day.getCurrentItem()+1));
 				
-				intent.putExtra("time", forMatDate(month.getCurrentItem(), day.getCurrentItem()+1) + " - "
-						+ forMatDate( monthEnd.getCurrentItem(),  dayEnd.getCurrentItem()+1));
+				if (oneday) {
+					intent.putExtra("time", forMatDate(month.getCurrentItem(), day.getCurrentItem()+1));
+						
+				}else {
+					intent.putExtra("format1", forSendMatDate(calendar.get(Calendar.YEAR), monthEnd.getCurrentItem(), dayEnd.getCurrentItem()+1));
+			intent.putExtra("time", forMatDate(month.getCurrentItem(), day.getCurrentItem()+1) + " - "
+							+ forMatDate( monthEnd.getCurrentItem(),  dayEnd.getCurrentItem()+1));
+					
+				}
 				
 					setResult(RESULT_OK,intent);
 					finish();
@@ -106,7 +126,7 @@ public class TimeActivity extends Activity {
      * Updates day wheel. Sets max days according to selected month and year
      */
     void updateDays(WheelView month, WheelView day,WheelView monthEnd, WheelView dayEnd) {
-        Calendar calendar = Calendar.getInstance();
+     //   Calendar calendar = Calendar.getInstance();
      //   calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + year.getCurrentItem());
     
      //   calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) );
@@ -132,6 +152,10 @@ public class TimeActivity extends Activity {
 			return "" + val;
 		}
 	}
+    
+    private String forSendMatDate(int year,int month, int day) {
+		return year +"-"+ getTimeFormat(1 + month) + "-" + getTimeFormat(day);
+	}
 
 	private String forMatDate(int month, int day) {
 		return getTimeFormat(1 + month) + "月" + getTimeFormat(day) + "日";
@@ -139,7 +163,6 @@ public class TimeActivity extends Activity {
 
 	
 
-	Calendar calendar = Calendar.getInstance();
 
 	String getDefualtTimeFormat() {
 		int yearVal = calendar.get(Calendar.YEAR);

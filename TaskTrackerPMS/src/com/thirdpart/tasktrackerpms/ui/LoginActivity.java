@@ -173,7 +173,7 @@ public class LoginActivity extends BaseActivity{
 					if (isFinishing()) {
 						return;
 					}
-					getLogInController().registerPush();
+					getLogInController().registerPush(response.getId());
 					// TODO Auto-generated method stub
 					getLogInController().saveUserToPreference(LoginActivity.this, id, password,response);
 					cancelProgressDialog();

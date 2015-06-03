@@ -6,14 +6,17 @@ import java.util.List;
 
 import org.apache.http.Header;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 
 import com.google.gson.JsonObject;
 import com.jameschen.comm.utils.Log;
@@ -29,6 +32,7 @@ import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.tasktrackerpms.adapter.DeliveryPlanAdapter;
 import com.thirdpart.tasktrackerpms.adapter.PlanAdapter;
 import com.thirdpart.widget.IndicatorView;
+import com.thirdpart.widget.TouchImage;
 
 
 public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, RollingPlanList> implements OnItemClickListener{
@@ -45,9 +49,21 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 		mListView.setOnItemClickListener(this);
 		title = getArguments().getString(Item.PLAN);
 		teamId = getArguments().getString("teamId");
-		
+		time = (Button) view.findViewById(R.id.plan_date);
+		time.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				go2ChooseTime();
+			}
+		});
 		DeliveryPlanAdapter deliveryPlanAdapter = (DeliveryPlanAdapter) mAdapter;
 		scanMode = getArguments().getBoolean("scan");
+		if (!scanMode) {
+			TouchImage.buttonEffect(time);
+			time.setVisibility(View.VISIBLE);
+		}
 		deliveryPlanAdapter.setScanMode(scanMode);
 		IndicatorView indicatorView = (IndicatorView) view.findViewById(R.id.plan_delivery_indicator);
 		indicatorView.setScanMode(scanMode);
@@ -119,7 +135,12 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 		
 	}
 
-
+	void go2ChooseTime() {
+		Intent intent = new Intent(getActivity(), TimeActivity.class);
+		boolean oneday = !getLogInController().matchRoles("班组承包人");
+		intent.putExtra("oneday", oneday);
+		startActivityForResult(intent, TimeActivity.REQUEST_PICK_DATE);
+	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -134,6 +155,36 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 		intent.putExtra(Item.PLAN, p);
 		startActivity(intent);
 	}
+	
+	String format0, format1;
+@Override
+public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	// TODO Auto-generated method stub
+	super.onActivityResult(requestCode, resultCode, data);
+
+	switch (requestCode) {
+	case TimeActivity.REQUEST_PICK_DATE: {
+		if (resultCode == Activity.RESULT_OK) {
+			int monthVal = data.getIntExtra("month", 1);
+			int dayVal = data.getIntExtra("day", 1);
+			int monthEndVal = data.getIntExtra("monthEnd", 1);
+			int dayEndVal = data.getIntExtra("dayEnd", 1);
+			 format0 = data.getStringExtra("format");
+			 format1 = data.getStringExtra("format1");
+			updateTime(data.getStringExtra("time"));
+		}
+	}
+		break;
+
+	default:
+		break;
+	}
+}
+Button time;
+	private void updateTime(String timeStr) {
+	// TODO Auto-generated method stub
+	 time.setText(timeStr);
+}
 
 	public void commit() {
 		// TODO Auto-generated method stub
@@ -144,6 +195,13 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 			getBaseActivity().cancelProgressDialog();
 			return;
 		}
+		
+		if (format0 ==null) {
+			showToast("请选择时间");
+			getBaseActivity().cancelProgressDialog();
+			return;
+		}
+		
 		List<RollingPlan> mSeletedItems = deliveryPlanAdapter.getAllCheckOptions();
 		executeCommitPlanNetWorkRequest(mSeletedItems);
 	}
@@ -158,7 +216,7 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 			
 		}
 		if (getLogInController().matchRoles("班组承包人")) {
-			getPMSManager().deliveryPlanToHeadMan( ids,teamId, "2015-05-11", "2015-05-12",new UINetworkHandler<Object>(getActivity()) {
+			getPMSManager().deliveryPlanToHeadMan( ids,teamId, format0, format1,new UINetworkHandler<Object>(getActivity()) {
 
 				@Override
 				public void start() {
@@ -190,7 +248,7 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 			});
 		}else {
 
-			getPMSManager().deliveryPlanToTeam(teamId, "2015-05-12",ids, new UINetworkHandler<Object>(getActivity()) {
+			getPMSManager().deliveryPlanToTeam(teamId, format0,ids, new UINetworkHandler<Object>(getActivity()) {
 
 				@Override
 				public void start() {

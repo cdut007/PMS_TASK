@@ -17,14 +17,30 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
          widgets:customName="delivery" />
+  
+   
+  
     </RelativeLayout>
-
+<Button
+             style="@style/common_text_item"
+              android:drawableRight="@drawable/category_choose_trangle_state"
+           android:visibility="gone"
+            android:id="@+id/plan_date"
+         android:background="@color/app_bg_color"
+         android:layout_below="@+id/plan_indicator_bar"
+         android:layout_marginTop="10dp"
+         android:layout_marginBottom="10dp"
+         android:layout_margin="10dp"
+         android:drawablePadding="10dp"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+            android:text="选择计划时间" />
    
     <include
         android:id="@+id/plan_list_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/plan_indicator_bar"
+        android:layout_below="@+id/plan_date"
         android:layout_marginTop="1px"
         layout="@layout/common_list" />
     

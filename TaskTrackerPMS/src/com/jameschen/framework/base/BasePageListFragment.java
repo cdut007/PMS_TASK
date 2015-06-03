@@ -263,6 +263,7 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 				String response) {
 			// TODO Auto-generated method stub
 				showToast(response);
+				cancelLoading(false);
 				callbackPageFailure(statusCode, headers, response);
 		}
 

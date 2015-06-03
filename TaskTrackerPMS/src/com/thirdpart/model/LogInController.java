@@ -173,10 +173,16 @@ public class LogInController {
 		}
 		return accounts;
 	}
-
 	public void registerPush() {
-		String id =getInfo().getId();
+		registerPush(null);
+	}
+	public void registerPush(String id) {
 		if (id == null) {
+			 id =getInfo().getId();	
+		}
+		
+		if (id == null) {
+			Log.i("login", "ID is null");//
 			return;
 		}
 		String uuid = getUUID(context);

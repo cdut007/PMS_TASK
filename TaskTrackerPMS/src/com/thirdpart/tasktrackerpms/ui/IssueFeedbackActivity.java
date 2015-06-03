@@ -46,7 +46,12 @@ import com.thirdpart.widget.UserInputItemView;
 
 public class IssueFeedbackActivity extends BaseEditActivity {
 	
-	
+public interface IssueFeedbackSuccListener {
+ void commitSucc();	
+}	
+
+
+
 	List<Category> mFiles = new ArrayList<Category>();
 	
 	List<Category> mGuanzhuList = new ArrayList<Category>();
@@ -383,6 +388,7 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 	 	// TODO Auto-generated method stub
 	 	super.succ(name, statusCode, headers, response);
 	 	showToast("提交成功");
+	 	WorkStepFragment.CallSucc();
 	 	setResult(RESULT_OK);
 	 	finish();
 	 	

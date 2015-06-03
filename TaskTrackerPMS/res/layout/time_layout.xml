@@ -10,7 +10,17 @@
     android:paddingTop="30dp" 
 	android:orientation="vertical"
 	android:background="@color/app_bg_color">
-	 <TextView 
+	
+    <LinearLayout 
+        android:orientation="vertical"
+              android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/begindate"
+        >
+         <TextView 
+             android:id="@+id/beginText"
                android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
@@ -36,7 +46,18 @@
             android:layout_width="140dp"/>
         
 	</LinearLayout>
-    <TextView 
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/enddate"
+         android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+        >
+        
+        <TextView 
                android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
@@ -62,6 +83,7 @@
             android:layout_width="140dp"/>
         
 	</LinearLayout>
+    </LinearLayout>
 		  <Button
         android:id="@+id/done"
         style="@style/common_btn"
