@@ -388,11 +388,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 
 
 
-	
-	public long getTimeInfo() {
-		//return timeWidgetItemInfo.content;
-		return 0;
-	}
+
 	
 	private String getdateformat(long times) {
 		// TODO Auto-generated method stub
@@ -401,44 +397,8 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 		return sdf.format(date);
 	}
 
-	private String getTimeFormat(int val) {
-		if (val < 10) {
-			return "0" + val;
-		} else {
-			return "" + val;
-		}
-	}
-
-	private String forMatDate(int month, int day) {
-		return getTimeFormat(1 + month) + "月" + getTimeFormat(day) + "日";
-	}
-
-	
-
-	Calendar calendar = Calendar.getInstance();
 	private List<WitnesserList> witnessList;
-
-	String getDefualtTimeFormat() {
-		int yearVal = calendar.get(Calendar.YEAR);
-		int hourVal = 10;
-		if (hourVal > 24) {
-			hourVal = 24;
-		}
-		int endHourVal = 18;
-		if (endHourVal > 24) {
-			endHourVal = 24;
-		}
-		int monthVal;
-		int dayVal;
-		int monthEndVal;
-		int dayEndVal;
-		return forMatDate(monthVal = calendar.get(Calendar.MONTH),
-				dayVal = calendar.get(Calendar.DAY_OF_MONTH))
-				+ " - "
-				+ forMatDate(monthEndVal = calendar.get(Calendar.MONTH),
-						dayEndVal = calendar.get(Calendar.DAY_OF_MONTH));
-	}
-
+	
 	@Override
 	protected void onActivityResult(int arg0, int arg1, Intent intent) {
 		// TODO Auto-generated method stub
@@ -450,8 +410,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 				int dayVal = intent.getIntExtra("day", 1);
 				int monthEndVal = intent.getIntExtra("monthEnd", 1);
 				int dayEndVal = intent.getIntExtra("dayEnd", 1);
-				updateTime(forMatDate(monthVal, dayVal) + " - "
-						+ forMatDate(monthEndVal, dayEndVal));
+				updateTime(intent.getStringExtra("time"));
 			}
 		}
 			break;

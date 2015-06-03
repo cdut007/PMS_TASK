@@ -86,6 +86,10 @@ public class TimeActivity extends Activity {
 				//intent.put
 				intent.putExtra("monthEnd", monthEnd.getCurrentItem());
 				intent.putExtra("dayEnd", dayEnd.getCurrentItem()+1);
+				
+				intent.putExtra("time", forMatDate(month.getCurrentItem(), day.getCurrentItem()+1) + " - "
+						+ forMatDate( monthEnd.getCurrentItem(),  dayEnd.getCurrentItem()+1));
+				
 					setResult(RESULT_OK,intent);
 					finish();
 			}
@@ -119,6 +123,46 @@ public class TimeActivity extends Activity {
          curDay = Math.min(maxDays, day.getCurrentItem() + 1);
          dayEnd.setCurrentItem(curDay - 1, true);
     }
+    
+    
+    private String getTimeFormat(int val) {
+		if (val < 10) {
+			return "0" + val;
+		} else {
+			return "" + val;
+		}
+	}
+
+	private String forMatDate(int month, int day) {
+		return getTimeFormat(1 + month) + "月" + getTimeFormat(day) + "日";
+	}
+
+	
+
+	Calendar calendar = Calendar.getInstance();
+
+	String getDefualtTimeFormat() {
+		int yearVal = calendar.get(Calendar.YEAR);
+		int hourVal = 10;
+		if (hourVal > 24) {
+			hourVal = 24;
+		}
+		int endHourVal = 18;
+		if (endHourVal > 24) {
+			endHourVal = 24;
+		}
+		int monthVal;
+		int dayVal;
+		int monthEndVal;
+		int dayEndVal;
+		return forMatDate(monthVal = calendar.get(Calendar.MONTH),
+				dayVal = calendar.get(Calendar.DAY_OF_MONTH))
+				+ " - "
+				+ forMatDate(monthEndVal = calendar.get(Calendar.MONTH),
+						dayEndVal = calendar.get(Calendar.DAY_OF_MONTH));
+	}
+
+    
     
     /**
      * Adapter for numeric wheels. Highlights the current value.
