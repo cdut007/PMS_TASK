@@ -22,6 +22,54 @@ public class TouchImage extends ImageView{
 	}
 	
 	
+	
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	public static void ViewEffect(View bubbleView) {
+	
+		StateListDrawable states = new StateListDrawable(){
+			@Override
+			protected boolean onStateChange(int[] stateSet) {
+				
+				 boolean isStatePressedInArray = false;
+				 for (int state : stateSet) {
+			            if (state == android.R.attr.state_selected) {
+			            	   isStatePressedInArray = true;
+			            }
+			            
+			            if (state == android.R.attr.state_pressed) {
+			            	   isStatePressedInArray = true;
+			            }
+			        }
+				 
+				 if (isStatePressedInArray) {
+					  super.setColorFilter(0x99999999,Mode.MULTIPLY);
+			        } else {
+			            super.clearColorFilter();
+			        }
+				 
+				return super.onStateChange(stateSet);
+			}
+			@Override
+		    public boolean isStateful() {
+		        return true;
+		    }
+		};
+		
+			if (bubbleView.getBackground()!=null) {
+				states.addState(new int[] {android.R.attr.state_pressed}, bubbleView.getBackground());	   
+	    		states.addState(new int[] {}, bubbleView.getBackground());	    		
+	    		if (Build.VERSION.SDK_INT>=16) {
+	    			bubbleView.setBackground(states);
+				}else {
+					bubbleView.setBackgroundDrawable(states);
+				}
+			}
+		
+	
+	//states.addState(new int[] {}, r.getDrawable(R.drawable.normal));
+		
+	}
+	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public static void buttonEffect(View bubbleView) {
 	

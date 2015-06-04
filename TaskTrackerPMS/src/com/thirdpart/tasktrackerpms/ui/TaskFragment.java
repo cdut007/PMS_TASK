@@ -9,6 +9,7 @@ import org.apache.http.Header;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
@@ -41,6 +42,7 @@ import com.thirdpart.model.entity.TaskCategoryItem;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.TabItemView;
 import com.thirdpart.widget.TabItemView.onItemSelectedLisnter;
+import com.thirdpart.widget.TouchImage;
 
 public class TaskFragment extends BaseFragment implements OnReqHttpCallbackListener{
 	@Override
@@ -84,22 +86,7 @@ private void initView(View view) {
 	final	GridView gridView = (GridView) view.findViewById(R.id.common_list_gv);
 		itemAdapter = new ItemAdapter(this, mHankouList);//deault
 		gridView.setAdapter(itemAdapter);
-		gridView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
-				Object object = parent.getAdapter().getItem(position);
-				if (object == null) {
-					return;
-				}
-				TaskItem p = (TaskItem) (object);
-				intent.putExtra(Item.TASK, p);
-				startActivity(intent);
-			}
-		});
+	
 		
 	ViewGroup dateContainer = (ViewGroup) view.findViewById(R.id.task_indicator_date_container);	
 	 int size = dateContainer.getChildCount();
@@ -248,9 +235,10 @@ public void onHiddenChanged(boolean hidden) {
 	}
 	
 	static class ItemAdapter extends MyBaseAdapter<TaskItem> {
-
+		TaskFragment sFragment;
 		public ItemAdapter(TaskFragment taskFragment, List<TaskItem> mList) {
 			super(taskFragment.getActivity(), R.layout.circle_text_item);
+			sFragment = taskFragment;
 			setObjectList(mList);
 			notifyDataSetChanged();
 		}
@@ -258,7 +246,7 @@ public void onHiddenChanged(boolean hidden) {
 		@Override
 		protected HoldView<TaskItem> createHoldView() {
 			// TODO Auto-generated method stub
-			return new ItemHoldView();
+			return new ItemHoldView(sFragment);
 		}
 
 		@Override
@@ -269,8 +257,34 @@ public void onHiddenChanged(boolean hidden) {
 			return convertView;
 
 		}
+		
+
+		@Override
+		public boolean isEnabled(int position) {
+			// TODO Auto-generated method stub
+			return false;
+		}
 	}
 
+	
+	public interface OnItemClickListener{
+		public void onItemClick( View view, TaskItem object) ;
+	}
+	
+	OnItemClickListener itemClickListener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick( View view, TaskItem object) {
+			// TODO Auto-generated method stub
+			Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+			if (object == null) {
+				return;
+			}
+			TaskItem p = (TaskItem) (object);
+			intent.putExtra(Item.TASK, p);
+			startActivity(intent);
+		}
+	};
 	
 	
 	public static class TaskItem implements Serializable{
@@ -295,9 +309,10 @@ public void onHiddenChanged(boolean hidden) {
 		SimpleDraweeView bgDraweeView;
 		View cricleContaner;
 		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		public ItemHoldView() {
+		private TaskFragment sFragment;
+		public ItemHoldView(TaskFragment taskFragment) {
 			// TODO Auto-generated constructor stub
-			
+			sFragment = taskFragment;
 			paint.setStyle(Style.FILL);
 		}
 		@Override
@@ -317,13 +332,23 @@ public void onHiddenChanged(boolean hidden) {
 			BadgeView badgeView = new BadgeView(bgDraweeView.getContext());
 			badgeView.setBadgeCount(0);
 			bgDraweeView.setTag(badgeView);
-			badgeView.setTargetView(bgDraweeView);
+			TouchImage.ViewEffect(bgDraweeView);
+			convertView.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					sFragment.itemClickListener.onItemClick(v, (TaskItem)contenTextView.getTag());
+					
+					
+				}
+			});
 		}
 		
 		@Override
-		protected void setInfo(TaskItem object) {
+		protected void setInfo( TaskItem object) {
 			// TODO Auto-generated method stub
-			
+			contenTextView.setTag(object);
 			contenTextView.setText(object.name+"90道");
 			final int color = object.color;
 			bgDraweeView.getHierarchy().setPlaceholderImage(new Drawable() {
