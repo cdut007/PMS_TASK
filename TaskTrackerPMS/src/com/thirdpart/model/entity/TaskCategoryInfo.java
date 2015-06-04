@@ -4,7 +4,7 @@ public class TaskCategoryInfo {
 
 	private String result;
 	private String status;
-	
+	public String type;
 	
 	
 	

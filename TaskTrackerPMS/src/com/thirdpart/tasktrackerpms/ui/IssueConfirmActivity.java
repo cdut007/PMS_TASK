@@ -11,31 +11,47 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.jameschen.framework.base.BaseDetailActivity;
 import com.jameschen.framework.base.BaseEditActivity;
+import com.jameschen.framework.base.BaseDetailActivity.CreateItemViewListener;
 import com.jameschen.framework.base.CommonCallBack.OnRetryLisnter;
+import com.jameschen.widget.CustomSelectPopupWindow.Category;
 import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.IssueManager;
 import com.thirdpart.model.ManagerService;
+import com.thirdpart.model.TeamMemberManager;
 import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
+import com.thirdpart.model.TeamMemberManager.LoadUsersListener;
 import com.thirdpart.model.PlanManager;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.entity.IssueMenu;
 import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.DisplayItemView;
 import com.thirdpart.widget.UserInputItemView;
 
-public class IssueConfirmActivity extends BaseDetailActivity {
+public class IssueConfirmActivity extends BaseEditActivity {
 	
+	private UserInputItemView issueDesc;
+	private CheckBox issueEffectBox;
+	
+	IssueResult   issueResult ;
+	IssueManager issueManager;
+	
+
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -43,89 +59,79 @@ public class IssueConfirmActivity extends BaseDetailActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		
 	}
-	//{"id":"20","worstepid":"121","stepno":null,"stepname":"坡口加工","describe":"111111111",
-	//"questionname":"11","isOk":"0","level":"2","solvemethod":"","confirm":null,
-	//"methodmanid":"0","solvedate":"","concerman":"91",
-	//"currentsolver":"张旭","createdBy":"94","file":[]}
-	
-IssueManager sIssueManager;
- IssueResult issueResult;
+
+
  @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
 		issueResult = (IssueResult) getIntent().getSerializableExtra(Item.ISSUE);	
-      setTitle("问题详情");
+      setTitle("问题确认");
       initInfo();
-      sIssueManager = (IssueManager) IssueManager.getNewManagerService(this, IssueManager.class, this);
       bindViews();
-      updateInfo();
-      loadDetail();
+      issueManager = (IssueManager) ManagerService.getNewManagerService(this, IssueManager.class, this);
+      teamMemberManager =new TeamMemberManager(this); 
+     
  }
  
-	UserInputItemView issueDescView,issueMethod;
-	DisplayItemView issueStepTopic,solverMan,issueStatus;
+ public void onAttachedToWindow() {
+	 super.onAttachedToWindow();
+ };
+TeamMemberManager teamMemberManager;
+ 
 	
 	private void bindViews() {
 	// TODO Auto-generated method stub
-		issueDescView = (UserInputItemView) findViewById(R.id.issue_desc);
-		issueMethod = (UserInputItemView) findViewById(R.id.issue_method);
-		issueStepTopic = (DisplayItemView) findViewById(R.id.issue_topic);
-		solverMan = (DisplayItemView) findViewById(R.id.issue_solver);
-		issueStatus = (DisplayItemView) findViewById(R.id.issue_status);
-}
-
-private void updateInfo() {
-	// TODO Auto-generated method stub
-	issueDescView.setContent(issueResult.getDescribe(), false);
-	issueMethod.setContent(issueResult.getSolvemethod(), false);
-	issueStepTopic.setContent(issueResult.getStepname());
-	solverMan.setContent(issueResult.getStepname());
-	issueStatus.setContent(IssueManager.getIssueStatus(issueResult.getIsOk()));
-
-}
-
-	private void loadDetail() {
-		showLoadingView(true);
-		sIssueManager.IssueDetail(issueResult.getId());
-	
-}
-  @Override
-public void failed(String name, int statusCode, Header[] headers,
-		String response) {
-	// TODO Auto-generated method stub
-	super.failed(name, statusCode, headers, response);
-	showLoadingView(false);
-	/*showRetryView(new OnRetryLisnter() {
+	issueDesc = (UserInputItemView) findViewById(R.id.issue_plan_desc);
+	issueEffectBox = (CheckBox) findViewById(R.id.issue_confirm_check);
+	issueEffectBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 		
 		@Override
-		public void doRetry() {
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 			// TODO Auto-generated method stub
 			
 		}
-	});*/
-}
-  
-  @Override
-public void succ(String name, int statusCode, Header[] headers,
-		Object response) {
-	// TODO Auto-generated method stub
-	super.succ(name, statusCode, headers, response);
-	setLoadSucc();
-	 issueResult = (IssueResult) response;
-	 updateInfo();
+	});
+	issueDesc.setContent(issueResult.getDescribe(), true);
+	}
 	
-}
-
+	
+	@Override
+	public void callCommitBtn(View v) {
+		
+		
+		String isOk  = issueEffectBox.isChecked()?"1":"0";
+		
+		
+		super.callCommitBtn(v);
+	    issueManager.confirmIssue(issueResult.getId(),isOk);
+	} 
+	
+	public void failed(String name, int statusCode, Header[] headers, String response) {
+		super.failed(name, statusCode, headers, response);
+//		if () {
+//			
+//		}
+	};
+	
+	public void succ(String name, int statusCode, Header[] headers, Object response) {
+		super.succ(name, statusCode, headers, response);
+		if (name.equals(IssueManager.ACTION_ISSUE_HANDLE)) {
+			showToast("问题确认成功");
+			setResult(RESULT_OK);
+			finish();
+		}
+	};
+	
 
 	private void initInfo() {
 
 		final  List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();
 		 //R.id.  in array String
-		 itemInfos.add(new WidgetItemInfo("0", null, null, 0, false));		
+		 itemInfos.add(new WidgetItemInfo(null, null, null, 0, false));		
 		
-		  createItemListToUI(itemInfos, R.id.detail_container, new CreateItemViewListener() {
+		  createItemListToUI(itemInfos, R.id.edit_container, new CreateItemViewListener() {
 
 			@Override
 			public View oncreateItem(int index, View convertView,
@@ -138,7 +144,7 @@ public void succ(String name, int statusCode, Header[] headers,
 					//create
 					LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 						
-					convertView = inflater.inflate(R.layout.issue_detail_ui, viewgroup, false);	
+					convertView = inflater.inflate(R.layout.issue_confirm_ui, viewgroup, false);	
 					
 					
 				}else {
@@ -152,19 +158,20 @@ public void succ(String name, int statusCode, Header[] headers,
 		}, false);
 		  
 		  //make container
-		  
-		  
+		 
 	}
 	
 	@Override
 	protected void initView() {
-		setContentView(R.layout.detail_ui);// TODO Auto-generated method stub
+		setContentView(R.layout.edit_ui);// TODO Auto-generated method stub
 		super.initView();
 		
 	}
 	
 
-
 	
+	
+
+
 
 }

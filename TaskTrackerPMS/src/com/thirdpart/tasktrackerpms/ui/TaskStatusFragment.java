@@ -28,6 +28,7 @@ import com.thirdpart.model.entity.RollingPlanList;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.tasktrackerpms.adapter.DeliveryPlanAdapter;
 import com.thirdpart.tasktrackerpms.adapter.PlanAdapter;
+import com.thirdpart.tasktrackerpms.ui.TaskFragment.TaskItem;
 import com.thirdpart.widget.IndicatorView;
 
 
@@ -36,6 +37,7 @@ public class TaskStatusFragment extends BasePageListFragment<RollingPlan, Rollin
 	
 	String title,teamId;
 	boolean  scanMode ;
+	TaskItem taskItem;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class TaskStatusFragment extends BasePageListFragment<RollingPlan, Rollin
 		mListView.setOnItemClickListener(this);
 		title = getArguments().getString(Item.PLAN);
 		teamId = getArguments().getString("teamId");
+		taskItem = (TaskItem) getArguments().getSerializable("task");
 		
 		DeliveryPlanAdapter deliveryPlanAdapter = (DeliveryPlanAdapter) mAdapter;
 		scanMode = getArguments().getBoolean("scan");
@@ -92,23 +95,8 @@ public class TaskStatusFragment extends BasePageListFragment<RollingPlan, Rollin
 	    		}
 	    	};
 	    	
-	    	if (getLogInController().matchRoles("班组承包人")) {
-	    		if (scanMode) {//see my group plan
-	    			List<Department> departments = getLogInController().getInfo().departments;
-	    			if (departments== null||departments.size() == 0) {
-						Log.i(TAG, "department is empty...");
-	    				return;
-					}
-					teamId = departments.get(0).getId();
-				}
-	    		
-	    		 getPMSManager().teamList(pagesize+"", pagenum+"",scanMode?"notequal":"equal",teamId,pageUINetworkHandler);
-	    				
-			} else {
-				
-				 getPMSManager().planList(scanMode?"notequal":"equal",pagesize+"", pagenum+"",pageUINetworkHandler);
-		    		
-			}
+			getPMSManager().taskList(taskItem,pagesize+"", pagenum+"",pageUINetworkHandler);
+		   
 	     
 	}
 
@@ -135,61 +123,8 @@ public class TaskStatusFragment extends BasePageListFragment<RollingPlan, Rollin
 		startActivity(intent);
 	}
 
-	public void commit() {
-		// TODO Auto-generated method stub
-		DeliveryPlanAdapter deliveryPlanAdapter = (DeliveryPlanAdapter) mAdapter;
-		int selectCount = deliveryPlanAdapter.getAllCheckOptionsCount();
-		if (selectCount<=0) {
-			showToast("没有选择计划分配");
-			getBaseActivity().cancelProgressDialog();
-			return;
-		}
-		List<RollingPlan> mSeletedItems = deliveryPlanAdapter.getAllCheckOptions();
-		executeCommitPlanNetWorkRequest(mSeletedItems);
-	}
-
 	private void executeCommitPlanNetWorkRequest(
-			List<RollingPlan> mSeletedItems) {
-		// TODO Auto-generated method stub
-		List<String> ids = new ArrayList<String>();
-		
-		for (RollingPlan plan : mSeletedItems) {
-			ids.add(plan.getId());
-			
-		}
-		getPMSManager().deliveryPlanToTeam(teamId, "",ids, new UINetworkHandler<JsonObject>(getActivity()) {
-
-			@Override
-			public void start() {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void finish() {
-				// TODO Auto-generated method stub
-				getBaseActivity().cancelProgressDialog();
-						
-			}
-
-			@Override
-			public void callbackFailure(int statusCode, Header[] headers,
-					String response) {
-				// TODO Auto-generated method stub
-				showToast(response);
-			}
-
-			@Override
-			public void callbackSuccess(int statusCode, Header[] headers,
-					JsonObject response) {
-				showToast("分配计划成功");
-				mListView.setRefreshing(true);
-				callNextPage(pageSize,defaultBeginPageNum);
-			}
-		});
-
-		
-	}
+			List<RollingPlan> mSeletedItems) {}
 	
 	
 }

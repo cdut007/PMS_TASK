@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.TextView;
+
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jameschen.comm.utils.UtilsUI;
 import com.jameschen.framework.base.BaseFragment;
@@ -34,6 +35,7 @@ import com.jameschen.widget.BadgeView;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.ManagerService;
 import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
+import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.model.TaskManager;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.entity.TaskCategory;
@@ -81,8 +83,8 @@ List<TaskItem> mHankouList = new ArrayList<TaskItem>();
 List<TaskItem> mZhijiaList = new ArrayList<TaskItem>();
 static final int HANKOU=TaskManager.TYPE_HANKOU,ZHIJIA=TaskManager.TYPE_ZHIJIA;
 private void initView(View view) {
-		initList(mHankouList,HANKOU);
-		initList(mZhijiaList,ZHIJIA);
+		initList(mHankouList,"hk");
+		initList(mZhijiaList,"zj");
 	final	GridView gridView = (GridView) view.findViewById(R.id.common_list_gv);
 		itemAdapter = new ItemAdapter(this, mHankouList);//deault
 		gridView.setAdapter(itemAdapter);
@@ -148,7 +150,7 @@ public void onHiddenChanged(boolean hidden) {
 		updateTitle();
 	}
 }
-	int type ,date;
+	
 	View lastSelectDateView;
 	protected void callDateSelectAction(View v) {
 		if (lastSelectDateView!=null) {
@@ -160,9 +162,10 @@ public void onHiddenChanged(boolean hidden) {
 		//do network call action.
 		queryDate(v.getTag().toString());
 	}
-	
+	String category;
 	//dateYear, dateWeek, dateMonth, dateAfter, dateCurrent, dateBefore
 	private void queryDate(String category) {
+		this.category = category;
 		// TODO Auto-generated method stub
 		getPMSManager().getTaskFinishCountStatus(category, new UINetworkHandler<TaskCategory>(getActivity()) {
 
@@ -215,6 +218,7 @@ public void onHiddenChanged(boolean hidden) {
 			for (TaskCategoryInfo categoryInfo : result) {
 				if (taskItem.name.equals(categoryInfo.getStatus())) {
 					taskItem.count = Integer.parseInt(categoryInfo.getResult());
+					taskItem.status = Integer.parseInt(categoryInfo.type);
 					continue;
 				}
 			}
@@ -224,12 +228,12 @@ public void onHiddenChanged(boolean hidden) {
 	}
 
 
-	void initList(List<TaskItem> mList,int type){
+	void initList(List<TaskItem> mList,String type){
 		mList.add(new TaskItem("计划",0x7f0290d3,type));// 计划
 		mList.add(new TaskItem("完成",0x7f0090d7,type));// 完成
 		mList.add(new TaskItem("未完成",0x7fe56200,type));// 未完成
-		mList.add(new TaskItem("施工",0x7fe78d00,type));// 施工
-		mList.add(new TaskItem("处理",0x7f029d84,type));// 处理
+		mList.add(new TaskItem("施工中",0x7fe78d00,type));// 施工
+		mList.add(new TaskItem("处理中",0x7f029d84,type));// 处理
 		mList.get(0).count=0;
 		mList.get(4).count=0;
 	}
@@ -281,6 +285,8 @@ public void onHiddenChanged(boolean hidden) {
 				return;
 			}
 			TaskItem p = (TaskItem) (object);
+			p.taskDate=PMSManagerAPI.getdateformat(System.currentTimeMillis());
+			p.category=category;
 			intent.putExtra(Item.TASK, p);
 			startActivity(intent);
 		}
@@ -292,14 +298,14 @@ public void onHiddenChanged(boolean hidden) {
 		 * 
 		 */
 		private static final long serialVersionUID = -6732693444174428835L;
-		public TaskItem(String name, int color,int type) {
+		public TaskItem(String name, int color,String type) {
 			super();
 			this.name = name;
 			this.color = color;
 			this.type = type;
 		}
-		public String name ;
-		 public int  color ,type ;
+		public String name ,type,category,taskDate;
+		 public int  color ,status ;
 		public int count;
 		 
 	}

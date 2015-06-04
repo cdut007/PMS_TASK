@@ -14,6 +14,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.thirdpart.model.Config.ReqHttpMethodPath;
 import com.thirdpart.model.entity.IssueResult;
+import com.thirdpart.tasktrackerpms.ui.TaskFragment.TaskItem;
 
 import android.content.Context;
 
@@ -159,6 +160,18 @@ public class PMSManagerAPI {
 
 	}
 
+	
+	public void taskList(TaskItem taskItem,String pagesize, String pagenum,
+			AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getCommonPageParams(pagesize, pagenum);
+		params.put("category", taskItem.category);
+		params.put("taskDate", taskItem.taskDate);
+		params.put("type", taskItem.type);
+		params.put("status", taskItem.status);
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_ROLLINGPLAN_LIST_URL, params,
+				responseHandler);
+
+	}
 	/**
 	 * @param witnessId
 	 * @param responseHandler
@@ -178,7 +191,7 @@ public class PMSManagerAPI {
 	 * @param iswork
 	 * @param responseHandler
 	 */
-	public void confirmIssue(String qustionId, boolean iswork,
+	public void confirmIssue(String qustionId, String iswork,
 			AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams(true);
 		params.put("id", qustionId);

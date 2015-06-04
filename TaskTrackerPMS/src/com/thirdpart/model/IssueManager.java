@@ -33,7 +33,7 @@ public class IssueManager extends ManagerService {
 	 * @param qustionId
 	 * @param iswork
 	 */
-	public void confirmIssue(String qustionId, boolean iswork) {
+	public void confirmIssue(String qustionId, String iswork) {
 		PMSManagerAPI.getInstance(context).confirmIssue(qustionId,
 				iswork, new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_CONFIRM){});
 

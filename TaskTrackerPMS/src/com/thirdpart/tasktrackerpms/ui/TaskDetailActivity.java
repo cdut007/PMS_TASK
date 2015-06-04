@@ -100,6 +100,7 @@ public class TaskDetailActivity extends BaseEditActivity {
 		if (mFragment == null) {
 			Bundle bundle = new Bundle();
 			bundle.putBoolean("scan", true);
+			bundle.putSerializable("task", taskItem);
 			mFragment = TaskStatusFragment.instantiate(this,
 					TaskStatusFragment.class.getName(), bundle);
 			ft.add(R.id.fragment_content, mFragment,

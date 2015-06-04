@@ -28,6 +28,7 @@ public class Config {
 		 * */
 		public static final String REQUST_ROLLINGPLAN_LIST_URL = HTTP_BASE_URL+"/hdxt/api/baseservice/rollingplan/";
 		
+		
 		/** define the teamwork list url 
 		 * <br>param:pagesize,pagenum
 		 * <br>-1001,id is not avaiable
@@ -38,6 +39,8 @@ public class Config {
 		
 		public static final String REQUST_TASK_STATUS_URL = HTTP_BASE_URL+"/hdxt/api/statistics/task/status";
 
+		public static final String REQUST_TASK_STATUS_LIST_URL =REQUST_TASK_STATUS_URL;
+		
 		
 		public static final String REQUST_TEAM_GROUP_LIST_URL = HTTP_BASE_URL+"/hdxt/api/statistics/teamgroup/task";
 

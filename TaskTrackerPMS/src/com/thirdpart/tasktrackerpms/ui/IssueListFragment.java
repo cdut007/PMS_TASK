@@ -156,7 +156,14 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 			}
 		}
 			break;
-
+		case ISSUE_CONFIRM:
+		{
+			if (resultCode == Activity.RESULT_OK) {
+				 mListView.setRefreshing(true);
+				callNextPage(pageSize,defaultBeginPageNum);
+			}
+		}
+			break;
 		default:
 			break;
 		}

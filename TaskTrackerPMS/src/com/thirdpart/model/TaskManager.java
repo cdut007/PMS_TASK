@@ -92,9 +92,9 @@ public class TaskManager  extends ManagerService{
 		  return 0;
 	}
 
-	public static String getTaskType(int type) {
+	public static String getTaskType(String type) {
 		// TODO Auto-generated method stub
-		return type==TYPE_HANKOU?"焊口":"支架";
+		return type.equals("hk")?"焊口":"支架";
 	}
 	
 }
