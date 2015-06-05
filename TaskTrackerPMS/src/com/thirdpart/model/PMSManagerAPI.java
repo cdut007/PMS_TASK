@@ -195,7 +195,7 @@ public class PMSManagerAPI {
 			AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams(true);
 		params.put("id", qustionId);
-		params.put("iswork", iswork);
+		params.put("isWork", iswork);
 		MyHttpClient.post(ReqHttpMethodPath.REQUST_CONFIRM_ISSUE_URL, params,
 				responseHandler);
 	}

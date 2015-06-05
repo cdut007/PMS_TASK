@@ -117,7 +117,7 @@ TeamMemberManager teamMemberManager;
 	
 	public void succ(String name, int statusCode, Header[] headers, Object response) {
 		super.succ(name, statusCode, headers, response);
-		if (name.equals(IssueManager.ACTION_ISSUE_HANDLE)) {
+		if (name.equals(IssueManager.ACTION_ISSUE_CONFIRM)) {
 			showToast("问题确认成功");
 			setResult(RESULT_OK);
 			finish();
