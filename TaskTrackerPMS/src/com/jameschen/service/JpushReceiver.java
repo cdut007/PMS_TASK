@@ -8,12 +8,18 @@ import org.json.JSONObject;
 
 
 
+
+
 import com.jameschen.comm.utils.Log;
 import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.LogInController;
+import com.thirdpart.model.PushModel;
+import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.ConstValues.CategoryInfo.User;
+import com.thirdpart.model.entity.IssueMenu;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.tasktrackerpms.ui.MainActivity;
+import com.thirdpart.tasktrackerpms.ui.MineActivity;
 
 import android.R.integer;
 import android.app.Fragment.SavedState;
@@ -36,8 +42,7 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class JpushReceiver extends BroadcastReceiver {
 	private static final String TAG = "MyReceiver";
-	private boolean logon;
-
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Bundle bundle = intent.getExtras();
@@ -60,8 +65,7 @@ public class JpushReceiver extends BroadcastReceiver {
 					"接收到推送下来的自定义消息: "
 							+ bundle.getString(JPushInterface.EXTRA_MESSAGE));
 			
-			logon = LogInController.getInstance(context).IsLogOn();
-			processCustomMessage(context, bundle,logon);
+			processCustomMessage(context, bundle);
 
 		} else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent
 				.getAction())) {
@@ -69,7 +73,7 @@ public class JpushReceiver extends BroadcastReceiver {
 			int notifactionId = bundle
 					.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
 			Log.d(TAG, "接收到推送下来的通知的ID: " + notifactionId);
-
+			processCustomMessage(context, bundle);
 		} else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent
 				.getAction())) {
 			Log.d(TAG, "用户点击打开了通知");
@@ -136,7 +140,7 @@ public class JpushReceiver extends BroadcastReceiver {
 							 bundle.putString(JPushInterface.EXTRA_CONTENT_TYPE,infos[0]);
 						}
 						
-						processCustomMessage(context, bundle, true);
+						processCustomMessage(context, bundle);
 						//remove by user id
 						pref.edit().remove(s);
 					}
@@ -161,44 +165,37 @@ public class JpushReceiver extends BroadcastReceiver {
 	}
 	
 	// send msg to MainActivity
-	public static void processCustomMessage(Context context, Bundle bundle, boolean islogon) {
-		if (!islogon) {
-			
-			return;
-		}
+	public static void processCustomMessage(Context context, Bundle bundle) {
+		
+		
 		String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
 		String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
 		String title = bundle.getString(JPushInterface.EXTRA_TITLE);
 		String type = bundle.getString(JPushInterface.EXTRA_CONTENT_TYPE);
 		int  flag =0;
-		if (type != null ) {
-			if (type.equals("act")) {//报名满了
-				if (!islogon) {
-					saveInfo(context, extras, message, title, type);
-					return;
-				}else {
-					
-				}
+		PushModel pushModel = JpushUtil.parseExtra(extras);
+		
+		if (pushModel != null && 
+				LogInController.getInstance(context).IsLogOn()) {
+			if (!LogInController.getInstance(context).getInfo().getId().equals(pushModel.userId)) {
+				Log.i(TAG, "push id is="+pushModel.userId);
+				return;
+			}
+			Log.i(TAG, "push catgory="+pushModel.category);
+			if ("assignEndMan".equals(pushModel.category)) {//报名满了
+			
 				flag=1;	
-			}else if (type.equals("act_reply")) {//有回复
-				if (!islogon) {
-					saveInfo(context, extras, message, title, type);
-					return;
-				}else {
-					
-				}
+			}else if (false) {//有回复
+				
 				flag=2;
-			}else if (type.equals("mycreateact")) {//我创建的活动
-				if (!islogon) {
-					saveInfo(context, extras, message, title, type);
-					return;
-				}else {
-					
-				}
+			}else if (false) {//我创建的活动
+				
 				flag=3;
 				
 			}
 			
+		}else {
+			Log.i(TAG, "push model is null or not logon");
 		}
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 				context)
@@ -217,7 +214,7 @@ public class JpushReceiver extends BroadcastReceiver {
 		mBuilder.setAutoCancel(true);// 自己维护通知的消失
 		Intent resultIntent = new Intent(context, MainActivity.class);
 		// //构建一个Intent
-		if (flag==1) {
+		if (flag==0) {
 		 resultIntent = new Intent(context, MainActivity.class);
 		 JSONObject extrasJson;
 		try {
@@ -230,16 +227,13 @@ public class JpushReceiver extends BroadcastReceiver {
 			e.printStackTrace();
 		}
 	
-		}else if (flag==2) {
-			 resultIntent = new Intent(context, MainActivity.class);
-			 try {
-					JSONObject extrasJson = new JSONObject(extras);
-					int  id =  extrasJson.getInt("actid");
-				 	Log.i(TAG, "join  id===="+id);
-					resultIntent.putExtra("activity_id", id);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+		}else if (flag==1) {
+			 resultIntent = new Intent(context, MineActivity.class);
+			  	Log.i(TAG, "distrubite new plan to me====");
+			  
+				IssueMenu p = IssueMenu.getPlan();
+				resultIntent.putExtra(Item.MINE, p);
+				
 		}else if (flag==3) {//我创建的活动
 
 			 resultIntent = new Intent(context, MainActivity.class);

@@ -27,6 +27,16 @@ public class MineActivity extends BaseActivity {
 
 	private Fragment mFragment;
 	IssueMenu menu;
+	
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		// TODO Auto-generated method stub
+		super.onNewIntent(intent);
+	
+	
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -83,6 +93,21 @@ public class MineActivity extends BaseActivity {
 		
 	}
 
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		if (isTaskRoot()) {
+			startActivity(new Intent(this,MainActivity.class));
+		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub

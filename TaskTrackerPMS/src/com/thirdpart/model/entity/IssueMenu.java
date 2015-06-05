@@ -26,6 +26,12 @@ public class IssueMenu implements Serializable{
 	}
 	
 	
+	
+	public static IssueMenu getPlan() {
+		// TODO Auto-generated method stub
+		return new IssueMenu("1", "我的计划");
+	}
+	
 	public static List<IssueMenu> getMenus(){
 		List<IssueMenu> menus = new ArrayList<IssueMenu>();
 		menus.add(new IssueMenu("0", "未解决问题"));

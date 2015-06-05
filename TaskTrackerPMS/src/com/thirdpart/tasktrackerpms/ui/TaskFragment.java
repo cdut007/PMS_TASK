@@ -16,8 +16,10 @@ import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
@@ -26,6 +28,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.jameschen.comm.utils.Log;
 import com.jameschen.comm.utils.UtilsUI;
 import com.jameschen.framework.base.BaseFragment;
 import com.jameschen.framework.base.MyBaseAdapter;
@@ -339,6 +342,18 @@ public void onHiddenChanged(boolean hidden) {
 			badgeView.setBadgeCount(0);
 			bgDraweeView.setTag(badgeView);
 			TouchImage.ViewEffect(bgDraweeView);
+			convertView.setOnTouchListener(new OnTouchListener() {
+				
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
+					//if (event.getAction()!=MotionEvent.ACTION_MOVE) {
+						bgDraweeView.postInvalidate();
+					//}
+					
+					return false;
+				}
+			});
 			convertView.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -381,9 +396,15 @@ public void onHiddenChanged(boolean hidden) {
 				public void draw(Canvas canvas) {
 					// TODO Auto-generated method stub
 					int r = bgDraweeView.getWidth()/2;
-					paint.setColor(color);
+				
+					if (bgDraweeView.isPressed()) {
+
+						paint.setColor(color&0x99999999);
+					}else {
+
+						paint.setColor(color);	
+					}
 					canvas.drawCircle(r, r, r, paint);
-					
 				}
 			});
 

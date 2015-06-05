@@ -160,7 +160,8 @@ public class LoginActivity extends BaseActivity{
 						return;
 					}
 					// TODO Auto-generated method stub
-					 if (statusCode == -1002) {
+					 if (statusCode == -1002||
+							 statusCode==-1001) {
 							showToast(getString(R.string.error_password));
 						}else {
 							showToast(response);
