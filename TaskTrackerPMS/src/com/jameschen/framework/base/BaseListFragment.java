@@ -5,9 +5,13 @@ import java.util.List;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -54,7 +58,7 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 			@Override
 			public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 				// TODO Auto-generated method stub
-				doFreshFromTop(mListView);
+					doFreshFromTop(mListView);
 			}
 
 			@Override
@@ -71,7 +75,24 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 	}
 
 	
-	
+	 protected LayoutAnimationController getAnimationController() {  
+	        int duration=300;  
+	        AnimationSet set = new AnimationSet(true);  
+	  
+	        Animation animation = new AlphaAnimation(0.0f, 1.0f);  
+	        animation.setDuration(duration);  
+	        set.addAnimation(animation);  
+	  
+	        animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,  
+	                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,  
+	                -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);  
+	        animation.setDuration(duration);  
+	        set.addAnimation(animation);  
+	  
+	        LayoutAnimationController controller = new LayoutAnimationController(set, 0.5f);  
+	        controller.setOrder(LayoutAnimationController.ORDER_NORMAL);  
+	        return controller;  
+	    }  
 	
 	protected void doFreshFromBottom(MyListView mListView) {
 		// TODO Auto-generated method stub
@@ -90,7 +111,7 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 		if (noResult) {
 			mStandardEmptyView.setText(noResultStr);
 			mStandardEmptyView.setVisibility(View.VISIBLE);
-		
+			
 		} else {
 			mStandardEmptyView.setVisibility(View.GONE);
 		}
@@ -235,6 +256,8 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 		}
 
 		Log.i(TAG, "load finish");
+		((ListView)mListView.getRefreshableView()).setLayoutAnimation(getAnimationController());;
+		
 		cancelLoading();
 
 	}

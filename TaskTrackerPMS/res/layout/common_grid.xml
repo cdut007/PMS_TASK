@@ -34,6 +34,7 @@
         <GridView
             android:id="@+id/common_list_gv"
             style="@style/list_Style"
+              android:layoutAnimation="@anim/layout_grid_fade"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"

@@ -176,7 +176,8 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 
 		List<T> datas = mPageList.getDatas();
 		//isFromTop.
-		if (mPageList.getCurrentPage()==defaultBeginPageNum) {
+		boolean isFromTop = mPageList.getCurrentPage()==defaultBeginPageNum;
+		if (isFromTop) {
 			clearAdapter();
 		}
 		
@@ -197,7 +198,12 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		} else {
 			cancelLoading(mAdapter.getCount() == 0);
 		}
-
+		
+		if (isFromTop) {
+			((ListView)mListView.getRefreshableView()).setLayoutAnimation(getAnimationController());;
+				
+		}
+	
 	}
 
 	protected void startLoading() {
