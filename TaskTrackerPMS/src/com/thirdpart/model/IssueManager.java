@@ -4,6 +4,8 @@ package com.thirdpart.model;
 import java.io.File;
 import java.util.List;
 
+import android.graphics.Color;
+
 import com.thirdpart.model.entity.IssueResult;
 
 public class IssueManager extends ManagerService {
@@ -74,7 +76,9 @@ public class IssueManager extends ManagerService {
 		PMSManagerAPI.getInstance(context).handleIssue(problemid,solvemethod, autoid, solvedman, isSolve, solverid,new ManagerNetworkHandler<IssueResult>(context,ACTION_ISSUE_HANDLE){});
 	}
 	
-
+	public static int getIssueStatusColor(String isOk) {
+		return "0".equals(isOk)?Color.RED:0xFF00a529;
+	}
 	public static String getIssueStatus(String isOk) {
 		return "0".equals(isOk)?"未解决":"解决";
 	}

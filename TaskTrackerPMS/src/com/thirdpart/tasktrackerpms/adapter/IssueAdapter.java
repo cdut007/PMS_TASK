@@ -72,6 +72,7 @@ public class IssueAdapter extends BasePageAdapter<IssueResult> {
 			noTextView.setText(issueResult.getId());
 			topicTextView.setText(issueResult.getStepname());
 			statusTextView.setText(IssueManager.getIssueStatus(issueResult.getIsOk()));
+			statusTextView.setTextColor(IssueManager.getIssueStatusColor(issueResult.getIsOk()));
 			deliveryTextView.setText(issueResult.getCurrentsolver());
 		}
 		
