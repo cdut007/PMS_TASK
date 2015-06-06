@@ -1,13 +1,19 @@
 package com.thirdpart.model;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import org.apache.http.Header;
 
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.jameschen.framework.base.UINetworkHandler;
+import com.thirdpart.model.ManagerService.ManagerNetworkHandler;
 import com.thirdpart.model.entity.RollingPlanList;
 import com.thirdpart.model.entity.TaskCategoryInfo;
 import com.thirdpart.model.entity.TaskCategoryItem;
+import com.thirdpart.model.entity.Team;
+import com.thirdpart.model.entity.WitnesserList;
 
 import android.R.integer;
 import android.content.Context;
@@ -66,6 +72,7 @@ public class TaskManager  extends ManagerService{
 //	}
 	
 	public static final int TYPE_ZHIJIA=0,TYPE_HANKOU=1;
+	public static final String ACTION_WITNESS_CHOOSE_TEAM = "com.jameschen.plan.witness.chooseTeam";
 	public int getCount(List<TaskCategoryItem> mCategoryItems,String type,String name){
 		    TaskCategoryItem mTaskCategoryItem=null;
 		    for (TaskCategoryItem findTaskCategoryItem : mCategoryItems) {
@@ -97,11 +104,30 @@ public class TaskManager  extends ManagerService{
 		// TODO Auto-generated method stub
 		return type.equals("hk")?"焊口":"支架";
 	}
+	
+
+	 protected  ManagerNetworkHandler getManagerNetWorkHandler(String action){
+		 
+		if (action.equals(ACTION_WITNESS_CHOOSE_TEAM)) {
+			ManagerNetworkHandler<List<Team>> hander = new ManagerNetworkHandler<List<Team>>(context,action){};
+			Type sToken = new TypeToken<List<Team>>() {
+			}.getType();
+			hander.setType(sToken);
+			return hander;
+		} else {
+
+			return new ManagerNetworkHandler<JsonObject>(context,action){};
+		}
+		
+	 }
 
 	public void commit(String witnessid, String witnesseraqa, String witnesseraqc2, String witnesseraqc1, String witnesserb, String witnesserc, String witnesserd) {
 		PMSManagerAPI.getInstance(context).modifyWitness(witnessid, witnesseraqa, witnesseraqc2, witnesseraqc1, witnesserb, witnesserc, witnesserd,getManagerNetWorkHandler(ACTION_TASK_COMMIT) );
 
 	}
-	
+	public void chooseWitnessHeadList() {
+		PMSManagerAPI.getInstance(context).witnessTeamList(getManagerNetWorkHandler(ACTION_WITNESS_CHOOSE_TEAM) );
+
+	}
 	
 }

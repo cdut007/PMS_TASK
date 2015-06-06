@@ -48,7 +48,7 @@
     <dimen name="title_text_size">12sp</dimen>
     <!-- 弹出框 -->
     <dimen name="addr_popupWindow_width">260dp</dimen>
-    <dimen name="popupWindow_width">130dp</dimen>
+    <dimen name="popupWindow_width">200dp</dimen>
     <dimen name="popupWindow_margin">20dp</dimen>
     <!-- 圆形 -->
     <dimen name="circle_strokeWidth">2dp</dimen>

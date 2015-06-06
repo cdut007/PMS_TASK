@@ -258,7 +258,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 		if (widgetItemInfo.type != WidgetItemInfo.CHOOSE) {
 			return;
 		}
-		if (witnessList == null) {
+		if (witnessList == null||witnessList.size()==0) {
 			Log.i(TAG, "witnessList is null...");
 			return;
 		}
@@ -267,7 +267,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 		
 		if (findWitnesser!=null) {
 			widgetItemInfo.obj = findWitnesser;
-			((TextView)btnView).setText(findWitnesser.get(0).getRealname());
+			//((TextView)btnView).setText(findWitnesser.get(0).getRealname());
 			
 		}
 	}
