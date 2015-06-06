@@ -14,6 +14,12 @@ public abstract class ManagerService {
 public final static String ISSUE_SERVICE = "issue_serive";
 
 
+public static interface OnUploadReqHttpCallbackListener extends OnReqHttpCallbackListener{
+
+	public void onProgress(String name,int statusCode,
+			int totalSize, String response);
+}
+
 public static interface OnReqHttpCallbackListener{
 	
 	public void start(String name);
@@ -22,6 +28,7 @@ public static interface OnReqHttpCallbackListener{
 			Header[] headers, String response);
 	
 	public void finish(String name);
+	
 	
 	public void succ(String name,int statusCode,
 			Header[] headers, Object response);
@@ -88,6 +95,21 @@ protected   ManagerNetworkHandler getManagerNetWorkHandler(String action){
 	}
 
 	
+	@Override
+	public void onProgress(int bytesWritten, int totalSize) {
+		// TODO Auto-generated method stub
+		super.onProgress(bytesWritten, totalSize);
+		//send
+		if (reqHttpCallbackListener instanceof OnUploadReqHttpCallbackListener) {
+
+			int percent = bytesWritten*100/totalSize;
+			if (percent==100) {//ok.
+				percent=99;
+			}
+			String content = "已上传"+percent+"%";
+			((OnUploadReqHttpCallbackListener)reqHttpCallbackListener).onProgress(action,bytesWritten, totalSize,content);
+		}
+	}
 
 	@Override
 	public void start() {

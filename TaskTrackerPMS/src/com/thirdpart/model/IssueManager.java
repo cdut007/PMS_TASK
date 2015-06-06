@@ -11,7 +11,7 @@ public class IssueManager extends ManagerService {
 	public IssueManager(){
 		super();
 	}
-	private IssueManager(OnReqHttpCallbackListener reqHttpCallbackListener) {
+	private IssueManager(OnUploadReqHttpCallbackListener reqHttpCallbackListener) {
 		super(reqHttpCallbackListener);
 		// TODO Auto-generated constructor stub
 	}

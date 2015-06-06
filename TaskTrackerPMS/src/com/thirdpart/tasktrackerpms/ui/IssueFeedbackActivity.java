@@ -28,6 +28,8 @@ import com.jameschen.widget.CustomSelectPopupWindow.Category;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.thirdpart.model.IssueManager;
+import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
+import com.thirdpart.model.ManagerService.OnUploadReqHttpCallbackListener;
 import com.thirdpart.model.MediaManager;
 import com.thirdpart.model.Config.ReqHttpMethodPath;
 import com.thirdpart.model.MediaManager.MediaChooseListener;
@@ -44,7 +46,7 @@ import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.EditItemView;
 import com.thirdpart.widget.UserInputItemView;
 
-public class IssueFeedbackActivity extends BaseEditActivity {
+public class IssueFeedbackActivity extends BaseEditActivity implements OnUploadReqHttpCallbackListener {
 	
 
 
@@ -434,6 +436,18 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 	protected void initView() {
 		setContentView(R.layout.edit_ui);// TODO Auto-generated method stub
 		super.initView();
+		
+	}
+
+	@Override
+	public void onProgress(String name, int statusCode, int totalSize,
+			String response) {
+		// TODO Auto-generated method stub
+		
+		if (mFiles.size()>0) {
+			Log.i(TAG, "progress content = "+response);
+			showProgressDialog("上传图片", response,null);
+		}
 		
 	}
 
