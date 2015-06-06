@@ -8,6 +8,7 @@ import org.w3c.dom.Comment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.jameschen.framework.base.BaseListFragment;
 import com.jameschen.framework.base.UINetworkHandler;
 import com.jameschen.widget.MyListView;
+import com.thirdpart.model.EventCallbackListener;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.entity.DepartmentInfo;
 import com.thirdpart.tasktrackerpms.R;
@@ -27,7 +29,32 @@ import com.thirdpart.tasktrackerpms.adapter.PlanAdapter;
 
 public class PlanFragment extends BaseListFragment<DepartmentInfo> implements OnItemClickListener{
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		registerCallBack( new EventCallbackListener()  {
+			
+			@Override
+			public void commitSucc() {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "call back commit succ");
+				
+				if (mListView!=null) {
+					mListView.setRefreshing(true);
+				}
+				executeNextPageNetWorkRequest();
 	
+			}
+
+			@Override
+			public String getTag() {
+				// TODO Auto-generated method stub
+				return callsucc;
+			}
+		});
+	}
+	public static String callsucc="planDelivery";
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

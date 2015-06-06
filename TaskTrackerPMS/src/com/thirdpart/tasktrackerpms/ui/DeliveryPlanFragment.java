@@ -244,6 +244,8 @@ Button time;
 					showToast("分配计划成功");
 					mListView.setRefreshing(true);
 					callNextPage(pageSize,defaultBeginPageNum);
+					PlanFragment.CallSucc(PlanFragment.callsucc);
+					
 				}
 			});
 		}else {
@@ -276,6 +278,8 @@ Button time;
 					showToast("分配计划成功");
 					mListView.setRefreshing(true);
 					callNextPage(pageSize,defaultBeginPageNum);
+					PlanFragment.CallSucc(PlanFragment.callsucc);
+					 
 				}
 			});
 		

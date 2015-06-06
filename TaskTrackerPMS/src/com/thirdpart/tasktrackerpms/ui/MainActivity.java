@@ -62,9 +62,7 @@ public class MainActivity extends BaseActivity {
 		} else {
 			if (savedInstanceState != null) {
 				item = savedInstanceState.getString("nav_menu");
-			} else {
-				item = PLAN;// defualt is PLAN
-			}
+			} 
 			onNavigateItemSelected(item);
 		}
 
@@ -100,9 +98,7 @@ public class MainActivity extends BaseActivity {
 
 	private void initNavListener() {
 
-		menuViews.put(PLAN, findViewById(R.id.btn_menu1));
-		menuViews.put(TASK, findViewById(R.id.btn_menu2));
-		menuViews.put(MINE, findViewById(R.id.btn_menu3));
+		initTab();
 
 		Set<String> key = menuViews.keySet();
 		for (Iterator<String> it = key.iterator(); it.hasNext();) {
@@ -117,6 +113,22 @@ public class MainActivity extends BaseActivity {
 
 		}
 
+	}
+
+	private void initTab() {
+		// TODO Auto-generated method stub
+		if (true) {
+			menuViews.put(PLAN, findViewById(R.id.btn_menu1));
+			menuViews.put(TASK, findViewById(R.id.btn_menu2));
+			menuViews.put(MINE, findViewById(R.id.btn_menu3));	
+		}else {
+			item = TASK;// defualt is task
+			
+			findViewById(R.id.btn_menu1).setVisibility(View.GONE);
+			menuViews.put(TASK, findViewById(R.id.btn_menu2));
+			menuViews.put(MINE, findViewById(R.id.btn_menu3));
+		}
+		
 	}
 
 	private BadgeView numView;

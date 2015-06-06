@@ -13,11 +13,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.jameschen.framework.base.BasePageListFragment;
 import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.ConstValues.Item;
+import com.thirdpart.model.EventCallbackListener;
 import com.thirdpart.model.entity.WorkStep;
 import com.thirdpart.model.entity.WorkStepList;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.tasktrackerpms.adapter.WorkStepAdapter;
-import com.thirdpart.tasktrackerpms.ui.IssueFeedbackActivity.IssueFeedbackSuccListener;
 
 
 public class WorkStepFragment extends BasePageListFragment<WorkStep, WorkStepList> implements OnItemClickListener{
@@ -102,38 +102,38 @@ public class WorkStepFragment extends BasePageListFragment<WorkStep, WorkStepLis
 	}
 
 	
-	static IssueFeedbackSuccListener succListener;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 	
-		succListener = new IssueFeedbackSuccListener() {
+		registerCallBack( new EventCallbackListener()  {
 			
 			@Override
 			public void commitSucc() {
 				// TODO Auto-generated method stub
 				Log.i(TAG, "call back commit succ");
+				
 				if (mListView!=null) {
 					mListView.setRefreshing(true);
 				}
 				callNextPage(pageSize,defaultBeginPageNum);
 	
 			}
-		};
+
+			@Override
+			public String getTag() {
+				// TODO Auto-generated method stub
+				return callsucc;
+			}
+		});
 	}
-	public static IssueFeedbackSuccListener CallSucc() {
-		if (succListener!=null) {
-			succListener.commitSucc();
-		}
-		return null;
-		// TODO Auto-generated method stub
-		
-	}
+
+	public static String callsucc="issuefeedback";
 	@Override
 	public void onDestroy() {
-		succListener=null;
+	
 		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
