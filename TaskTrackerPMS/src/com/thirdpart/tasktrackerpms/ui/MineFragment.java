@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -34,6 +35,7 @@ public class MineFragment extends BasePageListFragment{
 		View view = inflater.inflate(R.layout.mine_ui, container, false);
 		bindListView(view,new IssueMenuAdapter(getBaseActivity()));
 		mListView.setMode(Mode.DISABLED);
+		loadAnimate(APPEAR);
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override

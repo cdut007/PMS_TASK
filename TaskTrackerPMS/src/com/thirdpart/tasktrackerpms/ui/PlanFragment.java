@@ -106,6 +106,7 @@ public class PlanFragment extends BaseListFragment<DepartmentInfo> implements On
 				public void callbackFailure(int statusCode, Header[] headers,
 						String response) {
 					// TODO Auto-generated method stub
+					cancelLoading();
 					showToast(response);
 				}
 

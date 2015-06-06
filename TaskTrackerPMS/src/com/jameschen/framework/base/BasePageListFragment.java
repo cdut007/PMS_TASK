@@ -200,8 +200,7 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		}
 		
 		if (isFromTop) {
-			((ListView)mListView.getRefreshableView()).setLayoutAnimation(getAnimationController());;
-				
+			loadAnimate();	
 		}
 	
 	}

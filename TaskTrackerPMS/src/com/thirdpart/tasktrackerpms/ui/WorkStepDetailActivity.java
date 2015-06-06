@@ -108,7 +108,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			
 			itemInfos.add(addressWidgetItemInfo=new WidgetItemInfo("1", "见证地点：",null, WidgetItemInfo.EDIT, false));
 			itemInfos.add(timeWidgetItemInfo=new WidgetItemInfo("2", "见证时间：",null, WidgetItemInfo.CHOOSE, true));
-			itemInfos.add(new WidgetItemInfo("21", "见证负责人：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
+			itemInfos.add(new WidgetItemInfo("21", "负责人：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
 			
 
 			if (!isEmpty(workStep.getNoticeaqc1())) {

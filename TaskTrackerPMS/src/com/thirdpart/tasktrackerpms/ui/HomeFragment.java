@@ -143,6 +143,16 @@ public void onAttach(Activity activity) {
 	super.onAttach(activity);
 	updateTitle();
 }
+
+@Override
+public void onResume() {
+	// TODO Auto-generated method stub
+	super.onResume();
+	if (itemAdapter!=null) {
+		itemAdapter.notifyDataSetChanged();
+	}
+}
+
 @Override
 public void onHiddenChanged(boolean hidden) {
 	// TODO Auto-generated method stub

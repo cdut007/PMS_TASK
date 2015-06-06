@@ -27,6 +27,7 @@ import com.thirdpart.tasktrackerpms.adapter.IssueAdapter;
 public class IssueFragment extends BasePageListFragment{
 
 	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class IssueFragment extends BasePageListFragment{
 		View view = inflater.inflate(R.layout.main_issue_ui, container, false);
 		bindListView(view,new IssueMenuAdapter(getBaseActivity()));
 		mListView.setMode(Mode.DISABLED);
+		loadAnimate(APPEAR);
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override

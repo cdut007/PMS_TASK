@@ -76,8 +76,25 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 
 	}
 
-	
-	 protected LayoutAnimationController getAnimationController() {  
+	 private LayoutAnimationController getAppearAnimationController() {  
+	        int duration=300;  
+	        AnimationSet set = new AnimationSet(true);  
+	  
+	        Animation animation = new AlphaAnimation(0.0f, 1.0f);  
+	        animation.setDuration(duration);  
+	        set.addAnimation(animation);  
+	  
+//	        animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,  
+//	                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,  
+//	                -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);  
+//	        animation.setDuration(duration);  
+//	        set.addAnimation(animation);  
+	  
+	        LayoutAnimationController controller = new LayoutAnimationController(set, 0.15f);  
+	        controller.setOrder(LayoutAnimationController.ORDER_NORMAL);  
+	        return controller;  
+	    }
+	 private LayoutAnimationController getAnimationController() {  
 	        int duration=300;  
 	        AnimationSet set = new AnimationSet(true);  
 	  
@@ -260,13 +277,34 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 		}
 
 		Log.i(TAG, "load finish");
-		((ListView)mListView.getRefreshableView()).setLayoutAnimation(getAnimationController());;
-		
+		loadAnimate();
 		cancelLoading();
 
 	}
 	
-	 private void cancelLoading() {
+
+	public static final int APPEAR = 2;
+	protected void loadAnimate() {
+		loadAnimate(-1);
+	}
+	protected void loadAnimate(int animate) {
+		// TODO Auto-generated method stub
+		LayoutAnimationController animateController=null;
+		switch (animate) {
+		case -1:
+			 animateController = getAnimationController();
+			break;
+		case APPEAR:
+			 animateController = getAppearAnimationController();
+			break;
+		default:
+			break;
+		}
+		((ListView)mListView.getRefreshableView()).setLayoutAnimation(animateController);
+		
+	}
+	
+	 protected void cancelLoading() {
 		// TODO Auto-generated method stub
 		 if (mListView != null) {
 			 mListView.onRefreshComplete();
@@ -281,7 +319,6 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 		// TODO Auto-generated method stub
 		if (mAdapter != null) {
 			mAdapter.clear(true);
-			checkIsNeedShowEmptyView();
 		}
 	}
 	
