@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import com.jameschen.comm.utils.LogUtils;
 import com.jameschen.framework.base.BaseActivity;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.widget.TouchImage;
 
 public class SettingActivity extends BaseActivity implements OnClickListener {
 
@@ -26,6 +27,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
 		setContentView(R.layout.system_setting);	
 
 		(logout =findViewById(R.id.btnExit)).setOnClickListener(this);
+		TouchImage.buttonEffect(logout);
 		findViewById(R.id.feedback_log).setOnClickListener(this);
 		
 	}
