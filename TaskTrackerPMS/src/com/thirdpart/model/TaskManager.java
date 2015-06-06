@@ -18,7 +18,8 @@ public class TaskManager  extends ManagerService{
 	public TaskManager(){
 		super();
 	}
-	
+	public static String ACTION_TASK_COMMIT = "com.jameschen.plan.task.commit";
+
 	private TaskManager(OnReqHttpCallbackListener reqHttpCallbackListener) {
 		super(reqHttpCallbackListener);
 		// TODO Auto-generated constructor stub
@@ -96,5 +97,11 @@ public class TaskManager  extends ManagerService{
 		// TODO Auto-generated method stub
 		return type.equals("hk")?"焊口":"支架";
 	}
+
+	public void commit(String witnessid, String witnesseraqa, String witnesseraqc2, String witnesseraqc1, String witnesserb, String witnesserc, String witnesserd) {
+		PMSManagerAPI.getInstance(context).modifyWitness(witnessid, witnesseraqa, witnesseraqc2, witnesseraqc1, witnesserb, witnesserc, witnesserd,getManagerNetWorkHandler(ACTION_TASK_COMMIT) );
+
+	}
+	
 	
 }

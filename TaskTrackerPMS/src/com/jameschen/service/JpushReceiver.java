@@ -229,7 +229,7 @@ public class JpushReceiver extends BroadcastReceiver {
 	
 		}else if (flag==1) {
 			 resultIntent = new Intent(context, MineActivity.class);
-			  	Log.i(TAG, "distrubite new plan to me====");
+			  	Log.i(TAG, "distrubite new plan to me～～");
 			  
 				IssueMenu p = IssueMenu.getPlan();
 				resultIntent.putExtra(Item.MINE, p);

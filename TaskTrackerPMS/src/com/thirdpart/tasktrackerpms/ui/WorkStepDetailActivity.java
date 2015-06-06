@@ -56,7 +56,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 		
 		workStep = (WorkStep) getIntent().getSerializableExtra("workstep");	
       taskManager = (TaskManager) ManagerService.getNewManagerService(this, TaskManager.class,this);
-      setTitle("工序详情");
+      setTitle(""+workStep.getStepname());
       updateInfo();
  }
  
@@ -74,7 +74,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 	
 	private void execFetechDetail(String action) {
 		
-		if (action.equals(WitnessManager.ACTION_WITNESS_CHOOSE_COMMIT)) {
+		if (action.equals(TaskManager.ACTION_TASK_COMMIT)) {
 		//	String witnessid=witness.getWitness();
 			String witnesseraqa=getWitnesserId(qaWidgetItemInfo);
 			String witnesseraqc2=getWitnesserId(c2qaWidgetItemInfo);
@@ -82,7 +82,8 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			String witnesserb=getWitnesserId(notibWidgetItemInfo);
 			String witnesserc=getWitnesserId(noticWidgetItemInfo);
 			String witnesserd=getWitnesserId(notidWidgetItemInfo);
-		//	witnessManager.commit(witnessid, witnesseraqa, witnesseraqc2, witnesseraqc1, witnesserb, witnesserc, witnesserd);
+			taskManager.commit(null, witnesseraqa, witnesseraqc2, witnesseraqc1, witnesserb, witnesserc, witnesserd);
+			//	witnessManager.commit(witnessid, witnesseraqa, witnesseraqc2, witnesseraqc1, witnesserb, witnesserc, witnesserd);
 		} else {
 			showLoadingView(true);
 		//	witnessManager.chooseWitnessList(witness.getWitness());	
@@ -97,18 +98,16 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 	private void updateInfo() {
 		if (itemInfos.isEmpty()) {
 			// R.id. in array String
-			/*itemInfos.add(new WidgetItemInfo("0", "操作者：", witness.getTriggerName()
+			itemInfos.add(new WidgetItemInfo("0", "操作者：", null
 				, WidgetItemInfo.DISPLAY, false));
 			
-			itemInfos.add(new WidgetItemInfo("20", "完成日期：", witness.getWitnessdate(), WidgetItemInfo.DISPLAY, false));
-			itemInfos.add(new WidgetItemInfo("21", "见证负责人：", witness.getWitness(), WidgetItemInfo.DISPLAY, false));
+			itemInfos.add(new WidgetItemInfo("20", "完成日期：", null, WidgetItemInfo.DISPLAY, false));
+					
 			
+			itemInfos.add(addressWidgetItemInfo=new WidgetItemInfo("1", "见证地点：",null, WidgetItemInfo.EDIT, false));
+			itemInfos.add(timeWidgetItemInfo=new WidgetItemInfo("2", "见证时间：",null, WidgetItemInfo.CHOOSE, true));
+			itemInfos.add(new WidgetItemInfo("21", "见证负责人：", null, WidgetItemInfo.DISPLAY, false));
 			
-			itemInfos.add(addressWidgetItemInfo=new WidgetItemInfo("1", "见证地点：", witness
-					.getWitnessaddress(), WidgetItemInfo.EDIT, false));
-			itemInfos.add(timeWidgetItemInfo=new WidgetItemInfo("2", "见证时间：",
-					witness.getWitnessdate(), WidgetItemInfo.CHOOSE, true));*/
-
 
 			if (!isEmpty(workStep.getNoticeaqc1())) {
 				itemInfos.add(c1qaWidgetItemInfo=new WidgetItemInfo("3", "A-QC1：", workStep
@@ -380,7 +379,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 	public void failed(final String name, int statusCode, Header[] headers,
 			String response) {
 		super.failed(name, statusCode, headers, response);
-		if (name.equals(WitnessManager.ACTION_WITNESS_CHOOSE_COMMIT)) {
+		if (name.equals(TaskManager.ACTION_TASK_COMMIT)) {
 			
 		}else {
 			showRetryView(new OnRetryLisnter() {
