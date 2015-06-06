@@ -360,6 +360,10 @@ AddItemView.CreateItemViewListener	addfoucsPersonCreateListenr=new AddItemView.C
 	// TODO Auto-generated method stub
 		 List<File> mFileLists = new ArrayList<File>();
 		 for (Category category : mFiles) {
+			 if (category.getName()==null) {
+				 Log.i(TAG, "no file seleted="+category.tag);
+				continue;
+			}
 			mFileLists.add(new File(category.getName()));
 		}
 	return  mFileLists;
