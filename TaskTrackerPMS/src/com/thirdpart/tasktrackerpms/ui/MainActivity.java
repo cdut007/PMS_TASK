@@ -27,6 +27,8 @@ import com.thirdpart.tasktrackerpms.R;
 
 public class MainActivity extends BaseActivity {
 
+	
+	
 	@Override
 	protected void initView() {
 		// TODO Auto-generated method stub
@@ -119,18 +121,19 @@ public class MainActivity extends BaseActivity {
 
 	private void initTab() {
 		// TODO Auto-generated method stub
-		if (true) {
+		 if(getLogInController().matchRoles("作业组长")){
+			item = HOME;// defualt is task
+			menuViews.put(HOME, findViewById(R.id.btn_menu0));
+
+			findViewById(R.id.btn_menu1).setVisibility(View.GONE);
+			menuViews.put(TASK, findViewById(R.id.btn_menu2));
+			menuViews.put(MINE, findViewById(R.id.btn_menu3));
+		}else {
 			menuViews.put(HOME, findViewById(R.id.btn_menu0));
 
 			menuViews.put(PLAN, findViewById(R.id.btn_menu1));
 			menuViews.put(TASK, findViewById(R.id.btn_menu2));
 			menuViews.put(MINE, findViewById(R.id.btn_menu3));	
-		}else {
-			item = TASK;// defualt is task
-			
-			findViewById(R.id.btn_menu1).setVisibility(View.GONE);
-			menuViews.put(TASK, findViewById(R.id.btn_menu2));
-			menuViews.put(MINE, findViewById(R.id.btn_menu3));
 		}
 		
 	}
@@ -365,7 +368,8 @@ public class MainActivity extends BaseActivity {
 
 	public void onBackPressed() {
 
-		super.onBackPressed();
+		//super.onBackPressed();
+		 moveTaskToBack(true);
 
 	}
 
