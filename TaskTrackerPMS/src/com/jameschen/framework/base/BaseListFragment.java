@@ -5,6 +5,7 @@ import java.util.List;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -50,6 +51,7 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 		mProgressContainer = root.findViewById(R.id.progressContainer);
 		mListContainer = root.findViewById(R.id.listContainer);
 		mListView = (MyListView) root.findViewById(R.id.common_list);
+		mListView.getRefreshableView().setSelector(R.drawable.transparent);
 		mStandardEmptyView.setText(mEmptyText);
 		mAdapter  = adapter;
 		mListView.setAdapter(mAdapter);
@@ -110,6 +112,8 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 	protected void showNoResult(boolean noResult, String noResultStr) {
 		if (noResult) {
 			mStandardEmptyView.setText(noResultStr);
+			mStandardEmptyView.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.appear_in));
+		
 			mStandardEmptyView.setVisibility(View.VISIBLE);
 			
 		} else {

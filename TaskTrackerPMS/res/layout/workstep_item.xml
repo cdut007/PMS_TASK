@@ -33,12 +33,12 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp" />
 
-        <TextView
+        <com.thirdpart.widget.SorcllTextView
             android:id="@+id/workstep_name"
             android:layout_width="0dp"
              style="@style/common_text_item"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="problem" />

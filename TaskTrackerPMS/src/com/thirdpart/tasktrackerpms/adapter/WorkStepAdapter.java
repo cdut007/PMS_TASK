@@ -114,7 +114,9 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 			if ("PREPARE".equals(workStep.getStepflag())) {
 				issueFeedback.setVisibility(View.VISIBLE);
 			}else {
-				issueFeedback.setVisibility(View.GONE);
+				issueFeedback.setVisibility(View.INVISIBLE);	
+					
+			
 			}
 		}
 		
