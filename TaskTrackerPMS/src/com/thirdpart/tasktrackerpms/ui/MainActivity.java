@@ -50,7 +50,7 @@ public class MainActivity extends BaseActivity {
 
 	HashMap<String, MenuListener> mTabMenus = new HashMap<String, MenuListener>();
 	HashMap<String, View> menuViews = new HashMap<String, View>();
-	static final String PLAN = Item.PLAN, TASK = Item.TASK, MINE = Item.MINE;
+	static final String HOME=Item.HOME, PLAN = Item.PLAN, TASK = Item.TASK, MINE = Item.MINE;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,11 +83,13 @@ public class MainActivity extends BaseActivity {
 			onNavigateItemSelected(item = TASK);
 		} else if (Item.PLAN.equals(flag)) {
 			onNavigateItemSelected(item = PLAN);
+		}else if (Item.HOME.equals(flag)) {
+			onNavigateItemSelected(item = HOME);
 		}
 
 	}
 
-	private String item = PLAN;
+	private String item = HOME;
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -118,6 +120,8 @@ public class MainActivity extends BaseActivity {
 	private void initTab() {
 		// TODO Auto-generated method stub
 		if (true) {
+			menuViews.put(HOME, findViewById(R.id.btn_menu0));
+
 			menuViews.put(PLAN, findViewById(R.id.btn_menu1));
 			menuViews.put(TASK, findViewById(R.id.btn_menu2));
 			menuViews.put(MINE, findViewById(R.id.btn_menu3));	
@@ -154,6 +158,11 @@ public class MainActivity extends BaseActivity {
 		MenuListener selectedMenu = mTabMenus.get(item);
 		if (selectedMenu == null) {
 			switch (item) {
+			case HOME: {// home
+				selectedMenu = new MenuListener<HomeFragment>(this, Item.HOME,
+						HomeFragment.class, null);
+			}
+				break;
 			case PLAN: {// plan
 				selectedMenu = new MenuListener<PlanFragment>(this, Item.PLAN,
 						PlanFragment.class, null);

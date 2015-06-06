@@ -9,14 +9,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Context;
+
 import com.jameschen.comm.utils.MyHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.thirdpart.model.Config.ReqHttpMethodPath;
 import com.thirdpart.model.entity.IssueResult;
-import com.thirdpart.tasktrackerpms.ui.TaskFragment.TaskItem;
-
-import android.content.Context;
+import com.thirdpart.tasktrackerpms.ui.HomeFragment.TaskItem;
 
 public class PMSManagerAPI {
 
@@ -120,7 +120,12 @@ public class PMSManagerAPI {
 				params, responseHandler);
 
 	}
+	public void myTaskList(String pagesize, String pagenum, AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getCommonPageParams(pagesize, pagenum);
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_MY_TASK_LIST_URL,
+				params, responseHandler);
 
+	}
 
 	/**
 	 *

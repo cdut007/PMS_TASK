@@ -34,6 +34,7 @@ public class ConstValues {
 	public static class Item {
 
 		public static final String PLAN = "plan";
+		public static final String HOME = "home";
 		public static final String ISSUE = "issue";
 		public static final String WITNESS = "witness";
 		public static final String TASK = "task";

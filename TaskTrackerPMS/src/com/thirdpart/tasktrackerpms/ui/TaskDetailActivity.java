@@ -3,8 +3,6 @@ package com.thirdpart.tasktrackerpms.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.Header;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,24 +11,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.jameschen.framework.base.BaseDetailActivity;
 import com.jameschen.framework.base.BaseEditActivity;
-import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.ConstValues.Item;
-import com.thirdpart.model.ManagerService;
-import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
-import com.thirdpart.model.PlanManager;
 import com.thirdpart.model.TaskManager;
 import com.thirdpart.model.WidgetItemInfo;
-import com.thirdpart.model.entity.IssueMenu;
-import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
-import com.thirdpart.tasktrackerpms.ui.TaskFragment.TaskItem;
-import com.thirdpart.widget.DisplayItemView;
+import com.thirdpart.tasktrackerpms.ui.HomeFragment.TaskItem;
 
 public class TaskDetailActivity extends BaseEditActivity {
 

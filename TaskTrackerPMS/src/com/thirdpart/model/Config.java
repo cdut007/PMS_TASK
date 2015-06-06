@@ -147,6 +147,10 @@ public class Config {
 		 * */
 		public static final String REQUST_MY_ROLLINGPLAN_FINISH_TO_CONFIRM_URL = HTTP_BASE_URL+"/hdxt/api/baseservice/construction/mytask/rollingplan";
 
+		
+		public static final String REQUST_MY_TASK_LIST_URL = HTTP_BASE_URL+"/hdxt/api/baseservice/construction/mytask";
+
+		
 		/** define the my task modify finish all to confirm  url 
 		 * <br> PUT param:loginUserId,id(rollingPlan id),welder(name),enddate(format:2015-05-26)
 		 * <br>-1001,id is not avaiable

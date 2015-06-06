@@ -28,7 +28,7 @@ import com.thirdpart.model.entity.RollingPlanList;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.tasktrackerpms.adapter.DeliveryPlanAdapter;
 import com.thirdpart.tasktrackerpms.adapter.PlanAdapter;
-import com.thirdpart.tasktrackerpms.ui.TaskFragment.TaskItem;
+import com.thirdpart.tasktrackerpms.ui.HomeFragment.TaskItem;
 import com.thirdpart.widget.IndicatorView;
 
 
