@@ -1,14 +1,11 @@
 package com.jameschen.framework.base;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
-import android.app.Fragment.InstantiationException;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -20,7 +17,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.jameschen.comm.utils.Log;
 import com.jameschen.widget.MyListView;
-import com.thirdpart.model.ManagerService;
 import com.thirdpart.tasktrackerpms.R;
 
 public abstract class BaseListFragment<T> extends BaseFragment {
@@ -94,6 +90,7 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 		if (noResult) {
 			mStandardEmptyView.setText(noResultStr);
 			mStandardEmptyView.setVisibility(View.VISIBLE);
+		
 		} else {
 			mStandardEmptyView.setVisibility(View.GONE);
 		}

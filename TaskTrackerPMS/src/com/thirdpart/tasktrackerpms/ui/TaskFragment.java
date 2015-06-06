@@ -341,7 +341,7 @@ public void onHiddenChanged(boolean hidden) {
 			BadgeView badgeView = new BadgeView(bgDraweeView.getContext());
 			badgeView.setBadgeCount(0);
 			bgDraweeView.setTag(badgeView);
-			TouchImage.ViewEffect(bgDraweeView);
+			badgeView.setTargetView(bgDraweeView);
 			convertView.setOnTouchListener(new OnTouchListener() {
 				
 				@Override
@@ -372,6 +372,7 @@ public void onHiddenChanged(boolean hidden) {
 			contenTextView.setTag(object);
 			contenTextView.setText(object.name+"90道");
 			final int color = object.color;
+			final int count = object.count;
 			bgDraweeView.getHierarchy().setPlaceholderImage(new Drawable() {
 				
 				@Override
@@ -405,11 +406,36 @@ public void onHiddenChanged(boolean hidden) {
 						paint.setColor(color);	
 					}
 					canvas.drawCircle(r, r, r, paint);
+					
+					if (count>0) {
+						paint.setColor(Color.RED);	
+						canvas.drawCircle(1.8f*r, 0.4f*r, (float)UtilsUI.getPixByDPI(bgDraweeView.getContext(), 10), paint);
+						paint.setColor(Color.WHITE);
+						
+					if (count>=10 && count<=99) {
+						paint.setTextSize(contenTextView.getTextSize());
+						canvas.drawText(""+count, 1.67f*r, 0.47f*r, paint);	
+					
+					}else if(count>99){
+						paint.setTextSize(0.6f*contenTextView.getTextSize());
+						canvas.drawText("99+", 1.70f*r, 0.45f*r, paint);	
+					
+						}else {
+							paint.setTextSize(contenTextView.getTextSize());
+							canvas.drawText(""+count, 1.74f*r, 0.48f*r, paint);	
+						
+						}
+					
+					}else {
+						
+					}
+					
+
 				}
 			});
 
-			BadgeView badgeView = (BadgeView) bgDraweeView.getTag();
-			badgeView.setBadgeCount(object.count);
+			//BadgeView badgeView = (BadgeView) bgDraweeView.getTag();
+			//badgeView.setBadgeCount(object.count);
 		
 		}
 		
