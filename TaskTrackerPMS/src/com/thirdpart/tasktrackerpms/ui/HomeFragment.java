@@ -380,9 +380,16 @@ public void onHiddenChanged(boolean hidden) {
 		protected void setInfo( TaskItem object) {
 			// TODO Auto-generated method stub
 			contenTextView.setTag(object);
-			contenTextView.setText(object.name+"90道");
 			final int color = object.color;
 			final int count = object.count;
+			if (count>0) {
+
+				contenTextView.setText(object.name+count+"道");
+			}else {
+
+				contenTextView.setText(object.name);
+			}
+			
 			bgDraweeView.getHierarchy().setPlaceholderImage(new Drawable() {
 				
 				@Override
