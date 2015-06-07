@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.http.Header;
 
+import android.R.integer;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,8 +17,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -92,6 +95,21 @@ public class IssueFeedbackActivity extends BaseEditActivity implements OnUploadR
  
 	private void bindView() {
 	// TODO Auto-generated method stub
+		
+		findViewById(R.id.issue_feedback_container).addOnLayoutChangeListener(new OnLayoutChangeListener() {
+			
+			@Override
+			public void onLayoutChange(View v, int left, int top, int right,
+					int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+				// TODO Auto-generated method stub
+				int addItem = bottom-oldBottom;
+				if (addItem>0 && oldBottom>0) {
+					ScrollView scrollView = (ScrollView) findViewById(R.id.container);
+					Log.i(TAG, "deltaHeight="+addItem+";bottom="+bottom+";oldBottom="+oldBottom);
+					scrollView.scrollBy(0, addItem);
+				}
+			}
+		});
 		
 		issueDescView = (UserInputItemView) findViewById(R.id.issue_desc);		
 		issueTopic = (EditItemView) findViewById(R.id.issue_topic);
