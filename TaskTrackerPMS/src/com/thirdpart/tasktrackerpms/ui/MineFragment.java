@@ -14,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.jameschen.framework.base.BaseActivity;
 import com.jameschen.framework.base.BasePageListFragment;
 import com.jameschen.framework.base.MyBaseAdapter;
 import com.jameschen.framework.base.MyBaseAdapter.HoldView;
@@ -57,12 +58,12 @@ public class MineFragment extends BasePageListFragment{
 	
 
 	static class IssueMenuAdapter extends MyBaseAdapter<IssueMenu> {
-		private Context context;
+		private BaseActivity context;
 
-		public IssueMenuAdapter(Context context) {
+		public IssueMenuAdapter(BaseActivity context) {
 			super(context,R.layout.common_menu_item);
 			this.context = context;
-			setObjectList(IssueMenu.getMineMenus());
+			setObjectList(IssueMenu.getMineMenus(!context.getLogInController().matchRoles("作业组长")));
 		}
 
 		
