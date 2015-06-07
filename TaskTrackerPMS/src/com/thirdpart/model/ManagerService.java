@@ -6,6 +6,7 @@ import org.apache.http.Header;
 
 import android.app.Fragment.InstantiationException;
 import android.content.Context;
+import android.util.Log;
 
 import com.jameschen.framework.base.UINetworkHandler;
 
@@ -103,7 +104,8 @@ protected   ManagerNetworkHandler getManagerNetWorkHandler(String action){
 		if (reqHttpCallbackListener instanceof OnUploadReqHttpCallbackListener) {
 
 			int percent = bytesWritten*100/totalSize;
-			if (percent==100) {//ok.
+			if (percent>=100) {//ok
+				Log.i("upload", "count==="+percent);
 				percent=99;
 			}
 			String content = "已上传"+percent+"%";

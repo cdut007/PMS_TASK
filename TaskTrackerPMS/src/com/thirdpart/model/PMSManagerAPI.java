@@ -122,6 +122,7 @@ public class PMSManagerAPI {
 	}
 	public void myTaskList(String pagesize, String pagenum, AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getCommonPageParams(pagesize, pagenum);
+		params.put("condition", "notequal");
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_MY_TASK_LIST_URL,
 				params, responseHandler);
 
