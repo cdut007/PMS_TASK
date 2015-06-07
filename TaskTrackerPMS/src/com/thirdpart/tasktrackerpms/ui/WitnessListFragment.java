@@ -41,11 +41,16 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 
 	
 	
+	private long menuid;
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.witness_list_ui, container, false);
+		menuid = getArguments().getLong(ConstValues.ID);
+		Log.i(TAG, "witness menu id = "+menuid);
 		bindListView(view,new WitnesserAdapter(getBaseActivity()));
 		mListView.setOnItemClickListener(this);
 		callNextPage(pageSize,getCurrentPage());
@@ -61,34 +66,41 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 	
 	private  void executeNetWorkRequest(int pagesize,int pagenum) {
 		// TODO Auto-generated method stub
-	        getPMSManager().deliveryWitnessList(pagesize+"", pagenum+"","equal",new PageUINetworkHandler<WitnessDistributedList>(getBaseActivity()){
+		BasePageListFragment<WitnessDistributed, WitnessDistributedList>.PageUINetworkHandler<WitnessDistributedList> networkhanler = new PageUINetworkHandler<WitnessDistributedList>(getBaseActivity()){
 
-	    		@Override
-	    		public void startPage() {
-	    			// TODO Auto-generated method stub
-	    			
-	    		}
+    		@Override
+    		public void startPage() {
+    			// TODO Auto-generated method stub
+    			
+    		}
 
-	    		@Override
-	    		public void finishPage() {
-	    			// TODO Auto-generated method stub
-	    			//test data.
-	    		}
+    		@Override
+    		public void finishPage() {
+    			// TODO Auto-generated method stub
+    			//test data.
+    		}
 
-	    		@Override
-	    		public void callbackPageFailure(int statusCode,
-	    				Header[] headers, String response) {
-	    			// TODO Auto-generated method stub
-	    		}
+    		@Override
+    		public void callbackPageFailure(int statusCode,
+    				Header[] headers, String response) {
+    			// TODO Auto-generated method stub
+    		}
 
-	    		@Override
-	    		public void callbackPageSuccess(int statusCode,
-	    				Header[] headers, WitnessDistributedList response) {
-	    			// TODO Auto-generated method stub
-	    			
-	    		}
-	    	});
-		
+    		@Override
+    		public void callbackPageSuccess(int statusCode,
+    				Header[] headers, WitnessDistributedList response) {
+    			// TODO Auto-generated method stub
+    			
+    		}
+    	};
+		if (menuid==0) {//my revice witness
+			 getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","equal",networkhanler);
+					
+		}else {//my 
+			 getPMSManager().myTaskWitnessList(pagesize+"", pagenum+"",networkhanler);
+				
+		}
+	       
 	}
 	
 	@Override

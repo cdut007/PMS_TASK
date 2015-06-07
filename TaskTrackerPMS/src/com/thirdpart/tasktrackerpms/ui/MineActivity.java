@@ -76,11 +76,11 @@ public class MineActivity extends BaseActivity {
 			break;
 			case "2"://my witness
 			{
-				mFragment = fm.findFragmentByTag(WitnessListFragment.class.getName());
+				mFragment = fm.findFragmentByTag(WitnessFragment.class.getName());
 				if (mFragment == null) {
 					Bundle bundle = new Bundle();
-					mFragment = IssueFragment.instantiate(this, WitnessListFragment.class.getName(), bundle);
-					ft.add(R.id.fragment_content, mFragment, WitnessListFragment.class.getName());
+					mFragment = WitnessFragment.instantiate(this, WitnessFragment.class.getName(), bundle);
+					ft.add(R.id.fragment_content, mFragment, WitnessFragment.class.getName());
 				}
 
 				ft.commit();

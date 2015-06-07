@@ -1,0 +1,121 @@
+package com.thirdpart.tasktrackerpms.ui;
+
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.jameschen.framework.base.BasePageListFragment;
+import com.jameschen.framework.base.MyBaseAdapter;
+import com.jameschen.framework.base.MyBaseAdapter.HoldView;
+import com.thirdpart.model.ConstValues.Item;
+import com.thirdpart.model.entity.IssueList;
+import com.thirdpart.model.entity.IssueMenu;
+import com.thirdpart.model.entity.IssueResult;
+import com.thirdpart.model.entity.RollingPlan;
+import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.adapter.IssueAdapter;
+
+public class WitnessFragment extends BasePageListFragment{
+
+	
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		View view = inflater.inflate(R.layout.main_issue_ui, container, false);
+		bindListView(view,new IssueMenuAdapter(getBaseActivity()));
+		mListView.setMode(Mode.DISABLED);
+		loadAnimate(APPEAR);
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getActivity(), WitnessActivity.class);
+				Object object = parent.getAdapter().getItem(position);
+				if (object == null) {
+					return;
+				}
+				IssueMenu p = (IssueMenu) (object);
+				intent.putExtra(Item.WITNESS, p);
+				startActivity(intent);
+			}
+		});
+		return view;
+	}
+	
+
+	static class IssueMenuAdapter extends MyBaseAdapter<IssueMenu> {
+		private Context context;
+
+		public IssueMenuAdapter(Context context) {
+			super(context,R.layout.common_menu_item);
+			this.context = context;
+			setObjectList(IssueMenu.getWitnessMenus());
+		}
+
+		
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			
+			convertView = super.getView(position, convertView, parent);
+			
+			return convertView;
+
+		}
+
+		@Override
+		public void recycle() {
+		
+			super.recycle();
+
+		}
+
+		@Override
+		protected HoldView<IssueMenu> createHoldView() {
+			// TODO Auto-generated method stub
+			return new IssueMenuHoldView();
+		}
+
+		private final static class IssueMenuHoldView extends HoldView<IssueMenu> {
+			
+			TextView mContent;
+			@Override
+			protected void initChildView(View convertView,
+					MyBaseAdapter<IssueMenu> myBaseAdapter) {
+				// TODO Auto-generated method stub
+				mContent = (TextView) convertView.findViewById(R.id.common_menu_item_content);
+			}
+
+			@Override
+			protected void setInfo(IssueMenu object) {
+				// TODO Auto-generated method stub
+				mContent.setText(object.getContent());
+			}
+			
+		}
+		
+
+	}
+
+
+	@Override
+	protected void callNextPage(int pagesize, int pageNum) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+}

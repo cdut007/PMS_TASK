@@ -140,6 +140,9 @@ public class Config {
 		 * */
 		public static final String REQUST_MY_TASK_MODIFY_BY_WORKSTEP_URL = REQUST_MY_TASK_TO_FINISH_BY_WORKSTEP_URL;
 		
+		
+		public static final String REQUST_MY_TASK_WITNESS_LIST_URL = HTTP_BASE_URL+"/hdxt/api/baseservice/construction/mytask/witness";
+		
 		/** define the my task finish all to confirm  url 
 		 * <br> POST param:loginUserId,id(rollingPlan id),welder(name),enddate(format:2015-05-26)
 		 * <br>-1001,id is not avaiable
