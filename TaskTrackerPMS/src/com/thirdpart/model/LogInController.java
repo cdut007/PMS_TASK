@@ -19,6 +19,7 @@ import com.google.gson.reflect.TypeToken;
 import com.jameschen.comm.utils.CrypToCfg;
 import com.jameschen.comm.utils.Log;
 import com.thirdpart.model.ConstValues.CategoryInfo.User;
+import com.thirdpart.model.entity.Privilege;
 import com.thirdpart.model.entity.Role;
 import com.thirdpart.model.entity.UserInfo;
 import com.thirdpart.tasktrackerpms.ui.LoginActivity;
@@ -51,7 +52,25 @@ public class LogInController {
 		}
 		return mController;
 	}
+	
+	
 
+	public boolean matchPlanUrls(){
+		 List<Privilege> priviles = getInfo().getPrivileges();
+		if (priviles==null) {
+			return false;
+		}
+		 for (Privilege role : priviles) {
+			if ("/construction/team".equals(role.getUri())||
+					"/construction/endman".equals(role.getUri())) {
+				Log.i("role", "find url ok");
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	public boolean matchRoles(String seaerchRole){
 		List<Role> roles = getInfo().getRoles();
 		for (Role role : roles) {
