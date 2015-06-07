@@ -92,11 +92,7 @@ public class IssueFeedbackActivity extends BaseEditActivity implements OnUploadR
  
 	private void bindView() {
 	// TODO Auto-generated method stub
-		View container = findViewById(R.id.sroll_container);
-		RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams) container.getLayoutParams();
-		param.addRule(RelativeLayout.ABOVE, R.id.commit_layout);
-		container.setLayoutParams(param);
-		//
+		
 		issueDescView = (UserInputItemView) findViewById(R.id.issue_desc);		
 		issueTopic = (EditItemView) findViewById(R.id.issue_topic);
 		addFile = (AddItemView) findViewById(R.id.issue_add_file);

@@ -39,8 +39,9 @@
             style="@style/common_text_title_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.8"
-            android:gravity="center"
+            android:layout_weight="1.6"
+            android:paddingLeft="6dp"
+            android:gravity="center_vertical"
             android:singleLine="true"
             android:text="完成量" />
 

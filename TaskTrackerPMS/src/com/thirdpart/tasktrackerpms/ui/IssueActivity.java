@@ -52,7 +52,7 @@ public class IssueActivity extends BaseEditActivity  {
 		super.onCreate(savedInstanceState);
 		
 		issueMenu = (IssueMenu) getIntent().getSerializableExtra(Item.ISSUE);	
-      setTitle("我的问题");
+      setTitle(""+issueMenu.getContent());
       initInfo();
  }
  

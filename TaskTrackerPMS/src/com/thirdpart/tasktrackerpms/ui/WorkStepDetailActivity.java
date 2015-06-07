@@ -146,14 +146,6 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 
 			}
 			
-			View view = findViewById(R.id.edit_container);
-			FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) view
-					.getLayoutParams();
-			params.width = UtilsUI.getWidth(getApplication())
-					- UtilsUI.getPixByDPI(this, 20);
-			params.topMargin = UtilsUI.getPixByDPI(this, 10);
-			params.gravity = Gravity.CENTER;
-			view.setLayoutParams(params);
 	
 		}
 		

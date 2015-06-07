@@ -109,10 +109,18 @@ public class AddItemView extends FrameLayout {
 	private void addNewItem() {
 		// TODO Auto-generated method stub
 		if (fileChoose&&mItems.size()>=5) {
-			Toast.makeText(getContext(), "最多添加5个文件", Toast.LENGTH_LONG).show();
+			contentView.setVisibility(View.GONE);
+			//Toast.makeText(getContext(), "最多添加5个文件", Toast.LENGTH_LONG).show();
 			return;
 		}
 		createItemListToUI(new AddItem((count++)+"") );
+		
+		// TODO Auto-generated method stub
+				if (fileChoose&&mItems.size()>=5) {
+					contentView.setVisibility(View.GONE);
+					//Toast.makeText(getContext(), "最多添加5个文件", Toast.LENGTH_LONG).show();
+					return;
+				}
 	}
 	public void setNameAndContent(String name) {
 		// TODO Auto-generated method stub
@@ -240,7 +248,7 @@ protected void chooseItem(AddItem addItem, View parentView) {
 
 private void removeItem(AddItem addItem) {
 	// TODO Auto-generated method stub
-	
+	contentView.setVisibility(View.VISIBLE);
 	removeItemListFromUI(addItem);
 	
 }

@@ -77,11 +77,14 @@ public class IndicatorView extends FrameLayout {
 		// TODO Auto-generated method stub
 		if ("delivery".equals(barmode)) {//2,4,1 焊口号／支架号  图纸号 分配
 			List<WidgetItemInfo> mInfos = new ArrayList<WidgetItemInfo>();
-			mInfos.add(new WidgetItemInfo(null, null, "焊口号／支架号", 2, false));
 			if (scanMode) {
-				mInfos.add(new WidgetItemInfo(null, null, "图纸号", 5, false));
+				mInfos.add(new WidgetItemInfo(null, null, "焊口号／支架号", 24, false));
+				
+				mInfos.add(new WidgetItemInfo(null, null, "图纸号", 47, false));
 					
 			}else {
+				mInfos.add(new WidgetItemInfo(null, null, "焊口号／支架号", 2, false));
+				
 				mInfos.add(new WidgetItemInfo(null, null, "图纸号", 4, false));
 				mInfos.add(new WidgetItemInfo(null, null, "分配", 1, false));
 					

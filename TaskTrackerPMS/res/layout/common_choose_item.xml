@@ -30,7 +30,6 @@
         <Button
             android:id="@+id/common_choose_item_content"
             android:layout_width="0dp"
-            android:layout_marginRight="30dp"
              style="@style/common_text_item"
             android:layout_height="wrap_content"
               android:drawableRight="@drawable/category_choose_trangle_state"

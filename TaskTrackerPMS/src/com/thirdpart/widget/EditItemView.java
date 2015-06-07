@@ -2,6 +2,7 @@ package com.thirdpart.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,8 +69,8 @@ public class EditItemView extends FrameLayout {
 
 	}
 
-	public CharSequence getContent() {
-		return contentView.getText();
+	public String getContent() {
+		return TextUtils.isEmpty(contentView.getText())?null:contentView.getText().toString();
 	}
 	
 	public void setNameAndContent(String name,String content) {
