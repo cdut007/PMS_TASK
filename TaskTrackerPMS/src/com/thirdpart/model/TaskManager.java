@@ -121,11 +121,12 @@ public class TaskManager  extends ManagerService{
 		
 	 }
 
-	public void commit(String witnessid, String witnesseraqa, String witnesseraqc2, String witnesseraqc1, String witnesserb, String witnesserc, String witnesserd) {
-		PMSManagerAPI.getInstance(context).modifyWitness(witnessid, witnesseraqa, witnesseraqc2, witnesseraqc1, witnesserb, witnesserc, witnesserd,getManagerNetWorkHandler(ACTION_TASK_COMMIT) );
+	public void commit(String workStepId, String witness, String witnessdes, String witnesseaddress, String witnessdate, String operater, String operatedate, String operatedesc) {
+		PMSManagerAPI.getInstance(context).createWitness(workStepId, witness, witnessdes, witnesseaddress, witnessdate, operater, operatedate, operatedesc, getManagerNetWorkHandler(ACTION_TASK_COMMIT) );
 
 	}
 	public void chooseWitnessHeadList() {
+
 		PMSManagerAPI.getInstance(context).witnessTeamList(getManagerNetWorkHandler(ACTION_WITNESS_CHOOSE_TEAM) );
 
 	}

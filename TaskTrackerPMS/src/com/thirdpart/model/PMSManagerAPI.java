@@ -367,6 +367,40 @@ public class PMSManagerAPI {
 		MyHttpClient.post(ReqHttpMethodPath.REQUST_DISTRIBUTED_WITNESSER_URL,
 				params, responseHandler);
 	}
+//	id				工序步骤ID
+//	witness				见证组组长ID
+//	witnessdes		N		见证描述
+//	witnessaddress				见证地点
+//	witnessdate				见证时间
+//	operater				完成者
+//	operatedate				完成时间（格式2015-05-24 22:22:45）
+//	operatedesc		N		完成信息描述
+	public void createWitness(String workStepId,
+			String witness,String witnessdes,
+			String witnesseaddress, String witnessdate, String operater,
+			String operatedate, String operatedesc, 
+			AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams(true);
+		
+		params.put("witness", witness);
+		params.put("id", workStepId);
+		params.put("witnessaddress", witnesseaddress);
+		params.put("operater", operater);
+		params.put("operatedate", operatedate);
+		params.put("witnessdate", witnessdate);
+
+		if (witnessdes != null) {
+			params.put("witnessdes", witnessdes);
+		}
+		if (operatedesc != null) {
+			params.put("operatedesc", operatedesc);
+		}
+		
+		
+		MyHttpClient.post(
+				ReqHttpMethodPath.REQUST_MY_TASK_WITNESS_LIST_URL,
+				params, responseHandler);
+	}
 
 	/**
 	 * @param loginUserId
@@ -662,6 +696,13 @@ public class PMSManagerAPI {
 		params.put("category", category);
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_TASK_STATUS_URL,
 				params, responseHandler);
+	}
+	
+	public static String getdateTimeformat(long times) {
+		// TODO Auto-generated method stub
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Date date = new Date(times);
+		return sdf.format(date);
 	}
 	
 	public static String getdateformat(long times) {
