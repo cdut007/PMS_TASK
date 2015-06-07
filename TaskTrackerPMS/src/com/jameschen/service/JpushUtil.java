@@ -64,12 +64,10 @@ public class JpushUtil {
 		
 			Log.i("extra", "content="+extras);
 			jsonObject = new JSONObject(extras);
-			jsonObject=jsonObject.optJSONObject("extra");
 			
 			PushModel pushModel = new PushModel();
 			pushModel.userId = jsonObject.optString("userId", null);
 			
-			jsonObject = jsonObject.optJSONObject("bussiness");
 			pushModel.category = jsonObject.optString("category", null);
 			return pushModel;
 		} catch (Exception e) {

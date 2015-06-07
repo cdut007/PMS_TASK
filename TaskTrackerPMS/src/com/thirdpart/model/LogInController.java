@@ -72,7 +72,7 @@ public class LogInController {
 		user.edit().remove(User.userinfo).commit();
 		mController=null;
 		JPushInterface.stopPush(context);
-		
+		JPushInterface.clearAllNotifications(context);
 		//go to login page
 		Intent i = new Intent(context, LoginActivity.class);
 		i.setFlags(IntentCompat.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);

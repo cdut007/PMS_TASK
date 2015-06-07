@@ -185,7 +185,7 @@ public class JpushReceiver extends BroadcastReceiver {
 			if ("assignEndMan".equals(pushModel.category)) {//报名满了
 			
 				flag=1;	
-			}else if (false) {//有回复
+			}else if ("assignTeam".equals(pushModel.category)) {//有回复
 				
 				flag=2;
 			}else if (false) {//我创建的活动
@@ -199,7 +199,7 @@ public class JpushReceiver extends BroadcastReceiver {
 		}
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 				context)
-				.setSmallIcon(R.drawable.ic_launcher)
+				.setSmallIcon(R.drawable.logo)
 				.setContentTitle(title)
 				.setContentText(message)
 				.setDefaults(
@@ -216,24 +216,20 @@ public class JpushReceiver extends BroadcastReceiver {
 		// //构建一个Intent
 		if (flag==0) {
 		 resultIntent = new Intent(context, MainActivity.class);
-		 JSONObject extrasJson;
-		try {
-			extrasJson = new JSONObject(extras);
-			int  id =  extrasJson.getInt("actid");
-		 	Log.i(TAG, "join  id===="+id);
-			resultIntent.putExtra("activity_id", id);
-			 resultIntent.putExtra("showPhone", true);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	
+		
 		}else if (flag==1) {
-			 resultIntent = new Intent(context, MineActivity.class);
+			 //resultIntent = new Intent(context, MineActivity.class);
 			  	Log.i(TAG, "distrubite new plan to me～～");
 			  
 				IssueMenu p = IssueMenu.getPlan();
 				resultIntent.putExtra(Item.MINE, p);
 				
+		}else if (flag == 2) {
+			//resultIntent = new Intent(context, MineActivity.class);
+		  	Log.i(TAG, "distrubite new plan to me～～");
+		  
+			IssueMenu p = IssueMenu.getPlan();
+			resultIntent.putExtra(Item.MINE, p);
 		}else if (flag==3) {//我创建的活动
 
 			 resultIntent = new Intent(context, MainActivity.class);
