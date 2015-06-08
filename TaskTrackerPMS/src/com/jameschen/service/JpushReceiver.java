@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 
 
+
 import com.jameschen.comm.utils.Log;
 import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.LogInController;
@@ -18,6 +19,7 @@ import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.ConstValues.CategoryInfo.User;
 import com.thirdpart.model.entity.IssueMenu;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.ui.IssueActivity;
 import com.thirdpart.tasktrackerpms.ui.MainActivity;
 import com.thirdpart.tasktrackerpms.ui.MineActivity;
 
@@ -188,10 +190,14 @@ public class JpushReceiver extends BroadcastReceiver {
 			}else if ("assignTeam".equals(pushModel.category)) {//有回复
 				
 				flag=2;
-			}else if (false) {//我创建的活动
+			}else if ("solve".equals(pushModel.category)||
+					"concern".equals(pushModel.category)||
+					"confirm".equals(pushModel.category)) {//我创建的活动
 				
 				flag=3;
 				
+			}else {
+				flag = 4;
 			}
 			
 		}else {
@@ -231,20 +237,10 @@ public class JpushReceiver extends BroadcastReceiver {
 			IssueMenu p = IssueMenu.getPlan();
 			resultIntent.putExtra(Item.MINE, p);
 		}else if (flag==3) {//我创建的活动
-
-			 resultIntent = new Intent(context, MainActivity.class);
-			 JSONObject extrasJson;
-			try {
-				extrasJson = new JSONObject(extras);
-				int  id =  extrasJson.getInt("actid");
-			 	Log.i(TAG, "join  id===="+id);
-				resultIntent.putExtra("activity_id", id);
-				 resultIntent.putExtra("showPhone", true);
-				 resultIntent.putExtra("showOtherDetail", true);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		
+			IssueMenu issueMenu =IssueMenu.getIssue(pushModel.category);
+			 resultIntent = new Intent(context, IssueActivity.class);
+			 resultIntent.putExtra(Item.ISSUE, issueMenu);
+			
 			
 		}
 		
