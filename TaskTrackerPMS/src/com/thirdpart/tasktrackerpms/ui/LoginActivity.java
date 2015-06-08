@@ -17,8 +17,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 import com.jameschen.comm.utils.Log;
 import com.jameschen.comm.utils.NetworkUtil;
