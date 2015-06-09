@@ -2,6 +2,8 @@ package com.thirdpart.tasktrackerpms.adapter;
 
 import java.text.DecimalFormat;
 
+import javax.crypto.spec.PSource;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +36,8 @@ public class IssueAdapter extends BasePageAdapter<IssueResult> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		convertView = super.getView(position, convertView, parent);
-		
+		IssueHoldView sHoldView = (IssueHoldView) convertView.getTag();
+		sHoldView.setInfo(position);
 		return convertView;
 
 	}
@@ -59,6 +62,7 @@ public class IssueAdapter extends BasePageAdapter<IssueResult> {
 		@Override
 		protected void initChildView(View convertView,
 				MyBaseAdapter<IssueResult> myBaseAdapter) {
+			
 			// TODO Auto-generated method stub
 			noTextView = (TextView) convertView.findViewById(R.id.issue_index_item);
 			topicTextView = (TextView) convertView.findViewById(R.id.issue_topic);
@@ -66,10 +70,14 @@ public class IssueAdapter extends BasePageAdapter<IssueResult> {
 			deliveryTextView = (TextView) convertView.findViewById(R.id.issue_delivery);
 		}
 
+		public void setInfo( int position) {
+			// TODO Auto-generated method stub
+			noTextView.setText(""+(position+1));
+		}
+
 		@Override
 		protected void setInfo(IssueResult issueResult) {
 			// TODO Auto-generated method stub
-			noTextView.setText(issueResult.getId());
 			topicTextView.setText(issueResult.getStepname());
 			statusTextView.setText(IssueManager.getIssueStatus(issueResult.getIsOk()));
 			statusTextView.setTextColor(IssueManager.getIssueStatusColor(issueResult.getIsOk()));

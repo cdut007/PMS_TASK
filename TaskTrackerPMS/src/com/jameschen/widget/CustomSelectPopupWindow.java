@@ -187,7 +187,7 @@ public class CustomSelectPopupWindow   {
 	
 	
 
-	private int selectPosition=0,childSelectPosition=0;
+	private int selectPosition=-1,childSelectPosition=0;
 	
 	private void beginLoadingData() {
 		loadingbar.setVisibility(View.VISIBLE);

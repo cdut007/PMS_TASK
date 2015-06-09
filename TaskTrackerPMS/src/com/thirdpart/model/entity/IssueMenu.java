@@ -56,9 +56,9 @@ public class IssueMenu implements Serializable {
 
 	public static List<IssueMenu> getMenus() {
 		List<IssueMenu> menus = new ArrayList<IssueMenu>();
+		menus.add(new IssueMenu("1", "需要处理问题"));
+		menus.add(new IssueMenu("2", "已解决问题"));
 		menus.add(new IssueMenu("0", "未解决问题"));
-		menus.add(new IssueMenu("1", "需要解决问题"));
-		menus.add(new IssueMenu("2", "已经解决问题"));
 		menus.add(new IssueMenu("3", "发起的问题"));
 		menus.add(new IssueMenu("4", "需要确认的问题"));
 		menus.add(new IssueMenu("5", "关注的问题"));
