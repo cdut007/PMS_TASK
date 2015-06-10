@@ -119,15 +119,14 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 				showToast("填写见证时间");
 				return;
 			}
-			String witness = (String) witnessWidgetItemInfo.obj;
-			if (TextUtils.isEmpty(witness)) {
-				showToast("选择见证负责人");
+
+			 Team witness=(Team) witnessWidgetItemInfo.obj;
+			 if (witness == null) {
+				 showToast("选择见证负责人");
 				return;
 			}
-			super.callCommitBtn(null);
-			taskManager.commit(workStep.getId(), witness, witnessdes,
-					witnesseaddress, witnessdate, operater, operatedate,
-					operatedesc);
+			 super.callCommitBtn(null);
+			taskManager.commit(workStep.getId(), witness.getId(), witnessdes, witnesseaddress, witnessdate, operater, operatedate, operatedesc);
 		} else {
 			showLoadingView(true);
 			taskManager.chooseWitnessHeadList();
@@ -270,36 +269,40 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 							}
 								break;
 							case WidgetItemInfo.CHOOSE: {
+
 								convertView = new ChooseItemView(
 										WorkStepDetailActivity.this);
 								final ChooseItemView chooseItemView = (ChooseItemView) convertView;
 								if (widgetItemInfo.bindClick) {
 									convertView.findViewById(
 											R.id.common_choose_item_content)
-											.setOnClickListener(
-													new OnClickListener() {
+											.setOnClickListener(new OnClickListener() {
+												
+												@Override
+												public void onClick(View v) {
+													// TODO Auto-generated method stub
 
-														@Override
-														public void onClick(
-																View v) {
-															if (widgetItemInfo.tag
-																	.equals("2")) {// time
-																go2ChooseTime(widgetItemInfo);
-															} else if (widgetItemInfo.tag
-																	.equals("21")) {//
-																showWindow(
-																		chooseItemView,
-																		(List<Team>) widgetItemInfo.obj);
+													if (widgetItemInfo.tag
+															.equals("2")) {// time
+														go2ChooseTime(widgetItemInfo);
+													}
+														else if(widgetItemInfo.tag.equals("21")){//
+														showWindow(chooseItemView,witnessTeamList);
+														
+													} else if(widgetItemInfo.tag
+															.equals("20")){//
+														go2ChooseTime(widgetItemInfo);
+													}
+												
 
-															} else if (widgetItemInfo.tag
-																	.equals("20")) {//
-																go2ChooseTime(widgetItemInfo);
-															}
-														}
+											
+												}
+											});
+												
 
-													});
 								}
-
+								
+								
 							}
 								break;
 
@@ -353,11 +356,8 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			Log.i(TAG, "witnessTeam List is null...");
 			return;
 		}
-		if (widgetItemInfo.tag.equals("21")) {// jian zheng team
-			widgetItemInfo.obj = witnessTeamList;
 
-		}
-
+	
 	}
 
 	public CharSequence getAddress() {
@@ -411,7 +411,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 	protected void updateItem(WidgetItemInfo widgetItemInfo, Team item) {
 		// TODO Auto-generated method stub
 		widgetItemInfo.content = item.getName();
-
+		widgetItemInfo.obj = item;
 		updateInfo();
 
 	}
