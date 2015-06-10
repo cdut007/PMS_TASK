@@ -106,13 +106,13 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 				 showToast("填写见证时间");
 				return;
 			}
-			 String witness=(String) witnessWidgetItemInfo.obj;
-			 if (TextUtils.isEmpty(witness)) {
+			 Team witness=(Team) witnessWidgetItemInfo.obj;
+			 if (witness == null) {
 				 showToast("选择见证负责人");
 				return;
 			}
 			 super.callCommitBtn(null);
-			taskManager.commit(workStep.getId(), witness, witnessdes, witnesseaddress, witnessdate, operater, operatedate, operatedesc);
+			taskManager.commit(workStep.getId(), witness.getId(), witnessdes, witnesseaddress, witnessdate, operater, operatedate, operatedesc);
 		} else {
 			showLoadingView(true);
 			taskManager.chooseWitnessHeadList();	
@@ -256,7 +256,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 																go2ChooseTime(widgetItemInfo);
 															} else if(widgetItemInfo.tag
 																	.equals("21")){//
-																showWindow(chooseItemView,(List<Team>)widgetItemInfo.obj);
+																showWindow(chooseItemView,witnessTeamList);
 																
 															} else if(widgetItemInfo.tag
 																	.equals("20")){//
@@ -328,7 +328,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			return;
 		}
 		if (widgetItemInfo.tag.equals("21")) {//jian zheng team
-			widgetItemInfo.obj = witnessTeamList;
+			//widgetItemInfo.obj = witnessTeamList;
 
 		}
 		
@@ -388,7 +388,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 	protected void updateItem(WidgetItemInfo widgetItemInfo, Team item) {
 		// TODO Auto-generated method stub
 		widgetItemInfo.content = item.getName();
-		
+		widgetItemInfo.obj = item;
 		updateInfo();
 		
 	}

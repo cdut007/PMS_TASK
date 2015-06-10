@@ -17,6 +17,9 @@
     <string name="confirm_password_hint">请再次确认密码</string>
     <string name="register_commit">提交注册</string>
     <string name="private_law">隐私服务条款</string>
+    
+    
+    
     <string name="register_phone">请输入手机号</string>
     <string name="input_account">请输入账号</string>
     <string name="input_password">请输入密码</string>
