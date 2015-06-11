@@ -503,7 +503,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 	public void succ(String name, int statusCode, Header[] headers,
 			Object response) {
 		setLoadSucc();
-		if (name.equals(WitnessManager.ACTION_WITNESS_CHOOSE_COMMIT)) {
+		if (name.equals(TaskManager.ACTION_TASK_COMMIT)) {
 			showToast("修改成功");
 		} else {// get witless..
 			witnessTeamList = (List<Team>) response;
