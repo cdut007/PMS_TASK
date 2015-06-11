@@ -58,7 +58,7 @@
         android:orientation="horizontal" >
 
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@+id/common_prew_img"
             android:layout_width="0dp"
             android:textColor="@color/gray"

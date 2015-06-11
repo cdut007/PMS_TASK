@@ -10,10 +10,13 @@ import org.apache.log4j.Level;
 import android.app.Application;
 import cn.jpush.android.api.JPushInterface;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.jameschen.comm.utils.Log;
 import com.jameschen.comm.utils.OttoBusHelper;
 import com.jameschen.comm.utils.StorageUtils;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.squareup.otto.Bus;
 import com.thirdpart.model.TestReq;
 import com.thirdpart.tasktrackerpms.R;
@@ -38,7 +41,7 @@ public class MyApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		ACRA.init(this);
-		Fresco.initialize(this);
+		initializeImageLoader(this);
 		initLogConfig();
 		mBus.register(this); // listen for "global" events
         JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
@@ -47,6 +50,20 @@ public class MyApplication extends Application {
 	}
 
 	
+	private void initializeImageLoader(MyApplication myApplication) {
+		// TODO Auto-generated method stub
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(myApplication).threadPriority(Thread.NORM_PRIORITY - 2)
+				.denyCacheImageMultipleSizesInMemory().discCacheFileNameGenerator(new Md5FileNameGenerator())
+				.tasksProcessingOrder(QueueProcessingType.LIFO).writeDebugLogs() // Remove
+																					// for
+																					// release
+																					// app
+				.build();
+		// Initialize ImageLoader with configuration.
+		ImageLoader.getInstance().init(config);
+	}
+
+
 	public void fulshLog() {
 		// TODO Auto-generated method stub
 		if (logConfigurator!=null) {

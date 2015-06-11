@@ -24,7 +24,6 @@ import com.jameschen.comm.utils.RegexUtils;
 import com.jameschen.framework.base.BaseActivity;
 import com.jameschen.framework.base.UINetworkHandler;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.squareup.okhttp.internal.Util;
 import com.thirdpart.model.LogInController;
 import com.thirdpart.model.entity.UserInfo;
 import com.thirdpart.tasktrackerpms.R;

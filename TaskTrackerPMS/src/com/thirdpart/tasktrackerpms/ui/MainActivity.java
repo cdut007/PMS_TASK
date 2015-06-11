@@ -57,7 +57,6 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		String pushTag = getIntent().getStringExtra("pushTag");
 		if (pushTag != null) {
 			checkFlag(pushTag);

@@ -5,8 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.facebook.drawee.view.SimpleDraweeView;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -42,7 +40,7 @@ import android.widget.LinearLayout.LayoutParams;
 
 public class BaseImageActivity extends BaseActivity {
 
-	private SimpleDraweeView view;
+	private ImageView view;
 	private Bitmap imgBitmap;
 	private  String imageCachePath=Cache.SCAN_IMAGE_CACHE_DIR;
 
@@ -62,7 +60,7 @@ public class BaseImageActivity extends BaseActivity {
 
 	@Override
 	protected void initView() {
-		view = (SimpleDraweeView) findViewById(R.id.image);
+		view = (ImageView) findViewById(R.id.image);
 		
 	}
 }

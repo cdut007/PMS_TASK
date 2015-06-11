@@ -2,7 +2,6 @@
 package com.thirdpart.tasktrackerpms.ui;
 
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.jameschen.framework.base.BaseFragment;
 import com.thirdpart.tasktrackerpms.R;
 
@@ -23,7 +22,7 @@ import android.widget.ProgressBar;
 public class ImageDetailFragment extends BaseFragment {
     private static final String IMAGE_DATA_EXTRA = "extra_image_data";
     private String mImageUrl;
-    private SimpleDraweeView mImageView;
+    private ImageView mImageView;
     /**
      * Factory method to generate a new instance of the fragment given an image number.
      *
@@ -62,7 +61,7 @@ public class ImageDetailFragment extends BaseFragment {
             Bundle savedInstanceState) {
         // Inflate and locate the main ImageView
         final View v = inflater.inflate(R.layout.image_detail_fragment, container, false);
-        mImageView = (SimpleDraweeView) v.findViewById(R.id.imageView);
+        mImageView = (ImageView) v.findViewById(R.id.imageView);
         loadingBar = (ProgressBar)v.findViewById(R.id.loading_img);
         return v;
     }

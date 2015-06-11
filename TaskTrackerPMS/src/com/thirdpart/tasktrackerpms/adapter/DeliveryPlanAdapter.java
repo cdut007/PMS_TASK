@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.jameschen.framework.base.BaseCheckItemAdapter;
 import com.jameschen.framework.base.MyBaseAdapter;
-import com.squareup.okhttp.Cache;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
 

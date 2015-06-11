@@ -469,7 +469,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 		case TimeActivity.REQUEST_PICK_DATE: {
 			if (arg1 == RESULT_OK) {
 
-				updateTime(intent.getStringExtra("time"));
+				updateTime(intent.getStringExtra("time"),intent.getStringExtra("format"));
 			}
 		}
 			break;
@@ -492,10 +492,10 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			witnessdesWidgetItemInfo, witnessdateWidgetItemInfo,
 			operaterWidgetItemInfo, operatedescWidgetItemInfo;
 
-	private void updateTime(String date) {
+	private void updateTime(String date, String formart) {
 		// TODO Auto-generated method stub
 		witnessdateWidgetItemInfo.content = date;
-		witnessdateWidgetItemInfo.obj = date;
+		witnessdateWidgetItemInfo.obj = formart;
 		updateInfo();
 	}
 

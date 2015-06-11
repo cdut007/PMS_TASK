@@ -25,9 +25,9 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.jameschen.comm.utils.Log;
 import com.jameschen.comm.utils.UtilsUI;
 import com.jameschen.framework.base.BaseFragment;
@@ -325,7 +325,7 @@ public void onHiddenChanged(boolean hidden) {
 	
 	static class ItemHoldView extends HoldView<TaskItem> {
 		TextView contenTextView;
-		SimpleDraweeView bgDraweeView;
+		ImageView bgDraweeView;
 		View cricleContaner;
 		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		private HomeFragment sFragment;
@@ -340,7 +340,7 @@ public void onHiddenChanged(boolean hidden) {
 			// TODO Auto-generated method stub
 			cricleContaner = convertView.findViewById(R.id.cricle_contaner);
 			contenTextView = (TextView) convertView.findViewById(R.id.common_circle_item_content);
-			bgDraweeView = (SimpleDraweeView) convertView.findViewById(R.id.common_circle_item_img);
+			bgDraweeView = (ImageView) convertView.findViewById(R.id.common_circle_item_img);
 		
 			LayoutParams param = bgDraweeView.getLayoutParams();
 			
@@ -390,7 +390,7 @@ public void onHiddenChanged(boolean hidden) {
 				contenTextView.setText(object.name);
 			}
 			
-			bgDraweeView.getHierarchy().setPlaceholderImage(new Drawable() {
+			bgDraweeView.setImageDrawable(new Drawable() {
 				
 				@Override
 				public void setColorFilter(ColorFilter cf) {
