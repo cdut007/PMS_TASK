@@ -5,6 +5,8 @@ private String witnesserType;
 
 private List<Witnesser> witnesser ;
 
+public String  referenceType;
+
 public void setWitnesserType(String witnesserType){
 this.witnesserType = witnesserType;
 }

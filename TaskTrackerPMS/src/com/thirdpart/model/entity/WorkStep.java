@@ -110,6 +110,12 @@ public class WorkStep implements Serializable{
 
 	private RollingPlan rollingPlan;
 
+	public String noticec;
+
+	public String noticed;
+
+	public String noticeb;
+
 	public void setId(String id) {
 		this.id = id;
 	}

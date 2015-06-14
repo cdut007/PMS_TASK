@@ -1,6 +1,7 @@
 package com.thirdpart.tasktrackerpms.adapter;
 
 import java.text.DecimalFormat;
+import java.util.Scanner;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,10 +28,11 @@ import com.thirdpart.widget.TouchImage;
 
 public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 	private Context context;
-
-	public WitnesserAdapter(Context context) {
+	public boolean deliveryWitness;
+	public WitnesserAdapter(Context context, boolean deliveryWitness) {
 		super(context,R.layout.witness_item);
 		this.context = context;
+		this.deliveryWitness = deliveryWitness;
 	}
 
 	
@@ -56,20 +58,26 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 		// TODO Auto-generated method stub
 		return new ItemHoldView();
 	}
+	
+	@Override
+	public boolean isEnabled(int position) {
+		// TODO Auto-generated method stub
+		return super.isEnabled(position);
+	}
 
 	private final static class ItemHoldView extends HoldView<WitnessDistributed> {
 
 		TextView noTextView,adressTextView;
-		TouchImage chooseWitenss;
-	
+		TextView chooseWitenss;
+	boolean Scanner = false;
 		@Override
 		protected void initChildView(View convertView,
-				MyBaseAdapter<WitnessDistributed> myBaseAdapter) {
+				final MyBaseAdapter<WitnessDistributed> myBaseAdapter) {
 			// TODO Auto-generated method stub
 			noTextView = (TextView) convertView.findViewById(R.id.witness_index_item);
 			adressTextView = (TextView) convertView.findViewById(R.id.witnenss_address);
-			chooseWitenss = (TouchImage) convertView.findViewById(R.id.witness_choose);
-			
+			chooseWitenss = (TextView) convertView.findViewById(R.id.witness_choose);
+		Scanner = ((WitnesserAdapter)myBaseAdapter).deliveryWitness;	
 			chooseWitenss.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -81,11 +89,27 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					WitnessDistributed workStep = (WitnessDistributed) v.getTag();
 					intent.putExtra(Item.WITNESS, workStep);
+					if (Scanner) {
+						intent.putExtra("scan", true);
+					}
 					context.startActivity(intent);
 				}
 			});
 			
-		
+		convertView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Context context = v.getContext();
+				
+				Intent intent= new Intent(context,WitnessUpdateActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				WitnessDistributed workStep = (WitnessDistributed) v.getTag();
+				
+				intent.putExtra(Item.WITNESS, workStep);
+				context.startActivity(intent);	
+			}
+		});
 		}
 
 		@Override
@@ -94,6 +118,7 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 			noTextView.setText(object.getId());
 			adressTextView.setText(object.getWitnessaddress());
 			chooseWitenss.setTag(object);
+			chooseWitenss.setText(Scanner?"查看见证":"选择见证人");
 		}
 		
 	}

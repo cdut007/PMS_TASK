@@ -439,7 +439,7 @@ public class PMSManagerAPI {
 		if (witnesserd != null) {
 			params.put("witnesserd", witnesserd);
 		}
-		MyHttpClient.put(
+		MyHttpClient.post(
 				ReqHttpMethodPath.REQUST_MODIFY_DISTRIBUTED_WITNESSER_URL,
 				params, responseHandler);
 	}

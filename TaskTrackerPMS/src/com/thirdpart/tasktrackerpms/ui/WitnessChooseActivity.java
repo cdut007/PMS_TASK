@@ -40,7 +40,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 
 	private WitnessManager witnessManager;
 	WitnessDistributed witness;
-
+	boolean scan;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -52,7 +52,8 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 				.getWitnessdate())));
 		witnessManager = (WitnessManager) ManagerService.getNewManagerService(
 				this, WitnessManager.class, this);
-		setTitle("选择见证人");
+		scan = getIntent().getBooleanExtra("scan", false);
+		setTitle(scan?"查看见证":"选择见证人");
 		updateInfo();
 		execFetechDetail(WitnessManager.ACTION_WITNESS_CHOOSE_WITNESSER);
 	}
@@ -69,7 +70,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 	private void execFetechDetail(String action) {
 		
 		if (action.equals(WitnessManager.ACTION_WITNESS_CHOOSE_COMMIT)) {
-			String witnessid=witness.getWitness();
+			String witnessid=witness.getId();
 			String witnesseraqa=getWitnesserId(qaWidgetItemInfo);
 			String witnesseraqc2=getWitnesserId(c2qaWidgetItemInfo);
 			String witnesseraqc1=getWitnesserId(c1qaWidgetItemInfo);
@@ -92,48 +93,50 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 			itemInfos.add(new WidgetItemInfo("0", "操作工序：", witness.getWorkStep()
 					.getStepname(), WidgetItemInfo.DISPLAY, false));
 			itemInfos.add(addressWidgetItemInfo=new WidgetItemInfo("1", "见证地点：", witness
-					.getWitnessaddress(), WidgetItemInfo.EDIT, false));
+					.getWitnessaddress(), scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.EDIT, false));
 			itemInfos.add(timeWidgetItemInfo=new WidgetItemInfo("2", "见证时间：",
-					witness.getWitnessdate(), WidgetItemInfo.CHOOSE, true));
+					witness.getWitnessdate(), scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));
 
 			WorkStep workStep = witness.getWorkStep();
 
 			if (!isEmpty(workStep.getNoticeaqc1())) {
 				itemInfos.add(c1qaWidgetItemInfo=new WidgetItemInfo("3", "A-QC1：", workStep
-						.getNoticeaqc1(), WidgetItemInfo.CHOOSE, true));
+						.getNoticeaqc1(), scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));
 
 			}
 
 			if (!isEmpty(workStep.getNoticeaqc2())) {
 				itemInfos.add(c2qaWidgetItemInfo=new WidgetItemInfo("4", "A-QC2：", workStep
-						.getNoticeaqc2(), WidgetItemInfo.CHOOSE, true));
+						.getNoticeaqc2(), scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));
 
 			}
 
 			if (!isEmpty(workStep.getNoticeaqa())) {
 				itemInfos.add(qaWidgetItemInfo=new WidgetItemInfo("5", "A-QA：", workStep
-						.getNoticeaqc1(), WidgetItemInfo.CHOOSE, true));
+						.getNoticeaqa(), scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));
 
 			}
 
-			if (!isEmpty(workStep.getWitnesserb())) {
+			if (!isEmpty(workStep.noticeb)) {
 				itemInfos.add(notibWidgetItemInfo=new WidgetItemInfo("6", "通知点B：", workStep
-						.getWitnesserc(), WidgetItemInfo.CHOOSE, true));
+						.noticeb, scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));
 
 			}
 
-			if (!isEmpty(workStep.getWitnesserc())) {
+			if (!isEmpty(workStep.noticec)) {
 				itemInfos.add(noticWidgetItemInfo=new WidgetItemInfo("7", "通知点C：", workStep
-						.getWitnesserc(), WidgetItemInfo.CHOOSE, true));
+						.noticec, scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));
 
 			}
-			if (!isEmpty(workStep.getWitnesserd())) {
+			if (!isEmpty(workStep.noticed)) {
 				itemInfos.add(notidWidgetItemInfo=new WidgetItemInfo("8", "通知点D：", workStep
-						.getWitnesserd(), WidgetItemInfo.CHOOSE, true));
+						.noticed, scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));
 
 			}
 			
-		
+			if (scan) {
+				findViewById(R.id.commit_layout).setVisibility(View.GONE);	
+				}
 	
 		}else {
 			addressWidgetItemInfo.content = getAddress();
@@ -270,9 +273,15 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 
 	
 	public String getAddress() {
-		EditItemView editItemView = (EditItemView) getViewByWidget(addressWidgetItemInfo);
-		return editItemView.getContent();
+		View editItemView =  getViewByWidget(addressWidgetItemInfo);
+		if (editItemView instanceof EditItemView) {
+			return ((EditItemView)editItemView).getContent();
+		}else if (editItemView instanceof DisplayItemView) {
+			return ((DisplayItemView)editItemView).getContent();
+		}
+		return null;
 	}
+	//
 	
 	private void showWindow(
 			final ChooseItemView chooseItemView,
@@ -328,9 +337,12 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 
 	private List<Witnesser> getWitneessType(String content) {
 		// TODO Auto-generated method stub
+		if (content == null) {
+			return null;
+		}
 		for (int i = 0; i < witnessList.size(); i++) {
 			 WitnesserList witnessItem = witnessList.get(i);
-			if (witnessItem.getWitnesserType().contains(content)||content.equals(witnessItem.getWitnesserType())) {
+			if ((witnessItem.referenceType!=null&&witnessItem.referenceType.equals(content))) {
 				return witnessItem.getWitnesser();
 			}
 		}
