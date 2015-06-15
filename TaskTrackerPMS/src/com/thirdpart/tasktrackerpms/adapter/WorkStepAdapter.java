@@ -28,10 +28,11 @@ import com.thirdpart.tasktrackerpms.ui.WorkStepDetailActivity;
 public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 	private Context context;
 	
-	
-	public WorkStepAdapter(Context context) {
+	boolean update ;
+	public WorkStepAdapter(Context context,boolean isUpdate) {
 		super(context,R.layout.workstep_item);
 		this.context = context;
+		update = isUpdate;
 	}
 
 	
@@ -83,20 +84,25 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 				context.startActivity(intent);
 			}
 		});
-		   issueUpdate.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Context context = v.getContext();
-				
-				Intent intent= new Intent(context,WorkStepDetailActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				WorkStep workStep = (WorkStep) v.getTag();
-				intent.putExtra("workstep", workStep);
-				context.startActivity(intent);
-			}
-		});
+		   if (((WorkStepAdapter)myBaseAdapter).update) {
+			   issueUpdate.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						Context context = v.getContext();
+						
+						Intent intent= new Intent(context,WorkStepDetailActivity.class);
+						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						WorkStep workStep = (WorkStep) v.getTag();
+						intent.putExtra("workstep", workStep);
+						context.startActivity(intent);
+					}
+				});
+		}else {
+			issueUpdate.setVisibility(View.GONE);
+		}
+		
 //		   if (((WorkStepAdapter)myBaseAdapter).scan ){
 //			issueFeedback.setVisibility(View.GONE);
 //			issueUpdate.setVisibility(View.GONE);
@@ -117,6 +123,12 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 				issueFeedback.setVisibility(View.INVISIBLE);	
 					
 			
+			}
+			TextView updaTextView  = (TextView) issueUpdate;
+			if ("DONE".equals(workStep.getStepflag())) {
+				updaTextView.setText("已完成");
+			}else {
+				updaTextView.setText("更新");
 			}
 		}
 		

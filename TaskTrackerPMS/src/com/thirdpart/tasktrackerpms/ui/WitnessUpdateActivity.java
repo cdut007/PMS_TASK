@@ -25,6 +25,7 @@ import com.thirdpart.model.entity.WitnessDistributed;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.ChooseItemView.onDismissListener;
+import com.thirdpart.widget.DisplayItemView;
 import com.thirdpart.widget.UserInputItemView;
 
 public class WitnessUpdateActivity extends BaseEditActivity {
@@ -42,16 +43,22 @@ public class WitnessUpdateActivity extends BaseEditActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		
 	}
-
+boolean scan;
 WitnessDistributed mWitnessDistributed;
  @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 	
-	 mWitnessDistributed = (WitnessDistributed)getIntent().getSerializableExtra(Item.WITNESS);;
-	
-      setTitle("填写见证结果");
+	 mWitnessDistributed = (WitnessDistributed)getIntent().getSerializableExtra(Item.WITNESS);
+	scan = getIntent().getBooleanExtra("scan", false);
+	if (scan) {
+		 setTitle("查看见证结果");
+	}else {
+		 setTitle("填写见证结果");
+	}
+     
+      
       initInfo();
       bindView();
  }
@@ -101,7 +108,13 @@ WitnessDistributed mWitnessDistributed;
 		witnessInputItemView = (UserInputItemView) findViewById(R.id.witness_result_desc);
 	    chooseTypeView = (ChooseItemView) findViewById(R.id.witness_choose_ok);
 	   
-	   
+	   if (scan) {
+		   witnessInputItemView.setVisibility(View.GONE);
+		   DisplayItemView displayItemView  = (DisplayItemView) findViewById(R.id.witness_display_ok);
+		   displayItemView.setContent("0".equals(mWitnessDistributed.getIsok())?"合格":"不合格");
+		   witnessInputItemView.setContent(mWitnessDistributed.getWitnessdes(), true);
+		   findViewById(R.id.commit_layout).setVisibility(View.GONE);
+	}
 	   chooseTypeView.setChooseItemClickListener(new View.OnClickListener() {
 		
 		@Override

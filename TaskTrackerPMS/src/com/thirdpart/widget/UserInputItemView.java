@@ -2,6 +2,7 @@ package com.thirdpart.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,6 +85,10 @@ public class UserInputItemView extends FrameLayout {
 		// TODO Auto-generated method stub
 			nameView.setText(name);
 			contentView.setText(content);
+	}
+	public void addTextChangedListener(TextWatcher textWatcher) {
+		// TODO Auto-generated method stub
+		contentView.addTextChangedListener(textWatcher);
 	}
 	
 }

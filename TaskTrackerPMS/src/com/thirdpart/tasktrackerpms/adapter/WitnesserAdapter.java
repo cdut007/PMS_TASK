@@ -41,7 +41,8 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		convertView = super.getView(position, convertView, parent);
-		
+		ItemHoldView sHoldView = (ItemHoldView) convertView.getTag();
+		sHoldView.setInfo(position);
 		return convertView;
 
 	}
@@ -64,6 +65,9 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 		// TODO Auto-generated method stub
 		return super.isEnabled(position);
 	}
+	
+
+
 
 	private final static class ItemHoldView extends HoldView<WitnessDistributed> {
 
@@ -104,18 +108,20 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 				
 				Intent intent= new Intent(context,WitnessUpdateActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				WitnessDistributed workStep = (WitnessDistributed) v.getTag();
-				
+				WitnessDistributed workStep = (WitnessDistributed)chooseWitenss.getTag();
+				intent.putExtra("scan", Scanner);
 				intent.putExtra(Item.WITNESS, workStep);
 				context.startActivity(intent);	
 			}
 		});
 		}
-
+		public void setInfo( int position) {
+			// TODO Auto-generated method stub
+			noTextView.setText(""+(position+1));
+		}
 		@Override
 		protected void setInfo(WitnessDistributed object) {
 			// TODO Auto-generated method stub
-			noTextView.setText(object.getId());
 			adressTextView.setText(object.getWitnessaddress());
 			chooseWitenss.setTag(object);
 			chooseWitenss.setText(Scanner?"查看见证":"选择见证人");

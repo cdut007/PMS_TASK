@@ -37,7 +37,7 @@ import com.thirdpart.tasktrackerpms.adapter.PlanAdapter;
 import com.thirdpart.tasktrackerpms.adapter.WitnesserAdapter;
 
 
-public class WitnessListFragment extends BasePageListFragment<WitnessDistributed, WitnessDistributedList> implements OnItemClickListener{
+public class WitnessListFragment extends BasePageListFragment<WitnessDistributed, WitnessDistributedList>  {
 
 	
 	
@@ -51,8 +51,7 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 		View view = inflater.inflate(R.layout.witness_list_ui, container, false);
 		menuid = getArguments().getLong(ConstValues.ID);
 		Log.i(TAG, "witness menu id = "+menuid);
-		bindListView(view,new WitnesserAdapter(getBaseActivity()));
-		mListView.setOnItemClickListener(this);
+		bindListView(view,new WitnesserAdapter(getBaseActivity(),menuid!=0));
 		callNextPage(pageSize,getCurrentPage());
 		return view;
 	}
@@ -106,22 +105,6 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 	@Override
 	protected void callNextPage(int pagesize, int pageNum) {
 	executeNetWorkRequest( pagesize, pageNum);
-	}
-
-
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-		// TODO Auto-generated method stub
-		Object object = parent.getAdapter().getItem(position);
-		if (object == null) {
-			return;
-		}
-		Intent intent= new Intent(getActivity(),WitnessUpdateActivity.class);
-		
-		WitnessDistributed workStep = (WitnessDistributed)object;
-		intent.putExtra(Item.WITNESS, workStep);
-		startActivity(intent);
 	}
 
 

@@ -48,6 +48,7 @@ import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.DisplayItemView;
 import com.thirdpart.widget.EditItemView;
+import com.thirdpart.widget.UserInputItemView;
 
 public class WorkStepDetailActivity extends BaseEditActivity {
 
@@ -139,11 +140,15 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 	// R.id. in array String
 
 	private void updateInfo() {
+		final boolean isDone = "DONE".equals(workStep.getStepflag());
 		if (itemInfos.isEmpty()) {
 			// R.id. in array String
 			itemInfos.add(operaterWidgetItemInfo = new WidgetItemInfo("0",
-					"操作者：", null, WidgetItemInfo.EDIT, false));
+					"操作者：", workStep.operater, WidgetItemInfo.EDIT, isDone));
 
+			itemInfos.add(operatedescWidgetItemInfo = new WidgetItemInfo("25",
+					"描述：", workStep.operatedesc, WidgetItemInfo.INPUT, isDone));
+			
 			if (showWitness()) {
 				itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
 						"见证地点：", null, WidgetItemInfo.EDIT, false));
@@ -152,6 +157,13 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 				itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
 						"负责人：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
 
+			}
+			
+			
+			
+			if (isDone) {
+				
+				   findViewById(R.id.commit_layout).setVisibility(View.GONE);
 			}
 			
 			itemInfos.add(new WidgetItemInfo("", "", "",
@@ -175,23 +187,26 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 
 			}
 
-			if (!isEmpty(workStep.getWitnesserb())) {
+			if (!isEmpty(workStep.noticeb)) {
 				itemInfos.add(new WidgetItemInfo("6", "通知点B：", workStep
 						.getWitnesserc(), WidgetItemInfo.DISPLAY, false));
 
 			}
 
-			if (!isEmpty(workStep.getWitnesserc())) {
+			if (!isEmpty(workStep.noticec)) {
 				itemInfos.add(new WidgetItemInfo("7", "通知点C：", workStep
 						.getWitnesserc(), WidgetItemInfo.DISPLAY, false));
 
 			}
-			if (!isEmpty(workStep.getWitnesserd())) {
+			if (!isEmpty(workStep.noticed)) {
 				itemInfos.add(new WidgetItemInfo("8", "通知点D：", workStep
 						.getWitnesserd(), WidgetItemInfo.DISPLAY, false));
 
 			}
-
+			
+			if (isDone) {
+				
+			}
 		}
 
 		createItemListToUI(itemInfos, R.id.edit_container,
@@ -229,11 +244,13 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 							case WidgetItemInfo.EDIT: {
 								convertView = new EditItemView(
 										WorkStepDetailActivity.this);
-								((EditItemView) convertView).setNameAndContent(
+								EditItemView editItemView = (EditItemView) convertView;
+								editItemView.setNameAndContent(
 										widgetItemInfo.name,
 										widgetItemInfo.content);
 								final View tagView = (EditItemView) convertView;
-								((EditItemView) convertView)
+								editItemView.setEnabled(isDone);
+								editItemView
 										.addTextChangedListener(new TextWatcher() {
 
 											@Override
@@ -268,6 +285,52 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 
 							}
 								break;
+								
+							case WidgetItemInfo.INPUT: {
+								convertView = new UserInputItemView(
+										WorkStepDetailActivity.this);
+								UserInputItemView editItemView = (UserInputItemView) convertView;
+								editItemView.setNameAndContent(
+										widgetItemInfo.name,
+										widgetItemInfo.content);
+								final View tagView = (UserInputItemView) convertView;
+								editItemView.setEnabled(isDone);
+								editItemView
+										.addTextChangedListener(new TextWatcher() {
+
+											@Override
+											public void onTextChanged(
+													CharSequence s, int start,
+													int before, int count) {
+												// TODO Auto-generated method
+												// stub
+
+											}
+
+											@Override
+											public void beforeTextChanged(
+													CharSequence s, int start,
+													int count, int after) {
+												// TODO Auto-generated method
+												// stub
+
+											}
+
+											@Override
+											public void afterTextChanged(
+													Editable s) {
+												// TODO Auto-generated method
+												// stub
+												WidgetItemInfo widgetItemInfo = (WidgetItemInfo) tagView
+														.getTag();
+												widgetItemInfo.content = s
+														.toString();
+											}
+										});
+
+							}
+								break;
+								
 							case WidgetItemInfo.CHOOSE: {
 
 								convertView = new ChooseItemView(

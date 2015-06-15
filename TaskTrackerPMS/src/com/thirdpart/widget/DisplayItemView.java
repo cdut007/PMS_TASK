@@ -2,6 +2,7 @@ package com.thirdpart.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,6 +74,10 @@ public class DisplayItemView extends FrameLayout {
 	public void setContent(String describe) {
 		// TODO Auto-generated method stub
 		contentView.setText(describe);
+	}
+	public String getContent() {
+		// TODO Auto-generated method stub
+		return TextUtils.isEmpty(contentView.getText())?null:contentView.getText().toString();
 	}
 	
 }

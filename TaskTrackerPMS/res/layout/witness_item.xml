@@ -45,13 +45,15 @@
             android:layout_height="match_parent"
             android:background="@color/item_line" />
 
-        <com.thirdpart.widget.TouchImage
+        <TextView
             android:id="@+id/witness_choose"
             android:layout_width="0dp"
-             style="@style/common_text_item"
+             style="@style/common_done_btn"
             android:layout_height="wrap_content"
             android:layout_weight="2"
+            android:padding="2dp"
             android:gravity="center"
+            android:textSize="12sp"
             android:src="@drawable/jianzheng"
             android:layout_margin="4dp"
              />
