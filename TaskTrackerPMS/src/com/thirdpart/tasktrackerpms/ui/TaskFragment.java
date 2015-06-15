@@ -88,7 +88,7 @@ public class TaskFragment extends BasePageListFragment<RollingPlan, RollingPlanL
 	    		}
 	    	};
 	    	
-			getPMSManager().myTaskList(pagesize+"", pagenum+"",pageUINetworkHandler);
+			getPMSManager().myTaskList(pagesize+"", pagenum+"","notequal",pageUINetworkHandler);
 		   
 	     
 	}

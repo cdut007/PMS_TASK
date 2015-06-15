@@ -120,9 +120,9 @@ public class PMSManagerAPI {
 				params, responseHandler);
 
 	}
-	public void myTaskList(String pagesize, String pagenum, AsyncHttpResponseHandler responseHandler) {
+	public void myTaskList(String pagesize, String pagenum, String condition,AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getCommonPageParams(pagesize, pagenum);
-		params.put("condition", "notequal");
+		params.put("condition", condition);
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_MY_TASK_LIST_URL,
 				params, responseHandler);
 
@@ -157,11 +157,11 @@ public class PMSManagerAPI {
 	 * @param pagenum
 	 * @param responseHandler
 	 */
-	public void planList(String condition,String pagesize, String pagenum,
+	public void endmanList(String pagesize, String pagenum,String condition,
 			AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getCommonPageParams(pagesize, pagenum);
 		params.put("condition", condition);
-		MyHttpClient.get(ReqHttpMethodPath.REQUST_ROLLINGPLAN_LIST_URL, params,
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_ENDMAN_LIST_URL, params,
 				responseHandler);
 
 	}

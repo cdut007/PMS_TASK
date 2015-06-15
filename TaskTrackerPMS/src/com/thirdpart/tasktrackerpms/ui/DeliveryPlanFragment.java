@@ -23,6 +23,7 @@ import com.jameschen.comm.utils.Log;
 import com.jameschen.framework.base.BasePageListFragment;
 import com.jameschen.framework.base.UINetworkHandler;
 import com.thirdpart.model.ConstValues;
+import com.thirdpart.model.LogInController;
 import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.entity.Department;
@@ -108,7 +109,7 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 	    		}
 	    	};
 	    	
-	    	if (getLogInController().matchRoles("班组承包人")) {
+	    	if (getLogInController().matchUrls("/construction/endman")) {
 	    		if (scanMode) {//see my group plan
 	    			List<Department> departments = getLogInController().getInfo().departments;
 	    			if (departments== null||departments.size() == 0) {
@@ -118,13 +119,13 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 					teamId = departments.get(0).getId();
 				}
 	    		
-	    		 getPMSManager().teamList(pagesize+"", pagenum+"",scanMode?"notequal":"equal",teamId,pageUINetworkHandler);
-	    				
-			} else {
+	    		 getPMSManager().endmanList(pagesize+"", pagenum+"",scanMode?"equal":"notequal",pageUINetworkHandler);
+		    				
+			} else if(getLogInController().matchUrls("/construction/team")){//计划员
 				
-				 getPMSManager().planList(scanMode?"notequal":"equal",pagesize+"", pagenum+"",pageUINetworkHandler);
+				 getPMSManager().teamList(pagesize+"", pagenum+"",scanMode?"equal":"notequal",teamId,pageUINetworkHandler);
 		    		
-			}
+			} 
 	     
 	}
 

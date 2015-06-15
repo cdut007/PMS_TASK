@@ -63,7 +63,7 @@ public class MineFragment extends BasePageListFragment{
 		public IssueMenuAdapter(BaseActivity context) {
 			super(context,R.layout.common_menu_item);
 			this.context = context;
-			setObjectList(IssueMenu.getMineMenus(context.getLogInController().matchPlanUrls()));
+			setObjectList(IssueMenu.getMineMenus(!context.getLogInController().matchPlanUrls()));
 		}
 
 		

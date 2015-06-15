@@ -1,8 +1,11 @@
 package com.thirdpart.model.entity;
 
+import java.util.List;
+
 public class Team {
 	private String id;
 
+	public List<UserInfo> users;
 	private String name;
 
 	public void setId(String id) {

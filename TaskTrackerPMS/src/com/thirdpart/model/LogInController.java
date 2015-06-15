@@ -55,14 +55,27 @@ public class LogInController {
 	
 	
 
+	public boolean matchUrls(String url){
+		 List<Privilege> priviles = getInfo().getPrivileges();
+		if (priviles==null) {
+			return false;
+		}
+		 for (Privilege role : priviles) {
+			if (url.equals(role.getUri())) {
+				Log.i("role", "find url ok");
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public boolean matchPlanUrls(){
 		 List<Privilege> priviles = getInfo().getPrivileges();
 		if (priviles==null) {
 			return false;
 		}
 		 for (Privilege role : priviles) {
-			if ("/construction/team".equals(role.getUri())||
-					"/construction/endman".equals(role.getUri())) {
+			if ("/construction/mytask".equals(role.getUri())) {
 				Log.i("role", "find url ok");
 				return true;
 			}

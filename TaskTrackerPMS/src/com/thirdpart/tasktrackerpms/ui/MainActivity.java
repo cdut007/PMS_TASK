@@ -120,7 +120,7 @@ public class MainActivity extends BaseActivity {
 
 	private void initTab() {
 		// TODO Auto-generated method stub
-		 if(!getLogInController().matchPlanUrls()){
+		 if(getLogInController().matchPlanUrls()){
 			item = HOME;// defualt is task
 			menuViews.put(HOME, findViewById(R.id.btn_menu0));
 

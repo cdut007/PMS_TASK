@@ -441,7 +441,11 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			return;
 		}
 		for (Team team : obj) {
-			names.add(team.getName());
+			String realName = "";
+			if (team.users!=null&&team.users.size()>0) {
+				realName = " - "+team.users.get(0).getRealname();
+			}
+			names.add(team.getName()+realName);
 		}
 
 		chooseItemView.showMenuItem(obj, names,

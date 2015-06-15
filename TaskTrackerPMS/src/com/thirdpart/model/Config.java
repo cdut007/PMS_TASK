@@ -28,6 +28,7 @@ public class Config {
 		 * */
 		public static final String REQUST_ROLLINGPLAN_LIST_URL = HTTP_BASE_URL+"/hdxt/api/baseservice/rollingplan/";
 		
+		public static final String REQUST_ENDMAN_LIST_URL = HTTP_BASE_URL+"/hdxt/api/baseservice/construction/endman/";
 		
 		/** define the teamwork list url 
 		 * <br>param:pagesize,pagenum

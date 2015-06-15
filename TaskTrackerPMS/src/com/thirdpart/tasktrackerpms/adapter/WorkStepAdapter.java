@@ -15,6 +15,7 @@ import com.jameschen.framework.base.BaseActivity;
 import com.jameschen.framework.base.BasePageAdapter;
 import com.jameschen.framework.base.MyBaseAdapter;
 import com.jameschen.framework.base.MyBaseAdapter.HoldView;
+import com.thirdpart.model.LogInController;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.model.entity.RollingPlan;
@@ -28,11 +29,11 @@ import com.thirdpart.tasktrackerpms.ui.WorkStepDetailActivity;
 public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 	private Context context;
 	
-	boolean update ;
+	boolean show ;
 	public WorkStepAdapter(Context context,boolean isUpdate) {
 		super(context,R.layout.workstep_item);
 		this.context = context;
-		update = isUpdate;
+		show = isUpdate;
 	}
 
 	
@@ -62,6 +63,7 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 	private final static class WrokStepView extends HoldView<WorkStep> {
 		TextView workNo,workName;
 		View issueFeedback, issueUpdate;
+		boolean show;
 		@Override
 		protected void initChildView(View convertView,
 				MyBaseAdapter<WorkStep> myBaseAdapter) {
@@ -84,7 +86,10 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 				context.startActivity(intent);
 			}
 		});
-		   if (((WorkStepAdapter)myBaseAdapter).update) {
+		   
+		
+		   show = ((WorkStepAdapter)myBaseAdapter).show;
+		   if (show) {
 			   issueUpdate.setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -100,7 +105,8 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 					}
 				});
 		}else {
-			issueUpdate.setVisibility(View.GONE);
+			  issueFeedback.setVisibility(View.INVISIBLE);
+			   issueUpdate.setVisibility(View.INVISIBLE);
 		}
 		
 //		   if (((WorkStepAdapter)myBaseAdapter).scan ){
@@ -117,11 +123,15 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 			issueFeedback.setTag(workStep);
 			issueUpdate.setTag(workStep);
 			
+			
+			if (!show) {
+				return;
+			}
+			
 			if ("PREPARE".equals(workStep.getStepflag())) {
 				issueFeedback.setVisibility(View.VISIBLE);
 			}else {
 				issueFeedback.setVisibility(View.INVISIBLE);	
-					
 			
 			}
 			TextView updaTextView  = (TextView) issueUpdate;
