@@ -597,6 +597,8 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 				Log.i(TAG, "JsonObject is null");
 			}
 			showToast("修改成功");
+			WorkStepFragment.CallSucc(WorkStepFragment.callsucc);
+			
 		} else {// get witless..
 			witnessTeamList = (List<Team>) response;
 			Log.i(TAG, "update....");
