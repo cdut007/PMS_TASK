@@ -158,9 +158,9 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 							"见证地点：", null, WidgetItemInfo.EDIT, isDone));
 					
 					itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
-							"见证时间：", "选择见证时间",WidgetItemInfo.DISPLAY, false));
+							"见证时间：", "选择见证时间",WidgetItemInfo.CHOOSE, true));
 					itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
-							"负责人：", "选择见证负责人", WidgetItemInfo.DISPLAY, false));
+							"负责人：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
 				}
 
 			}
@@ -189,24 +189,24 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 
 			if (!isEmpty(workStep.getNoticeaqa())) {
 				itemInfos.add(new WidgetItemInfo("5", "A-QA：", workStep
-						.getNoticeaqc1(), WidgetItemInfo.DISPLAY, false));
+						.getNoticeaqa(), WidgetItemInfo.DISPLAY, false));
 
 			}
 
 			if (!isEmpty(workStep.noticeb)) {
 				itemInfos.add(new WidgetItemInfo("6", "通知点B：", workStep
-						.getWitnesserc(), WidgetItemInfo.DISPLAY, false));
+						.noticeb, WidgetItemInfo.DISPLAY, false));
 
 			}
 
 			if (!isEmpty(workStep.noticec)) {
 				itemInfos.add(new WidgetItemInfo("7", "通知点C：", workStep
-						.getWitnesserc(), WidgetItemInfo.DISPLAY, false));
+						.noticec, WidgetItemInfo.DISPLAY, false));
 
 			}
 			if (!isEmpty(workStep.noticed)) {
 				itemInfos.add(new WidgetItemInfo("8", "通知点D：", workStep
-						.getWitnesserd(), WidgetItemInfo.DISPLAY, false));
+						.noticed, WidgetItemInfo.DISPLAY, false));
 
 			}
 			
