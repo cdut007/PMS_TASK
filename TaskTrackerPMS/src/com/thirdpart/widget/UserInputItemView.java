@@ -90,5 +90,9 @@ public class UserInputItemView extends FrameLayout {
 		// TODO Auto-generated method stub
 		contentView.addTextChangedListener(textWatcher);
 	}
+	public void setScan(boolean scan) {
+		// TODO Auto-generated method stub
+		this.contentView.setEnabled(!scan);	
+	}
 	
 }

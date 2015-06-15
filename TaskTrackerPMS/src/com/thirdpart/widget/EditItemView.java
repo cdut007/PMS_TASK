@@ -87,5 +87,9 @@ contentView.addTextChangedListener(watcher);
 			nameView.setText(name);
 			contentView.setText(content);
 	}
+	public void setScan(boolean isDone) {
+		// TODO Auto-generated method stub
+		contentView.setEnabled(!isDone);
+	}
 	
 }

@@ -109,10 +109,11 @@ WitnessDistributed mWitnessDistributed;
 	    chooseTypeView = (ChooseItemView) findViewById(R.id.witness_choose_ok);
 	   
 	   if (scan) {
-		   witnessInputItemView.setVisibility(View.GONE);
+		   chooseTypeView.setVisibility(View.GONE);
 		   DisplayItemView displayItemView  = (DisplayItemView) findViewById(R.id.witness_display_ok);
+		   displayItemView.setVisibility(View.GONE);
 		   displayItemView.setContent("0".equals(mWitnessDistributed.getIsok())?"合格":"不合格");
-		   witnessInputItemView.setContent(mWitnessDistributed.getWitnessdes(), true);
+		   witnessInputItemView.setContent(TextUtils.isEmpty(mWitnessDistributed.getWitnessdes())?"暂无":mWitnessDistributed.getWitnessdes(), true);
 		   findViewById(R.id.commit_layout).setVisibility(View.GONE);
 	}
 	   chooseTypeView.setChooseItemClickListener(new View.OnClickListener() {

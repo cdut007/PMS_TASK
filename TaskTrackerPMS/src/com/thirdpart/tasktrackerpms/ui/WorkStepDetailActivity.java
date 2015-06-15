@@ -249,7 +249,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 										widgetItemInfo.name,
 										widgetItemInfo.content);
 								final View tagView = (EditItemView) convertView;
-								editItemView.setEnabled(isDone);
+								editItemView.setScan(isDone);
 								editItemView
 										.addTextChangedListener(new TextWatcher() {
 
@@ -294,7 +294,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 										widgetItemInfo.name,
 										widgetItemInfo.content);
 								final View tagView = (UserInputItemView) convertView;
-								editItemView.setEnabled(isDone);
+								editItemView.setScan(isDone);
 								editItemView
 										.addTextChangedListener(new TextWatcher() {
 
