@@ -24,6 +24,7 @@ import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.IssueManager;
 import com.thirdpart.model.ManagerService;
+import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
 import com.thirdpart.model.PlanManager;
 import com.thirdpart.model.WidgetItemInfo;
@@ -74,7 +75,22 @@ IssueManager sIssueManager;
 		issueStepTopic = (DisplayItemView) findViewById(R.id.issue_topic);
 		solverMan = (DisplayItemView) findViewById(R.id.issue_solver);
 		issueStatus = (DisplayItemView) findViewById(R.id.issue_status);
-}
+		if (issueResult.getFile()!=null && issueResult.getFile().size()>0) {
+			findViewById(R.id.issue_files).setVisibility(View.VISIBLE);	
+			findViewById(R.id.issue_files).setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					ArrayList<String> mPhotos = new ArrayList<String>();
+					mPhotos = PMSManagerAPI.getPhotosUrls(issueResult.getFile());
+					Intent intent = new Intent(IssueDetailActivity.this,ImageDetailActivity.class);
+					intent.putStringArrayListExtra("photos", mPhotos);
+					startActivity(intent);
+				}
+			});
+		}
+	}
 
 private void updateInfo() {
 	// TODO Auto-generated method stub

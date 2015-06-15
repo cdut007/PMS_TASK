@@ -1,19 +1,22 @@
 
 package com.thirdpart.tasktrackerpms.ui;
 
-
-import com.jameschen.framework.base.BaseFragment;
-import com.thirdpart.tasktrackerpms.R;
-
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+
+import com.jameschen.comm.utils.Util;
+import com.jameschen.framework.base.BaseFragment;
+import com.jameschen.widget.image.gesture.GestureImageView;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.thirdpart.tasktrackerpms.R;
 
 
 /**
@@ -23,6 +26,7 @@ public class ImageDetailFragment extends BaseFragment {
     private static final String IMAGE_DATA_EXTRA = "extra_image_data";
     private String mImageUrl;
     private ImageView mImageView;
+	private ImageLoader mImageLoader;
     /**
      * Factory method to generate a new instance of the fragment given an image number.
      *
@@ -73,31 +77,38 @@ public class ImageDetailFragment extends BaseFragment {
         // Use the parent activity to load the image asynchronously into the ImageView (so a single
         // cache can be used over all pages in the ViewPager
         if (ImageDetailActivity.class.isInstance(getActivity())) {
+            mImageLoader = ((ImageDetailActivity) getActivity()).getImageLoader();
+          
             
-			
-//            mImageLoader.displayImage(mImageUrl, mImageView, ((ImageDetailActivity) getActivity()).getImageOptions(),new ImageLoadingListener() {
-//				
-//				@Override
-//				public void onLoadingStarted(String arg0, View arg1) {
-//					loadingBar.setVisibility(View.VISIBLE);
-//				}
-//				
-//				@Override
-//				public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
-//					loadingBar.setVisibility(View.GONE);
-//				}
-//				
-//				@Override
-//				public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
-//					loadingBar.setVisibility(View.GONE);
-//				}
-//				
-//				@Override
-//				public void onLoadingCancelled(String arg0, View arg1) {
-//					// TODO Auto-generated method stub
-//					
-//				}
-//			});
+            mImageLoader.displayImage(mImageUrl, mImageView, ((ImageDetailActivity) getActivity()).getImageOptions(),new ImageLoadingListener() {
+				
+				@Override
+				public void onLoadingStarted(String arg0, View arg1) {
+					loadingBar.setVisibility(View.VISIBLE);
+				}
+				
+				@Override
+				public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
+					loadingBar.setVisibility(View.GONE);
+				}
+				
+				@Override
+				public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
+					loadingBar.setVisibility(View.GONE);
+					GestureImageView gestureImageView = new GestureImageView(getActivity());
+					gestureImageView.setLayoutParams(mImageView.getLayoutParams());
+					ViewGroup viewGroup =(ViewGroup) mImageView.getParent();
+					viewGroup.removeView(mImageView);
+					gestureImageView.setImageBitmap(arg2);
+					viewGroup.addView(gestureImageView);
+				}
+				
+				@Override
+				public void onLoadingCancelled(String arg0, View arg1) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
         }
 
         // Pass clicks on the ImageView to the parent activity to handle
@@ -109,6 +120,9 @@ public class ImageDetailFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-       
+        if (mImageView != null) {
+        	mImageLoader.cancelDisplayTask(mImageView);
+            mImageView.setImageDrawable(null);
+        }
     }
 }

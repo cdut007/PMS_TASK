@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +16,7 @@ import com.jameschen.comm.utils.MyHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.thirdpart.model.Config.ReqHttpMethodPath;
+import com.thirdpart.model.entity.IssuePhoto;
 import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.tasktrackerpms.ui.HomeFragment.TaskItem;
 
@@ -710,6 +712,16 @@ public class PMSManagerAPI {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date(times);
 		return sdf.format(date);
+	}
+
+	public static ArrayList<String> getPhotosUrls(List<IssuePhoto> file) {
+		// TODO Auto-generated method stub
+		ArrayList<String> pArrayList = new ArrayList<String>();
+		
+		for (IssuePhoto issuePhoto : file) {
+			pArrayList.add(Config.ReqHttpMethodPath.HTTP_BASE_URL+"/problem_files/"+issuePhoto.getPath());
+		}
+		return pArrayList;
 	}
 	
 	

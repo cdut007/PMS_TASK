@@ -444,6 +444,13 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 		return editItemView.getContent();
 	}
 
+	String getName(Team team){
+		String realName = "";
+		if (team.users!=null&&team.users.size()>0) {
+			realName = " - "+team.users.get(0).getRealname();
+		}
+		return team.getName()+realName;
+	}
 	private void showWindow(final ChooseItemView chooseItemView, List<Team> obj) {
 		List<String> names = new ArrayList<String>();
 		if (obj == null) {
@@ -451,11 +458,8 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			return;
 		}
 		for (Team team : obj) {
-			String realName = "";
-			if (team.users!=null&&team.users.size()>0) {
-				realName = " - "+team.users.get(0).getRealname();
-			}
-			names.add(team.getName()+realName);
+			
+			names.add(getName(team));
 		}
 
 		chooseItemView.showMenuItem(obj, names,
@@ -493,7 +497,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 
 	protected void updateItem(WidgetItemInfo widgetItemInfo, Team item) {
 		// TODO Auto-generated method stub
-		widgetItemInfo.content = item.getName();
+		widgetItemInfo.content = getName(item);
 		widgetItemInfo.obj = item;
 		updateInfo();
 

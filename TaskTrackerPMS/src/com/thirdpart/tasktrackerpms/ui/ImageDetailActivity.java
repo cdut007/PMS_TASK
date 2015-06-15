@@ -6,41 +6,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.util.DisplayMetrics;
-
-
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager.LayoutParams;
-import android.widget.Toast;
 
 import com.jameschen.comm.utils.Log;
-import com.jameschen.framework.base.BaseImageActivity;
+import com.jameschen.framework.base.BaseActivity;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.thirdpart.tasktrackerpms.R;
 
-public class ImageDetailActivity extends BaseImageActivity implements OnClickListener {
+public class ImageDetailActivity extends BaseActivity implements OnClickListener {
     public static final String EXTRA_IMAGE = "extra_image";
 
     private ImagePagerAdapter mAdapter;
     private ViewPager mPager;
     private List<String> phoneList = new ArrayList<String>();
 
+	private DisplayImageOptions options;
+	
+	protected ImageLoader imageLoader;
+
+	public ImageLoader getImageLoader() {
+		if (imageLoader == null) {
+			imageLoader = ImageLoader.getInstance();
+		}
+		return imageLoader;
+	}
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
       
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.image_detail_pager);
         phoneList = getIntent().getStringArrayListExtra("photos");
         //int position =getIntent().getIntExtra("position", 0);
         Log.i(TAG, "phoneList  size = "+phoneList.size());
@@ -51,7 +54,11 @@ public class ImageDetailActivity extends BaseImageActivity implements OnClickLis
         mPager.setPageMargin((int) getResources().getDimension(R.dimen.image_detail_pager_margin));
         mPager.setOffscreenPageLimit(2);
         setTitle("照片"+phoneList.size()+"张");
-        
+        options = new DisplayImageOptions.Builder()
+   		.showImageOnLoading(R.drawable.logo).imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+   		.showImageForEmptyUri(R.drawable.logo)
+   		.showImageOnFail(R.drawable.logo).considerExifParams(true).cacheInMemory(true) 
+   		.cacheOnDisc(true).build();
         // Set the current item based on the extra passed in to this activity
         final int extraCurrentItem = getIntent().getIntExtra(EXTRA_IMAGE, -1);
         if (extraCurrentItem != -1) {
@@ -118,4 +125,14 @@ public class ImageDetailActivity extends BaseImageActivity implements OnClickLis
 //        }
    }
 
+	public DisplayImageOptions getImageOptions() {
+		// TODO Auto-generated method stub
+		return options;
+	}
+
+	@Override
+	protected void initView() {
+		// TODO Auto-generated method stub
+		setContentView(R.layout.image_detail_pager);
+	}
 }
