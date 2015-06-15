@@ -150,12 +150,18 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 					"描述：", workStep.operatedesc, WidgetItemInfo.INPUT, isDone));
 			
 			if (showWitness()) {
-				itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-						"见证地点：", null, WidgetItemInfo.EDIT, false));
-				itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
-						"见证时间：", "选择见证时间", WidgetItemInfo.CHOOSE, true));
-				itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
-						"负责人：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
+				
+				if (isDone) {
+					
+				}else {
+					itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+							"见证地点：", null, WidgetItemInfo.EDIT, isDone));
+					
+					itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
+							"见证时间：", "选择见证时间",WidgetItemInfo.DISPLAY, false));
+					itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+							"负责人：", "选择见证负责人", WidgetItemInfo.DISPLAY, false));
+				}
 
 			}
 			
