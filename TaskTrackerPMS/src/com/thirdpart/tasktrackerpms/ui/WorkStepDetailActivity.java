@@ -106,28 +106,37 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 
 			String operatedate = PMSManagerAPI.getdateTimeformat(System
 					.currentTimeMillis());
+			String witnesseaddress=null;
+			if (addressWidgetItemInfo!=null) {
+				 witnesseaddress = addressWidgetItemInfo.content;
+				if (TextUtils.isEmpty(witnesseaddress)) {
+					showToast("填写见证地点");
+					return;
+				}
+			}
+			
 
-			String witnesseaddress = addressWidgetItemInfo.content;
-			if (TextUtils.isEmpty(witnesseaddress)) {
-				showToast("填写见证地点");
-				return;
+			String operatedesc = operatedescWidgetItemInfo.content;
+			String witnessdate=null;
+			if (witnessdateWidgetItemInfo!=null) {
+				 witnessdate = (String) witnessdateWidgetItemInfo.obj;
+				if (TextUtils.isEmpty(witnessdate)) {
+					showToast("填写见证时间");
+					return;
+				}
+			}
+			 Team witness=null;
+			if (witnessWidgetItemInfo!=null) {
+				  witness=(Team) witnessWidgetItemInfo.obj;
+				 if (witness == null) {
+					 showToast("选择见证负责人");
+					return;
+				}
 			}
 
-			String operatedesc = null;
-
-			String witnessdate = (String) witnessdateWidgetItemInfo.obj;
-			if (TextUtils.isEmpty(witnessdate)) {
-				showToast("填写见证时间");
-				return;
-			}
-
-			 Team witness=(Team) witnessWidgetItemInfo.obj;
-			 if (witness == null) {
-				 showToast("选择见证负责人");
-				return;
-			}
+			
 			 super.callCommitBtn(null);
-			taskManager.commit(workStep.getId(), witness.getId(), witnessdes, witnesseaddress, witnessdate, operater, operatedate, operatedesc);
+			taskManager.commit(workStep.getId(),witness!=null? witness.getId():null, witnessdes, witnesseaddress, witnessdate, operater, operatedate, operatedesc);
 		} else {
 			showLoadingView(true);
 			taskManager.chooseWitnessHeadList();
