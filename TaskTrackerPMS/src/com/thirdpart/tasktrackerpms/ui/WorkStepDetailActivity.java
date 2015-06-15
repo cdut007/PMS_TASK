@@ -24,6 +24,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
 import com.jameschen.comm.utils.UtilsUI;
 import com.jameschen.framework.base.BaseDetailActivity;
 import com.jameschen.framework.base.BaseEditActivity;
@@ -586,6 +587,11 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			Object response) {
 		setLoadSucc();
 		if (name.equals(TaskManager.ACTION_TASK_COMMIT)) {
+			if (response!=null) {
+				Log.i(TAG, "JsonObject=="+((JsonObject)response).toString());
+			}else {
+				Log.i(TAG, "JsonObject is null");
+			}
 			showToast("修改成功");
 		} else {// get witless..
 			witnessTeamList = (List<Team>) response;

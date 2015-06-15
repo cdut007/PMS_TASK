@@ -102,6 +102,7 @@ abstract class MyAsyncHttpResponseHandler<T> extends
 				}
 			    String result = mResponseContent.getResponseResult();
 				if (Util.isJsonNull(result)) {
+					Log.i(TAG, "mResponseContent=="+response);
 					onSucc(statusCode, headers, null);	
 				}else {
 					   T responseJsonClass = gson.fromJson(result,
