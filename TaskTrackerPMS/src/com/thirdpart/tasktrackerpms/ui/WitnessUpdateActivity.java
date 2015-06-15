@@ -111,7 +111,7 @@ WitnessDistributed mWitnessDistributed;
 	   if (scan) {
 		   chooseTypeView.setVisibility(View.GONE);
 		   DisplayItemView displayItemView  = (DisplayItemView) findViewById(R.id.witness_display_ok);
-		   displayItemView.setVisibility(View.GONE);
+		   displayItemView.setVisibility(View.VISIBLE);
 		   displayItemView.setContent("0".equals(mWitnessDistributed.getIsok())?"合格":"不合格");
 		   witnessInputItemView.setContent(TextUtils.isEmpty(mWitnessDistributed.getWitnessdes())?"暂无":mWitnessDistributed.getWitnessdes(), true);
 		   findViewById(R.id.commit_layout).setVisibility(View.GONE);
