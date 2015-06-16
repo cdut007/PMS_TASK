@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
 
 import com.jameschen.comm.utils.MyHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -382,6 +383,7 @@ public class PMSManagerAPI {
 			String witnesseaddress, String witnessdate, String operater,
 			String operatedate, String operatedesc, 
 			AsyncHttpResponseHandler responseHandler) {
+		
 		RequestParams params = getPublicParams(true);
 		
 		params.put("witness", witness);
