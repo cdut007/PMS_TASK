@@ -98,7 +98,7 @@ public class ImageDetailFragment extends BaseFragment {
 					GestureImageView gestureImageView = new GestureImageView(getActivity());
 					gestureImageView.setLayoutParams(mImageView.getLayoutParams());
 					ViewGroup viewGroup =(ViewGroup) mImageView.getParent();
-					viewGroup.removeView(mImageView);
+					mImageView.setVisibility(View.GONE);
 					gestureImageView.setImageBitmap(arg2);
 					viewGroup.addView(gestureImageView);
 				}

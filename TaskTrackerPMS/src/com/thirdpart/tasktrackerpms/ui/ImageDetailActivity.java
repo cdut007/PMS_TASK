@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -53,7 +54,27 @@ public class ImageDetailActivity extends BaseActivity implements OnClickListener
         mPager.setAdapter(mAdapter);
         mPager.setPageMargin((int) getResources().getDimension(R.dimen.image_detail_pager_margin));
         mPager.setOffscreenPageLimit(2);
-        setTitle("照片"+phoneList.size()+"张");
+        setTitle("照片"+phoneList.size()+"张"+"  "+"当前第("+1+")"+"张");
+        mPager.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int arg0) {
+				// TODO Auto-generated method stub
+				  setTitle("照片"+phoneList.size()+"张"+"  "+"当前第("+(arg0+1)+")"+"张");
+			}
+			
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
         options = new DisplayImageOptions.Builder()
    		.showImageOnLoading(R.drawable.logo).imageScaleType(ImageScaleType.IN_SAMPLE_INT)
    		.showImageForEmptyUri(R.drawable.logo)
