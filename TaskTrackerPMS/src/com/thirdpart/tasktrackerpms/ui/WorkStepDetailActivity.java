@@ -1,5 +1,8 @@
 package com.thirdpart.tasktrackerpms.ui;
 
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -118,6 +121,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			
 
 			String operatedesc = operatedescWidgetItemInfo.content;
+			
 			String witnessdate=null;
 			if (witnessdateWidgetItemInfo!=null) {
 				 witnessdate = (String) witnessdateWidgetItemInfo.obj;
@@ -185,41 +189,41 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			itemInfos.add(new WidgetItemInfo("", "", "",
 					WidgetItemInfo.DEVIDER, false));
 
-			if (!isEmpty(workStep.getNoticeaqc1())) {
-				itemInfos.add(new WidgetItemInfo("3", "A-QC1：", workStep
-						.getNoticeaqc1(), WidgetItemInfo.DISPLAY, false));
-
-			}
-
-			if (!isEmpty(workStep.getNoticeaqc2())) {
-				itemInfos.add(new WidgetItemInfo("4", "A-QC2：", workStep
-						.getNoticeaqc2(), WidgetItemInfo.DISPLAY, false));
-
-			}
-
-			if (!isEmpty(workStep.getNoticeaqa())) {
-				itemInfos.add(new WidgetItemInfo("5", "A-QA：", workStep
-						.getNoticeaqa(), WidgetItemInfo.DISPLAY, false));
-
-			}
-
-			if (!isEmpty(workStep.noticeb)) {
-				itemInfos.add(new WidgetItemInfo("6", "通知点B：", workStep
-						.noticeb, WidgetItemInfo.DISPLAY, false));
-
-			}
-
-			if (!isEmpty(workStep.noticec)) {
-				itemInfos.add(new WidgetItemInfo("7", "通知点C：", workStep
-						.noticec, WidgetItemInfo.DISPLAY, false));
-
-			}
-			if (!isEmpty(workStep.noticed)) {
-				itemInfos.add(new WidgetItemInfo("8", "通知点D：", workStep
-						.noticed, WidgetItemInfo.DISPLAY, false));
-
-			}
-			
+//			if (!isEmpty(workStep.getNoticeaqc1())) {
+//				itemInfos.add(new WidgetItemInfo("s3", "A-QC1：", workStep
+//						.getNoticeaqc1(), WidgetItemInfo.DISPLAY, false));
+//
+//			}
+//
+//			if (!isEmpty(workStep.getNoticeaqc2())) {
+//				itemInfos.add(new WidgetItemInfo("s4", "A-QC2：", workStep
+//						.getNoticeaqc2(), WidgetItemInfo.DISPLAY, false));
+//
+//			}
+//
+//			if (!isEmpty(workStep.getNoticeaqa())) {
+//				itemInfos.add(new WidgetItemInfo("s5", "A-QA：", workStep
+//						.getNoticeaqa(), WidgetItemInfo.DISPLAY, false));
+//
+//			}
+//
+//			if (!isEmpty(workStep.noticeb)) {
+//				itemInfos.add(new WidgetItemInfo("s6", "通知点B：", workStep
+//						.noticeb, WidgetItemInfo.DISPLAY, false));
+//
+//			}
+//
+//			if (!isEmpty(workStep.noticec)) {
+//				itemInfos.add(new WidgetItemInfo("s7", "通知点C：", workStep
+//						.noticec, WidgetItemInfo.DISPLAY, false));
+//
+//			}
+//			if (!isEmpty(workStep.noticed)) {
+//				itemInfos.add(new WidgetItemInfo("s8", "通知点D：", workStep
+//						.noticed, WidgetItemInfo.DISPLAY, false));
+//
+//			}
+//			
 			if (isDone) {
 				
 			}

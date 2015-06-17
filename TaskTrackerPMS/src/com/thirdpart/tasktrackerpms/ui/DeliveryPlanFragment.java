@@ -125,6 +125,10 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 				
 				 getPMSManager().teamList(pagesize+"", pagenum+"",scanMode?"equal":"notequal",teamId,pageUINetworkHandler);
 		    		
+			}else {
+				Log.i(TAG, "other roles!!!!!!");
+				getPMSManager().myTaskList(pagesize+"", pagenum+"","notequal",pageUINetworkHandler);
+				   
 			} 
 	     
 	}
