@@ -21,6 +21,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.jameschen.framework.base.BasePageListFragment;
 import com.jameschen.framework.base.UINetworkHandler;
 import com.thirdpart.model.ConstValues;
+import com.thirdpart.model.EventCallbackListener;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.entity.DepartmentInfo;
 import com.thirdpart.model.entity.IssueList;
@@ -43,6 +44,30 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 	
 	private long menuid;
 
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+registerCallBack( new EventCallbackListener()  {
+			
+			@Override
+			public void commitSucc() {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "call back commit succ");
+				
+				if (mListView!=null) {
+					mListView.setRefreshing(true);
+				}
+				callNextPage(pageSize,getCurrentPage());
+	
+			}
+
+			@Override
+			public String getTag() {
+				// TODO Auto-generated method stub
+				return callsucc;
+			}
+		});
+	}
+	public static String callsucc="witness";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

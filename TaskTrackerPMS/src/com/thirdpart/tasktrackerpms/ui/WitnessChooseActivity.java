@@ -455,6 +455,8 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 		setLoadSucc();
 		if (name.equals(WitnessManager.ACTION_WITNESS_CHOOSE_COMMIT)) {
 			showToast("修改成功");
+			WitnessListFragment.CallSucc(WitnessListFragment.callsucc);
+			
 		} else {// get witless..
 			witnessList = (List<WitnesserList>) response;
 			Log.i(TAG, "update....");

@@ -98,6 +98,8 @@ WitnessDistributed mWitnessDistributed;
 					JsonObject response) {
 				// TODO Auto-generated method stub
 				showToast("提交成功");
+				WitnessListFragment.CallSucc(WitnessListFragment.callsucc);
+				
 			}
 		});
 		super.callCommitBtn(v);
@@ -114,8 +116,13 @@ WitnessDistributed mWitnessDistributed;
 		   displayItemView.setVisibility(View.VISIBLE);
 		   displayItemView.setContent("0".equals(mWitnessDistributed.getIsok())?"合格":"不合格");
 		   witnessInputItemView.setContent(TextUtils.isEmpty(mWitnessDistributed.getWitnessdes())?"暂无":mWitnessDistributed.getWitnessdes(), true);
+			
 		   findViewById(R.id.commit_layout).setVisibility(View.GONE);
+	}else {
+		   witnessInputItemView.setContent(TextUtils.isEmpty(mWitnessDistributed.getWitnessdes())?null:mWitnessDistributed.getWitnessdes(), false);
+			
 	}
+		
 	   chooseTypeView.setChooseItemClickListener(new View.OnClickListener() {
 		
 		@Override
