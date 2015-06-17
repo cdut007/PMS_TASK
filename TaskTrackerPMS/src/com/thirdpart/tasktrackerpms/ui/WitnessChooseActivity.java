@@ -100,38 +100,44 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 			WorkStep workStep = witness.getWorkStep();
 
 			if (!isEmpty(workStep.getNoticeaqc1())) {
-				itemInfos.add(c1qaWidgetItemInfo=new WidgetItemInfo("3", "A-QC1：", workStep
+				itemInfos.add(c1qaWidgetItemInfo=new WidgetItemInfo("s3", "A-QC1：", workStep
 						.getNoticeaqc1(), scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));
-
+				c1qaWidgetItemInfo.info = workStep.witnesseraqc1;
+				c1qaWidgetItemInfo.info2 = workStep.getNoticeaqc1();
 			}
 
 			if (!isEmpty(workStep.getNoticeaqc2())) {
-				itemInfos.add(c2qaWidgetItemInfo=new WidgetItemInfo("4", "A-QC2：", workStep
+				itemInfos.add(c2qaWidgetItemInfo=new WidgetItemInfo("s4", "A-QC2：", workStep
 						.getNoticeaqc2(), scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));
-
+				c2qaWidgetItemInfo.info = workStep.witnesseraqc2;
+				c2qaWidgetItemInfo.info2 = workStep.getNoticeaqc2();
 			}
 
 			if (!isEmpty(workStep.getNoticeaqa())) {
-				itemInfos.add(qaWidgetItemInfo=new WidgetItemInfo("5", "A-QA：", workStep
+				itemInfos.add(qaWidgetItemInfo=new WidgetItemInfo("s5", "A-QA：", workStep
 						.getNoticeaqa(), scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));
-
+				qaWidgetItemInfo.info = workStep.witnesseraqa;
+				qaWidgetItemInfo.info2 = workStep.getNoticeaqa();
 			}
 
 			if (!isEmpty(workStep.noticeb)) {
-				itemInfos.add(notibWidgetItemInfo=new WidgetItemInfo("6", "通知点B：", workStep
+				itemInfos.add(notibWidgetItemInfo=new WidgetItemInfo("s6", "通知点B：", workStep
 						.noticeb, scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));
-
+				notibWidgetItemInfo.info = workStep.getWitnesserb();
+				notibWidgetItemInfo.info2 = workStep.noticeb;
 			}
 
 			if (!isEmpty(workStep.noticec)) {
-				itemInfos.add(noticWidgetItemInfo=new WidgetItemInfo("7", "通知点C：", workStep
+				itemInfos.add(noticWidgetItemInfo=new WidgetItemInfo("s7", "通知点C：", workStep
 						.noticec, scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));
-
+				noticWidgetItemInfo.info = workStep.getWitnesserc();
+				noticWidgetItemInfo.info2 = workStep.noticec;
 			}
 			if (!isEmpty(workStep.noticed)) {
-				itemInfos.add(notidWidgetItemInfo=new WidgetItemInfo("8", "通知点D：", workStep
+				itemInfos.add(notidWidgetItemInfo=new WidgetItemInfo("s8", "通知点D：", workStep
 						.noticed, scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));
-
+				notidWidgetItemInfo.info = workStep.getWitnesserd();
+				notidWidgetItemInfo.info2 = workStep.noticed;
 			}
 			
 			if (scan) {
@@ -210,6 +216,9 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 
 						}
 
+						//update window						
+						initOptionItem(widgetItemInfo);
+						
 						// update
 						switch (widgetItemInfo.type) {
 						case WidgetItemInfo.DISPLAY: {
@@ -236,12 +245,6 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 							break;
 						}
 						
-						//update window
-						
-						initOptionItem(
-								widgetItemInfo,
-								convertView
-										.findViewById(R.id.common_choose_item_content));
 						
 						// bind tag
 						convertView.setTag(widgetItemInfo);
@@ -252,9 +255,9 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 
 	
 	
-	protected void initOptionItem(WidgetItemInfo widgetItemInfo, View btnView) {
+	protected void initOptionItem(WidgetItemInfo widgetItemInfo ) {
 		// TODO Auto-generated method stub
-		if (widgetItemInfo.type != WidgetItemInfo.CHOOSE) {
+		if (widgetItemInfo.tag ==null || !widgetItemInfo.tag.startsWith("s")) {
 			return;
 		}
 		if (witnessList == null||witnessList.size()==0) {
@@ -262,12 +265,18 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 			return;
 		}
 		
-		List<Witnesser> findWitnesser = getWitneessType(widgetItemInfo.content);
+		List<Witnesser> findWitnesser = getWitneessType(widgetItemInfo.info2);
 		
 		if (findWitnesser!=null) {
 			widgetItemInfo.obj = findWitnesser;
-			//((TextView)btnView).setText(findWitnesser.get(0).getRealname());
-			
+			if (findWitnesser.size()>0) {
+				for (Witnesser witnesser : findWitnesser) {
+					if (witnesser.getId().equals(widgetItemInfo.info)) {
+						widgetItemInfo.content = witnesser.getRealname();	
+						break;
+					}
+				}
+			}
 		}
 	}
 
@@ -329,6 +338,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 	
 	protected void updateItem(WidgetItemInfo widgetItemInfo, Witnesser item) {
 		// TODO Auto-generated method stub
+		widgetItemInfo.info2 = item.getId();
 		widgetItemInfo.content = item.getRealname();
 		
 		updateInfo();

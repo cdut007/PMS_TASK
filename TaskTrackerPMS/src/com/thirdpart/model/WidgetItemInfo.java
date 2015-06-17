@@ -15,7 +15,7 @@ public class WidgetItemInfo {
 		this.bindClick = bindClick;
 	}
 
-	public String  tag, name,content;
+	public String  tag, name,content,info,info2;
 	public Object obj;
 	public int  type =DISPLAY;
 	
