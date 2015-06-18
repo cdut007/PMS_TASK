@@ -38,7 +38,7 @@ public class WorkStep implements Serializable{
 	
 	private String updatedBy,updatedOn,noticeaqa,noticeaqc2,witnesserb,witnesserc,witnesserd;
 	
-	public String operater,operatedesc,witnesseraqa,witnesseraqc2,witnesseraqc1;
+	public String operater,operatedesc,witnesseraqa,witnesseraqc2,witnesseraqc1,noticeresult,noticeresultdesc;
 	
 	public String getUpdatedBy() {
 		return updatedBy;

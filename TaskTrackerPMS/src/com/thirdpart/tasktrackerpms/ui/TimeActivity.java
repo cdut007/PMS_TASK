@@ -77,7 +77,7 @@ public class TimeActivity extends Activity {
 				//check date is ok or not....
 				
 				if (monthEnd.getCurrentItem()<curMonth) {
-					Toast.makeText(getBaseContext(), "呀灭地，结束日期必须是当月以及以后哟!", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "结束日期必须是当月以及以后哟!", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				

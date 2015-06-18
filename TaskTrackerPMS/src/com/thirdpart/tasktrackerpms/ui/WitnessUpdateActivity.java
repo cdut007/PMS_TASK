@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +73,7 @@ WitnessDistributed mWitnessDistributed;
 		
 		String okType ="不合格".equals(chooseTypeView.getContent())?"1":"3";
 		
-		getPMSManager().wirteWitnessResult(okType, mWitnessDistributed.getWorkStep().getId(), new UINetworkHandler<JsonObject>(this) {
+		getPMSManager().wirteWitnessResult(witnessInputItemView.getContent(),okType, mWitnessDistributed.getWorkStep().getId(), new UINetworkHandler<JsonObject>(this) {
 
 			@Override
 			public void start() {
@@ -109,17 +110,19 @@ WitnessDistributed mWitnessDistributed;
 	// TODO Auto-generated method stub
 		witnessInputItemView = (UserInputItemView) findViewById(R.id.witness_result_desc);
 	    chooseTypeView = (ChooseItemView) findViewById(R.id.witness_choose_ok);
-	   
+	String desc = mWitnessDistributed.getWorkStep().noticeresultdesc;   
 	   if (scan) {
 		   chooseTypeView.setVisibility(View.GONE);
 		   DisplayItemView displayItemView  = (DisplayItemView) findViewById(R.id.witness_display_ok);
 		   displayItemView.setVisibility(View.VISIBLE);
-		   displayItemView.setContent("0".equals(mWitnessDistributed.getIsok())?"合格":"不合格");
-		   witnessInputItemView.setContent(TextUtils.isEmpty(mWitnessDistributed.getWitnessdes())?"暂无":mWitnessDistributed.getWitnessdes(), true);
+		   displayItemView.setContent("3".equals(mWitnessDistributed.getWorkStep().noticeresult)?"合格":"不合格");
+		   witnessInputItemView.setContent(TextUtils.isEmpty(desc)?"暂无":desc, true);
 			
 		   findViewById(R.id.commit_layout).setVisibility(View.GONE);
 	}else {
-		   witnessInputItemView.setContent(TextUtils.isEmpty(mWitnessDistributed.getWitnessdes())?null:mWitnessDistributed.getWitnessdes(), false);
+		chooseTypeView.setContent("3".equals(mWitnessDistributed.getWorkStep().noticeresult)?"合格":"不合格");
+		  
+		   witnessInputItemView.setContent(TextUtils.isEmpty(desc)?null:desc, false);
 			
 	}
 		
@@ -142,7 +145,6 @@ WitnessDistributed mWitnessDistributed;
 		}
 	});
 	   
-	   chooseTypeView.setContent("合格");
 	}
 
 

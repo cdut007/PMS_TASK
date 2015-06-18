@@ -12,6 +12,7 @@ import java.util.Map;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.text.TextUtils;
 
 import com.jameschen.comm.utils.MyHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -672,9 +673,13 @@ public class PMSManagerAPI {
 	}
 	
 	//noticeresult(1 ok ,3 bad),loginUserId,id 
-	public void wirteWitnessResult(String noticeresult,String id, AsyncHttpResponseHandler responseHandler) {
+	public void wirteWitnessResult(CharSequence content, String noticeresult,String id, AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams(true);
 		params.put("noticeresult", noticeresult);
+		if (!TextUtils.isEmpty(content)) {
+			params.put("noticeresultdesc", content.toString());	
+		}
+		//
 		params.put("id", id);
 		MyHttpClient.post(ReqHttpMethodPath.REQUST_WITNESSER_WIRTE_RESULT_URL,
 				params, responseHandler);
