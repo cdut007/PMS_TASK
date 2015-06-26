@@ -52,6 +52,10 @@ public class PlanDetailActivity extends BaseDetailActivity {
  
 	private void execFetechDetail() {
 	// TODO Auto-generated method stub
+		if (rollingPlan.getId()==null) {
+			Log.i(TAG, "plan id is null");
+			return;
+		}
 		planManager.planDetail(rollingPlan.getId());
 }
 

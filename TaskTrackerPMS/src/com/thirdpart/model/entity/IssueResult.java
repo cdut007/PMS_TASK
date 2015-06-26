@@ -43,6 +43,8 @@ public class IssueResult implements Serializable{
 	
 	private String currentsolver;
 	
+	public String  rollingPlanId;
+	
 	public String getSolverid() {
 		return solverid;
 	}
