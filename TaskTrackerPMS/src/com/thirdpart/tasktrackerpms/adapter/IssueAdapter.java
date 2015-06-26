@@ -25,9 +25,10 @@ import com.thirdpart.tasktrackerpms.R;
 public class IssueAdapter extends BasePageAdapter<IssueResult> {
 	private Context context;
 
-	public IssueAdapter(Context context) {
+	public IssueAdapter(Context context,OnStatusItemListener onStatusItemListener) {
 		super(context,R.layout.issue_item);
 		this.context = context;
+		this.onStatusItemListener = onStatusItemListener;
 	}
 
 	
@@ -52,15 +53,24 @@ public class IssueAdapter extends BasePageAdapter<IssueResult> {
 	@Override
 	protected HoldView<IssueResult> createHoldView() {
 		// TODO Auto-generated method stub
-		return new IssueHoldView();
+		return new IssueHoldView(onStatusItemListener);
 	}
-
+OnStatusItemListener onStatusItemListener;
+public interface OnStatusItemListener{
+	void onItemClicked(View convertView,IssueResult issueResult);
+}
 	private final static class IssueHoldView extends HoldView<IssueResult> {
 		
 		
 		TextView noTextView,topicTextView,statusTextView,deliveryTextView;
+		OnStatusItemListener statusItemListener;
+		public IssueHoldView(OnStatusItemListener onStatusItemListener) {
+			// TODO Auto-generated constructor stub
+			statusItemListener = onStatusItemListener;
+		}
+
 		@Override
-		protected void initChildView(View convertView,
+		protected void initChildView(final View convertView,
 				MyBaseAdapter<IssueResult> myBaseAdapter) {
 			
 			// TODO Auto-generated method stub
@@ -68,6 +78,14 @@ public class IssueAdapter extends BasePageAdapter<IssueResult> {
 			topicTextView = (TextView) convertView.findViewById(R.id.issue_topic);
 			statusTextView = (TextView) convertView.findViewById(R.id.issue_status);
 			deliveryTextView = (TextView) convertView.findViewById(R.id.issue_delivery);
+			statusTextView.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					statusItemListener.onItemClicked(convertView,(IssueResult)statusTextView.getTag());
+				}
+			});
 		}
 
 		public void setInfo( int position) {
@@ -82,6 +100,7 @@ public class IssueAdapter extends BasePageAdapter<IssueResult> {
 			statusTextView.setText(IssueManager.getIssueStatus(issueResult.getIsOk()));
 			statusTextView.setTextColor(IssueManager.getIssueStatusColor(issueResult.getIsOk()));
 			deliveryTextView.setText(issueResult.getCurrentsolver());
+			statusTextView.setTag(issueResult);
 		}
 		
 	}

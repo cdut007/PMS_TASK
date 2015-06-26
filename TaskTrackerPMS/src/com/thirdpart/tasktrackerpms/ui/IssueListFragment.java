@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import cn.jpush.android.data.s;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.jameschen.framework.base.BasePageListFragment;
@@ -29,6 +30,7 @@ import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.RollingPlanList;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.tasktrackerpms.adapter.IssueAdapter;
+import com.thirdpart.tasktrackerpms.adapter.IssueAdapter.OnStatusItemListener;
 import com.thirdpart.tasktrackerpms.adapter.PlanAdapter;
 
 
@@ -45,7 +47,7 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.issue_ui, container, false);
-		bindListView(view,new IssueAdapter(getBaseActivity()));
+		bindListView(view,new IssueAdapter(getBaseActivity(),onStatusItemListener));
 		mListView.setOnItemClickListener(this);
 		statusid = getArguments().getLong(ConstValues.ID);
 		Log.i(TAG, "issue id = "+statusid);
@@ -99,49 +101,73 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 	}
 
 
+	OnStatusItemListener onStatusItemListener = new OnStatusItemListener() {
+		
+		@Override
+		public void onItemClicked(View convertView, IssueResult issueResult) {
+			// TODO Auto-generated method stub
+
+			Intent intent = new Intent(getActivity(), IssueSolveActivity.class);
+			Object object =issueResult;
+			if (object == null) {
+				return;
+			}
+			
+			
+			int requestCode=0;
+			IssueResult p = (IssueResult) (object);
+			intent.putExtra(Item.ISSUE, (Serializable)p);
+			int type = (int) statusid;
+			switch (type) {
+			
+			case 1://需要解决的问题
+			{
+				//编辑问题
+				requestCode = ISSUE_HANDLE;
+			}
+				break;
+			case 0://未解决的问题
+			case 2://已解决的问题
+			case 3://发起的问题
+			case 5://关注的问题
+			{
+				//问题详情
+				intent.setClass(getBaseActivity(), IssueDetailActivity.class);
+				
+			}
+				break;
+
+			case 4://需要确认的问题，单独页面，确认
+			{
+				intent.setClass(getBaseActivity(), IssueConfirmActivity.class);
+				requestCode = ISSUE_CONFIRM;
+			}
+				break;
+			default:
+				break;
+			}
+
+			startActivityForResult(intent,requestCode);
+		
+		}
+	};
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Intent intent = new Intent(getActivity(), IssueSolveActivity.class);
+		Intent intent = new Intent(getActivity(), PlanDetailActivity.class);
 		Object object = parent.getAdapter().getItem(position);
 		if (object == null) {
 			return;
 		}
-		int requestCode=0;
-		IssueResult p = (IssueResult) (object);
-		intent.putExtra(Item.ISSUE, (Serializable)p);
-		int type = (int) statusid;
-		switch (type) {
 		
-		case 1://需要解决的问题
-		{
-			//编辑问题
-			requestCode = ISSUE_HANDLE;
-		}
-			break;
-		case 0://未解决的问题
-		case 2://已解决的问题
-		case 3://发起的问题
-		case 5://关注的问题
-		{
-			//问题详情
-			intent.setClass(getBaseActivity(), IssueDetailActivity.class);
-			
-		}
-			break;
-
-		case 4://需要确认的问题，单独页面，确认
-		{
-			intent.setClass(getBaseActivity(), IssueConfirmActivity.class);
-			requestCode = ISSUE_CONFIRM;
-		}
-			break;
-		default:
-			break;
-		}
-
-		startActivityForResult(intent,requestCode);
+		
+		IssueResult p = (IssueResult) (object);
+		RollingPlan plan = new RollingPlan();
+		plan.setId(p.getWorstepid());
+		intent.putExtra(Item.PLAN, plan);
+		
+		startActivity(intent);
 	}
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

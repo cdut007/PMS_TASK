@@ -1,9 +1,12 @@
 package com.thirdpart.tasktrackerpms.ui;
 
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +31,32 @@ import com.thirdpart.tasktrackerpms.adapter.IssueAdapter;
 
 public class MineFragment extends BasePageListFragment{
 
-	
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+		updateTitle();
+	}
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+		// TODO Auto-generated method stub
+		super.onHiddenChanged(hidden);
+		if (hidden) {
+			FragmentManager fragmentManager = getFragmentManager() ;
+			android.support.v4.app.Fragment fragment = fragmentManager.findFragmentByTag(Item.HOME);
+			if (fragment==null||fragment.isHidden()) {
+				(getBaseActivity()).changeTitle("");	
+			}
+			
+		}else {
+			updateTitle();
+		}
+	}
+		
+	private void updateTitle() {
+		// TODO Auto-generated method stub		
+		(getBaseActivity()).changeTitle(getLogInController().getInfo().getName());
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

@@ -8,6 +8,7 @@ import org.apache.http.Header;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,11 +45,6 @@ public class PlanDetailActivity extends BaseDetailActivity {
       }
       
       planManager = (PlanManager) ManagerService.getNewManagerService(this, PlanManager.class,this);
-      if (PlanManager.isHankou(rollingPlan.getSpeciality())) {
-    	  setTitle("焊口明细"); 
-	}else  {
-		setTitle("支架明细");
-	}
       
       updateInfo();
       execFetechDetail();
@@ -65,10 +61,19 @@ public class PlanDetailActivity extends BaseDetailActivity {
 		final  List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();
 		 //R.id.  in array String
 		boolean  isHankou = false;
-		
-		 if (PlanManager.isHankou(rollingPlan.getSpeciality())) {
-			  isHankou = true;
+		String type = rollingPlan.getSpeciality();
+		if (type==null) {
+			 setTitle("明细");
+		}else {
+			 if (PlanManager.isHankou(type)) {
+				  isHankou = true;
+				  setTitle("焊口明细"); 
+			}else {
+				setTitle("支架明细");
+			}	
 		}
+		
+		 
 		  
 		 itemInfos.add(new WidgetItemInfo("0", isHankou?"焊口号：":"支架号：", rollingPlan.getWeldno(), WidgetItemInfo.DISPLAY, false));		
 		 itemInfos.add(new WidgetItemInfo("1", "机组号：", rollingPlan.getId(), WidgetItemInfo.DISPLAY, false));
@@ -184,6 +189,10 @@ public class PlanDetailActivity extends BaseDetailActivity {
 		// TODO Auto-generated method stub
 		if (name.equals(PlanManager.ACTION_PLAN_DETAIL)) {
 			rollingPlan = (RollingPlan) response;
+			if (rollingPlan==null) {
+				Log.i(TAG, "plan is null~~");
+				return;
+			}
 			updateInfo();
 		}
 		
