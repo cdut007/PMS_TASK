@@ -436,9 +436,20 @@ public class IssueFeedbackActivity extends BaseEditActivity implements
 	private String getConcerMan() {
 		// TODO Auto-generated method stub
 		String concerman = "";
-		for (Category category : mGuanzhuList) {
-			concerman += category.getName() + "|";
+		if (mGuanzhuList.size()==1) {
+			return mGuanzhuList.get(0).getName();
 		}
+		if (mGuanzhuList.size()>1) {
+			for (int i = 0; i < mGuanzhuList.size(); i++) {
+				Category category = mGuanzhuList.get(i);
+				if (i==0) {
+					concerman +=  category.getName() ;	
+				}else {
+					concerman += "|"+ category.getName() ;
+				}
+			}
+		}
+		
 		return concerman;
 	}
 
