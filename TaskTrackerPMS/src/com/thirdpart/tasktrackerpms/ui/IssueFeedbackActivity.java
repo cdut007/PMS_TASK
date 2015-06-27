@@ -437,15 +437,15 @@ public class IssueFeedbackActivity extends BaseEditActivity implements
 		// TODO Auto-generated method stub
 		String concerman = "";
 		if (mGuanzhuList.size()==1) {
-			return mGuanzhuList.get(0).getName();
+			return mGuanzhuList.get(0).getId();
 		}
 		if (mGuanzhuList.size()>1) {
 			for (int i = 0; i < mGuanzhuList.size(); i++) {
 				Category category = mGuanzhuList.get(i);
 				if (i==0) {
-					concerman +=  category.getName() ;	
+					concerman +=  category.getId() ;	
 				}else {
-					concerman += "|"+ category.getName() ;
+					concerman += "|"+ category.getId();
 				}
 			}
 		}

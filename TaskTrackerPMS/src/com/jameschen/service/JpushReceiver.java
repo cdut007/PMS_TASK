@@ -184,15 +184,15 @@ public class JpushReceiver extends BroadcastReceiver {
 				return;
 			}
 			Log.i(TAG, "push catgory="+pushModel.category);
-			if ("assignEndMan".equals(pushModel.category)) {//报名满了
+			if ("assignEndMan".equals(pushModel.category)) {
 			
 				flag=1;	
-			}else if ("assignTeam".equals(pushModel.category)) {//有回复
+			}else if ("assignTeam".equals(pushModel.category)) {
 				
 				flag=2;
 			}else if ("solve".equals(pushModel.category)||
 					"concern".equals(pushModel.category)||
-					"confirm".equals(pushModel.category)) {//我创建的活动
+					"confirm".equals(pushModel.category)) {
 				
 				flag=3;
 				
