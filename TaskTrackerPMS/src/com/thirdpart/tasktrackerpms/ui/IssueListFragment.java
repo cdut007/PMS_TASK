@@ -166,6 +166,7 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 		RollingPlan plan = new RollingPlan();
 		plan.setId(p.rollingPlanId);
 		intent.putExtra(Item.PLAN, plan);
+		intent.putExtra("scan", true);
 		
 		startActivity(intent);
 	}

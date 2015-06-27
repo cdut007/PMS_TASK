@@ -22,7 +22,7 @@ import com.thirdpart.tasktrackerpms.adapter.WorkStepAdapter;
 
 public class WorkStepFragment extends BasePageListFragment<WorkStep, WorkStepList> implements OnItemClickListener{
 
-	boolean fromPlan = false;
+	boolean scan = false;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,10 +33,10 @@ public class WorkStepFragment extends BasePageListFragment<WorkStep, WorkStepLis
 		mListView.setOnItemClickListener(this);
 		
 		id = getArguments().getLong(ConstValues.ID);
-		fromPlan = getArguments().getBoolean(Item.PLAN);
+		scan = getArguments().getBoolean("scan");
 		WorkStepAdapter workStepAdapter = (WorkStepAdapter) mAdapter;
-		workStepAdapter.setScanMode(fromPlan);
-		Log.i(TAG, "scanMode="+fromPlan+";id = "+id);
+		workStepAdapter.setScanMode(scan);
+		Log.i(TAG, "scanMode="+scan+";id = "+id);
 		
 		callNextPage(pageSize,getCurrentPage());
 		return view;

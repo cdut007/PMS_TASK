@@ -26,7 +26,7 @@ public class PlanWorkStepListActivity extends BaseActivity {
 
 	private Fragment mFragment;
 	
-	private boolean fromPlan = false;
+	private boolean scan = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -34,7 +34,7 @@ public class PlanWorkStepListActivity extends BaseActivity {
 		setTitle("工序信息");
 		Intent intent = getIntent();
 		long id = intent.getLongExtra(ConstValues.ID, 0);
-		fromPlan = intent.getBooleanExtra("fromPlan", false);
+		scan = intent.getBooleanExtra("scan", false);
 			// Make sure fragment is created.
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
@@ -42,7 +42,7 @@ public class PlanWorkStepListActivity extends BaseActivity {
 		if (mFragment == null) {
 			Bundle bundle = new Bundle();
 			bundle.putLong(ConstValues.ID, id);
-			bundle.putBoolean(Item.PLAN, fromPlan);
+			bundle.putBoolean("scan", scan);
 			mFragment = WorkStepFragment.instantiate(this, WorkStepFragment.class.getName(), bundle);
 			ft.add(R.id.fragment_content, mFragment, WorkStepFragment.class.getName());
 		}

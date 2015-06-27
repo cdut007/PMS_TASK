@@ -32,15 +32,16 @@ public class PlanDetailActivity extends BaseDetailActivity {
  
  private PlanManager planManager ;
  RollingPlan rollingPlan;
- boolean fromPlan = true;
+ boolean scan = false;
  @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
       rollingPlan = (RollingPlan) getIntent().getSerializableExtra(Item.PLAN);	
+      scan = getIntent().getBooleanExtra("scan", false);
       if (rollingPlan == null) {
-    	  fromPlan  = false;
+    	  scan  = false;
     	  rollingPlan = (RollingPlan) getIntent().getSerializableExtra(Item.TASK);	
       }
       
@@ -172,7 +173,7 @@ public class PlanDetailActivity extends BaseDetailActivity {
 	void go2WorkStepDetail(){
 		Intent intent = new Intent(this, PlanWorkStepListActivity.class);
 		
-		intent.putExtra("fromPlan",fromPlan);
+		intent.putExtra("scan",scan);
 		intent.putExtra(ConstValues.ID, Long.parseLong(rollingPlan.getId()));
 		startActivity(intent);
 	}

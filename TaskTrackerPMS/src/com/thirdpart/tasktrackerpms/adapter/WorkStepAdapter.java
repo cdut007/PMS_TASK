@@ -144,10 +144,9 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 		
 	}
 
-	boolean scan;
 	public void setScanMode(boolean fromPlan) {
 		// TODO Auto-generated method stub
-		scan = fromPlan;
+		show = !fromPlan;
 	}
 	
 
