@@ -183,6 +183,10 @@ public class Config {
 		 * */
 		public static final String REQUST_WITNESS_LIST_OF_DISTRIBUTE_URL = HTTP_BASE_URL+"/hdxt/api/baseservice/witness";
 
+		
+		public static final String REQUST_MY_WITNESS_LIST_OF_DISTRIBUTE_URL = HTTP_BASE_URL+"/hdxt/api/baseservice/witness/myevent";
+
+		
 		/** define the witness  type (R,H,W) url 
 		 * <br>-1001,id is not avaiable
 		 * <br>-1002,unknow Error

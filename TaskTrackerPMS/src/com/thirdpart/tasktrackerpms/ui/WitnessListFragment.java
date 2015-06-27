@@ -23,6 +23,7 @@ import com.jameschen.framework.base.UINetworkHandler;
 import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.EventCallbackListener;
 import com.thirdpart.model.ConstValues.Item;
+import com.thirdpart.model.LogInController;
 import com.thirdpart.model.entity.DepartmentInfo;
 import com.thirdpart.model.entity.IssueList;
 import com.thirdpart.model.entity.IssueResult;
@@ -118,7 +119,13 @@ registerCallBack( new EventCallbackListener()  {
     		}
     	};
 		if (menuid==0) {//my revice witness
-			 getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","equal",networkhanler);
+			if (getLogInController().matchUrls("/witness/myevent")) {
+				 getPMSManager().receiveMyWitnessList(pagesize+"", pagenum+"",networkhanler);
+						
+			}else {
+				 getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","equal",networkhanler);
+						
+			}
 					
 		}else {//my 
 			 getPMSManager().myTaskWitnessList(pagesize+"", pagenum+"",networkhanler);
