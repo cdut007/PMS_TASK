@@ -44,7 +44,7 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 	
 	
 	private long menuid;
-
+	boolean isMyevent = false;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 registerCallBack( new EventCallbackListener()  {
@@ -76,12 +76,16 @@ registerCallBack( new EventCallbackListener()  {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.witness_list_ui, container, false);
 		menuid = getArguments().getLong(ConstValues.ID);
+		isMyevent = getLogInController().matchUrls("/witness/myevent");
 		Log.i(TAG, "witness menu id = "+menuid);
-		bindListView(view,new WitnesserAdapter(getBaseActivity(),menuid!=0));
+		bindListView(view,new WitnesserAdapter(getBaseActivity(),scanMode()));
 		callNextPage(pageSize,getCurrentPage());
 		return view;
 	}
-	
+	private boolean scanMode() {
+		// TODO Auto-generated method stub
+		return menuid!=0||isMyevent;
+	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -119,7 +123,7 @@ registerCallBack( new EventCallbackListener()  {
     		}
     	};
 		if (menuid==0) {//my revice witness
-			if (getLogInController().matchUrls("/witness/myevent")) {
+			if (isMyevent) {
 				 getPMSManager().receiveMyWitnessList(pagesize+"", pagenum+"",networkhanler);
 						
 			}else {
