@@ -48,8 +48,14 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 
 		witness = (WitnessDistributed) getIntent().getSerializableExtra(
 				Item.WITNESS);
-		witness.setWitnessdate(getdateformat(Long.parseLong(witness
-				.getWitnessdate())));
+		try {
+			witness.setWitnessdate(getdateformat(Long.parseLong(witness
+					.getWitnessdate())));	
+		} catch (Exception e) {
+			// TODO: handle exception
+			
+		}
+	
 		witnessManager = (WitnessManager) ManagerService.getNewManagerService(
 				this, WitnessManager.class, this);
 		scan = getIntent().getBooleanExtra("scan", false);
