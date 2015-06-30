@@ -122,7 +122,7 @@ WitnessDistributed mWitnessDistributed;
 	}else {
 		chooseTypeView.setContent("3".equals(mWitnessDistributed.getWorkStep().noticeresult)?"合格":"不合格");
 		  
-		   witnessInputItemView.setContent(TextUtils.isEmpty(desc)?null:desc, false);
+		   witnessInputItemView.setContent(TextUtils.isEmpty(desc)?"合格":desc, false);
 			
 	}
 		

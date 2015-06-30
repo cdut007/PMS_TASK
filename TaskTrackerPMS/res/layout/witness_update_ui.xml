@@ -34,6 +34,7 @@
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          widgets:customName="见证描述"
+           widgets:customContent="合格"
          
      />
  

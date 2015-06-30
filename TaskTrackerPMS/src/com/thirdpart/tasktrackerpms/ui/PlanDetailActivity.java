@@ -112,7 +112,7 @@ public class PlanDetailActivity extends BaseDetailActivity {
 					WidgetItemInfo.DISPLAY, true));
 
 		}
-
+		itemInfos.add(new WidgetItemInfo("10", "问题反馈", "", WidgetItemInfo.DISPLAY, true));
 		createItemListToUI(itemInfos, R.id.detail_container,
 				new CreateItemViewListener() {
 
@@ -158,8 +158,9 @@ public class PlanDetailActivity extends BaseDetailActivity {
 												if (widgetItemInfo.tag
 														.equals("9")) {
 													go2WorkStepDetail();
-												} else {
-
+												} else if(widgetItemInfo.tag
+														.equals("10")){
+													issueFeedBack();
 												}
 											}
 										});
