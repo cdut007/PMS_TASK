@@ -699,6 +699,17 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	
+	public void getIssueCategoryCount(AsyncHttpResponseHandler responseHandler) {
+		if (true) {
+			return;
+		}
+		RequestParams params = getPublicParams(true);
+		params.put("taskDate", getdateformat(System.currentTimeMillis()));
+		params.put("category", "");
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_TASK_STATUS_URL,
+				params, responseHandler);
+	}
+	
 /**	taskDate		R		查询的时间
 	格式：yyyy-MM-dd
 	category		R		查询的类型

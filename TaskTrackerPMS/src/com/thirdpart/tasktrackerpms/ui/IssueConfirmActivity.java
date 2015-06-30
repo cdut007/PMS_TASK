@@ -43,7 +43,7 @@ import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.DisplayItemView;
 import com.thirdpart.widget.UserInputItemView;
 
-public class IssueConfirmActivity extends BaseEditActivity {
+public class IssueConfirmActivity extends IssueDetailActivity {
 	
 	private UserInputItemView issueDesc;
 	private CheckBox issueEffectBox;

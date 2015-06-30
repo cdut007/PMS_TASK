@@ -21,6 +21,7 @@ import com.jameschen.framework.base.BaseActivity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.thirdpart.model.EventCallbackListener;
 import com.thirdpart.tasktrackerpms.R;
 
 public class ImageDetailActivity extends BaseActivity implements OnClickListener {
@@ -40,6 +41,7 @@ public class ImageDetailActivity extends BaseActivity implements OnClickListener
 		}
 		return imageLoader;
 	}
+	static List<EventCallbackListener> succListeners = new ArrayList<EventCallbackListener>();
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,18 @@ public class ImageDetailActivity extends BaseActivity implements OnClickListener
         mPager.setPageMargin((int) getResources().getDimension(R.dimen.image_detail_pager_margin));
         mPager.setOffscreenPageLimit(2);
         setTitle("照片"+phoneList.size()+"张"+"  "+"当前第("+1+")"+"张");
+        setTopBarRightBtnListener("保存", new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (phoneList.size() == 0) {
+					Log.i(TAG, "empty imagess");
+					return;
+				}
+				ImageDetailFragment.saveImageToGallery(ImageDetailActivity.this,phoneList.get(mPager.getCurrentItem()));
+			}
+		});
         mPager.setOnPageChangeListener(new OnPageChangeListener() {
 			
 			@Override

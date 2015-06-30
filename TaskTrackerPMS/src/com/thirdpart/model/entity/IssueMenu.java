@@ -13,7 +13,8 @@ public class IssueMenu implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private String content;
-
+	public  int count;
+	
 	public String getId() {
 		return id;
 	}

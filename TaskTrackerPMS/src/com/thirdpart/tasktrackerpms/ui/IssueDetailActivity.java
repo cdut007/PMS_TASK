@@ -35,7 +35,7 @@ import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.DisplayItemView;
 import com.thirdpart.widget.UserInputItemView;
 
-public class IssueDetailActivity extends BaseDetailActivity {
+public class IssueDetailActivity extends BaseEditActivity {
 	
 
 	@Override
@@ -128,20 +128,24 @@ public void succ(String name, int statusCode, Header[] headers,
 		Object response) {
 	// TODO Auto-generated method stub
 	super.succ(name, statusCode, headers, response);
-	setLoadSucc();
-	 issueResult = (IssueResult) response;
-	 updateInfo();
+	if (IssueManager.ACTION_ISSUE_DETAIL.equals(name)) {
+		setLoadSucc();
+		 issueResult = (IssueResult) response;
+		 updateInfo();	
+	}
 	
 }
 
-
+boolean scan = true;
 	private void initInfo() {
-
+		if (scan) {
+			findViewById(R.id.commit_layout).setVisibility(View.GONE);
+		}
 		final  List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();
 		 //R.id.  in array String
 		 itemInfos.add(new WidgetItemInfo("0", null, null, 0, false));		
 		
-		  createItemListToUI(itemInfos, R.id.detail_container, new CreateItemViewListener() {
+		  createItemListToUI(itemInfos, R.id.edit_container, new CreateItemViewListener() {
 
 			@Override
 			public View oncreateItem(int index, View convertView,
@@ -174,7 +178,7 @@ public void succ(String name, int statusCode, Header[] headers,
 	
 	@Override
 	protected void initView() {
-		setContentView(R.layout.detail_ui);// TODO Auto-generated method stub
+		setContentView(R.layout.edit_ui);// TODO Auto-generated method stub
 		super.initView();
 		
 	}

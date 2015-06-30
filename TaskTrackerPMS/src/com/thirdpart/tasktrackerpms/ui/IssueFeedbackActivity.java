@@ -45,6 +45,7 @@ import com.thirdpart.model.UploadFileManager;
 import com.thirdpart.model.TeamMemberManager.LoadUsersListener;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.entity.IssueResult;
+import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.WorkStep;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.AddItemView;
@@ -72,7 +73,7 @@ public class IssueFeedbackActivity extends BaseEditActivity implements
 	EditItemView issueTopic;
 	AddItemView addFile, addPerson;
 	ChooseItemView solverMan;
-	WorkStep workStep;
+	RollingPlan rollingPlan;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public class IssueFeedbackActivity extends BaseEditActivity implements
 		super.onCreate(savedInstanceState);
 
 		setTitle("问题反馈");
-		workStep = (WorkStep) getIntent().getSerializableExtra("feedback");
+		rollingPlan = (RollingPlan) getIntent().getSerializableExtra("feedback");
 		initInfo();
 		bindView();
 		sIssueManager = (IssueManager) IssueManager.getNewManagerService(this,
@@ -405,9 +406,9 @@ public class IssueFeedbackActivity extends BaseEditActivity implements
 		issueResult.setQuestionname(issueTopic.getContent().toString());
 		issueResult.setDescribe(issueDescView.getContent().toString());
 
-		issueResult.setStepno(workStep.getStepno());
-		issueResult.setStepname(workStep.getStepname());
-		issueResult.setWorstepid(workStep.getId());
+//		issueResult.setStepno(rollingPlan.gets);
+//		issueResult.setStepname(workStep.getStepname());
+//		issueResult.setWorstepid(workStep.getId());
 		sIssueManager.createIssue(issueResult, mFiles);
 		super.callCommitBtn(v);
 	}

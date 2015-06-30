@@ -53,6 +53,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:singleLine="true"
-            android:text="是否解决" />
+            android:text="已解决" />
         </LinearLayout>
 </LinearLayout>

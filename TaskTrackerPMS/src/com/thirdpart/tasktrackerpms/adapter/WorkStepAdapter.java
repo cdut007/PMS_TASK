@@ -79,11 +79,11 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 				// TODO Auto-generated method stub
 				Context context = v.getContext();
 				
-				Intent intent= new Intent(context,IssueFeedbackActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				WorkStep workStep = (WorkStep) v.getTag();
-				intent.putExtra("feedback",workStep);
-				context.startActivity(intent);
+//				Intent intent= new Intent(context,IssueFeedbackActivity.class);
+//				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//				WorkStep workStep = (WorkStep) v.getTag();
+//				intent.putExtra("feedback",workStep);
+//				context.startActivity(intent);
 			}
 		});
 		   
@@ -128,12 +128,11 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 				return;
 			}
 			
-			if ("PREPARE".equals(workStep.getStepflag())) {
-				issueFeedback.setVisibility(View.VISIBLE);
-			}else {
-				issueFeedback.setVisibility(View.INVISIBLE);	
-			
-			}
+//			if ("PREPARE".equals(workStep.getStepflag())) {
+//				issueFeedback.setVisibility(View.VISIBLE);
+//			}else {
+				issueFeedback.setVisibility(View.INVISIBLE);			
+//			}
 			TextView updaTextView  = (TextView) issueUpdate;
 			if ("DONE".equals(workStep.getStepflag())) {
 				updaTextView.setText("已完成");

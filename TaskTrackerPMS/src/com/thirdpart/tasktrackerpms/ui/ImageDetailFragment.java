@@ -1,16 +1,28 @@
 
 package com.thirdpart.tasktrackerpms.ui;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
-import com.jameschen.comm.utils.Util;
 import com.jameschen.framework.base.BaseFragment;
 import com.jameschen.widget.image.gesture.GestureImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -60,6 +72,52 @@ public class ImageDetailFragment extends BaseFragment {
 
     ProgressBar loadingBar ;
     
+   static class Photo{
+    	Bitmap loadBitmap;
+    	String url;
+    }
+	protected static Photo photo = new Photo();
+	public static void saveImageToGallery(Context context, String url) {
+		if (!url.equals(photo.url)) {
+			Log.i("bmp", "url not the same..");
+			return;
+		}
+		Bitmap bmp = photo.loadBitmap;
+		if (bmp == null) {
+			Log.i("bmp", "saveImageToGallery bmp is null");
+		return;	
+		}
+	    // 首先保存图片
+	    File appDir = new File(Environment.getExternalStorageDirectory(), "PMSTasker");
+	    if (!appDir.exists()) {
+	        appDir.mkdir();
+	    }
+	    String fileName = System.currentTimeMillis() + ".jpg";
+	    File file = new File(appDir, fileName);
+	    String path = file.getAbsolutePath();
+	    try {
+	        FileOutputStream fos = new FileOutputStream(file);
+	        bmp.compress(CompressFormat.JPEG, 100, fos);
+	        fos.flush();
+	        fos.close();
+	    } catch (FileNotFoundException e) {
+	        e.printStackTrace();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+		}
+	    
+	    // 其次把文件插入到系统图库
+	    try {
+	        MediaStore.Images.Media.insertImage(context.getContentResolver(),
+					file.getAbsolutePath(), fileName, null);
+	        Toast.makeText(context, "保存成功!", Toast.LENGTH_SHORT).show();
+	    } catch (FileNotFoundException e) {
+	        e.printStackTrace();
+	    }
+	    // 最后通知图库更新
+	    context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
+	}
+	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -100,6 +158,8 @@ public class ImageDetailFragment extends BaseFragment {
 					ViewGroup viewGroup =(ViewGroup) mImageView.getParent();
 					mImageView.setVisibility(View.GONE);
 					gestureImageView.setImageBitmap(arg2);
+					photo.loadBitmap = arg2;
+					photo.url = mImageUrl;
 					viewGroup.addView(gestureImageView);
 				}
 				
@@ -125,4 +185,5 @@ public class ImageDetailFragment extends BaseFragment {
             mImageView.setImageDrawable(null);
         }
     }
+
 }

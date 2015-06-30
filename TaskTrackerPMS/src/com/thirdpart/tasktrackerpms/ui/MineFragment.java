@@ -55,7 +55,7 @@ public class MineFragment extends BasePageListFragment{
 		
 	private void updateTitle() {
 		// TODO Auto-generated method stub		
-		(getBaseActivity()).changeTitle(getLogInController().getInfo().getName());
+		(getBaseActivity()).changeTitle(getLogInController().getInfo().getRealname());
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

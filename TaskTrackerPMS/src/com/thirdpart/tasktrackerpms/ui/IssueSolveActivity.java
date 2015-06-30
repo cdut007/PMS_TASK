@@ -30,7 +30,7 @@ import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.UserInputItemView;
 
-public class IssueSolveActivity extends BaseEditActivity {
+public class IssueSolveActivity extends IssueDetailActivity {
 	
 	private UserInputItemView issueDesc;
 	private CheckBox issueCheckBox;
