@@ -39,6 +39,7 @@ public class Config {
 
 		
 		public static final String REQUST_TASK_STATUS_URL = HTTP_BASE_URL+"/hdxt/api/statistics/task/status";
+		public static final String REQUST_ISSUE_STATISTIC_URL = HTTP_BASE_URL+"/hdxt/api/problem/statistic";
 
 		public static final String REQUST_TASK_STATUS_LIST_URL =REQUST_TASK_STATUS_URL;
 		

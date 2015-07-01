@@ -25,6 +25,7 @@ import com.jameschen.framework.base.MyBaseAdapter.HoldView;
 import com.thirdpart.model.EventCallbackListener;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.entity.IssueCategoryItem;
+import com.thirdpart.model.entity.IssueCategoryStatistic;
 import com.thirdpart.model.entity.IssueList;
 import com.thirdpart.model.entity.IssueMenu;
 import com.thirdpart.model.entity.IssueResult;
@@ -64,7 +65,7 @@ public class IssueFragment extends BasePageListFragment{
 
 	private void queryDate() {
 		// TODO Auto-generated method stub
-		getPMSManager().getIssueCategoryCount(new UINetworkHandler<List<IssueCategoryItem>>(getActivity()) {
+		getPMSManager().getIssueCategoryCount(new UINetworkHandler<IssueCategoryStatistic>(getActivity()) {
 
 			@Override
 			public void start() {
@@ -82,14 +83,14 @@ public class IssueFragment extends BasePageListFragment{
 			public void callbackFailure(int statusCode, Header[] headers,
 					String response) {
 				// TODO Auto-generated method stub
-				showToast(response);
+				//showToast(response);
 			}
 
 			@Override
 			public void callbackSuccess(int statusCode, Header[] headers,
-					List<IssueCategoryItem> response) {
+					IssueCategoryStatistic response) {
 				// TODO Auto-generated method stub
-				updateInfo(response);
+				updateInfo(IssueCategoryStatistic.getCategoryItem(response));
 			}
 		});
 	}
@@ -99,7 +100,7 @@ public class IssueFragment extends BasePageListFragment{
 		List<IssueMenu> mList = itemAdapter.getObjectInfos();
 		for (IssueCategoryItem issueCategoryItem : response) {
 			for (IssueMenu issueMenu : mList) {
-				if (issueMenu.getId().equals(issueCategoryItem.type)) {
+				if (issueMenu.getId().equals(issueCategoryItem.key)) {
 					issueMenu.count = issueCategoryItem.count;
 					continue;
 				}
@@ -174,18 +175,25 @@ public class IssueFragment extends BasePageListFragment{
 
 		private final static class IssueMenuHoldView extends HoldView<IssueMenu> {
 			
-			TextView mContent;
+			TextView mContent,mCount;
 			@Override
 			protected void initChildView(View convertView,
 					MyBaseAdapter<IssueMenu> myBaseAdapter) {
 				// TODO Auto-generated method stub
 				mContent = (TextView) convertView.findViewById(R.id.common_menu_item_content);
+				mCount = (TextView) convertView.findViewById(R.id.common_menu_item_count);
 			}
 
 			@Override
 			protected void setInfo(IssueMenu object) {
 				// TODO Auto-generated method stub
 				mContent.setText(object.getContent());
+				if (object.count==0) {
+					mCount.setText("");
+				}else {
+					mCount.setText(""+object.count);
+				}
+				
 			}
 			
 		}

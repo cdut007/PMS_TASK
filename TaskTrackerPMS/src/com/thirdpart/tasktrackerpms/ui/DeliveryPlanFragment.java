@@ -1,5 +1,6 @@
 package com.thirdpart.tasktrackerpms.ui;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.jameschen.comm.utils.Log;
 import com.jameschen.framework.base.BasePageListFragment;
 import com.jameschen.framework.base.UINetworkHandler;
@@ -27,20 +29,76 @@ import com.thirdpart.model.LogInController;
 import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.entity.Department;
+import com.thirdpart.model.entity.DepartmentInfo;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.RollingPlanList;
+import com.thirdpart.model.entity.Witnesser;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.tasktrackerpms.adapter.DeliveryPlanAdapter;
 import com.thirdpart.tasktrackerpms.adapter.PlanAdapter;
+import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.IndicatorView;
 import com.thirdpart.widget.TouchImage;
 
 
 public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, RollingPlanList> implements OnItemClickListener{
 
+	enum DeliveryStatus{
+		Deliveried,UnDeliveried,ReDeliveried
+	}
+	private  void executePlanClassDepartmentNetWorkRequest(final boolean showMenu) {
+		// TODO Auto-generated method stub
+			 Type sToken = new TypeToken<List<DepartmentInfo>>() {
+			}.getType();
+			
+			UINetworkHandler<List<DepartmentInfo>> hanlder = new UINetworkHandler<List<DepartmentInfo>>(getActivity(),sToken) {
+
+				@Override
+				public void start() {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void finish() {
+					// TODO Auto-generated method stub
+					setListShown(true);
+					checkIsNeedShowEmptyView();
+				}
+
+				@Override
+				public void callbackFailure(int statusCode, Header[] headers,
+						String response) {
+					// TODO Auto-generated method stub
+					cancelLoading();
+					showToast(response);
+				}
+
+				@Override
+				public void callbackSuccess(int statusCode, Header[] headers,
+						List<DepartmentInfo> response) {
+					// TODO Auto-generated method stub
+					mDepartmentInfos = response;
+					if (showMenu) {
+						showClassMenu();
+					}
+				}
+			};
+			
+			if (getLogInController().matchRoles("班组承包人")) {
+				getPMSManager().teamGroupList(hanlder);
+			}else {
+				getPMSManager().teamWorkList(hanlder);
+			}
+	        
+		
+	}
+	
+	List<DepartmentInfo> mDepartmentInfos;
+	DeliveryStatus status = DeliveryStatus.UnDeliveried;
 	
 	String title,teamId;
-	boolean  scanMode ;
+	boolean scanMode ;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -51,6 +109,7 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 		title = getArguments().getString(Item.PLAN);
 		teamId = getArguments().getString("teamId");
 		time = (Button) view.findViewById(R.id.plan_date);
+		classBtn = (ChooseItemView) view.findViewById(R.id.plan_class);
 		time.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -59,19 +118,69 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 				go2ChooseTime();
 			}
 		});
+		classBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (mDepartmentInfos == null) {
+				   executePlanClassDepartmentNetWorkRequest(true);	
+				}else {
+					showClassMenu();
+				}
+			}
+		});
+
 		DeliveryPlanAdapter deliveryPlanAdapter = (DeliveryPlanAdapter) mAdapter;
-		scanMode = getArguments().getBoolean("scan");
-		if (!scanMode) {
+		 scanMode = getArguments().getBoolean("scan");
+		if (scanMode) {
+			if (getLogInController().matchUrls("/construction/team")) {
+				status = DeliveryStatus.ReDeliveried;
+				TouchImage.buttonEffect(time);
+				time.setVisibility(View.VISIBLE);
+				TouchImage.buttonEffect(classBtn);
+				classBtn.setVisibility(View.VISIBLE);
+				executePlanClassDepartmentNetWorkRequest(false);
+			}else {
+				status = DeliveryStatus.Deliveried;
+				deliveryPlanAdapter.setScanMode(true);
+			}
+		}else {
 			TouchImage.buttonEffect(time);
 			time.setVisibility(View.VISIBLE);
+			status = DeliveryStatus.UnDeliveried;
 		}
-		deliveryPlanAdapter.setScanMode(scanMode);
+		
 		IndicatorView indicatorView = (IndicatorView) view.findViewById(R.id.plan_delivery_indicator);
-		indicatorView.setScanMode(scanMode);
+		indicatorView.setScanMode(status == DeliveryStatus.Deliveried);
 		callNextPage(pageSize,getCurrentPage());
 		return view;
 	}
 	
+	protected void showClassMenu() {
+		// TODO Auto-generated method stub
+		if (mDepartmentInfos!=null&&mDepartmentInfos.size()>0) {
+			List<String> names = new ArrayList<String>();
+			
+			for (DepartmentInfo departmentInfo : mDepartmentInfos) {
+				Department d = departmentInfo.getDepartment();
+				if (d!=null) {
+					names.add(d.getName());
+				}
+				
+			}
+			classBtn.showMenuItem(mDepartmentInfos,names,new ChooseItemView.onDismissListener<DepartmentInfo>(){
+
+				@Override
+				public void onDismiss(
+						DepartmentInfo item) {
+					// TODO Auto-generated method stub
+					 updateClass(item);
+				}
+				
+			});	
+		}
+	}
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -186,10 +295,17 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	}
 }
 Button time;
+ChooseItemView classBtn;
 	private void updateTime(String timeStr) {
 	// TODO Auto-generated method stub
 	 time.setText(timeStr);
 }
+	DepartmentInfo departmentInfo;
+	private void updateClass(DepartmentInfo className) {
+		// TODO Auto-generated method stub
+		this.departmentInfo = className;
+		classBtn.setContent(className.getDepartment().getName());
+	}
 
 	public void commit() {
 		// TODO Auto-generated method stub
@@ -206,7 +322,14 @@ Button time;
 			getBaseActivity().cancelProgressDialog();
 			return;
 		}
-		
+		if (status == DeliveryStatus.ReDeliveried ) {
+			if (departmentInfo == null) {
+				showToast("请选择该派班组");
+				return;
+			}else {
+				teamId = departmentInfo.getDepartment().getId();
+			}
+		}
 		List<RollingPlan> mSeletedItems = deliveryPlanAdapter.getAllCheckOptions();
 		executeCommitPlanNetWorkRequest(mSeletedItems);
 	}

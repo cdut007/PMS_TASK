@@ -700,13 +700,10 @@ public class PMSManagerAPI {
 	}
 	
 	public void getIssueCategoryCount(AsyncHttpResponseHandler responseHandler) {
-		if (true) {
-			return;
-		}
+	
 		RequestParams params = getPublicParams(true);
-		params.put("taskDate", getdateformat(System.currentTimeMillis()));
-		params.put("category", "");
-		MyHttpClient.get(ReqHttpMethodPath.REQUST_TASK_STATUS_URL,
+	
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_ISSUE_STATISTIC_URL,
 				params, responseHandler);
 	}
 	

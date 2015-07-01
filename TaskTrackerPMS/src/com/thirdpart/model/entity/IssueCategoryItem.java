@@ -6,7 +6,7 @@ import android.R.integer;
 
 public class IssueCategoryItem {
 
-	public String type;
+	public String key;
 	
 	public int count;
 }
