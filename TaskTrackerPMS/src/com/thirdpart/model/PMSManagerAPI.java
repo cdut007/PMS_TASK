@@ -230,6 +230,8 @@ public class PMSManagerAPI {
 		RequestParams params = getPublicParams(true);
 
 		params.put("workstepid", issue.getWorstepid());
+		params.put("rollingPlanId", issue.rollingPlanId);
+		
 		params.put("stepno", issue.getStepno());
 		params.put("stepname", issue.getStepname());
 		params.put("questionname", issue.getQuestionname());

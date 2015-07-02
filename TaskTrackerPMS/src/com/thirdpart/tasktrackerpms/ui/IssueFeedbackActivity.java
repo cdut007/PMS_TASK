@@ -409,6 +409,7 @@ public class IssueFeedbackActivity extends BaseEditActivity implements
 //		issueResult.setStepno(rollingPlan.gets);
 //		issueResult.setStepname(workStep.getStepname());
 //		issueResult.setWorstepid(workStep.getId());
+		issueResult.rollingPlanId = rollingPlan.getId();
 		sIssueManager.createIssue(issueResult, mFiles);
 		super.callCommitBtn(v);
 	}
