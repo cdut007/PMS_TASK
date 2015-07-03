@@ -52,15 +52,16 @@ public class IssueSolveActivity extends IssueDetailActivity {
  @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+
+		scan = false;
 		super.onCreate(savedInstanceState);
-		
 		issueResult = (IssueResult) getIntent().getSerializableExtra(Item.ISSUE);	
       setTitle("问题解决");
       initInfo();
       bindViews();
       issueManager = (IssueManager) ManagerService.getNewManagerService(this, IssueManager.class, this);
       teamMemberManager =new TeamMemberManager(this); 
-     
+      //initData();
  }
  
  public void onAttachedToWindow() {
@@ -189,7 +190,7 @@ String  solvedman,solverid;
 
 		final  List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();
 		 //R.id.  in array String
-		 itemInfos.add(new WidgetItemInfo(null, null, null, 0, false));		
+		 itemInfos.add(new WidgetItemInfo("itemlayout", null, null, 0, false));		
 		
 		  createItemListToUI(itemInfos, R.id.edit_container, new CreateItemViewListener() {
 

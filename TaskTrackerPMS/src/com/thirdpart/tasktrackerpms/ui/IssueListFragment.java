@@ -180,6 +180,7 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 			if (resultCode == Activity.RESULT_OK) {
 				 mListView.setRefreshing(true);
 				callNextPage(pageSize,defaultBeginPageNum);
+				IssueFragment.CallSucc(IssueFragment.callsucc);
 			}
 		}
 			break;
@@ -188,6 +189,8 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 			if (resultCode == Activity.RESULT_OK) {
 				 mListView.setRefreshing(true);
 				callNextPage(pageSize,defaultBeginPageNum);
+				IssueFragment.CallSucc(IssueFragment.callsucc);
+
 			}
 		}
 			break;

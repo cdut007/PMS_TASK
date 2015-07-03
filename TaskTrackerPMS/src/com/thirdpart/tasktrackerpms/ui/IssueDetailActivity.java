@@ -58,13 +58,20 @@ IssueManager sIssueManager;
 		
 		issueResult = (IssueResult) getIntent().getSerializableExtra(Item.ISSUE);	
       setTitle("问题详情");
-      initInfo();
-      sIssueManager = (IssueManager) IssueManager.getNewManagerService(this, IssueManager.class, this);
-      bindViews();
-      updateInfo();
-      loadDetail();
+    //if (scan) {
+		initData();
+	//}
  }
  
+	protected void initData() {
+	// TODO Auto-generated method stub
+		  initInfo();
+	      sIssueManager = (IssueManager) IssueManager.getNewManagerService(this, IssueManager.class, this);
+	      bindViews();
+	      updateInfo();
+	      loadDetail();
+}
+
 	UserInputItemView issueDescView,issueMethod;
 	DisplayItemView issueStepTopic,solverMan,issueStatus;
 	
@@ -96,7 +103,7 @@ private void updateInfo() {
 	// TODO Auto-generated method stub
 	issueDescView.setContent(issueResult.getDescribe(), false);
 	issueMethod.setContent(issueResult.getSolvemethod(), false);
-	issueStepTopic.setContent(issueResult.getStepname());
+	issueStepTopic.setContent(issueResult.getQuestionname());
 	solverMan.setContent(issueResult.getCurrentsolver());
 	issueStatus.setContent(IssueManager.getIssueStatus(issueResult.getIsOk()));
 

@@ -96,7 +96,7 @@ public interface OnStatusItemListener{
 		@Override
 		protected void setInfo(IssueResult issueResult) {
 			// TODO Auto-generated method stub
-			topicTextView.setText(issueResult.getStepname());
+			topicTextView.setText(issueResult.getQuestionname());
 			statusTextView.setText(IssueManager.getIssueStatus(issueResult.getIsOk()));
 			statusTextView.setTextColor(IssueManager.getIssueStatusColor(issueResult.getIsOk()));
 			deliveryTextView.setText(issueResult.getCurrentsolver());
