@@ -61,8 +61,7 @@
             android:layout_gravity="center"
             android:focusableInTouchMode="false" 
             android:focusable="false"
-            android:clickable="false"
-            android:singleLine="true"/>
+            android:clickable="false"/>
         </FrameLayout>
     </LinearLayout>
  <View
