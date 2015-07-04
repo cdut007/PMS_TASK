@@ -85,7 +85,7 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 				}
 			};
 			
-			if (getLogInController().matchRoles("班组承包人")) {
+			if (getLogInController().matchUrls("/construction/endman")) {
 				getPMSManager().teamGroupList(hanlder);
 			}else {
 				getPMSManager().teamWorkList(hanlder);
@@ -133,7 +133,9 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 		DeliveryPlanAdapter deliveryPlanAdapter = (DeliveryPlanAdapter) mAdapter;
 		 scanMode = getArguments().getBoolean("scan");
 		if (scanMode) {
-			if (getLogInController().matchUrls("/construction/team")) {
+			if (getLogInController().matchUrls("/construction/team")||
+					getLogInController().matchUrls("/construction/endman")
+					) {
 				
 				if (getActivity() instanceof MineActivity) {
 					((MineActivity)getActivity()).setCommitBtnLayout(true);
@@ -255,7 +257,7 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 
 	void go2ChooseTime() {
 		Intent intent = new Intent(getActivity(), TimeActivity.class);
-		boolean oneday = !getLogInController().matchRoles("班组承包人");
+		boolean oneday = !getLogInController().matchUrls("/construction/endman");
 		intent.putExtra("oneday", oneday);
 		startActivityForResult(intent, TimeActivity.REQUEST_PICK_DATE);
 	}
@@ -347,7 +349,7 @@ ChooseItemView classBtn;
 			ids.add(plan.getId());
 			
 		}
-		if (getLogInController().matchRoles("班组承包人")) {
+		if (getLogInController().matchUrls("/construction/endman")) {
 			getPMSManager().deliveryPlanToHeadMan( ids,teamId, format0, format1,new UINetworkHandler<Object>(getActivity()) {
 
 				@Override

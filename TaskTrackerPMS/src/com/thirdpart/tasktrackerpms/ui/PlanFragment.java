@@ -118,7 +118,7 @@ public class PlanFragment extends BaseListFragment<DepartmentInfo> implements On
 				}
 			};
 			
-			if (getLogInController().matchRoles("班组承包人")) {
+			if (getLogInController().matchUrls("/construction/endman")) {
 				getPMSManager().teamGroupList(hanlder);
 			}else {
 				getPMSManager().teamWorkList(hanlder);
