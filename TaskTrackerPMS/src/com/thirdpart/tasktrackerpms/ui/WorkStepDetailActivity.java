@@ -596,7 +596,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 		setLoadSucc();
 		if (name.equals(TaskManager.ACTION_TASK_COMMIT)) {
 			if (response!=null) {
-				Log.i(TAG, "JsonObject=="+((JsonObject)response).toString());
+				Log.i(TAG, "JsonObject=="+response.toString());
 			}else {
 				Log.i(TAG, "JsonObject is null");
 			}
