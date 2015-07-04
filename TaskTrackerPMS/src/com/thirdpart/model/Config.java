@@ -285,6 +285,8 @@ public class Config {
 		 * */
 		public static final String REQUST_STATUS_ISSUE_URL = HTTP_BASE_URL+"/hdxt/api/problem";
 
+		public static final String REQUST_PLAN_ISSUE_LIST_URL = HTTP_BASE_URL+"/hdxt/api/problem/rollingplan";
+
 		
 		/** define the get issue status url 
 		 * <br> param:id

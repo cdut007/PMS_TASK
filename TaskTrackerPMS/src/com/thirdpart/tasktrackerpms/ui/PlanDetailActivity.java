@@ -175,6 +175,9 @@ public class PlanDetailActivity extends BaseDetailActivity {
 												} else if(widgetItemInfo.tag
 														.equals("10")){
 													issueFeedBack();
+												}else if(widgetItemInfo.tag
+														.equals("-1")){
+													issueDetail();
 												}else  {
 													String tag =widgetItemInfo.tag;
 													try {
@@ -189,6 +192,8 @@ public class PlanDetailActivity extends BaseDetailActivity {
 													
 												}
 											}
+
+											
 
 											
 										});
@@ -228,6 +233,13 @@ public class PlanDetailActivity extends BaseDetailActivity {
 				}, true);
 	}
 
+	private void issueDetail() {
+		// TODO Auto-generated method stub
+		Intent intent = new Intent(this,IssuePlanActivity.class);
+		intent.putExtra(Item.PLAN, rollingPlan);
+		startActivity(intent);
+	}
+	
 	private void go2ItemDetail(WidgetItemInfo widgetItemInfo) {
 		// TODO Auto-generated method stub
 		Intent intent = new Intent(this,DetailContentActivity.class);

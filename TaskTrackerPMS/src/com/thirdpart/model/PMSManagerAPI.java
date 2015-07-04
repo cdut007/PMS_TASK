@@ -599,7 +599,12 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	
-	
+	public void IssuePlanList(String planId,String pagesize,String pagenum, AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getCommonPageParams(true,pagesize, pagenum);
+		params.put("rollingPlanId", planId);
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_PLAN_ISSUE_LIST_URL,
+				params, responseHandler);
+	}
 	//param:loginUserId,pagesize,pagenum,condition (equal) 
 	/**
 	 * @param loginUserId
