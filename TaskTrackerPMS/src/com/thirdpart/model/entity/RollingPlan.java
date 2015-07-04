@@ -49,6 +49,16 @@ public class RollingPlan implements Serializable{
 	private String plandate;
 	
 	private String className;
+
+	public String technologyAsk;
+
+	public String qualityRiskCtl;
+
+	public String securityRiskCtl;
+
+	public String experienceFeedback;
+
+	public String workTool;
 	
 	public void setId(String id) {
 		this.id = id;

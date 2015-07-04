@@ -126,6 +126,7 @@ public class IssueFeedbackActivity extends BaseEditActivity implements
 		solverMan = (ChooseItemView) findViewById(R.id.issue_choose_deliver);
 		solverMan.setContent("选择解决人");
 		addPerson = (AddItemView) findViewById(R.id.issue_add_person);
+		addPerson.setVisibility(View.GONE);
 		solverMan.setChooseItemClickListener(new OnClickListener() {
 
 			@Override

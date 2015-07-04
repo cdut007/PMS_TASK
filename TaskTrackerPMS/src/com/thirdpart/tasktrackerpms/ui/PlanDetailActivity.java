@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.http.Header;
 
+import android.R.integer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.WorkStep;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.DisplayItemView;
+import com.thirdpart.widget.EnterItemView;
 
 public class PlanDetailActivity extends BaseDetailActivity {
 
@@ -111,7 +113,16 @@ public class PlanDetailActivity extends BaseDetailActivity {
 					WidgetItemInfo.DISPLAY, true));
 
 		}
+		itemInfos.add(new WidgetItemInfo("-1", "问题详情", "", WidgetItemInfo.DISPLAY, true));
+		
+		
 		itemInfos.add(new WidgetItemInfo("10", "问题反馈", "", WidgetItemInfo.DISPLAY, true));
+		itemInfos.add(new WidgetItemInfo("11", "技术要求", rollingPlan.technologyAsk, WidgetItemInfo.ENTER, true));
+		itemInfos.add(new WidgetItemInfo("12", "质量风险及控制措施", rollingPlan.qualityRiskCtl, WidgetItemInfo.ENTER, true));
+		itemInfos.add(new WidgetItemInfo("13", "安全风险及控制措施", rollingPlan.securityRiskCtl, WidgetItemInfo.ENTER, true));
+		itemInfos.add(new WidgetItemInfo("14", "经验反馈", rollingPlan.experienceFeedback, WidgetItemInfo.ENTER, true));
+		itemInfos.add(new WidgetItemInfo("15", "施工工具", rollingPlan.workTool, WidgetItemInfo.ENTER, true));
+		
 		createItemListToUI(itemInfos, R.id.detail_container,
 				new CreateItemViewListener() {
 
@@ -139,7 +150,12 @@ public class PlanDetailActivity extends BaseDetailActivity {
 												viewgroup, false);
 
 								break;
+							case WidgetItemInfo.ENTER:
+								convertView = new EnterItemView(
+										PlanDetailActivity.this);
 
+
+								break;
 							default:
 								break;
 							}
@@ -159,8 +175,22 @@ public class PlanDetailActivity extends BaseDetailActivity {
 												} else if(widgetItemInfo.tag
 														.equals("10")){
 													issueFeedBack();
+												}else  {
+													String tag =widgetItemInfo.tag;
+													try {
+														int index = Integer.parseInt(tag);
+														if (index>=11 && index <=15) {
+															go2ItemDetail(widgetItemInfo);
+														}
+													} catch (NumberFormatException e) {
+														// TODO: handle exception
+														e.printStackTrace();
+													}
+													
 												}
 											}
+
+											
 										});
 							}
 						} else {
@@ -172,6 +202,14 @@ public class PlanDetailActivity extends BaseDetailActivity {
 						case WidgetItemInfo.DISPLAY: {
 							DisplayItemView displayItemView = (DisplayItemView) convertView;
 							displayItemView
+									.setNameAndContent(widgetItemInfo.name,
+											widgetItemInfo.content);
+						}
+							break;
+							
+						case WidgetItemInfo.ENTER: {
+							EnterItemView enterItemView = (EnterItemView) convertView;
+							enterItemView
 									.setNameAndContent(widgetItemInfo.name,
 											widgetItemInfo.content);
 						}
@@ -190,6 +228,14 @@ public class PlanDetailActivity extends BaseDetailActivity {
 				}, true);
 	}
 
+	private void go2ItemDetail(WidgetItemInfo widgetItemInfo) {
+		// TODO Auto-generated method stub
+		Intent intent = new Intent(this,DetailContentActivity.class);
+		intent.putExtra("title", widgetItemInfo.name);
+		intent.putExtra("content", widgetItemInfo.content);
+		startActivity(intent);
+	}
+	
 	@Override
 	protected void initView() {
 		setContentView(R.layout.detail_ui);

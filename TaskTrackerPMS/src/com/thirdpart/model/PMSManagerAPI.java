@@ -237,7 +237,7 @@ public class PMSManagerAPI {
 		params.put("questionname", issue.getQuestionname());
 		params.put("describe", issue.getDescribe());
 		params.put("solverid", issue.getSolverid());
-		params.put("concernman", issue.getConcerman());
+		//params.put("concernman", issue.getConcerman());
 		for (int j = 0; j < mFiles.size(); j++) {
 			try {
 				params.put("file"+j, mFiles.get(j));
