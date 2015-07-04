@@ -30,7 +30,7 @@ import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.UserInputItemView;
 
-public class IssueSolveActivity extends IssueDetailActivity {
+public class IssueSolveActivity extends BaseEditActivity {
 	
 	private UserInputItemView issueDesc;
 	private CheckBox issueCheckBox;
@@ -53,7 +53,7 @@ public class IssueSolveActivity extends IssueDetailActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 
-		scan = false;
+		//scan = false;
 		super.onCreate(savedInstanceState);
 		issueResult = (IssueResult) getIntent().getSerializableExtra(Item.ISSUE);	
       setTitle("问题解决");

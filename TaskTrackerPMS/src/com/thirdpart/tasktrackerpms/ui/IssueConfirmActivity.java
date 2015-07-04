@@ -43,7 +43,7 @@ import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.DisplayItemView;
 import com.thirdpart.widget.UserInputItemView;
 
-public class IssueConfirmActivity extends IssueDetailActivity {
+public class IssueConfirmActivity extends BaseEditActivity {
 	
 	private UserInputItemView issueDesc;
 	private CheckBox issueEffectBox;
@@ -65,7 +65,7 @@ public class IssueConfirmActivity extends IssueDetailActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 
-		scan =false;
+		//scan =false;
 		super.onCreate(savedInstanceState);
 		issueResult = (IssueResult) getIntent().getSerializableExtra(Item.ISSUE);	
       setTitle("问题确认");

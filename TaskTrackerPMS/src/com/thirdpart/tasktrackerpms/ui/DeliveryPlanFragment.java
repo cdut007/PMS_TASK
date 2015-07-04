@@ -134,6 +134,10 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 		 scanMode = getArguments().getBoolean("scan");
 		if (scanMode) {
 			if (getLogInController().matchUrls("/construction/team")) {
+				
+				if (getActivity() instanceof MineActivity) {
+					((MineActivity)getActivity()).setCommitBtnLayout(true);
+				}
 				status = DeliveryStatus.ReDeliveried;
 				TouchImage.buttonEffect(time);
 				time.setVisibility(View.VISIBLE);

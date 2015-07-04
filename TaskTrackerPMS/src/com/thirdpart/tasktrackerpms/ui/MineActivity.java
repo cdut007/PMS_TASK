@@ -1,15 +1,20 @@
 package com.thirdpart.tasktrackerpms.ui;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.jameschen.framework.base.BaseActivity;
+import com.jameschen.framework.base.BaseEditActivity;
+import com.jameschen.framework.base.BaseDetailActivity.CreateItemViewListener;
 import com.thirdpart.model.ConstValues;
+import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.entity.IssueMenu;
 import com.thirdpart.tasktrackerpms.R;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,7 +28,7 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
-public class MineActivity extends BaseActivity {
+public class MineActivity extends BaseEditActivity {
 
 	private Fragment mFragment;
 	IssueMenu menu;
@@ -45,52 +50,7 @@ public class MineActivity extends BaseActivity {
 		Intent intent = getIntent();
 		menu= (IssueMenu) intent.getSerializableExtra(Item.MINE);
 		setTitle(menu.getContent());
-		// Make sure fragment is created.
-		FragmentManager fm = getSupportFragmentManager();
-		FragmentTransaction ft = fm.beginTransaction();
-		switch (menu.getId()) {
-		case "0"://my issue
-		{
-			mFragment = fm.findFragmentByTag(IssueFragment.class.getName());
-			if (mFragment == null) {
-				Bundle bundle = new Bundle();
-				mFragment = IssueFragment.instantiate(this, IssueFragment.class.getName(), bundle);
-				ft.add(R.id.fragment_content, mFragment, IssueFragment.class.getName());
-			}
-
-			ft.commit();
-		}
-			break;
-		case "1"://my delivery plan
-		{
-		  mFragment = fm.findFragmentByTag(DeliveryPlanFragment.class.getName());
-			if (mFragment == null) {
-				Bundle bundle = new Bundle();
-				bundle.putBoolean("scan", true);
-				mFragment = DeliveryPlanFragment.instantiate(this, DeliveryPlanFragment.class.getName(), bundle);
-				ft.add(R.id.fragment_content, mFragment, DeliveryPlanFragment.class.getName());
-			}
-
-			ft.commit();
-		}
-			break;
-			case "2"://my witness
-			{
-				mFragment = fm.findFragmentByTag(WitnessFragment.class.getName());
-				if (mFragment == null) {
-					Bundle bundle = new Bundle();
-					mFragment = WitnessFragment.instantiate(this, WitnessFragment.class.getName(), bundle);
-					ft.add(R.id.fragment_content, mFragment, WitnessFragment.class.getName());
-				}
-
-				ft.commit();
-			}
-				break;
-
-		default:
-			break;
-		}
-		
+		initInfo();
 	}
 
 	@Override
@@ -118,7 +78,107 @@ public class MineActivity extends BaseActivity {
 	@Override
 	protected void initView() {
 		// TODO Auto-generated method stub
-		setContentView(R.layout.fragment_main);
+		setContentView(R.layout.list_edit_ui);
+	}
+	
+	public void setCommitBtnLayout(boolean isVisiable) {
+		// TODO Auto-generated method stub
+		if (isVisiable) {
+			findViewById(R.id.commit_btn_layout).setVisibility(View.VISIBLE);
+				
+		} else {
+			findViewById(R.id.commit_btn_layout).setVisibility(View.GONE);
+			
+		}
+	}
+	
+	private void initInfo() {
+		setCommitBtnLayout(false);
+		
+		final  List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();
+		 //R.id.  in array String
+		 itemInfos.add(new WidgetItemInfo("0", null, null, 0, false));		
+		
+		  createItemListToUI(itemInfos, R.id.edit_container, new CreateItemViewListener() {
+
+			@Override
+			public View oncreateItem(int index, View convertView,
+					ViewGroup viewgroup) {
+				// TODO Auto-generated method stub
+				//if exsit just update , otherwise create it.
+				
+				final WidgetItemInfo widgetItemInfo = itemInfos.get(index);
+				if (convertView ==null) {
+					//create
+					LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+						
+					convertView = inflater.inflate(R.layout.fragment_main, viewgroup, false);	
+					
+					
+				}else {
+					
+				}
+				
+				//bind tag
+				convertView.setTag(widgetItemInfo);
+				return convertView;
+			}
+		}, false);
+		  
+		// Make sure fragment is created.
+			FragmentManager fm = getSupportFragmentManager();
+			FragmentTransaction ft = fm.beginTransaction();
+			switch (menu.getId()) {
+			case "0"://my issue
+			{
+				mFragment = fm.findFragmentByTag(IssueFragment.class.getName());
+				if (mFragment == null) {
+					Bundle bundle = new Bundle();
+					mFragment = IssueFragment.instantiate(this, IssueFragment.class.getName(), bundle);
+					ft.add(R.id.fragment_content, mFragment, IssueFragment.class.getName());
+				}
+
+				ft.commit();
+			}
+				break;
+			case "1"://my delivery plan
+			{
+			  mFragment = fm.findFragmentByTag(DeliveryPlanFragment.class.getName());
+				if (mFragment == null) {
+					Bundle bundle = new Bundle();
+					bundle.putBoolean("scan", true);
+					mFragment = DeliveryPlanFragment.instantiate(this, DeliveryPlanFragment.class.getName(), bundle);
+					ft.add(R.id.fragment_content, mFragment, DeliveryPlanFragment.class.getName());
+				}
+
+				ft.commit();
+			}
+				break;
+				case "2"://my witness
+				{
+					mFragment = fm.findFragmentByTag(WitnessFragment.class.getName());
+					if (mFragment == null) {
+						Bundle bundle = new Bundle();
+						mFragment = WitnessFragment.instantiate(this, WitnessFragment.class.getName(), bundle);
+						ft.add(R.id.fragment_content, mFragment, WitnessFragment.class.getName());
+					}
+
+					ft.commit();
+				}
+					break;
+
+			default:
+				break;
+			}
+		  
+	}
+	
+	@Override
+	public void callCommitBtn(View v) {
+		// TODO Auto-generated method stub
+		super.callCommitBtn(v);
+		DeliveryPlanFragment deliveryPlanFragment =(DeliveryPlanFragment) mFragment;
+		deliveryPlanFragment.commit();
 	}
 }
 
