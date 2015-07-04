@@ -15,7 +15,10 @@ public class IssueCategoryStatistic {
 			statistic.mCategoryItems.add(statistic.needConfirm);
 			statistic.mCategoryItems.add(statistic.needToSolve);
 			statistic.mCategoryItems.add(statistic.concernedNotSolved);
-		}
+			statistic.mCategoryItems.add(statistic.notSolved);
+			statistic.mCategoryItems.add(statistic.created);
+			statistic.mCategoryItems.add(statistic.solved);
+				}
 		return statistic.mCategoryItems;
 	}
 	public IssueCategoryItem needToSolve,notSolved,created,needConfirm,solved,concernedNotSolved;
