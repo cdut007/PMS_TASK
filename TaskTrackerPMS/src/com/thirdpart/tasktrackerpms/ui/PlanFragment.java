@@ -31,13 +31,13 @@ public class PlanFragment extends BaseListFragment<DepartmentInfo> implements On
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+		
 		super.onCreate(savedInstanceState);
 		registerCallBack( new EventCallbackListener()  {
 			
 			@Override
 			public void commitSucc() {
-				// TODO Auto-generated method stub
+				
 				Log.i(TAG, "call back commit succ");
 				
 				if (mListView!=null) {
@@ -49,17 +49,19 @@ public class PlanFragment extends BaseListFragment<DepartmentInfo> implements On
 
 			@Override
 			public String getTag() {
-				// TODO Auto-generated method stub
+				
 				return callsucc;
 			}
 		});
 	}
+	
+	
 	public static String callsucc="planDelivery";
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+		
 		View view = inflater.inflate(R.layout.plan_ui, container, false);
 		bindListView(view,new PlanAdapter(getBaseActivity()));
 		mListView.setOnItemClickListener(this);
@@ -72,18 +74,21 @@ public class PlanFragment extends BaseListFragment<DepartmentInfo> implements On
 	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+		
 		super.onViewCreated(view, savedInstanceState);
 	}
 	
+	
 	@Override
 	protected void doFreshFromTop(MyListView mListView) {
-		// TODO Auto-generated method stub
+		
 		super.doFreshFromTop(mListView);
 		executeNextPageNetWorkRequest();
 	}
+	
+	
 	private  void executeNextPageNetWorkRequest() {
-		// TODO Auto-generated method stub
+		
 			 Type sToken = new TypeToken<List<DepartmentInfo>>() {
 			}.getType();
 			
@@ -91,13 +96,12 @@ public class PlanFragment extends BaseListFragment<DepartmentInfo> implements On
 
 				@Override
 				public void start() {
-					// TODO Auto-generated method stub
 					
 				}
 
 				@Override
 				public void finish() {
-					// TODO Auto-generated method stub
+					
 					setListShown(true);
 					checkIsNeedShowEmptyView();
 				}
@@ -105,7 +109,7 @@ public class PlanFragment extends BaseListFragment<DepartmentInfo> implements On
 				@Override
 				public void callbackFailure(int statusCode, Header[] headers,
 						String response) {
-					// TODO Auto-generated method stub
+					
 					cancelLoading();
 					showToast(response);
 				}
@@ -113,7 +117,7 @@ public class PlanFragment extends BaseListFragment<DepartmentInfo> implements On
 				@Override
 				public void callbackSuccess(int statusCode, Header[] headers,
 						List<DepartmentInfo> response) {
-					// TODO Auto-generated method stub
+					
 					addDataToListAndRefresh(true, response);
 				}
 			};
@@ -126,9 +130,6 @@ public class PlanFragment extends BaseListFragment<DepartmentInfo> implements On
 	        
 		
 	}
-
-	
-
 
 
 	@Override

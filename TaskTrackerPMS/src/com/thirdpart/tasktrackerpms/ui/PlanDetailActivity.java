@@ -35,7 +35,6 @@ public class PlanDetailActivity extends BaseDetailActivity {
 	boolean scan = false;
 
 	private void issueFeedBack() {
-		// TODO Auto-generated method stub
 		Context context = this;
 		Intent intent = new Intent(context, IssueFeedbackActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -45,7 +44,7 @@ public class PlanDetailActivity extends BaseDetailActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+		
 		super.onCreate(savedInstanceState);
 
 		rollingPlan = (RollingPlan) getIntent().getSerializableExtra(Item.PLAN);
@@ -64,7 +63,7 @@ public class PlanDetailActivity extends BaseDetailActivity {
 	}
 
 	private void execFetechDetail() {
-		// TODO Auto-generated method stub
+		
 		if (rollingPlan.getId() == null) {
 			Log.i(TAG, "plan id is null");
 			return;
@@ -153,7 +152,6 @@ public class PlanDetailActivity extends BaseDetailActivity {
 
 											@Override
 											public void onClick(View v) {
-												// TODO Auto-generated method
 												// stub
 												if (widgetItemInfo.tag
 														.equals("9")) {
@@ -194,14 +192,13 @@ public class PlanDetailActivity extends BaseDetailActivity {
 
 	@Override
 	protected void initView() {
-		setContentView(R.layout.detail_ui);// TODO Auto-generated method stub
+		setContentView(R.layout.detail_ui);
 		super.initView();
 
 	}
 
 	void go2WorkStepDetail() {
 		Intent intent = new Intent(this, PlanWorkStepListActivity.class);
-
 		intent.putExtra("scan", scan);
 		intent.putExtra(ConstValues.ID, Long.parseLong(rollingPlan.getId()));
 		startActivity(intent);
@@ -210,18 +207,16 @@ public class PlanDetailActivity extends BaseDetailActivity {
 	@Override
 	public void failed(String name, int statusCode, Header[] headers,
 			String response) {
-		// TODO Auto-generated method stub
 		super.failed(name, statusCode, headers, response);
 	}
 
 	@Override
 	public void succ(String name, int statusCode, Header[] headers,
 			Object response) {
-		// TODO Auto-generated method stub
 		if (name.equals(PlanManager.ACTION_PLAN_DETAIL)) {
 			rollingPlan = (RollingPlan) response;
 			if (rollingPlan == null) {
-				Log.i(TAG, "plan is null~~");
+				Log.i(TAG, "～plan is null~~");
 				return;
 			}
 			updateInfo();
