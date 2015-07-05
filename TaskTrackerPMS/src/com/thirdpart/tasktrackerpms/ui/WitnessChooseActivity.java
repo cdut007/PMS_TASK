@@ -378,10 +378,10 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 	}
 
 	void go2ChooseTime() {
-		Intent intent = new Intent(this, TimeActivity.class);
+		Intent intent = new Intent(this, DateActivity.class);
 
 		// intent.putExtra(ConstValues.ID, Long.parseLong(rollingPlan.getId()));
-		startActivityForResult(intent, TimeActivity.REQUEST_PICK_DATE);
+		startActivityForResult(intent, DateActivity.REQUEST_PICK_DATE);
 	}
 
 	@Override
@@ -427,7 +427,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 		// TODO Auto-generated method stub
 		super.onActivityResult(arg0, arg1, intent);
 		switch (arg0) {
-		case TimeActivity.REQUEST_PICK_DATE: {
+		case DateActivity.REQUEST_PICK_DATE: {
 			if (arg1 == RESULT_OK) {
 				int monthVal = intent.getIntExtra("month", 1);
 				int dayVal = intent.getIntExtra("day", 1);

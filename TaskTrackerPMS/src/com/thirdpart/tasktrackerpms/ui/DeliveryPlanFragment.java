@@ -256,10 +256,10 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 	}
 
 	void go2ChooseTime() {
-		Intent intent = new Intent(getActivity(), TimeActivity.class);
+		Intent intent = new Intent(getActivity(), DateActivity.class);
 		boolean oneday = !getLogInController().matchUrls("/construction/endman");
 		intent.putExtra("oneday", oneday);
-		startActivityForResult(intent, TimeActivity.REQUEST_PICK_DATE);
+		startActivityForResult(intent, DateActivity.REQUEST_PICK_DATE);
 	}
 
 	@Override
@@ -283,7 +283,7 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	super.onActivityResult(requestCode, resultCode, data);
 
 	switch (requestCode) {
-	case TimeActivity.REQUEST_PICK_DATE: {
+	case DateActivity.REQUEST_PICK_DATE: {
 		if (resultCode == Activity.RESULT_OK) {
 			int monthVal = data.getIntExtra("month", 1);
 			int dayVal = data.getIntExtra("day", 1);

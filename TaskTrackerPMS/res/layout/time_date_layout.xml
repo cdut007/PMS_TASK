@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content"
+	android:layout_width="wrap_content"
+	 android:paddingBottom="10dp"
+	   android:layout_gravity="center"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="30dp" 
+	android:orientation="vertical"
+	android:background="@color/app_bg_color">
+	
+    <LinearLayout 
+        android:orientation="vertical"
+              android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/begindate"
+        >
+         <TextView 
+             android:id="@+id/beginText"
+               android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/black"
+            android:text="见证日期"
+            />
+    
+	<LinearLayout 
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:paddingLeft="12dp"
+		android:paddingRight="12dp"
+		android:paddingTop="20dp">
+	  
+	  	        <kankan.wheel.widget.WheelView android:id="@+id/month"
+            android:layout_height="wrap_content"
+            android:layout_width="140dp"/>
+        <kankan.wheel.widget.WheelView android:id="@+id/day"
+            android:layout_height="wrap_content"
+            android:layout_width="140dp"/>
+        
+	</LinearLayout>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/enddate"
+         android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+        >
+        
+        <TextView 
+               android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/black"
+            android:text="时间"
+            />
+    
+    	<LinearLayout 
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:paddingLeft="12dp"
+		android:paddingRight="12dp"
+		android:paddingTop="20dp">
+	  
+	  	<kankan.wheel.widget.WheelView android:id="@+id/hour"
+			android:layout_height="wrap_content"
+			android:layout_width="140dp"/>
+		<kankan.wheel.widget.WheelView android:id="@+id/mins"
+			android:layout_height="wrap_content"
+			android:layout_width="140dp"/>
+	</LinearLayout>
+    </LinearLayout>
+		  <Button
+        android:id="@+id/done"
+        style="@style/common_btn"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="确认" />
+</LinearLayout>

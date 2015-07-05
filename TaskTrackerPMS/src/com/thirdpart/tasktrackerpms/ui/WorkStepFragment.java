@@ -14,6 +14,7 @@ import com.jameschen.framework.base.BasePageListFragment;
 import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.EventCallbackListener;
+import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.WorkStep;
 import com.thirdpart.model.entity.WorkStepList;
 import com.thirdpart.tasktrackerpms.R;
@@ -23,19 +24,22 @@ import com.thirdpart.tasktrackerpms.adapter.WorkStepAdapter;
 public class WorkStepFragment extends BasePageListFragment<WorkStep, WorkStepList> implements OnItemClickListener{
 
 	boolean scan = false;
+	private RollingPlan mRollingPlan;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.workstep_ui, container, false);
-		bindListView(view,new WorkStepAdapter(getBaseActivity(),getLogInController().matchPlanUrls()));
-		mListView.setOnItemClickListener(this);
+		mRollingPlan = (RollingPlan) getArguments().getSerializable(Item.PLAN);		
 		
-		id = getArguments().getLong(ConstValues.ID);
+		bindListView(view,new WorkStepAdapter(getBaseActivity(),getLogInController().matchPlanUrls(),mRollingPlan));
+		mListView.setOnItemClickListener(this);
+		id =Long.parseLong(mRollingPlan.getId());
 		scan = getArguments().getBoolean("scan");
 		WorkStepAdapter workStepAdapter = (WorkStepAdapter) mAdapter;
 		workStepAdapter.setScanMode(scan);
+		workStepAdapter.setPlan(mRollingPlan);
 		Log.i(TAG, "scanMode="+scan+";id = "+id);
 		
 		callNextPage(pageSize,getCurrentPage());

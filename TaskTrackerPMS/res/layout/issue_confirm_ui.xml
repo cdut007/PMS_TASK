@@ -44,6 +44,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:singleLine="true"
-            android:text="是否有效" />
+            android:text="已有效" />
         </LinearLayout>
 </LinearLayout>

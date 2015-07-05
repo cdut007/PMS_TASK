@@ -58,13 +58,14 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 
 	private TaskManager taskManager;
 	WorkStep workStep;
-
+	boolean lastIndex;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
 		workStep = (WorkStep) getIntent().getSerializableExtra("workstep");
+		lastIndex = getIntent().getBooleanExtra("lastIndex", false);
 		taskManager = (TaskManager) ManagerService.getNewManagerService(this,
 				TaskManager.class, this);
 		setTitle("" + workStep.getStepname());
@@ -161,7 +162,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 					"操作者：", workStep.operater, WidgetItemInfo.EDIT, isDone));
 
 			itemInfos.add(operatedescWidgetItemInfo = new WidgetItemInfo("25",
-					"描述：", workStep.operatedesc, WidgetItemInfo.INPUT, isDone));
+					"描述：", workStep.operatedesc==null?"合格":workStep.operatedesc, WidgetItemInfo.INPUT, isDone));
 			
 			if (showWitness()) {
 				

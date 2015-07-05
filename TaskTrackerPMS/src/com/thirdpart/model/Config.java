@@ -64,6 +64,10 @@ public class Config {
 		public static final String REQUST_ALL_DEPARTMENT_URL = HTTP_BASE_URL+"/hdxt/api/core/department";
 		public static final String REQUST_DEPARTMENT_USERS_URL = HTTP_BASE_URL+"/hdxt/api/core/user";
 
+		
+		
+		public static final String REQUST_RELATIONSHIP_DEPARTMENT_URL = HTTP_BASE_URL+"/hdxt/api/core/relationship";
+		
 		/** define the construction team list url 
 		 * <br>param:pagesize,pagenum,condition,consteam
 		 * <br>-1001,id is not avaiable

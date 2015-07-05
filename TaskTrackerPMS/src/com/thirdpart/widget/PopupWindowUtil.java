@@ -104,14 +104,14 @@ public class PopupWindowUtil implements OnClickListener {
 				String name = "";
 				name = list.get(i);
 				
-				Button btn = getButton(context, name, i, size);
+				SorcllTextView btn = getButton(context, name, i, size);
 				ImageView img = getImageView(context);
 				layout.addView(btn);
 				layout.addView(img);
 			} else {
 				String name = "";
 				name = list.get(i);
-				Button btn = getButton(context, name, i, size);
+				SorcllTextView btn = getButton(context, name, i, size);
 				layout.addView(btn);
 			}
 		}
@@ -119,8 +119,8 @@ public class PopupWindowUtil implements OnClickListener {
 		return layout;
 	}
 
-	private Button getButton(Context context, String text, int i, int size) {
-		Button btn = new Button(context);
+	private SorcllTextView getButton(Context context, String text, int i, int size) {
+		SorcllTextView btn = new SorcllTextView(context);
 		btn.setText(text);
 		btn.setTextColor(Color.rgb(0x1a, 0x19, 0x17));
 		btn.setTag(i);

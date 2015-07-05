@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import cn.jpush.android.data.r;
 
 import com.jameschen.framework.base.BaseActivity;
 import com.jameschen.framework.base.BasePageAdapter;
@@ -30,10 +31,11 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 	private Context context;
 	
 	boolean show ;
-	public WorkStepAdapter(Context context,boolean isUpdate) {
+	public WorkStepAdapter(Context context,boolean isUpdate,RollingPlan rollingPlan) {
 		super(context,R.layout.workstep_item);
 		this.context = context;
 		show = isUpdate;
+		this.rollingPlan = rollingPlan;
 	}
 
 	
@@ -63,9 +65,10 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 	private final static class WrokStepView extends HoldView<WorkStep> {
 		TextView workNo,workName;
 		View issueFeedback, issueUpdate;
-		boolean show;
+		boolean show,lastIndex;
+		RollingPlan rollingPlan;
 		@Override
-		protected void initChildView(View convertView,
+		protected void initChildView(View convertView,final
 				MyBaseAdapter<WorkStep> myBaseAdapter) {
 			// TODO Auto-generated method stub
 			workNo = (TextView) convertView.findViewById(R.id.workstep_index_item);
@@ -89,7 +92,7 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 		   
 		
 		   show = ((WorkStepAdapter)myBaseAdapter).show;
-		   if (show) {
+		 if (show) {
 			   issueUpdate.setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -100,6 +103,9 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 						Intent intent= new Intent(context,WorkStepDetailActivity.class);
 						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						WorkStep workStep = (WorkStep) v.getTag();
+						
+						lastIndex = ((WorkStepAdapter)myBaseAdapter).getItemIndex(workStep) == ((WorkStepAdapter)myBaseAdapter).getCount()-1;
+						intent.putExtra("lastIndex", true);
 						intent.putExtra("workstep", workStep);
 						context.startActivity(intent);
 					}
@@ -134,10 +140,25 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 				issueFeedback.setVisibility(View.INVISIBLE);			
 //			}
 			TextView updaTextView  = (TextView) issueUpdate;
+			updaTextView.setEnabled(true);
 			if ("DONE".equals(workStep.getStepflag())) {
 				updaTextView.setText("已完成");
+			}else if("UNDO".equals(workStep.getStepflag())){
+				updaTextView.setText("未开始");
+				updaTextView.setEnabled(false);
+			}else if("PREPARE".equals(workStep.getStepflag())){
+				if (rollingPlan!=null&&"PROBLEM".equals(rollingPlan.rollingplanflag)) {
+					updaTextView.setText("停滞");
+					updaTextView.setEnabled(false);
+				}else {
+					updaTextView.setText("更新");
+				}
+				
+			}else if("WITNESS".equals(workStep.getStepflag())) {
+				updaTextView.setText("停滞");
+				updaTextView.setEnabled(false);
 			}else {
-				updaTextView.setText("更新");
+				
 			}
 		}
 		
@@ -146,6 +167,13 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 	public void setScanMode(boolean fromPlan) {
 		// TODO Auto-generated method stub
 		show = !fromPlan;
+	}
+
+
+	RollingPlan rollingPlan;
+	public void setPlan(RollingPlan mRollingPlan) {
+		// TODO Auto-generated method stub
+		rollingPlan = mRollingPlan;
 	}
 	
 

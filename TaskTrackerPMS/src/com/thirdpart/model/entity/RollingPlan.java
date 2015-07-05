@@ -59,6 +59,8 @@ public class RollingPlan implements Serializable{
 	public String experienceFeedback;
 
 	public String workTool;
+
+	public Object rollingplanflag;
 	
 	public void setId(String id) {
 		this.id = id;

@@ -16,6 +16,14 @@ public class SorcllTextView extends TextView{
 		setMarqueeRepeatLimit(-1);
 	}
 	
+	public SorcllTextView(Context context) {
+		// TODO Auto-generated constructor stub
+		super(context);
+		setSingleLine();
+		setEllipsize(TruncateAt.MARQUEE);
+		setMarqueeRepeatLimit(-1);
+	}
+
 	@Override
 	protected void onFocusChanged(boolean focused, int direction,
 			Rect previouslyFocusedRect) {

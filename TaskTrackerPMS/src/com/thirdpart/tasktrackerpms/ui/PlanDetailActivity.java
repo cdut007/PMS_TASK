@@ -258,7 +258,7 @@ public class PlanDetailActivity extends BaseDetailActivity {
 	void go2WorkStepDetail() {
 		Intent intent = new Intent(this, PlanWorkStepListActivity.class);
 		intent.putExtra("scan", scan);
-		intent.putExtra(ConstValues.ID, Long.parseLong(rollingPlan.getId()));
+		intent.putExtra(Item.PLAN, rollingPlan);
 		startActivity(intent);
 	}
 

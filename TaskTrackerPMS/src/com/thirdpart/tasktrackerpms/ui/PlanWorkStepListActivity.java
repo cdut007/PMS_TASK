@@ -4,9 +4,12 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
+import cn.jpush.android.data.r;
+
 import com.jameschen.framework.base.BaseActivity;
 import com.thirdpart.model.ConstValues;
 import com.thirdpart.model.ConstValues.Item;
+import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
 
 import android.content.Intent;
@@ -27,13 +30,15 @@ public class PlanWorkStepListActivity extends BaseActivity {
 	private Fragment mFragment;
 	
 	private boolean scan = false;
+	RollingPlan mRollingPlan;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setTitle("工序信息");
 		Intent intent = getIntent();
-		long id = intent.getLongExtra(ConstValues.ID, 0);
+		mRollingPlan = (RollingPlan) intent.getSerializableExtra(Item.PLAN);
+		
 		scan = intent.getBooleanExtra("scan", false);
 			// Make sure fragment is created.
 		FragmentManager fm = getSupportFragmentManager();
@@ -41,7 +46,7 @@ public class PlanWorkStepListActivity extends BaseActivity {
 		mFragment = fm.findFragmentByTag(WorkStepFragment.class.getName());
 		if (mFragment == null) {
 			Bundle bundle = new Bundle();
-			bundle.putLong(ConstValues.ID, id);
+			bundle.putSerializable(Item.PLAN, mRollingPlan);
 			bundle.putBoolean("scan", scan);
 			mFragment = WorkStepFragment.instantiate(this, WorkStepFragment.class.getName(), bundle);
 			ft.add(R.id.fragment_content, mFragment, WorkStepFragment.class.getName());
