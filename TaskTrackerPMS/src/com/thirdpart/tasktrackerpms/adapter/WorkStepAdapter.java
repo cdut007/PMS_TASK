@@ -148,14 +148,14 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 				updaTextView.setEnabled(false);
 			}else if("PREPARE".equals(workStep.getStepflag())){
 				if (rollingPlan!=null&&"PROBLEM".equals(rollingPlan.rollingplanflag)) {
-					updaTextView.setText("停滞");
+					updaTextView.setText("问题停滞");
 					updaTextView.setEnabled(false);
 				}else {
 					updaTextView.setText("更新");
 				}
 				
 			}else if("WITNESS".equals(workStep.getStepflag())) {
-				updaTextView.setText("停滞");
+				updaTextView.setText("见证停滞");
 				updaTextView.setEnabled(false);
 			}else {
 				
