@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 public class Department implements Serializable{
 private String id;
-
+public String key,value;
 private String name;
+
+
+
 
 public void setId(String id){
 this.id = id;

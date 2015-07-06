@@ -3,31 +3,25 @@ package com.thirdpart.model;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.Header;
 
-import android.R.integer;
-import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.jameschen.comm.utils.Util;
 import com.jameschen.comm.utils.UtilsUI;
-import com.jameschen.framework.base.BaseActivity;
 import com.jameschen.framework.base.UINetworkHandler;
 import com.jameschen.widget.CustomSelectPopupWindow;
 import com.jameschen.widget.CustomSelectPopupWindow.Category;
 import com.jameschen.widget.CustomSelectPopupWindow.CategoryAdapter;
-import com.thirdpart.model.entity.Department;
+import com.thirdpart.model.entity.RetationshipDepartmentInfo;
 
 public class TeamMemberManager {
 Context context;
@@ -59,9 +53,7 @@ boolean showWindow;
 public void findDepartmentInfos( boolean show,final View view,LoadUsersListener loadUsersListener) {
 	listener = loadUsersListener;
 	showWindow = show;
-	Type sToken = new TypeToken<List<Category>>() {
-		}.getType();
-
+	
 	if (mCategories.size()>0) {
 		if (show) {
 			showCategory(view, mCategories);	
@@ -70,7 +62,7 @@ public void findDepartmentInfos( boolean show,final View view,LoadUsersListener 
 	}else {
 		listener.beginLoad(0);
 	}
-	PMSManagerAPI.getInstance(context).getDepartment(new UINetworkHandler<List<Category>>(context,sToken) {
+	PMSManagerAPI.getInstance(context).getDepartment(new UINetworkHandler<RetationshipDepartmentInfo>(context) {
 
 		@Override
 		public void start() {
@@ -93,10 +85,10 @@ public void findDepartmentInfos( boolean show,final View view,LoadUsersListener 
 
 		@Override
 		public void callbackSuccess(int statusCode, Header[] headers,
-				List<Category> response) {
+				RetationshipDepartmentInfo response) {
 			// TODO Auto-generated method stub
-			if (response!=null&&response.size()>0) {
-				mCategories = response;
+			if (response!=null&&response.getDepartments().size()>0) {
+				mCategories = response.getDepartments();
 				update(view);	
 			}else {
 				Log.i("member Error", "empty return");

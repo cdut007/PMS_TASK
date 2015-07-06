@@ -39,7 +39,6 @@ public class WorkStepFragment extends BasePageListFragment<WorkStep, WorkStepLis
 		scan = getArguments().getBoolean("scan");
 		WorkStepAdapter workStepAdapter = (WorkStepAdapter) mAdapter;
 		workStepAdapter.setScanMode(scan);
-		workStepAdapter.setPlan(mRollingPlan);
 		Log.i(TAG, "scanMode="+scan+";id = "+id);
 		
 		callNextPage(pageSize,getCurrentPage());

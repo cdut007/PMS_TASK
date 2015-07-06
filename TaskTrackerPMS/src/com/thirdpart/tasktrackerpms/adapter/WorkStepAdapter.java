@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -92,7 +93,8 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 		   
 		
 		   show = ((WorkStepAdapter)myBaseAdapter).show;
-		 if (show) {
+		   rollingPlan = ((WorkStepAdapter)myBaseAdapter).rollingPlan;
+			 if (show) {
 			   issueUpdate.setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -105,7 +107,7 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 						WorkStep workStep = (WorkStep) v.getTag();
 						
 						lastIndex = ((WorkStepAdapter)myBaseAdapter).getItemIndex(workStep) == ((WorkStepAdapter)myBaseAdapter).getCount()-1;
-						intent.putExtra("lastIndex", true);
+						intent.putExtra("lastIndex", lastIndex);
 						intent.putExtra("workstep", workStep);
 						context.startActivity(intent);
 					}
