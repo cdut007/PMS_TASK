@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -108,7 +109,30 @@ private void updateInfo() {
 	solverMan.setContent(issueResult.getCurrentsolver());
 	creator.setContent(issueResult.creator);
 	issueStatus.setContent(IssueManager.getIssueStatus(issueResult.getIsOk()));
-
+	
+	if (issueResult.solvers!=null) {
+	ViewGroup viewGroup = (ViewGroup) findViewById(R.id.issue_forward_container);	
+	viewGroup.removeAllViews();
+	String solvers[]= issueResult.solvers.split("\\|");
+	if (solvers!=null && solvers.length>0) {
+		for (int i = 0; i < solvers.length; i++) {
+			if (solvers[i].isEmpty()) {
+				continue;
+			}
+			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			
+			 View line =(View) inflater.inflate(R.layout.item_line, viewGroup, false);
+			//int padding = UtilsUI.getPixByDPI(this, 10);
+			 LayoutParams param = line.getLayoutParams();
+			// param.width = UtilsUI.getWidth(getApplication()) - 2*padding;
+			 viewGroup.addView(line,param);
+			DisplayItemView sDisplayItemView = new DisplayItemView(this);
+			sDisplayItemView.setNameAndContent("转发人"+i+"：", solvers[i]);
+		viewGroup.addView(sDisplayItemView);
+		}
+	}
+	//viewGroup.add
+	}
 }
 
 	private void loadDetail() {

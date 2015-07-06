@@ -1,6 +1,7 @@
 package com.thirdpart.model.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class WorkStep implements Serializable{
 //	id": 62,
@@ -39,7 +40,7 @@ public class WorkStep implements Serializable{
 	private String updatedBy,updatedOn,noticeaqa,noticeaqc2,witnesserb,witnesserc,witnesserd;
 	
 	public String operater,operatedesc,witnesseraqa,witnesseraqc2,witnesseraqc1,noticeresult,noticeresultdesc;
-	
+	public List<WitnessInfo> witnessInfo;
 	public String getUpdatedBy() {
 		return updatedBy;
 	}

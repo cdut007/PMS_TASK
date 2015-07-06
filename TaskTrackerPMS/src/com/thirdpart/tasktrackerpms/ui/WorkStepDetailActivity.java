@@ -1,52 +1,32 @@
 package com.thirdpart.tasktrackerpms.ui;
 
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.apache.http.Header;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 
-import com.google.gson.JsonObject;
 import com.jameschen.comm.utils.UtilsUI;
-import com.jameschen.framework.base.BaseDetailActivity;
 import com.jameschen.framework.base.BaseEditActivity;
-import com.jameschen.framework.base.BaseDetailActivity.CreateItemViewListener;
 import com.jameschen.framework.base.CommonCallBack.OnRetryLisnter;
-import com.thirdpart.model.ConstValues;
-import com.thirdpart.model.ConstValues.Item;
+import com.jameschen.framework.base.UINetworkHandler;
 import com.thirdpart.model.ManagerService;
-import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
 import com.thirdpart.model.PMSManagerAPI;
-import com.thirdpart.model.PlanManager;
 import com.thirdpart.model.TaskManager;
 import com.thirdpart.model.WidgetItemInfo;
-import com.thirdpart.model.WitnessManager;
-import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.Team;
-import com.thirdpart.model.entity.WitnessDistributed;
+import com.thirdpart.model.entity.WitnessInfo;
 import com.thirdpart.model.entity.Witnesser;
-import com.thirdpart.model.entity.WitnesserList;
 import com.thirdpart.model.entity.WorkStep;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.ChooseItemView;
@@ -70,7 +50,42 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 				TaskManager.class, this);
 		setTitle("" + workStep.getStepname());
 		updateInfo();
+		fetchWorkStepDetail();
 		execFetechDetail(TaskManager.ACTION_WITNESS_CHOOSE_TEAM);
+	}
+
+	private void fetchWorkStepDetail() {
+		// TODO Auto-generated method stub
+		getPMSManager().getWorkStepDetail(workStep.getId(), new UINetworkHandler<WorkStep>(this) {
+			@Override
+			public void callbackFailure(int statusCode, Header[] headers,
+					String response) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void start() {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void finish() {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void callbackSuccess(int statusCode, Header[] headers,
+					WorkStep response) {
+				// TODO Auto-generated method stub
+				workStep = response;
+				final boolean isDone = "DONE".equals(workStep.getStepflag());
+				if (isDone) {
+					itemInfos.clear();
+					updateInfo();
+				}
+				
+			}
+		});
 	}
 
 	boolean showWitness() {
@@ -167,6 +182,17 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			if (showWitness()) {
 				
 				if (isDone) {
+					if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
+						WitnessInfo sInfo =workStep.witnessInfo.get(0);
+						itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+								"见证地点：", sInfo.witnessaddress, WidgetItemInfo.DISPLAY, false));
+						
+						itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
+								"见证时间：", PMSManagerAPI.getdateTimeformat(sInfo.witnessdate),WidgetItemInfo.DISPLAY, false));
+						itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+								"负责人：", sInfo.witnesser, WidgetItemInfo.DISPLAY, false));
+					}
+				
 					
 				}else {
 					itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",

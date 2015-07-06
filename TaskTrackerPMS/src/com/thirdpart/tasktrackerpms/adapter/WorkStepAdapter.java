@@ -142,25 +142,36 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 				issueFeedback.setVisibility(View.INVISIBLE);			
 //			}
 			TextView updaTextView  = (TextView) issueUpdate;
-			updaTextView.setEnabled(true);
+			updateStatus(true);
 			if ("DONE".equals(workStep.getStepflag())) {
 				updaTextView.setText("已完成");
 			}else if("UNDO".equals(workStep.getStepflag())){
 				updaTextView.setText("未开始");
-				updaTextView.setEnabled(false);
+				updateStatus(false);
 			}else if("PREPARE".equals(workStep.getStepflag())){
 				if (rollingPlan!=null&&"PROBLEM".equals(rollingPlan.rollingplanflag)) {
 					updaTextView.setText("问题停滞");
-					updaTextView.setEnabled(false);
+					updateStatus(false);
 				}else {
 					updaTextView.setText("更新");
 				}
 				
 			}else if("WITNESS".equals(workStep.getStepflag())) {
 				updaTextView.setText("见证停滞");
-				updaTextView.setEnabled(false);
+				updateStatus(false);
 			}else {
 				
+			}
+		}
+
+		private void updateStatus(boolean b) {
+			// TODO Auto-generated method stub
+			if (b) {
+				issueUpdate.setBackgroundResource(R.drawable.common_done_btn_state);
+				issueUpdate.setClickable(true);	
+			}else {
+				issueUpdate.setBackgroundResource(R.drawable.btn_gray);
+				issueUpdate.setClickable(false);
 			}
 		}
 		

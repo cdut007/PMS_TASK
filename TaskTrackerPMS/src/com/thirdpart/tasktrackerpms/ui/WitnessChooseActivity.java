@@ -415,7 +415,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 	
 	private String getdateformat(long times) {
 		// TODO Auto-generated method stub
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 hh:mm");
 		Date date = new Date(times);
 		return sdf.format(date);
 	}
