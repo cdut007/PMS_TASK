@@ -46,9 +46,19 @@
          android:layout_marginBottom="10dp"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         widgets:customName="解决人："
+         widgets:customName="当前解决人："
           widgets:tinySpec="true"
      />
+     <com.thirdpart.widget.DisplayItemView 
+         android:id="@+id/issue_creator"
+         android:layout_marginTop="10dp"
+         android:layout_marginBottom="10dp"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         widgets:customName="创建人："
+          widgets:tinySpec="true"
+     />
+     
       <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_line_width"

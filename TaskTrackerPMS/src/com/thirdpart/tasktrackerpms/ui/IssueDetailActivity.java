@@ -73,7 +73,7 @@ IssueManager sIssueManager;
 }
 
 	UserInputItemView issueDescView,issueMethod;
-	DisplayItemView issueStepTopic,solverMan,issueStatus;
+	DisplayItemView issueStepTopic,solverMan,issueStatus,creator;
 	
 	private void bindViews() {
 	// TODO Auto-generated method stub
@@ -81,6 +81,7 @@ IssueManager sIssueManager;
 		issueMethod = (UserInputItemView) findViewById(R.id.issue_method);
 		issueStepTopic = (DisplayItemView) findViewById(R.id.issue_topic);
 		solverMan = (DisplayItemView) findViewById(R.id.issue_solver);
+		creator = (DisplayItemView) findViewById(R.id.issue_creator);
 		issueStatus = (DisplayItemView) findViewById(R.id.issue_status);
 		if (issueResult.getFile()!=null && issueResult.getFile().size()>0) {
 			findViewById(R.id.issue_files).setVisibility(View.VISIBLE);	
@@ -105,6 +106,7 @@ private void updateInfo() {
 	issueMethod.setContent(issueResult.getSolvemethod(), false);
 	issueStepTopic.setContent(issueResult.getQuestionname());
 	solverMan.setContent(issueResult.getCurrentsolver());
+	creator.setContent(issueResult.creator);
 	issueStatus.setContent(IssueManager.getIssueStatus(issueResult.getIsOk()));
 
 }
