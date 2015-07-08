@@ -2,12 +2,35 @@ package com.thirdpart.model.entity;
 
 import java.io.Serializable;
 
+import android.text.TextUtils;
+
 public class RollingPlan implements Serializable{
+	
+	
+	
+	public static String QCFinifh(String sign){
+		if (TextUtils.isEmpty(sign)) {
+			return null;
+			
+		}
+		int qcSign = Integer.parseInt(sign);
+		if (qcSign == 0) {
+			return "未确认";
+		}else if (qcSign == 1) {
+			return "确认";
+		}else if (qcSign == 2) {
+			return "退回";
+		}
+		return null;
+	}
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+
+	public String qcman,qcdate;
+	
 	private String id;
 
 	private String qualityplanno;

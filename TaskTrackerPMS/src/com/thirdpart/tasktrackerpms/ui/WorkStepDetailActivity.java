@@ -20,10 +20,12 @@ import com.jameschen.comm.utils.UtilsUI;
 import com.jameschen.framework.base.BaseEditActivity;
 import com.jameschen.framework.base.CommonCallBack.OnRetryLisnter;
 import com.jameschen.framework.base.UINetworkHandler;
+import com.jameschen.widget.CustomSelectPopupWindow.Category;
 import com.thirdpart.model.ManagerService;
 import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.model.TaskManager;
 import com.thirdpart.model.WidgetItemInfo;
+import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.Team;
 import com.thirdpart.model.entity.WitnessInfo;
 import com.thirdpart.model.entity.Witnesser;
@@ -39,6 +41,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 	private TaskManager taskManager;
 	WorkStep workStep;
 	boolean lastIndex;
+	private int qcsign=-1;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -46,6 +49,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 
 		workStep = (WorkStep) getIntent().getSerializableExtra("workstep");
 		lastIndex = getIntent().getBooleanExtra("lastIndex", false);
+		Log.i(TAG, "isLastIndex="+lastIndex);
 		taskManager = (TaskManager) ManagerService.getNewManagerService(this,
 				TaskManager.class, this);
 		setTitle("" + workStep.getStepname());
@@ -88,6 +92,20 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 		});
 	}
 
+	boolean showQCMan(){
+		if (workStep == null) {
+			return false;
+		}
+		RollingPlan rollingPlan = workStep.getRollingPlan();
+		if (rollingPlan == null) {
+			return false;
+		}
+		if( !TextUtils.isEmpty(rollingPlan.qcman)){
+			return true;
+		}
+		return false;
+	}
+	
 	boolean showWitness() {
 		if (workStep == null) {
 			return false;
@@ -95,9 +113,10 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 		if (workStep.getWitnesserb() != null
 				|| workStep.getWitnesserc() != null
 				|| workStep.getWitnesserd() != null
-				|| workStep.getNoticeaqa() != null
-				|| workStep.getNoticeaqc1() != null
-				|| workStep.getNoticeaqc2() != null) {
+				|| !TextUtils.isEmpty(workStep.getNoticeaqa())
+				|| !TextUtils.isEmpty(workStep.getNoticeaqc1())
+				|| !TextUtils.isEmpty(workStep.getNoticeaqc2())) {
+			
 			return true;
 		}
 		return false;
@@ -155,9 +174,27 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 				}
 			}
 
+			String qcman=null;
+			if (lastIndex) {
+				
+				if (qcsign == -1) {
+					 showToast("选择QC检查完成");
+						return;
+				}
+				
+				if (qcmanWidgetItemInfo!=null) {
+					qcman = (String) qcmanWidgetItemInfo.content;
+					if (qcman == null) {
+						 showToast("填写QC确认人");
+							return;
+					}
+				}
+				
+				
+			}
 			
 			 super.callCommitBtn(null);
-			taskManager.commit(workStep.getId(),witness!=null? witness.getId():null, witnessdes, witnesseaddress, witnessdate, operater, operatedate, operatedesc);
+			taskManager.commit(workStep.getId(),witness!=null? witness.getId():null, witnessdes, witnesseaddress, witnessdate, operater, operatedate, operatedesc,qcsign,qcman);
 		} else {
 			showLoadingView(true);
 			taskManager.chooseWitnessHeadList();
@@ -206,11 +243,43 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 
 			}
 			
-			
+			if (showQCMan()&&isDone) {
+				
+				
+				if (lastIndex) {
+					RollingPlan rollingPlan = workStep.getRollingPlan();
+					
+					itemInfos.add(qcSignWidgetItemInfo = new WidgetItemInfo("a",
+							"QC检查完成：", RollingPlan.QCFinifh(rollingPlan.getQcsign()), WidgetItemInfo.DISPLAY, false));
+					
+					itemInfos.add(qcmanWidgetItemInfo = new WidgetItemInfo("b",
+							"QC确认人：", rollingPlan.qcman,WidgetItemInfo.DISPLAY, false));
+					
+					if (!TextUtils.isEmpty(rollingPlan.qcdate)) {
+						itemInfos.add(qcdateWidgetItemInfo = new WidgetItemInfo("c",
+								"QC确认日期：", PMSManagerAPI.getdateTimeformat(Long.parseLong(rollingPlan.qcdate)), WidgetItemInfo.DISPLAY, false));
+					
+					}
+					
+					
+				}else {
+					
+
+				}
+			}
 			
 			if (isDone) {
 				
 				   findViewById(R.id.commit_layout).setVisibility(View.GONE);
+			}else {
+				if (lastIndex) {
+					itemInfos.add(qcSignWidgetItemInfo = new WidgetItemInfo("a",
+							"QC检查完成：", "选择类别", WidgetItemInfo.CHOOSE, true));
+					
+					itemInfos.add(qcmanWidgetItemInfo = new WidgetItemInfo("b",
+							"QC确认人：", null,WidgetItemInfo.EDIT, true));
+										
+				}
 			}
 			
 			itemInfos.add(new WidgetItemInfo("", "", "",
@@ -402,11 +471,16 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 													} else if(widgetItemInfo.tag
 															.equals("20")){//
 														go2ChooseTime(widgetItemInfo);
+													}else if(widgetItemInfo.tag
+															.equals("a")){//
+														go2ChooseQCSign(chooseItemView,widgetItemInfo);
 													}
 												
 
 											
 												}
+
+												
 											});
 												
 
@@ -482,6 +556,46 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 		}
 		return team.getName()+realName;
 	}
+	
+	private void go2ChooseQCSign(
+			ChooseItemView chooseItemView, final WidgetItemInfo widgetItemInfo) {
+		// TODO Auto-generated method stub
+
+		List<String> names = new ArrayList<String>();
+		List<Category> sCategories = new ArrayList<Category>();
+		Category category = new Category("0");
+		category.setName("未确认");
+		sCategories.add(category);
+		
+		category = new Category("1");
+		category.setName("确认");
+		sCategories.add(category);
+		
+		category = new Category("2");
+		category.setName("退回");
+		sCategories.add(category);
+		
+		for (Category scategory : sCategories) {
+			
+			names.add(scategory.getName());
+		}
+
+		chooseItemView.showMenuItem(sCategories, names,
+				new ChooseItemView.onDismissListener<Category>() {
+
+					@Override
+					public void onDismiss(Category item) {
+						Log.i(TAG, "name==" + item.getName());
+						// TODO Auto-generated method stub
+						widgetItemInfo.content = item.getName();
+						qcsign= Integer.parseInt(item.tag);
+						updateInfo();
+					}
+
+				});
+	
+	}
+	
 	private void showWindow(final ChooseItemView chooseItemView, List<Team> obj) {
 		List<String> names = new ArrayList<String>();
 		if (obj == null) {
@@ -608,7 +722,8 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 	// operatedesc N 完成信息描述
 	WidgetItemInfo addressWidgetItemInfo, witnessWidgetItemInfo,
 			witnessdesWidgetItemInfo, witnessdateWidgetItemInfo,
-			operaterWidgetItemInfo, operatedescWidgetItemInfo;
+			operaterWidgetItemInfo, operatedescWidgetItemInfo,
+			qcSignWidgetItemInfo,qcmanWidgetItemInfo,qcdateWidgetItemInfo;
 
 	private void updateTime(String date, String formart) {
 		// TODO Auto-generated method stub

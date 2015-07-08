@@ -25,8 +25,10 @@ import com.jameschen.framework.base.CommonCallBack.OnRetryLisnter;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.ManagerService;
 import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
+import com.thirdpart.model.PlanManager;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.WitnessManager;
+import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.WitnessDistributed;
 import com.thirdpart.model.entity.Witnesser;
 import com.thirdpart.model.entity.WitnesserList;
@@ -104,7 +106,40 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 					witness.getWitnessdate(), scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));
 
 			WorkStep workStep = witness.getWorkStep();
+			RollingPlan rollingPlan = workStep.getRollingPlan();
+			
+			if (rollingPlan!=null) {
+				boolean isHankou = false;
+				String type = rollingPlan.getSpeciality();
+				if (type == null) {
+					setTitle("明细");
+				} else {
+					if (PlanManager.isHankou(type)) {
+						isHankou = true;
+					
+					} else {
+					}
+				}
 
+				itemInfos.add(new WidgetItemInfo("a0", isHankou ? "焊口号：" : "支架号：",
+						rollingPlan.getWeldno(), WidgetItemInfo.DISPLAY, false));
+				itemInfos.add(new WidgetItemInfo("a1", "机组号：", rollingPlan.getId(),
+						WidgetItemInfo.DISPLAY, false));
+				itemInfos.add(new WidgetItemInfo("a2", "区域号：", rollingPlan.getAreano(),
+						WidgetItemInfo.DISPLAY, false));
+				itemInfos.add(new WidgetItemInfo("a3", "图纸号：", rollingPlan.getDrawno(),
+						WidgetItemInfo.DISPLAY, false));
+				itemInfos.add(new WidgetItemInfo("a4", isHankou ? "焊接控制单号：" : "支架控制单号：",
+						rollingPlan.getWeldlistno(), WidgetItemInfo.DISPLAY, false));
+				itemInfos.add(new WidgetItemInfo("a5", "RCCM：", rollingPlan.getRccm(),
+						WidgetItemInfo.DISPLAY, false));
+				itemInfos.add(new WidgetItemInfo("a6", "质量计划号：", rollingPlan
+						.getQualityplanno(), WidgetItemInfo.DISPLAY, false));
+				itemInfos.add(new WidgetItemInfo("a7", "计划施工日期：", rollingPlan
+						.getPlandate(), WidgetItemInfo.DISPLAY, false));
+				
+			}
+			
 			if (!isEmpty(workStep.getNoticeaqc1())) {
 				itemInfos.add(c1qaWidgetItemInfo=new WidgetItemInfo("s3", "A-QC1：", workStep
 						.getNoticeaqc1(), scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));

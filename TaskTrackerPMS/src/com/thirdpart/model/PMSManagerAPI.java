@@ -384,7 +384,7 @@ public class PMSManagerAPI {
 	public void createWitness(String workStepId,
 			String witness,String witnessdes,
 			String witnesseaddress, String witnessdate, String operater,
-			String operatedate, String operatedesc, 
+			String operatedate, String operatedesc, int qcsign,String qcman,
 			AsyncHttpResponseHandler responseHandler) {
 		
 		RequestParams params = getPublicParams(true);
@@ -395,7 +395,11 @@ public class PMSManagerAPI {
 		params.put("operater", operater);
 		params.put("operatedate", operatedate);
 		params.put("witnessdate", witnessdate);
-
+		if (qcsign>=0) {
+			params.put("qcsign", qcsign+"");
+			params.put("qcman", qcman);
+				
+		}
 		if (witnessdes != null) {
 			params.put("witnessdes", witnessdes);
 		}
