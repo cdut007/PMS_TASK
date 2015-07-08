@@ -710,6 +710,16 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	
+	
+	public void getWitnessCategoryCount(AsyncHttpResponseHandler responseHandler) {
+		
+		RequestParams params = getPublicParams(true);
+	
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_WITNESS_STATISTIC_URL,
+				params, responseHandler);
+	}
+	
+	
 	public void getIssueCategoryCount(AsyncHttpResponseHandler responseHandler) {
 	
 		RequestParams params = getPublicParams(true);

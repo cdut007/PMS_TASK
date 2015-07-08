@@ -9,6 +9,16 @@ public class IssueCategoryStatistic {
 
 	private List<IssueCategoryItem> mCategoryItems;
 	
+	public static List<IssueCategoryItem> getWitnessCategoryItem(IssueCategoryStatistic statistic) {
+		if (statistic.mCategoryItems==null) {
+			statistic.mCategoryItems = new ArrayList<IssueCategoryItem>();
+			statistic.mCategoryItems.add(statistic.myevent);
+			statistic.mCategoryItems.add(statistic.assign);
+		
+				}
+		return statistic.mCategoryItems;
+	}
+	
 	public static List<IssueCategoryItem> getCategoryItem(IssueCategoryStatistic statistic) {
 		if (statistic.mCategoryItems==null) {
 			statistic.mCategoryItems = new ArrayList<IssueCategoryItem>();
@@ -21,5 +31,5 @@ public class IssueCategoryStatistic {
 				}
 		return statistic.mCategoryItems;
 	}
-	public IssueCategoryItem needToSolve,notSolved,created,needConfirm,solved,concernedNotSolved;
+	public IssueCategoryItem myevent,assign,needToSolve,notSolved,created,needConfirm,solved,concernedNotSolved;
 }
