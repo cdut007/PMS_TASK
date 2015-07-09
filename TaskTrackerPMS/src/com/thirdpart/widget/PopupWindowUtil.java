@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.thirdpart.model.WidgetItemInfo;
@@ -70,13 +71,13 @@ public class PopupWindowUtil implements OnClickListener {
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		popupWindow.showAsDropDown(parent, 0, 0);
 	}
-	
+	int popWidth ;
 	public void showActionWindow(View parent, Context context, List<String> list) {
 		// final RingtoneclipModel currentData = model;
 		// final int res_id = currentData.getId();
 		mList = list;
 		int[] location = new int[2];
-		int popWidth = context.getResources().getDimensionPixelOffset(
+		 popWidth = context.getResources().getDimensionPixelOffset(
 				R.dimen.popupWindow_width);
 		parent.getLocationOnScreen(location);
 		View view = getView(context, list);
@@ -93,11 +94,13 @@ public class PopupWindowUtil implements OnClickListener {
 	private View getView(Context context, List<String> list) {
 		LinearLayout layout = new LinearLayout(context);
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.WRAP_CONTENT,
+				popWidth,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
 		layout.setLayoutParams(params);
 		layout.setOrientation(LinearLayout.VERTICAL);
 		layout.setBackgroundResource(R.drawable.dialogimg);
+		ScrollView scrollView = new ScrollView(context);
+		scrollView.addView(layout);
 		int size = list.size();
 		for (int i = 0; i < size; i++) {
 			if (i != size - 1) {
@@ -116,7 +119,7 @@ public class PopupWindowUtil implements OnClickListener {
 			}
 		}
 
-		return layout;
+		return scrollView;
 	}
 
 	private SorcllTextView getButton(Context context, String text, int i, int size) {
