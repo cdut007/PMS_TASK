@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
@@ -74,18 +76,22 @@ public class ImageDetailFragment extends BaseFragment {
     
    static class Photo{
     	Bitmap loadBitmap;
-    	String url;
+    	List<String> urls = new ArrayList<String>();
     }
 	protected static Photo photo = new Photo();
 	public static void saveImageToGallery(Context context, String url) {
-		if (!url.equals(photo.url)) {
-			Log.i("bmp", "url not the same..");
+		if (!photo.urls.contains(url)) {
+			Log.i("bmp", "url not the same.."+url);
 			return;
 		}
-		Bitmap bmp = photo.loadBitmap;
+		  ImageLoader imageLoader = ((ImageDetailActivity) context).getImageLoader();
+          
+		Bitmap bmp = imageLoader.loadImageSync(url);
 		if (bmp == null) {
 			Log.i("bmp", "saveImageToGallery bmp is null");
 		return;	
+		}else {
+			Log.i("bmp", "bmp==="+bmp);
 		}
 	    // 首先保存图片
 	    File appDir = new File(Environment.getExternalStorageDirectory(), "PMSTasker");
@@ -158,8 +164,9 @@ public class ImageDetailFragment extends BaseFragment {
 					ViewGroup viewGroup =(ViewGroup) mImageView.getParent();
 					mImageView.setVisibility(View.GONE);
 					gestureImageView.setImageBitmap(arg2);
-					photo.loadBitmap = arg2;
-					photo.url = mImageUrl;
+					if (!photo.urls.contains(mImageUrl)) {
+						photo.urls.add(mImageUrl);
+					}
 					viewGroup.addView(gestureImageView);
 				}
 				
