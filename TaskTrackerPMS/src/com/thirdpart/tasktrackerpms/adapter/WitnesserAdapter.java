@@ -109,7 +109,7 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 				Intent intent= new Intent(context,WitnessUpdateActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				WitnessDistributed workStep = (WitnessDistributed)chooseWitenss.getTag();
-				intent.putExtra("scan", Scanner);
+				//intent.putExtra("scan", Scanner);
 				intent.putExtra(Item.WITNESS, workStep);
 				context.startActivity(intent);	
 			}

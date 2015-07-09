@@ -84,7 +84,7 @@ registerCallBack( new EventCallbackListener()  {
 	}
 	private boolean scanMode() {
 		// TODO Auto-generated method stub
-		return menuid!=0;//||isMyevent;
+		return menuid!=0||isMyevent;
 	}
 
 	@Override

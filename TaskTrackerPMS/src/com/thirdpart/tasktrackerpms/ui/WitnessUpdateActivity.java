@@ -106,7 +106,7 @@ boolean isMyevent;
 				}
 			};
 		if (isMyevent) {
-			getPMSManager().wirteMyeventWitnessResult(witnessInputItemView.getContent(),okType, mWitnessDistributed.getWorkStep().getId(), handler);
+			getPMSManager().wirteMyeventWitnessResult(witnessInputItemView.getContent(),okType, mWitnessDistributed.getId(), handler);
 			
 		}else {
 			getPMSManager().wirteWitnessResult(witnessInputItemView.getContent(),okType, mWitnessDistributed.getWorkStep().getId(), handler);
