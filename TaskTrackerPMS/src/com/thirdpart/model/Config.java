@@ -242,6 +242,8 @@ public class Config {
 		 * */
 		public static final String REQUST_WITNESSER_WIRTE_RESULT_URL = HTTP_BASE_URL+"/hdxt/api/baseservice/witness/witnesser/result";
 
+		public static final String REQUST_MYEVENT_WIRTE_RESULT_URL = HTTP_BASE_URL+"/hdxt/api/baseservice/witness/myevent/result";
+
 		/** define the modify witnesser write the witness result url 
 		 * <br>PUT param:noticeresult(1 ok ,3 bad),loginUserId,id
 		 * <br>-1001,id is not avaiable

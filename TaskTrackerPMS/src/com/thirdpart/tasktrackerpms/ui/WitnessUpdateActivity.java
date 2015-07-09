@@ -46,11 +46,13 @@ public class WitnessUpdateActivity extends BaseEditActivity {
 	}
 boolean scan;
 WitnessDistributed mWitnessDistributed;
+boolean isMyevent;
  @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-	
+		 isMyevent = getLogInController().matchUrls("/witness/myevent");
+		
 	 mWitnessDistributed = (WitnessDistributed)getIntent().getSerializableExtra(Item.WITNESS);
 	scan = getIntent().getBooleanExtra("scan", false);
 	if (scan) {
@@ -73,43 +75,53 @@ WitnessDistributed mWitnessDistributed;
 		
 		String okType ="不合格".equals(chooseTypeView.getContent())?"1":"3";
 		
-		getPMSManager().wirteWitnessResult(witnessInputItemView.getContent(),okType, mWitnessDistributed.getWorkStep().getId(), new UINetworkHandler<JsonObject>(this) {
+		  UINetworkHandler<JsonObject> handler=new UINetworkHandler<JsonObject>(this) {
 
-			@Override
-			public void start() {
-				// TODO Auto-generated method stub
+				@Override
+				public void start() {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void finish() {
+					// TODO Auto-generated method stub
+					cancelProgressDialog();
+				}
+
+				@Override
+				public void callbackFailure(int statusCode, Header[] headers,
+						String response) {
+					// TODO Auto-generated method stub
+					showToast(response);
+				}
+
+				@Override
+				public void callbackSuccess(int statusCode, Header[] headers,
+						JsonObject response) {
+					// TODO Auto-generated method stub
+					showToast("提交成功");
+					WitnessListFragment.CallSucc(WitnessListFragment.callsucc);
+					
+				}
+			};
+		if (isMyevent) {
+			getPMSManager().wirteMyeventWitnessResult(witnessInputItemView.getContent(),okType, mWitnessDistributed.getWorkStep().getId(), handler);
+			
+		}else {
+			getPMSManager().wirteWitnessResult(witnessInputItemView.getContent(),okType, mWitnessDistributed.getWorkStep().getId(), handler);
 				
-			}
-
-			@Override
-			public void finish() {
-				// TODO Auto-generated method stub
-				cancelProgressDialog();
-			}
-
-			@Override
-			public void callbackFailure(int statusCode, Header[] headers,
-					String response) {
-				// TODO Auto-generated method stub
-				showToast(response);
-			}
-
-			@Override
-			public void callbackSuccess(int statusCode, Header[] headers,
-					JsonObject response) {
-				// TODO Auto-generated method stub
-				showToast("提交成功");
-				WitnessListFragment.CallSucc(WitnessListFragment.callsucc);
-				
-			}
-		});
-		super.callCommitBtn(v);
+		}
+			super.callCommitBtn(v);
 	}
 	
 	private void bindView() {
 	// TODO Auto-generated method stub
 		witnessInputItemView = (UserInputItemView) findViewById(R.id.witness_result_desc);
-	    chooseTypeView = (ChooseItemView) findViewById(R.id.witness_choose_ok);
+	  if (isMyevent) {
+		  witnessInputItemView.setVisibility(View.GONE);
+	}
+		chooseTypeView = (ChooseItemView) findViewById(R.id.witness_choose_ok);
 	String desc = mWitnessDistributed.getWorkStep().noticeresultdesc;   
 	   if (scan) {
 		   chooseTypeView.setVisibility(View.GONE);

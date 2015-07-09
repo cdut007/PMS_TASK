@@ -43,6 +43,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 	private WitnessManager witnessManager;
 	WitnessDistributed witness;
 	boolean scan;
+	private String witnessDate;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -85,7 +86,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 			String witnesserb=getWitnesserId(notibWidgetItemInfo);
 			String witnesserc=getWitnesserId(noticWidgetItemInfo);
 			String witnesserd=getWitnesserId(notidWidgetItemInfo);
-			witnessManager.commit(witnessid, witnesseraqa, witnesseraqc2, witnesseraqc1, witnesserb, witnesserc, witnesserd);
+			witnessManager.commit(witnessid, witnesseraqa, witnesseraqc2, witnesseraqc1, witnesserb, witnesserc, witnesserd,witnessDate);
 		} else {
 			showLoadingView(true);
 			witnessManager.chooseWitnessList(witness.getWitness());	
@@ -413,11 +414,10 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 	}
 
 	void go2ChooseTime() {
-		Intent intent = new Intent(this, DateActivity.class);
+			Intent intent = new Intent(this, TimeActivity.class);
+			startActivityForResult(intent, TimeActivity.REQUEST_PICK_DATE);
 
-		// intent.putExtra(ConstValues.ID, Long.parseLong(rollingPlan.getId()));
-		startActivityForResult(intent, DateActivity.REQUEST_PICK_DATE);
-	}
+		}
 
 	@Override
 	public void start(String name) {
@@ -462,16 +462,19 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 		// TODO Auto-generated method stub
 		super.onActivityResult(arg0, arg1, intent);
 		switch (arg0) {
-		case DateActivity.REQUEST_PICK_DATE: {
+		case TimeActivity.REQUEST_PICK_DATE: {
 			if (arg1 == RESULT_OK) {
+
 				int monthVal = intent.getIntExtra("month", 1);
 				int dayVal = intent.getIntExtra("day", 1);
 				int monthEndVal = intent.getIntExtra("monthEnd", 1);
 				int dayEndVal = intent.getIntExtra("dayEnd", 1);
+				witnessDate = intent.getStringExtra("format");
 				updateTime(intent.getStringExtra("time"));
 			}
 		}
 			break;
+		
 
 		default:
 			break;

@@ -48,8 +48,8 @@ public class WitnessManager extends ManagerService{
 	 }
 
 	
-	public void commit(String witnessid, String witnesseraqa, String witnesseraqc2, String witnesseraqc1, String witnesserb, String witnesserc, String witnesserd) {
-		PMSManagerAPI.getInstance(context).modifyWitness(witnessid, witnesseraqa, witnesseraqc2, witnesseraqc1, witnesserb, witnesserc, witnesserd,getManagerNetWorkHandler(ACTION_WITNESS_CHOOSE_COMMIT) );
+	public void commit(String witnessid, String witnesseraqa, String witnesseraqc2, String witnesseraqc1, String witnesserb, String witnesserc, String witnesserd,String time) {
+		PMSManagerAPI.getInstance(context).modifyWitness(witnessid, witnesseraqa, witnesseraqc2, witnesseraqc1, witnesserb, witnesserc, witnesserd,time,getManagerNetWorkHandler(ACTION_WITNESS_CHOOSE_COMMIT) );
 
 	}
 	public void chooseWitnessList(String witnessId) {

@@ -427,7 +427,7 @@ public class PMSManagerAPI {
 	public void modifyWitness(String witnessid,
 			String witnesseraqa, String witnesseraqc2, String witnesseraqc1,
 			String witnesserb, String witnesserc, String witnesserd,
-			AsyncHttpResponseHandler responseHandler) {
+			String witnessdate,AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams(true);
 		
 		params.put("witnessid", witnessid);
@@ -449,6 +449,9 @@ public class PMSManagerAPI {
 		}
 		if (witnesserd != null) {
 			params.put("witnesserd", witnesserd);
+		}
+		if (witnessdate!=null) {
+			params.put("witnessdate", witnessdate);
 		}
 		MyHttpClient.post(
 				ReqHttpMethodPath.REQUST_MODIFY_DISTRIBUTED_WITNESSER_URL,
@@ -690,6 +693,20 @@ public class PMSManagerAPI {
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_WORK_STEP_LIST_URL+id,
 				params, responseHandler);
 	}
+	
+	
+	//noticeresult(1 ok ,3 bad),loginUserId,id 
+		public void wirteMyeventWitnessResult(CharSequence content, String noticeresult,String id, AsyncHttpResponseHandler responseHandler) {
+			RequestParams params = getPublicParams(true);
+			params.put("isok", noticeresult);
+			if (!TextUtils.isEmpty(content)) {
+				params.put("noticeresultdesc", content.toString());	
+			}
+			//
+			params.put("id", id);
+			MyHttpClient.post(ReqHttpMethodPath.REQUST_MYEVENT_WIRTE_RESULT_URL,
+					params, responseHandler);
+		}
 	
 	//noticeresult(1 ok ,3 bad),loginUserId,id 
 	public void wirteWitnessResult(CharSequence content, String noticeresult,String id, AsyncHttpResponseHandler responseHandler) {

@@ -76,7 +76,7 @@ registerCallBack( new EventCallbackListener()  {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.witness_list_ui, container, false);
 		menuid = getArguments().getLong(ConstValues.ID);
-		//isMyevent = getLogInController().matchUrls("/witness/myevent");
+		isMyevent = getLogInController().matchUrls("/witness/myevent");
 		Log.i(TAG, "witness menu id = "+menuid);
 		bindListView(view,new WitnesserAdapter(getBaseActivity(),scanMode()));
 		callNextPage(pageSize,getCurrentPage());
