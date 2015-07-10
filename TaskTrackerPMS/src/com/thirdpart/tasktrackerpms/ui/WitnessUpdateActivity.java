@@ -134,7 +134,7 @@ boolean isMyevent;
 	}else {
 		chooseTypeView.setContent("3".equals(mWitnessDistributed.getWorkStep().noticeresult)?"合格":"不合格");
 		  
-		   witnessInputItemView.setContent(TextUtils.isEmpty(desc)?"":desc, false);
+		   witnessInputItemView.setContent(TextUtils.isEmpty(desc)?"无描述":desc, false);
 			
 	}
 		
