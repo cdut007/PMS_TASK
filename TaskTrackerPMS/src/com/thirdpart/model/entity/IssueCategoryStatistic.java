@@ -12,7 +12,9 @@ public class IssueCategoryStatistic {
 	public static List<IssueCategoryItem> getWitnessCategoryItem(IssueCategoryStatistic statistic) {
 		if (statistic.mCategoryItems==null) {
 			statistic.mCategoryItems = new ArrayList<IssueCategoryItem>();
+			statistic.myevent.key="1";
 			statistic.mCategoryItems.add(statistic.myevent);
+			statistic.assign.key="0";
 			statistic.mCategoryItems.add(statistic.assign);
 		
 				}

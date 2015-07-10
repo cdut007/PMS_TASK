@@ -337,7 +337,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 	private void showWindow(
 			final ChooseItemView chooseItemView,
 			List<Witnesser> obj) {
-		List<String> names = new ArrayList<String>();
+		ArrayList<String> names = new ArrayList<String>();
 		if (obj == null) {
 			Log.i(TAG, "item windows is null--"+chooseItemView.getTag());
 			return;
@@ -346,7 +346,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 			names.add(witnesser.getRealname());
 		}
 		
-		chooseItemView.showMenuItem(obj,names,new ChooseItemView.onDismissListener<Witnesser>(){
+		chooseItemView.showListMenuItem(obj,names,new ChooseItemView.onDismissListener<Witnesser>(){
 
 			@Override
 			public void onDismiss(

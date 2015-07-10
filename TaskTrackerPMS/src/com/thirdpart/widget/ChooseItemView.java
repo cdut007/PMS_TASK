@@ -1,21 +1,25 @@
 package com.thirdpart.widget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.internal.widget.ListPopupWindow;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jameschen.comm.utils.UtilsUI;
-import com.thirdpart.model.WidgetItemInfo;
+import com.jameschen.framework.base.ListPopupWindowAdapter;
 import com.thirdpart.tasktrackerpms.R;
 
 public class ChooseItemView extends FrameLayout {
@@ -34,7 +38,7 @@ public class ChooseItemView extends FrameLayout {
 	public static interface onDismissListener<T> {
 		void onDismiss(T item);
 	}
-	
+	public boolean  isCenter = false;
 	public <T> void showMenuItem(final List<T> items,final List<String> titles, final onDismissListener<T> onDismissListener) {
 		// TODO Auto-generated method stub
 		final PopupWindowUtil mPopupWindow = new PopupWindowUtil();
@@ -49,6 +53,46 @@ public class ChooseItemView extends FrameLayout {
 			}
 		});
 	}
+	
+	
+	public <T> void showListMenuItem(final List<T> items,final ArrayList<String> titles, final onDismissListener<T> onDismissListener) {
+		// TODO Auto-generated method stub
+		final ListPopupWindow mListPopupWindow = new ListPopupWindow(getContext());
+		
+		//自定义Adapter
+		
+		ListPopupWindowAdapter mListPopupWindowAdapter = new ListPopupWindowAdapter(titles, getContext());
+		
+		mListPopupWindow.setAdapter(mListPopupWindowAdapter);
+		mListPopupWindow.setListSelector(null);
+		mListPopupWindow.setForceIgnoreOutsideTouch(false);
+		mListPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+		  int popWidth = getContext().getResources().getDimensionPixelOffset(
+				R.dimen.popupWindow_width);
+		mListPopupWindow.setWidth(popWidth);
+		
+		mListPopupWindow.setHeight(LayoutParams.WRAP_CONTENT);
+		
+		mListPopupWindow.setOnItemClickListener(new OnItemClickListener() {
+		
+		@Override
+		
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position,long arg3) {
+		
+			T item = items.get(position);
+			contentView.setText(titles.get(position));
+			onDismissListener.onDismiss(item);
+			mListPopupWindow.dismiss();
+		}
+		
+		});
+		mListPopupWindow.setAnchorView(contentView);
+		
+		mListPopupWindow.show();
+		
+		
+	}
+	
 	
 	@Override
 	public void setBackgroundResource(int resid) {
