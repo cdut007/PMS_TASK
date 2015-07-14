@@ -25,6 +25,7 @@ public class TaskManager  extends ManagerService{
 		super();
 	}
 	public static String ACTION_TASK_COMMIT = "com.jameschen.plan.task.commit";
+	public static String ACTION_ZHIJIA_COMMIT = "com.jameschen.plan.zhijia.commit";
 
 	private TaskManager(OnReqHttpCallbackListener reqHttpCallbackListener) {
 		super(reqHttpCallbackListener);
@@ -121,6 +122,13 @@ public class TaskManager  extends ManagerService{
 		
 	 }
 
+	 
+	 public void confirmMyPlanFinish(String planid, String welder, String enddate, 
+				String qcSign,String qcman) {
+			PMSManagerAPI.getInstance(context).confirmMyPlanFinish(planid, welder,  enddate , 
+					qcSign,qcman,getManagerNetWorkHandler(ACTION_ZHIJIA_COMMIT) );
+
+		}
 	public void commit(String workStepId, String witness, String witnessdes, String witnesseaddress, String witnessdate, String operater, String operatedate, String operatedesc,
 			int qcSign,String qcman) {
 		PMSManagerAPI.getInstance(context).createWitness(workStepId, witness, witnessdes, witnesseaddress, witnessdate, operater, operatedate, operatedesc, 

@@ -118,9 +118,9 @@ boolean isMyevent;
 	private void bindView() {
 	// TODO Auto-generated method stub
 		witnessInputItemView = (UserInputItemView) findViewById(R.id.witness_result_desc);
-	  if (isMyevent) {
-		  witnessInputItemView.setVisibility(View.GONE);
-	}
+//	  if (isMyevent) {
+//		 // witnessInputItemView.setVisibility(View.GONE);
+//	}
 		chooseTypeView = (ChooseItemView) findViewById(R.id.witness_choose_ok);
 	String desc = mWitnessDistributed.getWorkStep().noticeresultdesc;   
 	   if (scan) {

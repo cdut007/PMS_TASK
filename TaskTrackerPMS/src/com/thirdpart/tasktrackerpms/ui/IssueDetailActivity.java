@@ -113,7 +113,7 @@ private void updateInfo() {
 	if (issueResult.solvers!=null) {
 	ViewGroup viewGroup = (ViewGroup) findViewById(R.id.issue_forward_container);	
 	viewGroup.removeAllViews();
-	String solvers[]= issueResult.solvers.split("\\|");
+	final String solvers[]= issueResult.solvers.split("\\|");
 	if (solvers!=null && solvers.length>0) {
 		for (int i = 0; i < solvers.length; i++) {
 			if (solvers[i].isEmpty()) {
@@ -127,7 +127,19 @@ private void updateInfo() {
 			// param.width = UtilsUI.getWidth(getApplication()) - 2*padding;
 			 viewGroup.addView(line,param);
 			DisplayItemView sDisplayItemView = new DisplayItemView(this);
-			sDisplayItemView.setNameAndContent("转发人"+i+"：", solvers[i]);
+			sDisplayItemView.setNameAndContent(""+solvers[i], "查看处理详情");
+			final String name = "处理人－－"+solvers[i];
+			sDisplayItemView.setContentOnclickListenr(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(IssueDetailActivity.this,DetailContentActivity.class);
+					intent.putExtra("title", name);
+					intent.putExtra("content","test");
+					startActivity(intent);
+				}
+			});
 		viewGroup.addView(sDisplayItemView);
 		}
 	}

@@ -528,7 +528,7 @@ public class PMSManagerAPI {
 	 * @param enddate
 	 * @param responseHandler
 	 */
-	public void confirmMyPlanFinish( String rollingPlanid, String welder,String enddate,AsyncHttpResponseHandler responseHandler) {
+	public void confirmMyPlanFinish( String rollingPlanid, String welder,String enddate,String qcsign,String qcman,AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams(true);
 		params.put("id", rollingPlanid);
 		params.put("welder", welder);
@@ -613,6 +613,7 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	//param:loginUserId,pagesize,pagenum,condition (equal) 
+	
 	/**
 	 * @param loginUserId
 	 * @param pageSize
@@ -621,9 +622,10 @@ public class PMSManagerAPI {
 	 * @param responseHandler
 	 */
 	public void myTaskWitnessList(
-			String pageSize,String pageNum,
+			String pageSize,String pageNum,String condition,
 			AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getCommonPageParams(true,pageSize, pageNum);
+		params.put("condition", condition);
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_MY_TASK_WITNESS_LIST_URL,
 				params, responseHandler);
 	}

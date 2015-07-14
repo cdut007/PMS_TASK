@@ -162,6 +162,11 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
+         <activity
+            android:name=".ui.ZhiJiaDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
         
         <activity
             android:name=".ui.ImageDetailActivity"

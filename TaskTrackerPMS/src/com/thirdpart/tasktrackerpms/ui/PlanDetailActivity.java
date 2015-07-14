@@ -27,6 +27,7 @@ import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.WorkStep;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.adapter.WorkStepAdapter;
 import com.thirdpart.widget.DisplayItemView;
 import com.thirdpart.widget.EnterItemView;
 
@@ -92,7 +93,7 @@ public class PlanDetailActivity extends BaseDetailActivity {
 
 		itemInfos.add(new WidgetItemInfo("0", isHankou ? "焊口号：" : "支架号：",
 				rollingPlan.getWeldno(), WidgetItemInfo.DISPLAY, false));
-		itemInfos.add(new WidgetItemInfo("1", "机组号：", rollingPlan.getId(),
+		itemInfos.add(new WidgetItemInfo("1", "机组号：", rollingPlan.getUnitno(),
 				WidgetItemInfo.DISPLAY, false));
 		itemInfos.add(new WidgetItemInfo("2", "区域号：", rollingPlan.getAreano(),
 				WidgetItemInfo.DISPLAY, false));
@@ -112,7 +113,11 @@ public class PlanDetailActivity extends BaseDetailActivity {
 			itemInfos.add(new WidgetItemInfo("9", "查看工序详情", "",
 					WidgetItemInfo.DISPLAY, true));
 
+		}else {
+			itemInfos.add(new WidgetItemInfo("9a", "支架更新", "",
+					WidgetItemInfo.DISPLAY, true));
 		}
+		
 		itemInfos.add(new WidgetItemInfo("-1", "问题详情", "", WidgetItemInfo.DISPLAY, true));
 		
 		
@@ -173,6 +178,9 @@ public class PlanDetailActivity extends BaseDetailActivity {
 														.equals("9")) {
 													go2WorkStepDetail();
 												} else if(widgetItemInfo.tag
+														.equals("9a")){
+													go2ZhijiaUpdate();
+												} else if(widgetItemInfo.tag
 														.equals("10")){
 													issueFeedBack();
 												}else if(widgetItemInfo.tag
@@ -192,6 +200,8 @@ public class PlanDetailActivity extends BaseDetailActivity {
 													
 												}
 											}
+
+											
 
 											
 
@@ -255,6 +265,33 @@ public class PlanDetailActivity extends BaseDetailActivity {
 
 	}
 
+	
+	private void go2ZhijiaUpdate() {
+		// TODO Auto-generated method stub
+		Intent intent= new Intent(this,ZhiJiaDetailActivity.class);
+
+		intent.putExtra("plan", rollingPlan);
+		startActivityForResult(intent,0x21);
+	}
+	
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(arg0, arg1, arg2);
+	switch (arg0) {
+	case 0x21:
+	{
+		if (arg1 == RESULT_OK) {
+			execFetechDetail();
+		}
+	}
+		break;
+
+	default:
+		break;
+	}
+	}
+	
 	void go2WorkStepDetail() {
 		Intent intent = new Intent(this, PlanWorkStepListActivity.class);
 		intent.putExtra("scan", scan);

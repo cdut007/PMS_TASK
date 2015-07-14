@@ -56,6 +56,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 					.getWitnessdate())));	
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			
 		}
 	

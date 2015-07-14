@@ -141,7 +141,7 @@ TeamMemberManager teamMemberManager;
 	@Override
 	public void callCommitBtn(View v) {
 		if (TextUtils.isEmpty(issueDesc.getContent())) {
-			showToast("请填写问题描述");
+			showToast("请填写解决方案描述");
 			return;
 		}
 		

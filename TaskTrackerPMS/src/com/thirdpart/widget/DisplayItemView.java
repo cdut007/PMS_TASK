@@ -71,6 +71,9 @@ public class DisplayItemView extends FrameLayout {
 			nameView.setText(name);
 			setContent(content);
 	}
+	public void setContentOnclickListenr(OnClickListener l){
+		contentView.setOnClickListener(l);
+	}
 	public void setContent(String describe) {
 		// TODO Auto-generated method stub
 		contentView.setText(describe);

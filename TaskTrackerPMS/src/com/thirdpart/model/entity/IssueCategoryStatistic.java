@@ -12,10 +12,14 @@ public class IssueCategoryStatistic {
 	public static List<IssueCategoryItem> getWitnessCategoryItem(IssueCategoryStatistic statistic) {
 		if (statistic.mCategoryItems==null) {
 			statistic.mCategoryItems = new ArrayList<IssueCategoryItem>();
+		
 			statistic.myevent.key="1";
 			statistic.mCategoryItems.add(statistic.myevent);
 			statistic.assign.key="0";
 			statistic.mCategoryItems.add(statistic.assign);
+			
+//			statistic.myevent.key="2";
+//			statistic.mCategoryItems.add(statistic.assigned);
 		
 				}
 		return statistic.mCategoryItems;
@@ -33,5 +37,5 @@ public class IssueCategoryStatistic {
 				}
 		return statistic.mCategoryItems;
 	}
-	public IssueCategoryItem myevent,assign,needToSolve,notSolved,created,needConfirm,solved,concernedNotSolved;
+	public IssueCategoryItem myevent,assigned,assign,needToSolve,notSolved,created,needConfirm,solved,concernedNotSolved;
 }

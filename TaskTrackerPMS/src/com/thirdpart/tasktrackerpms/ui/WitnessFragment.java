@@ -96,7 +96,7 @@ public class WitnessFragment extends BasePageListFragment{
 		List<IssueMenu> mList = itemAdapter.getObjectInfos();
 		for (IssueCategoryItem issueCategoryItem : response) {
 			for (IssueMenu issueMenu : mList) {
-				if (issueMenu.getId().equals(issueCategoryItem.key)) {
+				if (issueMenu.getId()!=null&&issueMenu.getId().equals(issueCategoryItem.key)) {
 					issueMenu.count = issueCategoryItem.count;
 					continue;
 				}

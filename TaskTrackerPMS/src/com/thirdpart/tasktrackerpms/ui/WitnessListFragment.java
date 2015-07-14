@@ -47,7 +47,7 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 	boolean isMyevent = false;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-registerCallBack( new EventCallbackListener()  {
+    registerCallBack( new EventCallbackListener()  {
 			
 			@Override
 			public void commitSucc() {
@@ -84,7 +84,7 @@ registerCallBack( new EventCallbackListener()  {
 	}
 	private boolean scanMode() {
 		// TODO Auto-generated method stub
-		return menuid!=0||isMyevent;
+		return menuid!=0;
 	}
 
 	@Override
@@ -131,8 +131,11 @@ registerCallBack( new EventCallbackListener()  {
 						
 			}
 					
-		}else {//my 
-			 getPMSManager().myTaskWitnessList(pagesize+"", pagenum+"",networkhanler);
+		}else if(menuid==1){//my 
+			 getPMSManager().myTaskWitnessList(pagesize+"", pagenum+"","equal",networkhanler);
+				
+		}else if(menuid==2){//my 
+			 getPMSManager().myTaskWitnessList(pagesize+"", pagenum+"","assigned",networkhanler);
 				
 		}
 	       
