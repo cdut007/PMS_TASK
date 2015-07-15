@@ -533,6 +533,8 @@ public class PMSManagerAPI {
 		params.put("id", rollingPlanid);
 		params.put("welder", welder);
 		params.put("enddate", enddate);
+		params.put("qcman", qcman);
+		params.put("qcsign", qcsign);
 		MyHttpClient.post(ReqHttpMethodPath.REQUST_MY_ROLLINGPLAN_FINISH_TO_CONFIRM_URL,
 				params, responseHandler);
 	}

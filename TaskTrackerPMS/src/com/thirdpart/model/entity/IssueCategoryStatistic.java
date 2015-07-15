@@ -13,13 +13,15 @@ public class IssueCategoryStatistic {
 		if (statistic.mCategoryItems==null) {
 			statistic.mCategoryItems = new ArrayList<IssueCategoryItem>();
 		
+			statistic.assigned.key="2";
+			statistic.mCategoryItems.add(statistic.assigned);
+			
 			statistic.myevent.key="1";
 			statistic.mCategoryItems.add(statistic.myevent);
 			statistic.assign.key="0";
 			statistic.mCategoryItems.add(statistic.assign);
 			
-//			statistic.myevent.key="2";
-//			statistic.mCategoryItems.add(statistic.assigned);
+			
 		
 				}
 		return statistic.mCategoryItems;

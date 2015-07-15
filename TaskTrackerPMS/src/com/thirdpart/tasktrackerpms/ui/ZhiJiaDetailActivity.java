@@ -101,14 +101,7 @@ public class ZhiJiaDetailActivity extends BaseEditActivity {
 
 			String operatedate = PMSManagerAPI.getdateTimeformat(System
 					.currentTimeMillis());
-			String witnesseaddress=null;
-			if (addressWidgetItemInfo!=null) {
-				 witnesseaddress = addressWidgetItemInfo.content;
-				if (TextUtils.isEmpty(witnesseaddress)) {
-					showToast("填写见证地点");
-					return;
-				}
-			}
+			
 			
 
 			String operatedesc = operatedescWidgetItemInfo.content;
@@ -144,7 +137,7 @@ public class ZhiJiaDetailActivity extends BaseEditActivity {
 		
 			
 			 super.callCommitBtn(null);
-			taskManager.confirmMyPlanFinish(rollingPlan.getId(), operater, operatedate, operatedesc,qcman);
+			taskManager.confirmMyPlanFinish(rollingPlan.getId(), operater, operatedate,qcman,qcsign+"");
 		} else {
 			showLoadingView(true);
 			taskManager.chooseWitnessHeadList();
@@ -160,12 +153,21 @@ public class ZhiJiaDetailActivity extends BaseEditActivity {
 		final boolean isDone = isScan();
 		if (itemInfos.isEmpty()) {
 			// R.id. in array String
+		if (isDone) {
+			itemInfos.add(operaterWidgetItemInfo = new WidgetItemInfo("0",
+					"完成者：", rollingPlan.welder, WidgetItemInfo.DISPLAY, false));
+
+			itemInfos.add(operatedateWidgetItemInfo = new WidgetItemInfo("20",
+					"完成时间：", PMSManagerAPI.getdateTimeformat(Long.parseLong(rollingPlan.enddate)), WidgetItemInfo.DISPLAY, false));
+			
+		} else {
 			itemInfos.add(operaterWidgetItemInfo = new WidgetItemInfo("0",
 					"完成者：", null, WidgetItemInfo.EDIT, isDone));
 
-			itemInfos.add(operatedescWidgetItemInfo = new WidgetItemInfo("20",
+			itemInfos.add(operatedateWidgetItemInfo = new WidgetItemInfo("20",
 					"完成时间：", "请选择完成时间", WidgetItemInfo.CHOOSE, isDone));
 			
+		}
 			
 			if (showQCMan()&&isDone) {
 				
