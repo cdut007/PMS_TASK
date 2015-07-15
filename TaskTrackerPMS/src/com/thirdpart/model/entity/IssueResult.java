@@ -47,7 +47,7 @@ public class IssueResult implements Serializable{
 	
 	public String  creator;
 	
-	public String  solvers;
+	public List<Solver>  solvers;
 	public String getSolverid() {
 		return solverid;
 	}

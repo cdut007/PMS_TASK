@@ -32,6 +32,7 @@ import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.entity.IssueMenu;
 import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.model.entity.RollingPlan;
+import com.thirdpart.model.entity.Solver;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.DisplayItemView;
 import com.thirdpart.widget.UserInputItemView;
@@ -113,12 +114,10 @@ private void updateInfo() {
 	if (issueResult.solvers!=null) {
 	ViewGroup viewGroup = (ViewGroup) findViewById(R.id.issue_forward_container);	
 	viewGroup.removeAllViews();
-	final String solvers[]= issueResult.solvers.split("\\|");
-	if (solvers!=null && solvers.length>0) {
-		for (int i = 0; i < solvers.length; i++) {
-			if (solvers[i].isEmpty()) {
-				continue;
-			}
+	final List<Solver> solvers= issueResult.solvers;
+	if (solvers!=null && solvers.size()>0) {
+		for (int i = 0; i < solvers.size(); i++) {
+			
 			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			
 			 View line =(View) inflater.inflate(R.layout.item_line, viewGroup, false);
@@ -127,16 +126,17 @@ private void updateInfo() {
 			// param.width = UtilsUI.getWidth(getApplication()) - 2*padding;
 			 viewGroup.addView(line,param);
 			DisplayItemView sDisplayItemView = new DisplayItemView(this);
-			sDisplayItemView.setNameAndContent(""+solvers[i], "查看处理详情");
-			final String name = "处理人－－"+solvers[i];
+			final Solver solver = solvers.get(i);
+			sDisplayItemView.setNameAndContent(""+solver.name, "查看处理详情");
+			
 			sDisplayItemView.setContentOnclickListenr(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					Intent intent = new Intent(IssueDetailActivity.this,DetailContentActivity.class);
-					intent.putExtra("title", name);
-					intent.putExtra("content","test");
+					intent.putExtra("title", "处理人－－"+solver.name);
+					intent.putExtra("content",solver.desc);
 					startActivity(intent);
 				}
 			});
