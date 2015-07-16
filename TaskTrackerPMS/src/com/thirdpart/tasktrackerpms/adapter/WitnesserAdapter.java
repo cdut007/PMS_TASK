@@ -28,11 +28,12 @@ import com.thirdpart.widget.TouchImage;
 
 public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 	private Context context;
-	public boolean deliveryWitness;
-	public WitnesserAdapter(Context context, boolean deliveryWitness) {
+	public boolean deliveryWitness,sanChooseWitness;
+	public WitnesserAdapter(Context context, boolean deliveryWitness,boolean scanChoose) {
 		super(context,R.layout.witness_item);
 		this.context = context;
 		this.deliveryWitness = deliveryWitness;
+		sanChooseWitness = scanChoose;
 	}
 
 	
@@ -73,7 +74,7 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 
 		TextView noTextView,adressTextView;
 		TextView chooseWitenss;
-	boolean Scanner = false;
+	boolean Scanner = false,chooseWitness=false;
 		@Override
 		protected void initChildView(View convertView,
 				final MyBaseAdapter<WitnessDistributed> myBaseAdapter) {
@@ -82,7 +83,8 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 			adressTextView = (TextView) convertView.findViewById(R.id.witnenss_address);
 			chooseWitenss = (TextView) convertView.findViewById(R.id.witness_choose);
 		Scanner = ((WitnesserAdapter)myBaseAdapter).deliveryWitness;	
-			chooseWitenss.setOnClickListener(new OnClickListener() {
+		chooseWitness = 	 ((WitnesserAdapter)myBaseAdapter).sanChooseWitness;
+		chooseWitenss.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
@@ -96,6 +98,11 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 					if (Scanner) {
 						intent.putExtra("scan", true);
 					}
+					
+					if ( ((WitnesserAdapter)myBaseAdapter).sanChooseWitness) {
+						intent.putExtra("scan", true);
+					}
+					
 					context.startActivity(intent);
 				}
 			});
@@ -125,6 +132,9 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 			adressTextView.setText(object.getWitnessaddress());
 			chooseWitenss.setTag(object);
 			chooseWitenss.setText(Scanner?"查看见证":"选择见证人");
+			if (chooseWitness) {
+				chooseWitenss.setText("查看见证");
+			}
 		}
 		
 	}

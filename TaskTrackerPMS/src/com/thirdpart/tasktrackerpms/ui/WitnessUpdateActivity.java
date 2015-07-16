@@ -127,12 +127,12 @@ boolean isMyevent;
 		   chooseTypeView.setVisibility(View.GONE);
 		   DisplayItemView displayItemView  = (DisplayItemView) findViewById(R.id.witness_display_ok);
 		   displayItemView.setVisibility(View.VISIBLE);
-		   displayItemView.setContent("3".equals(mWitnessDistributed.getWorkStep().noticeresult)?"合格":"不合格");
+		   displayItemView.setContent("3".equals(mWitnessDistributed.getIsok())?"合格":"不合格");
 		   witnessInputItemView.setContent(TextUtils.isEmpty(desc)?"暂无":desc, true);
 			
 		   findViewById(R.id.commit_layout).setVisibility(View.GONE);
 	}else {
-		chooseTypeView.setContent("3".equals(mWitnessDistributed.getWorkStep().noticeresult)?"合格":"不合格");
+		chooseTypeView.setContent("合格");
 		  
 		   witnessInputItemView.setContent(TextUtils.isEmpty(desc)?"无描述":desc, false);
 			

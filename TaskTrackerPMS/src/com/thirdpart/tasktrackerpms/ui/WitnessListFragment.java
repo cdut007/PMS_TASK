@@ -78,7 +78,7 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 		menuid = getArguments().getLong(ConstValues.ID);
 		isMyevent = getLogInController().matchUrls("/witness/myevent");
 		Log.i(TAG, "witness menu id = "+menuid);
-		bindListView(view,new WitnesserAdapter(getBaseActivity(),scanMode()));
+		bindListView(view,new WitnesserAdapter(getBaseActivity(),scanMode(),isMyevent&&menuid==0));
 		callNextPage(pageSize,getCurrentPage());
 		return view;
 	}

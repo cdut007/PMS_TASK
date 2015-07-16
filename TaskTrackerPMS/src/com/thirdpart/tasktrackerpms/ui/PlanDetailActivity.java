@@ -110,12 +110,15 @@ public class PlanDetailActivity extends BaseDetailActivity {
 		itemInfos.add(new WidgetItemInfo("8", "", "", WidgetItemInfo.DEVIDER,
 				false));
 		if (isHankou) {
-			itemInfos.add(new WidgetItemInfo("9", "查看工序详情", "",
+			itemInfos.add(itemInfos.size()-1,new WidgetItemInfo("9", "查看工序详情", "",
 					WidgetItemInfo.DISPLAY, true));
 
 		}else {
-			itemInfos.add(new WidgetItemInfo("9a", "支架更新", "",
-					WidgetItemInfo.DISPLAY, true));
+			if (type!=null) {
+				itemInfos.add(itemInfos.size()-1,new WidgetItemInfo("9a", "支架更新", "",
+						WidgetItemInfo.DISPLAY, true));
+			}
+			
 		}
 		
 		itemInfos.add(new WidgetItemInfo("-1", "问题详情", "", WidgetItemInfo.DISPLAY, true));
@@ -127,7 +130,8 @@ public class PlanDetailActivity extends BaseDetailActivity {
 		itemInfos.add(new WidgetItemInfo("13", "安全风险及控制措施", rollingPlan.securityRiskCtl, WidgetItemInfo.ENTER, true));
 		itemInfos.add(new WidgetItemInfo("14", "经验反馈", rollingPlan.experienceFeedback, WidgetItemInfo.ENTER, true));
 		itemInfos.add(new WidgetItemInfo("15", "施工工具", rollingPlan.workTool, WidgetItemInfo.ENTER, true));
-		
+		ViewGroup viewGroup = (ViewGroup) findViewById(R.id.detail_container);
+		viewGroup.removeAllViews();
 		createItemListToUI(itemInfos, R.id.detail_container,
 				new CreateItemViewListener() {
 

@@ -61,6 +61,14 @@ public class IssueFragment extends BasePageListFragment{
 			}
 		});
 	}
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		queryDate();
+	}
+	
 	public static String callsucc="issueFragment";
 
 	private void queryDate() {

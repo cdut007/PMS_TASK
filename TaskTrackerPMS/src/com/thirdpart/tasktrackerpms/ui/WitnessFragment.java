@@ -132,7 +132,12 @@ public class WitnessFragment extends BasePageListFragment{
 		queryData();
 		return view;
 	}
-	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		queryData();
+	}
 
 	static class IssueMenuAdapter extends MyBaseAdapter<IssueMenu> {
 		private Context context;
@@ -143,7 +148,7 @@ public class WitnessFragment extends BasePageListFragment{
 			setObjectList(IssueMenu.getWitnessMenus());
 		}
 
-		
+	
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {

@@ -103,9 +103,6 @@ public class ZhiJiaDetailActivity extends BaseEditActivity {
 					.currentTimeMillis());
 			
 			
-
-			String operatedesc = operatedescWidgetItemInfo.content;
-			
 			String witnessdate=null;
 			if (operatedateWidgetItemInfo!=null) {
 				 witnessdate = (String) operatedateWidgetItemInfo.obj;
@@ -114,9 +111,7 @@ public class ZhiJiaDetailActivity extends BaseEditActivity {
 					return;
 				}
 			}
-			 Team witness=null;
-			
-
+			 
 			String qcman=null;
 
 			
@@ -162,10 +157,10 @@ public class ZhiJiaDetailActivity extends BaseEditActivity {
 			
 		} else {
 			itemInfos.add(operaterWidgetItemInfo = new WidgetItemInfo("0",
-					"完成者：", null, WidgetItemInfo.EDIT, isDone));
+					"完成者：", null, WidgetItemInfo.EDIT, true));
 
 			itemInfos.add(operatedateWidgetItemInfo = new WidgetItemInfo("20",
-					"完成时间：", "请选择完成时间", WidgetItemInfo.CHOOSE, isDone));
+					"完成时间：", "请选择完成时间", WidgetItemInfo.CHOOSE, true));
 			
 		}
 			
@@ -606,7 +601,7 @@ public class ZhiJiaDetailActivity extends BaseEditActivity {
 	// operatedesc N 完成信息描述
 	WidgetItemInfo addressWidgetItemInfo,
 			witnessdesWidgetItemInfo, operatedateWidgetItemInfo,
-			operaterWidgetItemInfo, operatedescWidgetItemInfo,
+			operaterWidgetItemInfo,
 			qcSignWidgetItemInfo,qcmanWidgetItemInfo,qcdateWidgetItemInfo;
 
 	private void updateTime(String date, String formart) {

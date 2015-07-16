@@ -124,7 +124,7 @@ public class TaskManager  extends ManagerService{
 
 	 
 	 public void confirmMyPlanFinish(String planid, String welder, String enddate, 
-				String qcSign,String qcman) {
+				String qcman,String qcSign) {
 			PMSManagerAPI.getInstance(context).confirmMyPlanFinish(planid, welder,  enddate , 
 					qcSign,qcman,getManagerNetWorkHandler(ACTION_ZHIJIA_COMMIT) );
 
