@@ -8,6 +8,8 @@ import org.acra.annotation.ReportsCrashes;
 import org.apache.log4j.Level;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import cn.jpush.android.api.JPushInterface;
 
 import com.jameschen.comm.utils.Log;
@@ -36,10 +38,11 @@ public class MyApplication extends Application {
 
 	private static final String TAG = "Mypplication";
 	private Bus mBus = OttoBusHelper.getBus(this);
-
+	private static Application mApplication;
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		mApplication = this;
 		ACRA.init(this);
 		initializeImageLoader(this);
 		initLogConfig();
@@ -101,7 +104,23 @@ public class MyApplication extends Application {
 	@Override
 	public void onTerminate() {
 		super.onTerminate();
+		mApplication=null;
 		mBus.unregister(this);
+	}
+
+
+	public static String getBaseUrl() {
+		// TODO Auto-generated method stub
+		if (mApplication == null ) {
+			return "http://122.225.41.42:8888/easycms-website";
+		}
+		SharedPreferences sharedPreferences = mApplication.getSharedPreferences("staging",Context.MODE_PRIVATE);
+		if (sharedPreferences.getBoolean("staging", false)) {
+			return "http://helloxlb.xicp.net:17905/easycms-website";
+		}
+		
+		return "http://122.225.41.42:8888/easycms-website";
+	
 	}
 
 }

@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.IntentCompat;
@@ -24,6 +25,7 @@ import com.jameschen.comm.utils.RegexUtils;
 import com.jameschen.framework.base.BaseActivity;
 import com.jameschen.framework.base.UINetworkHandler;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.thirdpart.model.Config.ReqHttpMethodPath;
 import com.thirdpart.model.LogInController;
 import com.thirdpart.model.entity.UserInfo;
 import com.thirdpart.tasktrackerpms.R;
@@ -110,6 +112,14 @@ public class LoginActivity extends BaseActivity{
         String id = accountInput.getText().toString();
         String password = passwordInput.getText().toString();
         Log.i(TAG,"userid ==" + id + "; password ==" + password);
+        
+        if ("test777".equals(id)) {
+			showToast("staging enviorment set succ!");
+			SharedPreferences sharedPreferences = getSharedPreferences("staging",Context.MODE_PRIVATE);
+			sharedPreferences.edit().putBoolean("staging", true).commit();
+			System.exit(0);
+			return;
+        }
         if (RegexUtils.isIdOk(id)) {
 
             if (RegexUtils.isPasswordOk(password)) {
