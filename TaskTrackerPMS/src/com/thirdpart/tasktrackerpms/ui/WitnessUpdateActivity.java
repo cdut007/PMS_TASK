@@ -122,7 +122,7 @@ boolean isMyevent;
 //		 // witnessInputItemView.setVisibility(View.GONE);
 //	}
 		chooseTypeView = (ChooseItemView) findViewById(R.id.witness_choose_ok);
-	String desc = mWitnessDistributed.getWorkStep().noticeresultdesc;   
+	String desc = mWitnessDistributed.noticeresultdesc;   
 	   if (scan) {
 		   chooseTypeView.setVisibility(View.GONE);
 		   DisplayItemView displayItemView  = (DisplayItemView) findViewById(R.id.witness_display_ok);
