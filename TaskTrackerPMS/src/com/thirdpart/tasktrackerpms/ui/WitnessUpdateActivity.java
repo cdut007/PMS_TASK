@@ -138,8 +138,13 @@ boolean isMyevent;
 		 
 		   findViewById(R.id.commit_layout).setVisibility(View.GONE);
 	}else {
-		chooseTypeView.setContent("合格");
-		  
+		
+		 if ("1".equals(mWitnessDistributed.getIsok())) {
+			 chooseTypeView.setContent("不合格");
+		}else {
+			chooseTypeView.setContent("合格");
+				
+		}
 		   witnessInputItemView.setContent(TextUtils.isEmpty(desc)?"无描述":desc, false);
 			
 	}
