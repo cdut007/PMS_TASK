@@ -125,7 +125,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 
 				itemInfos.add(new WidgetItemInfo("a0", isHankou ? "焊口号：" : "支架号：",
 						rollingPlan.getWeldno(), WidgetItemInfo.DISPLAY, false));
-				itemInfos.add(new WidgetItemInfo("a1", "机组号：", rollingPlan.getId(),
+				itemInfos.add(new WidgetItemInfo("a1", "机组号：", rollingPlan.getUnitno(),
 						WidgetItemInfo.DISPLAY, false));
 				itemInfos.add(new WidgetItemInfo("a2", "区域号：", rollingPlan.getAreano(),
 						WidgetItemInfo.DISPLAY, false));

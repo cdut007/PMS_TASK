@@ -135,7 +135,7 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 			 getPMSManager().myTaskWitnessList(pagesize+"", pagenum+"","equal",networkhanler);
 				
 		}else if(menuid==2){//my 
-			 getPMSManager().myTaskWitnessList(pagesize+"", pagenum+"","assigned",networkhanler);
+			 getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","assigned",networkhanler);
 				
 		}
 	       
