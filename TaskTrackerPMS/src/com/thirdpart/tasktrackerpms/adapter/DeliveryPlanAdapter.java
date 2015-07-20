@@ -1,9 +1,6 @@
 package com.thirdpart.tasktrackerpms.adapter;
 
-import java.util.List;
-
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -30,7 +27,8 @@ public class DeliveryPlanAdapter extends BaseCheckItemAdapter<RollingPlan> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		convertView = super.getView(position, convertView, parent);
-		
+		PlanHoldView sHoldView = (PlanHoldView) convertView.getTag();
+		sHoldView.setInfo(position);
 		return convertView;
 
 	}
@@ -51,13 +49,15 @@ public class DeliveryPlanAdapter extends BaseCheckItemAdapter<RollingPlan> {
 	private final static class PlanHoldView extends CheckItemHoldView<RollingPlan> {
 		
 		
-		TextView noTextView,drawNoTextView;
+		TextView noTextView,drawNoTextView,indexTextView;
 		CheckBox isChecked;
 		BaseCheckItemAdapter<RollingPlan> mCheckItemAdapter;
 		@Override
 		protected void initChildView(View convertView,
 				MyBaseAdapter<RollingPlan> myBaseAdapter) {
 			// TODO Auto-generated method stub
+			
+			indexTextView = (TextView) convertView.findViewById(R.id.index_no);
 			noTextView = (TextView) convertView.findViewById(R.id.task_no);
 			drawNoTextView = (TextView) convertView.findViewById(R.id.task_draw_no);
 			isChecked = (CheckBox) convertView.findViewById(R.id.task_delivery_check);
@@ -77,7 +77,10 @@ public class DeliveryPlanAdapter extends BaseCheckItemAdapter<RollingPlan> {
 			
 		}
 		
-		
+		public void setInfo(int index) {
+
+			indexTextView.setText(""+(index+1));
+		}
 		@Override
 		protected void setInfo(RollingPlan plan) {
 			// TODO Auto-generated method stub

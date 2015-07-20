@@ -86,6 +86,12 @@ public class RollingPlan implements Serializable{
 	public String rollingplanflag;
 	
 	public String enddate,welder;
+
+
+	public String consteamName;
+
+
+	public String consendmanName;
 	
 	public void setId(String id) {
 		this.id = id;

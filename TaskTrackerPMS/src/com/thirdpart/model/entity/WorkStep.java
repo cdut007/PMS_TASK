@@ -37,6 +37,11 @@ public class WorkStep implements Serializable{
 //    "updatedOn": 1432979991000,
 //    "updatedBy": "zhangxu",
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 631028160921504581L;
+
 	private String updatedBy,updatedOn,noticeaqa,noticeaqc2,witnesserb,witnesserc,witnesserd;
 	
 	public String operater,operatedesc,witnesseraqa,witnesseraqc2,witnesseraqc1,noticeresult,noticeresultdesc;

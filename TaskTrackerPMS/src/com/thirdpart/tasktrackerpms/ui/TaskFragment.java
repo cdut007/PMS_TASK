@@ -112,6 +112,7 @@ public class TaskFragment extends BasePageListFragment<RollingPlan, RollingPlanL
 		}
 		RollingPlan p = (RollingPlan) (object);
 		//p.setClassName(title);
+		intent.putExtra("scan", false);
 		intent.putExtra(Item.TASK, p);
 		startActivity(intent);
 	}

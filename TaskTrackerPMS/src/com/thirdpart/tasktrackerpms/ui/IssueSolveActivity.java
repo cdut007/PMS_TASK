@@ -32,7 +32,7 @@ import com.thirdpart.widget.UserInputItemView;
 
 public class IssueSolveActivity extends BaseEditActivity {
 	
-	private UserInputItemView issueDesc;
+	private UserInputItemView issueDesc,issueMethod;
 	private CheckBox issueCheckBox;
 	private ChooseItemView deliveryChooseItemView;
 	
@@ -73,7 +73,12 @@ TeamMemberManager teamMemberManager;
 	
 	private void bindViews() {
 	// TODO Auto-generated method stub
-	issueDesc = (UserInputItemView) findViewById(R.id.issue_plan_desc);
+		issueDesc = (UserInputItemView) findViewById(R.id.issue_plan_desc);
+		issueMethod = (UserInputItemView) findViewById(R.id.issue_plan_method);
+		
+	issueDesc.setContent(issueResult.getDescribe(), true);
+	
+	
 	issueCheckBox = (CheckBox) findViewById(R.id.issue_solved_check);
 	deliveryChooseItemView = (ChooseItemView) findViewById(R.id.issue_choose_deliver);
 	deliveryChooseItemView.setContent("选择指派人");
@@ -140,7 +145,7 @@ TeamMemberManager teamMemberManager;
 	
 	@Override
 	public void callCommitBtn(View v) {
-		if (TextUtils.isEmpty(issueDesc.getContent())) {
+		if (TextUtils.isEmpty(issueMethod.getContent())) {
 			showToast("请填写解决方案描述");
 			return;
 		}
@@ -165,7 +170,7 @@ TeamMemberManager teamMemberManager;
 		}
 		
 		super.callCommitBtn(v);
-	    issueManager.handleIssue(issueResult.getId(),issueDesc.getContent().toString(), issueResult.getWorstepid(), solvedman, isSolve, solverid);
+	    issueManager.handleIssue(issueResult.getId(),issueMethod.getContent().toString(), issueResult.getWorstepid(), solvedman, isSolve, solverid);
 	} 
 	
 	public void failed(String name, int statusCode, Header[] headers, String response) {

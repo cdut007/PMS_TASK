@@ -232,8 +232,16 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 				
 					
 				}else {
-					itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-							"见证地点：", null, WidgetItemInfo.EDIT, isDone));
+					if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
+						WitnessInfo sInfo =workStep.witnessInfo.get(0);
+						itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+								"见证地点：", sInfo.witnessaddress, WidgetItemInfo.EDIT, isDone));
+						
+					}else {
+						itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+								"见证地点：", null, WidgetItemInfo.EDIT, isDone));
+						
+					}
 					
 					itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
 							"见证时间：", "选择见证时间",WidgetItemInfo.CHOOSE, true));

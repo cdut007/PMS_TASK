@@ -767,7 +767,7 @@ public class PMSManagerAPI {
 	
 	public static String getdateTimeformat(long times) {
 		// TODO Auto-generated method stub
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = new Date(times);
 		return sdf.format(date);
 	}

@@ -36,6 +36,7 @@ public class PlanDetailActivity extends BaseDetailActivity {
 	private PlanManager planManager;
 	RollingPlan rollingPlan;
 	boolean scan = false;
+	private boolean isTaskConfirm;
 
 	private void issueFeedBack() {
 		Context context = this;
@@ -51,11 +52,12 @@ public class PlanDetailActivity extends BaseDetailActivity {
 		super.onCreate(savedInstanceState);
 
 		rollingPlan = (RollingPlan) getIntent().getSerializableExtra(Item.PLAN);
-		scan = getIntent().getBooleanExtra("scan", false);
+		scan = getIntent().getBooleanExtra("scan", true);
 		if (rollingPlan == null) {
 			scan = false;
 			rollingPlan = (RollingPlan) getIntent().getSerializableExtra(
 					Item.TASK);
+			isTaskConfirm = true;
 		}
 
 		planManager = (PlanManager) ManagerService.getNewManagerService(this,
@@ -99,10 +101,20 @@ public class PlanDetailActivity extends BaseDetailActivity {
 				WidgetItemInfo.DISPLAY, false));
 		itemInfos.add(new WidgetItemInfo("3", "图纸号：", rollingPlan.getDrawno(),
 				WidgetItemInfo.DISPLAY, false));
-		itemInfos.add(new WidgetItemInfo("4", isHankou ? "焊接控制单号：" : "支架控制单号：",
-				rollingPlan.getWeldlistno(), WidgetItemInfo.DISPLAY, false));
+		if (isHankou) {
+			itemInfos.add(new WidgetItemInfo("4", isHankou ? "焊接控制单号：" : "支架控制单号：",
+					rollingPlan.getWeldlistno(), WidgetItemInfo.DISPLAY, false));
+				
+		}
 		itemInfos.add(new WidgetItemInfo("5", "RCCM：", rollingPlan.getRccm(),
 				WidgetItemInfo.DISPLAY, false));
+		itemInfos.add(new WidgetItemInfo("b1", "施工班组", rollingPlan.consteamName, WidgetItemInfo.DISPLAY, false));
+		itemInfos.add(new WidgetItemInfo("b2", "施工组长", rollingPlan.consendmanName, WidgetItemInfo.DISPLAY, false));
+		itemInfos.add(new WidgetItemInfo("b3", "材质类型", rollingPlan.getMaterialtype(), WidgetItemInfo.DISPLAY, false));
+		itemInfos.add(new WidgetItemInfo("b4", "点值", rollingPlan.getWorkpoint(), WidgetItemInfo.DISPLAY, false));
+		itemInfos.add(new WidgetItemInfo("b5", "工时", rollingPlan.getWorktime(), WidgetItemInfo.DISPLAY, false));
+		itemInfos.add(new WidgetItemInfo("b6", "工程量", rollingPlan.getQualitynum(), WidgetItemInfo.DISPLAY, false));
+		
 		itemInfos.add(new WidgetItemInfo("6", "质量计划号：", rollingPlan
 				.getQualityplanno(), WidgetItemInfo.DISPLAY, false));
 		itemInfos.add(new WidgetItemInfo("7", "计划施工日期：", rollingPlan
@@ -121,10 +133,15 @@ public class PlanDetailActivity extends BaseDetailActivity {
 			
 		}
 		
+		
+		
 		itemInfos.add(new WidgetItemInfo("-1", "问题详情", "", WidgetItemInfo.DISPLAY, true));
 		
-		
-		itemInfos.add(new WidgetItemInfo("10", "问题反馈", "", WidgetItemInfo.DISPLAY, true));
+		if (isTaskConfirm) {
+			itemInfos.add(new WidgetItemInfo("10", "问题反馈", "", WidgetItemInfo.DISPLAY, true));	
+		}else {
+			
+		}
 		itemInfos.add(new WidgetItemInfo("11", "技术要求", rollingPlan.technologyAsk, WidgetItemInfo.ENTER, true));
 		itemInfos.add(new WidgetItemInfo("12", "质量风险及控制措施", rollingPlan.qualityRiskCtl, WidgetItemInfo.ENTER, true));
 		itemInfos.add(new WidgetItemInfo("13", "安全风险及控制措施", rollingPlan.securityRiskCtl, WidgetItemInfo.ENTER, true));
@@ -298,7 +315,12 @@ public class PlanDetailActivity extends BaseDetailActivity {
 	
 	void go2WorkStepDetail() {
 		Intent intent = new Intent(this, PlanWorkStepListActivity.class);
-		intent.putExtra("scan", scan);
+		
+		if (isTaskConfirm) {
+			intent.putExtra("scan", false);
+		}else {
+			intent.putExtra("scan", true);
+		}
 		intent.putExtra(Item.PLAN, rollingPlan);
 		startActivity(intent);
 	}

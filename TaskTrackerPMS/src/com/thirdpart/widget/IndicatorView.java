@@ -78,12 +78,16 @@ public class IndicatorView extends FrameLayout {
 		if ("delivery".equals(barmode)) {//2,4,1 焊口号／支架号  图纸号 分配
 			List<WidgetItemInfo> mInfos = new ArrayList<WidgetItemInfo>();
 			if (scanMode) {
+				mInfos.add(new WidgetItemInfo(null, null, "序号", 12, false));
+				
 				mInfos.add(new WidgetItemInfo(null, null, "焊口号／支架号", 24, false));
 				
 				mInfos.add(new WidgetItemInfo(null, null, "图纸号", 47, false));
 					
 			}else {
-				mInfos.add(new WidgetItemInfo(null, null, "焊口号／支架号", 2, false));
+				mInfos.add(new WidgetItemInfo(null, null, "序号", 1, false));
+				
+				mInfos.add(new WidgetItemInfo(null, null, "焊口／支架", 2, false));
 				
 				mInfos.add(new WidgetItemInfo(null, null, "图纸号", 4, false));
 				mInfos.add(new WidgetItemInfo(null, null, "分配", 1, false));

@@ -45,7 +45,7 @@ import com.thirdpart.widget.UserInputItemView;
 
 public class IssueConfirmActivity extends BaseEditActivity {
 	
-	private UserInputItemView issueDesc;
+	private UserInputItemView issueDesc,issueMethod;
 	private CheckBox issueEffectBox;
 	
 	IssueResult   issueResult ;
@@ -84,8 +84,9 @@ TeamMemberManager teamMemberManager;
 	
 	private void bindViews() {
 	// TODO Auto-generated method stub
-	issueDesc = (UserInputItemView) findViewById(R.id.issue_plan_desc);
-	issueEffectBox = (CheckBox) findViewById(R.id.issue_confirm_check);
+		issueDesc = (UserInputItemView) findViewById(R.id.issue_plan_desc);
+		issueMethod = (UserInputItemView) findViewById(R.id.issue_plan_method);
+		issueEffectBox = (CheckBox) findViewById(R.id.issue_confirm_check);
 	issueEffectBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 		
 		@Override
@@ -95,6 +96,7 @@ TeamMemberManager teamMemberManager;
 		}
 	});
 	issueDesc.setContent(issueResult.getDescribe(), true);
+	issueMethod.setContent(issueResult.getSolvemethod(), true);
 	}
 	
 	

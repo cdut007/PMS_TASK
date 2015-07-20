@@ -1,8 +1,13 @@
 package com.thirdpart.model.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class WitnessInfo {
+public class WitnessInfo implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8524055906787183733L;
 	public Integer id;
 	public String witness;
 	public String witnessName;
