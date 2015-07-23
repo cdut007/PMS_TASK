@@ -1,5 +1,6 @@
 package com.thirdpart.tasktrackerpms.ui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,6 +122,8 @@ IssueManager sIssueManager;
 					Intent intent = new Intent();
 					intent.setClass(IssueDetailActivity.this, IssueConfirmActivity.class);
 					int requestCode = IssueListFragment.ISSUE_CONFIRM;	
+					
+					intent.putExtra(Item.ISSUE, issueResult);
 					startActivityForResult(intent, requestCode);
 				}
 			});
@@ -135,6 +138,7 @@ IssueManager sIssueManager;
 					Intent intent = new Intent();
 					intent.setClass(IssueDetailActivity.this, IssueSolveActivity.class);
 					int requestCode = IssueListFragment.ISSUE_HANDLE;	
+					intent.putExtra(Item.ISSUE, issueResult);
 					startActivityForResult(intent, requestCode);
 				}
 			});
