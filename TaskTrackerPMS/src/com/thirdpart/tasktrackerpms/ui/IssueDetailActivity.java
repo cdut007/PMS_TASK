@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.http.Header;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.Solver;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.DisplayItemView;
+import com.thirdpart.widget.EnterItemView;
 import com.thirdpart.widget.UserInputItemView;
 
 public class IssueDetailActivity extends BaseEditActivity {
@@ -44,7 +46,27 @@ public class IssueDetailActivity extends BaseEditActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		
+		switch (requestCode) {
+		case IssueListFragment.ISSUE_HANDLE:
+		{
+			if (resultCode == Activity.RESULT_OK) {
+				 setResult(RESULT_OK);
+				IssueFragment.CallSucc(IssueFragment.callsucc);
+			}
+		}
+			break;
+		case IssueListFragment.ISSUE_CONFIRM:
+		{
+			if (resultCode == Activity.RESULT_OK) {
+				 setResult(RESULT_OK);
+				IssueFragment.CallSucc(IssueFragment.callsucc);
+
+			}
+		}
+			break;
+		default:
+			break;
+		}
 	}
 	//{"id":"20","worstepid":"121","stepno":null,"stepname":"坡口加工","describe":"111111111",
 	//"questionname":"11","isOk":"0","level":"2","solvemethod":"","confirm":null,
@@ -60,9 +82,9 @@ IssueManager sIssueManager;
 		
 		issueResult = (IssueResult) getIntent().getSerializableExtra(Item.ISSUE);	
       setTitle("问题详情");
-    //if (scan) {
+    if (scan) {
 		initData();
-	//}
+	}
  }
  
 	protected void initData() {
@@ -76,7 +98,7 @@ IssueManager sIssueManager;
 
 	UserInputItemView issueDescView,issueMethod;
 	DisplayItemView issueStepTopic,solverMan,issueStatus,creator;
-	
+	EnterItemView issueHandleEnterItemView;
 	private void bindViews() {
 	// TODO Auto-generated method stub
 		issueDescView = (UserInputItemView) findViewById(R.id.issue_desc);
@@ -85,6 +107,38 @@ IssueManager sIssueManager;
 		solverMan = (DisplayItemView) findViewById(R.id.issue_solver);
 		creator = (DisplayItemView) findViewById(R.id.issue_creator);
 		issueStatus = (DisplayItemView) findViewById(R.id.issue_status);
+		issueHandleEnterItemView = (EnterItemView) findViewById(R.id.issue_handle);
+		issueHandleEnterItemView.setVisibility(View.GONE);
+		String name = getIntent().getStringExtra("issueName");
+		if (IssueConfirmActivity.class.getName().equals(name)) {
+			issueHandleEnterItemView.setVisibility(View.VISIBLE);
+			issueHandleEnterItemView.setNameAndContent("确认问题", "");
+			issueHandleEnterItemView.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent();
+					intent.setClass(IssueDetailActivity.this, IssueConfirmActivity.class);
+					int requestCode = IssueListFragment.ISSUE_CONFIRM;	
+					startActivityForResult(intent, requestCode);
+				}
+			});
+		}else if (IssueSolveActivity.class.getName().equals(name)) {
+			issueHandleEnterItemView.setVisibility(View.VISIBLE);
+			issueHandleEnterItemView.setNameAndContent("处理问题", "");
+			issueHandleEnterItemView.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent();
+					intent.setClass(IssueDetailActivity.this, IssueSolveActivity.class);
+					int requestCode = IssueListFragment.ISSUE_HANDLE;	
+					startActivityForResult(intent, requestCode);
+				}
+			});
+		}
 		if (issueResult.getFile()!=null && issueResult.getFile().size()>0) {
 			findViewById(R.id.issue_files).setVisibility(View.VISIBLE);	
 			findViewById(R.id.issue_files).setOnClickListener(new OnClickListener() {

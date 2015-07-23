@@ -228,6 +228,11 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 								"见证时间：", PMSManagerAPI.getdateTimeformat(sInfo.witnessdate),WidgetItemInfo.DISPLAY, false));
 						itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
 								"负责人：", sInfo.witnesser, WidgetItemInfo.DISPLAY, false));
+//						if (==) {
+//							itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+//									"见证结果：", workStep.get, WidgetItemInfo.DISPLAY, false));
+//						
+//						}
 					}
 				
 					

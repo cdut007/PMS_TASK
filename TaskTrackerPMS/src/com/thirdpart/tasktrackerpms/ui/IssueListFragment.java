@@ -38,8 +38,8 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 
 	
 	
-	private static final int ISSUE_HANDLE = 0x11;
-	private static final int ISSUE_CONFIRM = 0x13;
+	public static final int ISSUE_HANDLE = 0x11;
+	public static final int ISSUE_CONFIRM = 0x13;
 
 
 	@Override
@@ -107,7 +107,7 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 		public void onItemClicked(View convertView, IssueResult issueResult) {
 			// TODO Auto-generated method stub
 
-			Intent intent = new Intent(getActivity(), IssueSolveActivity.class);
+			Intent intent = new Intent();
 			Object object =issueResult;
 			if (object == null) {
 				return;
@@ -122,7 +122,10 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 			
 			case 1://需要解决的问题
 			{
+				intent.setClass(getBaseActivity(), IssueDetailActivity.class);
+				
 				//编辑问题
+				intent.putExtra("issueName", IssueSolveActivity.class.getName());
 				requestCode = ISSUE_HANDLE;
 			}
 				break;
@@ -139,7 +142,8 @@ public class IssueListFragment extends BasePageListFragment<IssueResult, IssueLi
 
 			case 4://需要确认的问题，单独页面，确认
 			{
-				intent.setClass(getBaseActivity(), IssueConfirmActivity.class);
+				intent.putExtra("issueName", IssueConfirmActivity.class.getName());
+				intent.setClass(getBaseActivity(), IssueDetailActivity.class);
 				requestCode = ISSUE_CONFIRM;
 			}
 				break;

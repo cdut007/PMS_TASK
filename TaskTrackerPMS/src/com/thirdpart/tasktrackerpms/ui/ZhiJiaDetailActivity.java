@@ -129,8 +129,6 @@ public class ZhiJiaDetailActivity extends BaseEditActivity {
 			}
 			
 			
-		
-			
 			 super.callCommitBtn(null);
 			taskManager.confirmMyPlanFinish(rollingPlan.getId(), operater, operatedate,qcman,qcsign+"");
 		} else {

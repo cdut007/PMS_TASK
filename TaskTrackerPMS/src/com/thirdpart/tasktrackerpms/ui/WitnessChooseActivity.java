@@ -131,16 +131,12 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 						WidgetItemInfo.DISPLAY, false));
 				itemInfos.add(new WidgetItemInfo("a3", "图纸号：", rollingPlan.getDrawno(),
 						WidgetItemInfo.DISPLAY, false));
-				itemInfos.add(new WidgetItemInfo("a4", isHankou ? "焊接控制单号：" : "支架控制单号：",
-						rollingPlan.getWeldlistno(), WidgetItemInfo.DISPLAY, false));
-				itemInfos.add(new WidgetItemInfo("a5", "RCCM：", rollingPlan.getRccm(),
-						WidgetItemInfo.DISPLAY, false));
 				if (isHankou) {
-					itemInfos.add(new WidgetItemInfo("4", isHankou ? "焊接控制单号：" : "支架控制单号：",
+					itemInfos.add(new WidgetItemInfo("a4", isHankou ? "焊接控制单号：" : "支架控制单号：",
 							rollingPlan.getWeldlistno(), WidgetItemInfo.DISPLAY, false));
 						
 				}
-				itemInfos.add(new WidgetItemInfo("5", "RCCM：", rollingPlan.getRccm(),
+				itemInfos.add(new WidgetItemInfo("a5", "RCCM：", rollingPlan.getRccm(),
 						WidgetItemInfo.DISPLAY, false));
 				itemInfos.add(new WidgetItemInfo("b1", "施工班组", rollingPlan.consteamName, WidgetItemInfo.DISPLAY, false));
 				itemInfos.add(new WidgetItemInfo("b2", "施工组长", rollingPlan.consendmanName, WidgetItemInfo.DISPLAY, false));
@@ -149,12 +145,10 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 				itemInfos.add(new WidgetItemInfo("b5", "工时", rollingPlan.getWorktime(), WidgetItemInfo.DISPLAY, false));
 				itemInfos.add(new WidgetItemInfo("b6", "工程量", rollingPlan.getQualitynum(), WidgetItemInfo.DISPLAY, false));
 				
-				itemInfos.add(new WidgetItemInfo("6", "质量计划号：", rollingPlan
+				itemInfos.add(new WidgetItemInfo("a6", "质量计划号：", rollingPlan
 						.getQualityplanno(), WidgetItemInfo.DISPLAY, false));
-				itemInfos.add(new WidgetItemInfo("7", "计划施工日期：", rollingPlan
+				itemInfos.add(new WidgetItemInfo("a7", "计划施工日期：", rollingPlan
 						.getPlandate(), WidgetItemInfo.DISPLAY, false));
-				itemInfos.add(new WidgetItemInfo("8", "", "", WidgetItemInfo.DEVIDER,
-						false));
 				
 			}
 			

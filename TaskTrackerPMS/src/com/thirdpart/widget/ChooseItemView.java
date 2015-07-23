@@ -39,9 +39,15 @@ public class ChooseItemView extends FrameLayout {
 		void onDismiss(T item);
 	}
 	public boolean  isCenter = false;
+	 PopupWindowUtil mPopupWindow;
 	public <T> void showMenuItem(final List<T> items,final List<String> titles, final onDismissListener<T> onDismissListener) {
 		// TODO Auto-generated method stub
-		final PopupWindowUtil mPopupWindow = new PopupWindowUtil();
+		if (mPopupWindow!=null) {
+			if (mPopupWindow.popupWindow!=null&&mPopupWindow.popupWindow.isShowing()) {
+				mPopupWindow.popupWindow.dismiss();
+			}
+		}
+		 mPopupWindow = new PopupWindowUtil();
 		mPopupWindow.showActionWindow(contentView, getContext(), titles);
 		mPopupWindow.setItemOnClickListener(new PopupWindowUtil.OnItemClickListener() {
 

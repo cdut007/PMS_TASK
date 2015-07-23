@@ -1,15 +1,14 @@
 package com.thirdpart.tasktrackerpms.ui;
 
-import java.lang.reflect.Type;
-
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.google.gson.reflect.TypeToken;
 import com.jameschen.comm.utils.LogUtils;
 import com.jameschen.framework.base.BaseActivity;
 import com.thirdpart.tasktrackerpms.R;
@@ -27,9 +26,22 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
 		setContentView(R.layout.system_setting);	
 
 		(logout =findViewById(R.id.btnExit)).setOnClickListener(this);
+		version =findViewById(R.id.version);
+		((TextView)version).setText("Version:"+getVersion(getApplicationContext()));
 		TouchImage.buttonEffect(logout);
 		findViewById(R.id.feedback_log).setOnClickListener(this);
 		
+	}
+	public  String getVersion(Context context)//获取版本号
+	{
+		try {
+			PackageInfo pi=context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			return pi.versionName;
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "null";
+		}
 	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -684,6 +684,13 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	
+	public void getSovers( AsyncHttpResponseHandler responseHandler) {
+		RequestParams params = getPublicParams();
+			
+		MyHttpClient.get(ReqHttpMethodPath.HTTP_BASE_URL+"/hdxt/api/core/solvers",
+				params, responseHandler);
+	}
+	
 	public void getDepartment( AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams();
 		

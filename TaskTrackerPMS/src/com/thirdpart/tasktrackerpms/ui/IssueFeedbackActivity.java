@@ -188,7 +188,6 @@ public class IssueFeedbackActivity extends BaseEditActivity implements
 
 	IssueResult issueResult = new IssueResult();
 	Category solverCategory;
-
 	private void getDeliveryList(boolean showWindowView, final View view) {
 		// TODO Auto-generated method stub
 		// showLoadingView(true);
