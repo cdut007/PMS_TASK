@@ -158,7 +158,7 @@ public class PlanDetailActivity extends BaseDetailActivity {
 		}
 		if (rollingPlan.welddate!=0) {
 			itemInfos.add(new WidgetItemInfo("e2", "焊接完成日期：", PMSManagerAPI
-					.getdateformat(rollingPlan.welddate), WidgetItemInfo.DISPLAY,
+					.getdateTimeformat(rollingPlan.welddate), WidgetItemInfo.DISPLAY,
 					false));
 		}
 		if (!TextUtils.isEmpty(rollingPlan.qcman)) {
@@ -173,7 +173,7 @@ public class PlanDetailActivity extends BaseDetailActivity {
 		
 		if (!TextUtils.isEmpty(rollingPlan.qcdate)) {
 			itemInfos.add(new WidgetItemInfo("e5", "检查日期：", PMSManagerAPI
-					.getdateformat(Long.parseLong(rollingPlan.qcdate)),
+					.getdateTimeformat(Long.parseLong(rollingPlan.qcdate)),
 					WidgetItemInfo.DISPLAY, false));
 		}
 		

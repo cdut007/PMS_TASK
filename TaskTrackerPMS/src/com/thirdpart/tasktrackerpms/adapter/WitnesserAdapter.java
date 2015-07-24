@@ -112,7 +112,9 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 			@Override
 			public void onClick(View v) {
 				Context context = v.getContext();
-				
+				if (Scanner) {
+					return;
+				}
 				Intent intent= new Intent(context,WitnessUpdateActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				WitnessDistributed workStep = (WitnessDistributed)chooseWitenss.getTag();

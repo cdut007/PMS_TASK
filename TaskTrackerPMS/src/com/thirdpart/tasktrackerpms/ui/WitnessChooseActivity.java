@@ -111,6 +111,14 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 					witness.getWitnessdate(), scan?WidgetItemInfo.DISPLAY:WidgetItemInfo.CHOOSE, true));
 
 			WorkStep workStep = witness.getWorkStep();
+			
+			if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
+				WitnessInfo sInfo =workStep.witnessInfo.get(0);
+					itemInfos.add(new WidgetItemInfo("ym",
+						"负责人：", sInfo.witnessName, WidgetItemInfo.DISPLAY, false));
+				
+				}
+			
 			RollingPlan rollingPlan = workStep.getRollingPlan();
 			
 			if (rollingPlan!=null) {
@@ -161,7 +169,7 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 				}
 				if (rollingPlan.welddate!=0) {
 					itemInfos.add(new WidgetItemInfo("e2", "焊接完成日期：", PMSManagerAPI
-							.getdateformat(rollingPlan.welddate), WidgetItemInfo.DISPLAY,
+							.getdateTimeformat(rollingPlan.welddate), WidgetItemInfo.DISPLAY,
 							false));
 				}
 				if (!TextUtils.isEmpty(rollingPlan.qcman)) {
@@ -176,9 +184,10 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 				
 				if (!TextUtils.isEmpty(rollingPlan.qcdate)) {
 					itemInfos.add(new WidgetItemInfo("e5", "检查日期：", PMSManagerAPI
-							.getdateformat(Long.parseLong(rollingPlan.qcdate)),
+							.getdateTimeformat(Long.parseLong(rollingPlan.qcdate)),
 							WidgetItemInfo.DISPLAY, false));
 				}
+				
 				if (workStep.witnessesAssign!=null&&workStep.witnessesAssign.size()>0) {
 					for (int i = 0; i < workStep.witnessesAssign.size(); i++) {
 						WitnessInfo witnessInfo =  workStep.witnessesAssign.get(i);
