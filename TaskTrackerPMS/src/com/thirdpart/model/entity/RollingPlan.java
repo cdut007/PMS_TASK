@@ -92,6 +92,9 @@ public class RollingPlan implements Serializable{
 
 
 	public String consendmanName;
+
+
+	public long welddate;
 	
 	public void setId(String id) {
 		this.id = id;

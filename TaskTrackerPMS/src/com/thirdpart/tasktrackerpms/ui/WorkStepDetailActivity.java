@@ -34,6 +34,7 @@ import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.DisplayItemView;
 import com.thirdpart.widget.EditItemView;
+import com.thirdpart.widget.EnterItemView;
 import com.thirdpart.widget.UserInputItemView;
 
 public class WorkStepDetailActivity extends BaseEditActivity {
@@ -42,12 +43,14 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 	WorkStep workStep;
 	boolean lastIndex;
 	private int qcsign=-1;
+	String witnessAdrress;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
 		workStep = (WorkStep) getIntent().getSerializableExtra("workstep");
+		witnessAdrress = getIntent().getStringExtra("witnessAdress");
 		lastIndex = getIntent().getBooleanExtra("lastIndex", false);
 		Log.i(TAG, "isLastIndex="+lastIndex);
 		taskManager = (TaskManager) ManagerService.getNewManagerService(this,
@@ -227,20 +230,26 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 						itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
 								"见证时间：", PMSManagerAPI.getdateTimeformat(sInfo.witnessdate),WidgetItemInfo.DISPLAY, false));
 						itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
-								"负责人：", sInfo.witnesser, WidgetItemInfo.DISPLAY, false));
-//						if (==) {
-//							itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
-//									"见证结果：", workStep.get, WidgetItemInfo.DISPLAY, false));
-//						
-//						}
+								"负责人：", sInfo.witnessName, WidgetItemInfo.DISPLAY, false));
+						if (workStep.witnessesAssign!=null&&workStep.witnessesAssign.size()>0) {
+							for (int i = 0; i < workStep.witnessesAssign.size(); i++) {
+								WitnessInfo witnessInfo =  workStep.witnessesAssign.get(i);
+								String okType ="1".equals(witnessInfo.isok)?"不合格":"合格";
+								
+								WidgetItemInfo sItemInfo = new WidgetItemInfo("w"+i,
+										""+witnessInfo.witnesserName+" 见证"+okType, "", WidgetItemInfo.ENTER, true);
+								sItemInfo.obj = witnessInfo;
+								itemInfos.add(sItemInfo);
+							
+							}
+						}
 					}
 				
 					
 				}else {
-					if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
-						WitnessInfo sInfo =workStep.witnessInfo.get(0);
+					if (witnessAdrress!=null) {
 						itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-								"见证地点：", sInfo.witnessaddress, WidgetItemInfo.EDIT, isDone));
+								"见证地点：", witnessAdrress, WidgetItemInfo.EDIT, isDone));
 						
 					}else {
 						itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
@@ -358,6 +367,23 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 
 							}
 								break;
+								case WidgetItemInfo.ENTER: {
+									convertView = new EnterItemView(
+											WorkStepDetailActivity.this);
+									convertView.setOnClickListener(new OnClickListener() {
+										
+										@Override
+										public void onClick(View v) {
+											// TODO Auto-generated method stub
+											WitnessInfo witnessInfo = (WitnessInfo) widgetItemInfo.obj;
+											Intent intent = new Intent(WorkStepDetailActivity.this,DetailContentActivity.class);
+											intent.putExtra("title", "见证人描述－－"+witnessInfo.witnesserName);
+											intent.putExtra("content",witnessInfo.noticeresultdesc);
+											startActivity(intent);
+										}
+									});
+								}
+									break;
 							case WidgetItemInfo.DEVIDER: {
 								convertView = new View(
 										WorkStepDetailActivity.this);
@@ -520,6 +546,13 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 											widgetItemInfo.content);
 						}
 							break;
+							case WidgetItemInfo.ENTER: {
+								EnterItemView displayItemView = (EnterItemView) convertView;
+								displayItemView
+										.setNameAndContent(widgetItemInfo.name,
+												widgetItemInfo.content);
+							}
+								break;
 						case WidgetItemInfo.CHOOSE:
 							ChooseItemView chooseItemView = (ChooseItemView) convertView;
 							chooseItemView

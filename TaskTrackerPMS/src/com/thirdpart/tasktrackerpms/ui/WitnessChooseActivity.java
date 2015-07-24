@@ -25,11 +25,13 @@ import com.jameschen.framework.base.CommonCallBack.OnRetryLisnter;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.ManagerService;
 import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
+import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.model.PlanManager;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.WitnessManager;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.WitnessDistributed;
+import com.thirdpart.model.entity.WitnessInfo;
 import com.thirdpart.model.entity.Witnesser;
 import com.thirdpart.model.entity.WitnesserList;
 import com.thirdpart.model.entity.WorkStep;
@@ -37,6 +39,7 @@ import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.DisplayItemView;
 import com.thirdpart.widget.EditItemView;
+import com.thirdpart.widget.EnterItemView;
 
 public class WitnessChooseActivity extends BaseEditActivity  {
 
@@ -149,7 +152,45 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 						.getQualityplanno(), WidgetItemInfo.DISPLAY, false));
 				itemInfos.add(new WidgetItemInfo("a7", "计划施工日期：", rollingPlan
 						.getPlandate(), WidgetItemInfo.DISPLAY, false));
+			
 				
+				if (!TextUtils.isEmpty(rollingPlan.welder)) {
+					itemInfos.add(new WidgetItemInfo("e1", "焊工：", rollingPlan.welder,
+							WidgetItemInfo.DISPLAY, false));
+					
+				}
+				if (rollingPlan.welddate!=0) {
+					itemInfos.add(new WidgetItemInfo("e2", "焊接完成日期：", PMSManagerAPI
+							.getdateformat(rollingPlan.welddate), WidgetItemInfo.DISPLAY,
+							false));
+				}
+				if (!TextUtils.isEmpty(rollingPlan.qcman)) {
+					itemInfos.add(new WidgetItemInfo("e3", "QC检查人员：", rollingPlan.qcman,
+							WidgetItemInfo.DISPLAY, false));
+				}
+				if (!TextUtils.isEmpty(rollingPlan.getQcsign())) {
+					itemInfos.add(new WidgetItemInfo("e4", "检查状态：", RollingPlan
+							.QCFinifh(rollingPlan.getQcsign()), WidgetItemInfo.DISPLAY,
+							false));
+				}
+				
+				if (!TextUtils.isEmpty(rollingPlan.qcdate)) {
+					itemInfos.add(new WidgetItemInfo("e5", "检查日期：", PMSManagerAPI
+							.getdateformat(Long.parseLong(rollingPlan.qcdate)),
+							WidgetItemInfo.DISPLAY, false));
+				}
+				if (workStep.witnessesAssign!=null&&workStep.witnessesAssign.size()>0) {
+					for (int i = 0; i < workStep.witnessesAssign.size(); i++) {
+						WitnessInfo witnessInfo =  workStep.witnessesAssign.get(i);
+						String okType ="1".equals(witnessInfo.isok)?"不合格":"合格";
+						
+						WidgetItemInfo sItemInfo = new WidgetItemInfo("w"+i,
+								""+witnessInfo.witnesserName+" 见证"+okType, "", WidgetItemInfo.ENTER, true);
+						sItemInfo.obj = witnessInfo;
+						itemInfos.add(sItemInfo);
+					
+					}
+				}
 			}
 			
 			if (!isEmpty(workStep.getNoticeaqc1())) {
@@ -223,6 +264,23 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 
 							}
 								break;
+							case WidgetItemInfo.ENTER: {
+								convertView = new EnterItemView(
+										WitnessChooseActivity.this);
+								convertView.setOnClickListener(new OnClickListener() {
+									
+									@Override
+									public void onClick(View v) {
+										// TODO Auto-generated method stub
+										WitnessInfo witnessInfo = (WitnessInfo) widgetItemInfo.obj;
+										Intent intent = new Intent(WitnessChooseActivity.this,DetailContentActivity.class);
+										intent.putExtra("title", "见证人描述－－"+witnessInfo.witnesserName);
+										intent.putExtra("content",witnessInfo.noticeresultdesc);
+										startActivity(intent);
+									}
+								});
+							}
+								break;
 							case WidgetItemInfo.EDIT: {
 								convertView = new EditItemView(
 										WitnessChooseActivity.this);
@@ -276,6 +334,13 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 						switch (widgetItemInfo.type) {
 						case WidgetItemInfo.DISPLAY: {
 							DisplayItemView displayItemView = (DisplayItemView) convertView;
+							displayItemView
+									.setNameAndContent(widgetItemInfo.name,
+											widgetItemInfo.content);
+						}
+							break;
+						case WidgetItemInfo.ENTER: {
+							EnterItemView displayItemView = (EnterItemView) convertView;
 							displayItemView
 									.setNameAndContent(widgetItemInfo.name,
 											widgetItemInfo.content);

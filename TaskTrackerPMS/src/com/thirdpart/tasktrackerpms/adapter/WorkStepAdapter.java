@@ -1,9 +1,11 @@
 package com.thirdpart.tasktrackerpms.adapter;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.RollingPlanList;
+import com.thirdpart.model.entity.WitnessInfo;
 import com.thirdpart.model.entity.WorkStep;
 import com.thirdpart.model.entity.WorkStepList;
 import com.thirdpart.tasktrackerpms.R;
@@ -62,7 +65,23 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 		// TODO Auto-generated method stub
 		return new WrokStepView();
 	}
-
+public String  getAddress(WorkStep workStep){
+	List<WorkStep> mList = getObjectInfos();
+	int index = mList.indexOf(workStep);
+	if ((index-1)<0) {
+		return null;
+	}
+	for (int i = index-1; i >= 0; i--) {
+		WorkStep lastworkStep = mList.get(i);
+		if (lastworkStep.witnessInfo!=null&&lastworkStep.witnessInfo.size()>0) {
+			WitnessInfo sInfo =lastworkStep.witnessInfo.get(0);
+			if (!TextUtils.isEmpty(sInfo.witnessaddress)) {
+				return sInfo.witnessaddress;
+			}
+		}
+	}
+	return null;
+}
 	private final static class WrokStepView extends HoldView<WorkStep> {
 		TextView workNo,workName;
 		View issueFeedback, issueUpdate;
@@ -108,6 +127,7 @@ public class WorkStepAdapter extends BasePageAdapter<WorkStep> {
 						
 						lastIndex = ((WorkStepAdapter)myBaseAdapter).getItemIndex(workStep) == ((WorkStepAdapter)myBaseAdapter).getCount()-1;
 						intent.putExtra("lastIndex", lastIndex);
+						intent.putExtra("witnessAdress", ((WorkStepAdapter)myBaseAdapter).getAddress(workStep));
 						intent.putExtra("workstep", workStep);
 						context.startActivity(intent);
 					}

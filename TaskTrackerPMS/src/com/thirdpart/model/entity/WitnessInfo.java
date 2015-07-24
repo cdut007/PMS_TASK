@@ -26,4 +26,5 @@ public class WitnessInfo implements Serializable{
 	public String createdBy;
 	public long updatedOn;
 	public String updatedBy;
+	public String noticeresultdesc;
 }

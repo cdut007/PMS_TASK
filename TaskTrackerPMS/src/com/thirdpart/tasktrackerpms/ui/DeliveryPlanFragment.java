@@ -273,6 +273,7 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 		RollingPlan p = (RollingPlan) (object);
 		p.setClassName(title);
 		intent.putExtra(Item.PLAN, p);
+		intent.putExtra("scan", true);
 		startActivity(intent);
 	}
 	

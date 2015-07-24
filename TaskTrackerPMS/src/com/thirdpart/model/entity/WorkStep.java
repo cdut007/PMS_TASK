@@ -45,7 +45,7 @@ public class WorkStep implements Serializable{
 	private String updatedBy,updatedOn,noticeaqa,noticeaqc2,witnesserb,witnesserc,witnesserd;
 	
 	public String operater,operatedesc,witnesseraqa,witnesseraqc2,witnesseraqc1,noticeresult,noticeresultdesc;
-	public List<WitnessInfo> witnessInfo;
+	public List<WitnessInfo> witnessInfo,witnessesAssign;
 	public String getUpdatedBy() {
 		return updatedBy;
 	}
@@ -124,6 +124,7 @@ public class WorkStep implements Serializable{
 	public String noticed;
 
 	public String noticeb;
+
 
 	public void setId(String id) {
 		this.id = id;
