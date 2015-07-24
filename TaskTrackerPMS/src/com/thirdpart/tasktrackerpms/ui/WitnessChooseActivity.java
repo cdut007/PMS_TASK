@@ -192,9 +192,14 @@ public class WitnessChooseActivity extends BaseEditActivity  {
 					for (int i = 0; i < workStep.witnessesAssign.size(); i++) {
 						WitnessInfo witnessInfo =  workStep.witnessesAssign.get(i);
 						String okType ="1".equals(witnessInfo.isok)?"不合格":"合格";
-						
+						//Log.i(TAG, "witnessInfo.isok=="+witnessInfo.isok);
+						if (witnessInfo.isok==null||witnessInfo.isok==0) {
+							 okType =" 未见证";
+						}else {
+							okType = " 见证"+okType;
+						}
 						WidgetItemInfo sItemInfo = new WidgetItemInfo("w"+i,
-								""+witnessInfo.witnesserName+" 见证"+okType, "", WidgetItemInfo.ENTER, true);
+								""+witnessInfo.witnesserName+okType, "", WidgetItemInfo.ENTER, true);
 						sItemInfo.obj = witnessInfo;
 						itemInfos.add(sItemInfo);
 					
