@@ -355,7 +355,7 @@ public class PlanDetailActivity extends BaseDetailActivity {
 	void go2WorkStepDetail() {
 		Intent intent = new Intent(this, PlanWorkStepListActivity.class);
 
-		if (isTaskConfirm) {
+		if (isTaskConfirm&!scan) {
 			intent.putExtra("scan", false);
 		} else {
 			intent.putExtra("scan", true);
