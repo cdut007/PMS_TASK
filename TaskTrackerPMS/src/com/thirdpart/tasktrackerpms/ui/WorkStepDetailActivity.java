@@ -44,11 +44,14 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 	boolean lastIndex;
 	private int qcsign=-1;
 	String witnessAdrress;
+	boolean eidtWitness;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-
+		
+		eidtWitness = getIntent().getBooleanExtra("editWitness", false);
+		
 		workStep = (WorkStep) getIntent().getSerializableExtra("workstep");
 		witnessAdrress = getIntent().getStringExtra("witnessAdress");
 		lastIndex = getIntent().getBooleanExtra("lastIndex", false);
@@ -109,7 +112,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 		return false;
 	}
 	
-	boolean showWitness() {
+	public static boolean showWitness(WorkStep workStep) {
 		if (workStep == null) {
 			return false;
 		}
@@ -141,7 +144,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			String witnessdes = null;
 
 			String operater = operaterWidgetItemInfo.content;
-			if (TextUtils.isEmpty(operater)) {
+			if (!eidtWitness&&TextUtils.isEmpty(operater)) {
 				showToast("填写操作者");
 				return;
 			}
@@ -149,7 +152,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			String operatedate = PMSManagerAPI.getdateTimeformat(System
 					.currentTimeMillis());
 			String witnesseaddress=null;
-			if (addressWidgetItemInfo!=null) {
+			if (eidtWitness&&addressWidgetItemInfo!=null) {
 				 witnesseaddress = addressWidgetItemInfo.content;
 				if (TextUtils.isEmpty(witnesseaddress)) {
 					showToast("填写见证地点");
@@ -161,7 +164,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			String operatedesc = operatedescWidgetItemInfo.content;
 			
 			String witnessdate=null;
-			if (witnessdateWidgetItemInfo!=null) {
+			if (eidtWitness&&witnessdateWidgetItemInfo!=null) {
 				 witnessdate = (String) witnessdateWidgetItemInfo.obj;
 				if (TextUtils.isEmpty(witnessdate)) {
 					showToast("填写见证时间");
@@ -169,7 +172,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 				}
 			}
 			 Team witness=null;
-			if (witnessWidgetItemInfo!=null) {
+			if (eidtWitness&&witnessWidgetItemInfo!=null) {
 				  witness=(Team) witnessWidgetItemInfo.obj;
 				 if (witness == null) {
 					 showToast("选择见证负责人");
@@ -178,7 +181,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			}
 
 			String qcman=null;
-			if (lastIndex) {
+			if (!eidtWitness&&lastIndex) {
 				
 				if (qcsign == -1) {
 					 showToast("选择QC检查完成");
@@ -213,15 +216,31 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 		final boolean isDone = "DONE".equals(workStep.getStepflag());
 		if (itemInfos.isEmpty()) {
 			// R.id. in array String
+		if (eidtWitness) {
+//			operaterWidgetItemInfo = new WidgetItemInfo("0",
+//					"操作者：", workStep.operater, WidgetItemInfo.EDIT, false);
+//
+//			operatedescWidgetItemInfo = new WidgetItemInfo("25",
+//					"描述：", workStep.operatedesc==null?"合格":workStep.operatedesc, WidgetItemInfo.INPUT, false);
+
+			
+			itemInfos.add(operaterWidgetItemInfo = new WidgetItemInfo("0",
+					"操作者：", workStep.operater, WidgetItemInfo.EDIT, false));
+
+			itemInfos.add(operatedescWidgetItemInfo = new WidgetItemInfo("25",
+					"描述：", workStep.operatedesc==null?"合格":workStep.operatedesc, WidgetItemInfo.INPUT, false));
+		
+		}else {
 			itemInfos.add(operaterWidgetItemInfo = new WidgetItemInfo("0",
 					"操作者：", workStep.operater, WidgetItemInfo.EDIT, isDone));
 
 			itemInfos.add(operatedescWidgetItemInfo = new WidgetItemInfo("25",
 					"描述：", workStep.operatedesc==null?"合格":workStep.operatedesc, WidgetItemInfo.INPUT, isDone));
-			
-			if (showWitness()) {
+		
+		}	
+			if (showWitness(workStep)) {
 				
-				if (isDone) {
+				if (isDone&&!eidtWitness) {
 					if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
 						WitnessInfo sInfo =workStep.witnessInfo.get(0);
 						itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
@@ -251,14 +270,26 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 				
 					
 				}else {
-					if (witnessAdrress!=null) {
-						itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-								"见证地点：", witnessAdrress, WidgetItemInfo.EDIT, isDone));
-						
+					if (eidtWitness) {
+						if (witnessAdrress!=null) {
+							itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+									"见证地点：", witnessAdrress, WidgetItemInfo.EDIT, true));
+							
+						}else {
+							itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+									"见证地点：", null, WidgetItemInfo.EDIT, true));
+							
+						}
 					}else {
-						itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-								"见证地点：", null, WidgetItemInfo.EDIT, isDone));
-						
+						if (witnessAdrress!=null) {
+							itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+									"见证地点：", witnessAdrress, WidgetItemInfo.EDIT, isDone));
+							
+						}else {
+							itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+									"见证地点：", null, WidgetItemInfo.EDIT, isDone));
+							
+						}
 					}
 					
 					itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
@@ -269,7 +300,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 
 			}
 			
-			if (showQCMan()&&isDone) {
+			if (showQCMan()&&isDone&&!eidtWitness) {
 				
 				
 				if (lastIndex) {
@@ -294,11 +325,11 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 				}
 			}
 			
-			if (isDone) {
+			if (isDone&&!eidtWitness) {
 				
 				   findViewById(R.id.commit_layout).setVisibility(View.GONE);
 			}else {
-				if (lastIndex) {
+				if (lastIndex&&!eidtWitness) {
 					itemInfos.add(qcSignWidgetItemInfo = new WidgetItemInfo("a",
 							"QC检查完成：", "选择类别", WidgetItemInfo.CHOOSE, true));
 					

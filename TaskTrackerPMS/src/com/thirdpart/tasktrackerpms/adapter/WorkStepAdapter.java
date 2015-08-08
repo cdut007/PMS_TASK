@@ -102,6 +102,17 @@ public String  getAddress(WorkStep workStep){
 				// TODO Auto-generated method stub
 				Context context = v.getContext();
 				
+				Intent intent= new Intent(context,WorkStepDetailActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				WorkStep workStep = (WorkStep) v.getTag();
+				
+				lastIndex = ((WorkStepAdapter)myBaseAdapter).getItemIndex(workStep) == ((WorkStepAdapter)myBaseAdapter).getCount()-1;
+				intent.putExtra("lastIndex", lastIndex);
+				intent.putExtra("editWitness", true);
+				intent.putExtra("witnessAdress", ((WorkStepAdapter)myBaseAdapter).getAddress(workStep));
+				intent.putExtra("workstep", workStep);
+				context.startActivity(intent);
+				
 //				Intent intent= new Intent(context,IssueFeedbackActivity.class);
 //				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //				WorkStep workStep = (WorkStep) v.getTag();
@@ -119,7 +130,7 @@ public String  getAddress(WorkStep workStep){
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						Context context = v.getContext();
+	Context context = v.getContext();
 						
 						Intent intent= new Intent(context,WorkStepDetailActivity.class);
 						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -156,11 +167,19 @@ public String  getAddress(WorkStep workStep){
 				return;
 			}
 			
-//			if ("PREPARE".equals(workStep.getStepflag())) {
-//				issueFeedback.setVisibility(View.VISIBLE);
-//			}else {
-				issueFeedback.setVisibility(View.INVISIBLE);			
-//			}
+			if (show&&WorkStepDetailActivity.showWitness(workStep)) {
+				issueFeedback.setBackgroundResource(R.drawable.common_done_btn_state);
+				issueFeedback.setVisibility(View.VISIBLE);
+				TextView witnessTextView  = (TextView) issueFeedback;
+				witnessTextView.setText("见证");
+			}else {
+				issueFeedback.setBackgroundResource(R.drawable.common_done_btn_state);
+				issueFeedback.setVisibility(View.VISIBLE);
+				TextView witnessTextView  = (TextView) issueFeedback;
+				witnessTextView.setText("见证");
+				issueFeedback.setVisibility(View.INVISIBLE);
+			}
+			
 			TextView updaTextView  = (TextView) issueUpdate;
 			updateStatus(true);
 			if ("DONE".equals(workStep.getStepflag())) {
@@ -200,6 +219,7 @@ public String  getAddress(WorkStep workStep){
 	public void setScanMode(boolean fromPlan) {
 		// TODO Auto-generated method stub
 		show = !fromPlan;
+		
 	}
 
 

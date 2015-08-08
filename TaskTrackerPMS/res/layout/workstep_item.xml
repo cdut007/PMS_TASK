@@ -44,14 +44,16 @@
             android:text="problem" />
 
 
-        <com.thirdpart.widget.TouchImage
+        <TextView
             android:id="@+id/issue_feedback"
+            style="@style/common_done_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
             android:layout_margin="4dp"
-            android:textSize="14sp"
+             android:padding="2sp"
+            android:textSize="12sp"
+            android:gravity="center"
             android:singleLine="true"
             android:src="@drawable/wtfk" />
 
