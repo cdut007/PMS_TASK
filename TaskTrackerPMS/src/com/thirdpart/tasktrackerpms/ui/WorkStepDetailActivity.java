@@ -217,19 +217,19 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 		if (itemInfos.isEmpty()) {
 			// R.id. in array String
 		if (eidtWitness) {
-//			operaterWidgetItemInfo = new WidgetItemInfo("0",
-//					"操作者：", workStep.operater, WidgetItemInfo.EDIT, false);
-//
-//			operatedescWidgetItemInfo = new WidgetItemInfo("25",
-//					"描述：", workStep.operatedesc==null?"合格":workStep.operatedesc, WidgetItemInfo.INPUT, false);
+			operaterWidgetItemInfo = new WidgetItemInfo("0",
+					"操作者：", workStep.operater, WidgetItemInfo.EDIT, false);
+
+			operatedescWidgetItemInfo = new WidgetItemInfo("25",
+					"描述：", workStep.operatedesc==null?"合格":workStep.operatedesc, WidgetItemInfo.INPUT, false);
 
 			
-			itemInfos.add(operaterWidgetItemInfo = new WidgetItemInfo("0",
-					"操作者：", workStep.operater, WidgetItemInfo.EDIT, false));
-
-			itemInfos.add(operatedescWidgetItemInfo = new WidgetItemInfo("25",
-					"描述：", workStep.operatedesc==null?"合格":workStep.operatedesc, WidgetItemInfo.INPUT, false));
-		
+//			itemInfos.add(operaterWidgetItemInfo = new WidgetItemInfo("0",
+//					"操作者：", workStep.operater, WidgetItemInfo.EDIT, false));
+//
+//			itemInfos.add(operatedescWidgetItemInfo = new WidgetItemInfo("25",
+//					"描述：", workStep.operatedesc==null?"合格":workStep.operatedesc, WidgetItemInfo.INPUT, false));
+//		
 		}else {
 			itemInfos.add(operaterWidgetItemInfo = new WidgetItemInfo("0",
 					"操作者：", workStep.operater, WidgetItemInfo.EDIT, isDone));
@@ -281,21 +281,16 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 							
 						}
 					}else {
-						if (witnessAdrress!=null) {
-							itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-									"见证地点：", witnessAdrress, WidgetItemInfo.EDIT, isDone));
-							
-						}else {
-							itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-									"见证地点：", null, WidgetItemInfo.EDIT, isDone));
-							
+						if (!"PREPARE".equals(workStep.getStepflag())) {
+							itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
+									"见证时间：", "选择见证时间",WidgetItemInfo.CHOOSE, true));
+							itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+									"负责人：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
+						
 						}
+						
 					}
 					
-					itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
-							"见证时间：", "选择见证时间",WidgetItemInfo.CHOOSE, true));
-					itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
-							"负责人：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
 				}
 
 			}
