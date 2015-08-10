@@ -80,6 +80,18 @@ public String  getAddress(WorkStep workStep){
 			}
 		}
 	}
+	
+	//last
+
+	WorkStep lastworkStep = workStep;
+	if (lastworkStep.witnessInfo!=null&&lastworkStep.witnessInfo.size()>0) {
+		WitnessInfo sInfo =lastworkStep.witnessInfo.get(0);
+		if (!TextUtils.isEmpty(sInfo.witnessaddress)) {
+			return sInfo.witnessaddress;
+		}
+	}
+
+	
 	return null;
 }
 	private final static class WrokStepView extends HoldView<WorkStep> {

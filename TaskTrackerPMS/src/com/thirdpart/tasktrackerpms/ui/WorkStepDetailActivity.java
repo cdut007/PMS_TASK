@@ -280,23 +280,41 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 									"见证地点：", null, WidgetItemInfo.EDIT, true));
 							
 						}
+						
+						if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0&&workStep.witnessInfo.get(0).witnessdate!=0) {
 
-						itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
-								"见证时间：", "选择见证时间",WidgetItemInfo.CHOOSE, true));
-						itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
-								"负责人：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
-					
+							itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
+									"见证时间：", PMSManagerAPI.getdateTimeformat(workStep.witnessInfo.get(0).witnessdate),WidgetItemInfo.CHOOSE, true));
+							witnessdateWidgetItemInfo.obj = PMSManagerAPI.getdateTimeformat(workStep.witnessInfo.get(0).witnessdate);
+						} else {
+							itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
+									"见证时间：", "选择见证时间",WidgetItemInfo.CHOOSE, true));
+							
+						}
+						
+						if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0&&workStep.witnessInfo.get(0).witnessName!=null) {
+							Team team = new Team();
+							team.setId(workStep.witnessInfo.get(0).witness);
+							itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+									"负责人：", workStep.witnessInfo.get(0).witnessName, WidgetItemInfo.CHOOSE, true));
+							witnessWidgetItemInfo.obj = team;
+							
+						}else {
+							itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+									"负责人：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
+						
+						}
 					
 					}else {
 						if (!"PREPARE".equals(workStep.getStepflag())) {
 
 							if (witnessAdrress!=null) {
 								itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-										"见证地点：", witnessAdrress, WidgetItemInfo.EDIT, isDone));
+										"见证地点：", witnessAdrress, WidgetItemInfo.EDIT, true));
 								
 							}else {
 								itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-										"见证地点：", null, WidgetItemInfo.EDIT, isDone));
+										"见证地点：", null, WidgetItemInfo.EDIT, true));
 								
 							}
 							itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
@@ -451,7 +469,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 										widgetItemInfo.name,
 										widgetItemInfo.content);
 								final View tagView = (EditItemView) convertView;
-								editItemView.setScan(isDone);
+								editItemView.setScan(isDone&&!eidtWitness);
 								editItemView
 										.addTextChangedListener(new TextWatcher() {
 
