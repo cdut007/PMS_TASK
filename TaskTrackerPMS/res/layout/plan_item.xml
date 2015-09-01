@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:background="@color/item_line" />
 
-        <TextView
+        <com.thirdpart.widget.SorcllTextView
             android:id="@+id/plan_total_num_item"
             android:layout_width="0dp"
              style="@style/common_text_item"
@@ -44,7 +44,7 @@
             android:layout_height="match_parent"
             android:background="@color/item_line" />
 
-        <TextView
+        <com.thirdpart.widget.SorcllTextView
             android:id="@+id/plan_finish_num_item"
             android:layout_width="0dp"
              style="@style/common_text_item"

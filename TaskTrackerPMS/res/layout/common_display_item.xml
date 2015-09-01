@@ -31,7 +31,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="4dp" />
 
-        <TextView
+        <com.thirdpart.widget.SorcllTextView
             android:id="@+id/common_display_item_content"
             android:layout_width="0dp"
              style="@style/common_text_item"
