@@ -80,6 +80,21 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 		Log.i(TAG, "witness menu id = "+menuid);
 		bindListView(view,new WitnesserAdapter(getBaseActivity(),scanMode(),isMyevent&&menuid==0));
 		callNextPage(pageSize,getCurrentPage());
+		bindSearchController(view,new onSearchListener(){
+
+			@Override
+			public void beginSearch(String keyword) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void backToNormal() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 		return view;
 	}
 	private boolean scanMode() {
@@ -122,6 +137,12 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
     			
     		}
     	};
+    	
+    	if (mAdapter.isSearchMode()) {
+			
+		}
+    	
+    	
 		if (menuid==0) {//my revice witness
 			if (isMyevent) {
 				 getPMSManager().receiveMyWitnessList(pagesize+"", pagenum+"",networkhanler);
@@ -137,7 +158,11 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 		}else if(menuid==2){//my 
 			 getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","assigned",networkhanler);
 				
+		}else if(menuid==3){//finished ..
+			 //getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","assigned",networkhanler);
+				
 		}
+	       
 	       
 	}
 	

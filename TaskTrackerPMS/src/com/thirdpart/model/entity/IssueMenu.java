@@ -71,7 +71,7 @@ public class IssueMenu implements Serializable {
 		menus.add(new IssueMenu("0", "收到的见证"));
 		menus.add(new IssueMenu("1", "发起的见证"));
 		menus.add(new IssueMenu("2", "已分派的见证"));
-		
+		menus.add(new IssueMenu("3", "已完成的见证"));
 		return menus;
 	}
 

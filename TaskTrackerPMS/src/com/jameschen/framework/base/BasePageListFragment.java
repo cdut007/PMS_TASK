@@ -101,35 +101,51 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		if (mAdapter != null) {
 			mAdapter.clear(true);
 			pageListInfo=null;
+			searchPageListInfo=null;
 			checkIsNeedShowEmptyView();
 		}
 	}
 
-	private PageListType  pageListInfo;
+	private PageListType  pageListInfo,searchPageListInfo;
 	
 	protected  int pageSize = 10,defaultBeginPageNum=1;
 	
 	protected int getCurrentPage() {
 		// TODO Auto-generated method stub
-		if (pageListInfo == null) {
+		PageListType	mListInfo = getCurrPageListInfo();
+		
+		if (mListInfo == null) {
 			return defaultBeginPageNum;
 		}
-		return pageListInfo.getCurrentPage();
+		return mListInfo.getCurrentPage();
 	}
 	
 	protected boolean isStartPage() {
-		if (pageListInfo == null) {
+		
+		PageListType	mListInfo = getCurrPageListInfo();
+		
+		
+		if (mListInfo == null) {
 			return true;
 		}
-		return pageListInfo.getCurrentPage() == pageListInfo.getStartPage();
+		return mListInfo.getCurrentPage() == mListInfo.getStartPage();
 	}
 	
+	private PageListType getCurrPageListInfo() {
+		PageListType	mListInfo = pageListInfo;
+		if (mAdapter.isSearchMode()) {		
+			mListInfo = searchPageListInfo;
+		}
+		return mListInfo;
+	}
+
 	protected boolean isEndPage() {
-		if (pageListInfo == null) {
+		PageListType	mListInfo = getCurrPageListInfo();
+		if (mListInfo == null) {
 			return false;
 		}
-		return pageListInfo.getCurrentPage() == pageListInfo.getEndPage()||
-				pageListInfo.getCurrentPage() == pageListInfo.totalpage
+		return mListInfo.getCurrentPage() == mListInfo.getEndPage()||
+				mListInfo.getCurrentPage() == mListInfo.totalpage
 				;
 	}
 	
@@ -182,7 +198,8 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		}
 		
 		mAdapter.addObjectList(datas);
-		this.pageListInfo = mPageList;
+		PageListType	mListInfo = getCurrPageListInfo();
+		mListInfo = mPageList;
 		
 		checkIsNeedShowEmptyView();
 
@@ -191,7 +208,7 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		}
 
 		if (mPageList.getCurrentPage() == mPageList.getEndPage()||
-				pageListInfo.getCurrentPage() == pageListInfo.totalpage	
+				mListInfo.getCurrentPage() == mListInfo.totalpage	
 				) {
 			Log.i(TAG, "load finish");
 			cancelLoading(true);

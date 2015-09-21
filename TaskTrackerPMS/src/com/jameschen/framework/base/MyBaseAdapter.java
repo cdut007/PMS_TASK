@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,11 +135,38 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter implements
 	        	mObjectInfos.add(index, object);
 	        }
 	    }
+	  
+	String searchStr = "";
 	
-	public void setObjectList(List<T> mList) {
-		synchronized (mLock) {
-			mObjectInfos = (ArrayList<T>) mList;
+    public String getSearchStr() {
+		return searchStr;
+	}
+	public void setSearchStr(String searchStr) {
+		this.searchStr = searchStr;
+	}
+	
+	boolean isSearchMode = false;
+	
+	public boolean isSearchMode() {
+		return isSearchMode;
+	}
+	public void setSearchMode(boolean searchMode) {
+		this.isSearchMode = searchMode;
+		if (!searchMode) {
+			setSearchStr("");
 		}
+	}
+	public void setObjectList(List<T> mList,boolean search) {
+			synchronized (mLock) {
+				mObjectInfos = (ArrayList<T>) mList;
+				setSearchMode(search);
+			}
+
+		}
+	  
+	  
+	public void setObjectList(List<T> mList) {
+		setObjectList(mList, false);
 
 	}
 

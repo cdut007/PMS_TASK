@@ -1,10 +1,13 @@
 package com.jameschen.framework.base;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -14,6 +17,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,6 +35,7 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 	protected MyListView mListView;
 	protected MyBaseAdapter<T> mAdapter;
 	
+	private List<T> mDataList,mSearchList;
 
 
 	TextView		mStandardEmptyView;
@@ -42,8 +47,75 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 	private View	mListContainer;
 
 	public BaseListFragment() {
+	
 	}
+    
+	public static interface onSearchListener{
+		void beginSearch(String keyword);
+		void backToNormal();
+	}
+	onSearchListener searchListener;
+	
+	private void startSearch(String keyword){
+		switchToSearchMode(true);
+		searchListener.beginSearch(keyword);
+	}
+	
+	private void backToNormal(){
+		switchToSearchMode(false);
+		searchListener.backToNormal();
+	}
+	
 
+	private void switchToSearchMode(boolean searchMode) {
+		// TODO Auto-generated method stub
+		if (searchMode) {
+		  mDataList = mAdapter.getObjectInfos();	
+
+			if (mSearchList == null) {
+				mSearchList = new ArrayList<T>();
+			}else {
+				mSearchList.clear();
+			}
+		 mAdapter.setObjectList(mSearchList,true);
+		
+		}else {
+			if (mDataList == null) {
+				Log.i(TAG, "orignal data is null");
+				mDataList = new ArrayList<T>();
+			}
+		 mAdapter.setObjectList(mDataList,false);
+		}
+
+		mAdapter.notifyDataSetInvalidated();
+	}
+	
+	EditText mSearchText;
+	View searchBtn,cancelSearchBtn;
+	protected void bindSearchController(View rootView, onSearchListener onSearchListener){
+		if (false) {
+			searchBtn.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					if (TextUtils.isEmpty(mSearchText.getText())) {
+						showToast("请输入搜索关键字.");
+						return;
+					}
+					// TODO Auto-generated method stub
+					startSearch(mSearchText.getText().toString());
+				}
+			});
+			cancelSearchBtn.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					backToNormal();
+				}
+			});
+		}
+	}
 	
 	protected ListView bindListView(View root,MyBaseAdapter<T> adapter) {
 		mStandardEmptyView = (TextView) root.findViewById(R.id.listEmpty);
@@ -55,6 +127,7 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 		mStandardEmptyView.setText(mEmptyText);
 		mAdapter  = adapter;
 		mListView.setAdapter(mAdapter);
+		
 		mListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
 
 			@Override
