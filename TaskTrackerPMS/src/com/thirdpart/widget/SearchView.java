@@ -1,27 +1,16 @@
 package com.thirdpart.widget;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.internal.widget.ListPopupWindow;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.jameschen.comm.utils.UtilsUI;
-import com.jameschen.framework.base.ListPopupWindowAdapter;
 import com.thirdpart.tasktrackerpms.R;
 
 public class SearchView extends FrameLayout {
@@ -75,6 +64,17 @@ public class SearchView extends FrameLayout {
 		
 		mEditText =  (EditText) view.findViewById(R.id.search_edit);
 		
+		mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() { 
+			public boolean onEditorAction(TextView v, int actionId,                   KeyEvent event)  {                          
+			if (actionId==EditorInfo.IME_ACTION_SEND ||(event!=null&&event.getKeyCode()== KeyEvent.KEYCODE_ENTER)) 
+			{                
+			//do something;      
+				searchBtn.performClick();
+			return true;             
+			}               
+			return false;           
+			}       
+			});
 		
 		cancelBtn =  view.findViewById(R.id.cancel_btn);
 		searchBtn = view
