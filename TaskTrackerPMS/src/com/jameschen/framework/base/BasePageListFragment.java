@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.jameschen.comm.utils.Log;
+import com.jameschen.framework.base.BaseListFragment.onSearchListener;
 import com.jameschen.widget.MyListView;
 import com.thirdpart.model.entity.base.PageList;
 import com.thirdpart.tasktrackerpms.R;
@@ -96,6 +97,18 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 	public void setErrorPage(int errorCode) {
 	}
 
+	@Override
+	protected void resetSearchData() {
+		// TODO Auto-generated method stub
+		super.resetSearchData();
+		if (searchPageListInfo!=null) {
+			if (searchPageListInfo.getDatas()!=null) {
+				searchPageListInfo.getDatas().clear();
+			}
+			searchPageListInfo = null;
+		}
+	}
+	
 	protected void clearAdapter() {
 		// TODO Auto-generated method stub
 		if (mAdapter != null) {
@@ -106,7 +119,7 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		}
 	}
 
-	private PageListType  pageListInfo,searchPageListInfo;
+	private PageListType pageListInfo,searchPageListInfo;
 	
 	protected  int pageSize = 10,defaultBeginPageNum=1;
 	
@@ -154,6 +167,26 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		// TODO Auto-generated method stub
 		ListView listview = super.bindListView(root, adapter);
 		mListView.setMode(Mode.BOTH);//for page
+		
+		//add search
+		//bind search view..
+				if (canSearch) {
+					bindSearchController(root,new onSearchListener(){
+
+						@Override
+						public void beginSearch(String keyword) {
+							// TODO Auto-generated method stub
+							callNextPage(defaultBeginPageNum, getCurrentPage());
+						}
+
+						@Override
+						public void backToNormal() {
+							// TODO Auto-generated method stub
+							
+						}
+						
+					});
+				}
 		return listview;
 	}
 	
@@ -177,7 +210,11 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		
 	}
 	
-	protected abstract void callNextPage(int pagesize,int pageNum);
+	protected  void callNextPage(int pagesize,int pageNum){
+		if (mAdapter.isSearchMode()) {
+			getPMSManager().setKeyword(mAdapter.searchStr);
+		}
+	};
 	
 	public void addDataToListAndRefresh(PageListType mPageList) {
 
@@ -198,8 +235,13 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		}
 		
 		mAdapter.addObjectList(datas);
-		PageListType	mListInfo = getCurrPageListInfo();
-		mListInfo = mPageList;
+		PageListType currentpageListInfo = mPageList;
+		if (mAdapter.isSearchMode()) {
+			searchPageListInfo = currentpageListInfo;
+		}else {
+			pageListInfo = currentpageListInfo;
+		}
+		
 		
 		checkIsNeedShowEmptyView();
 
@@ -208,7 +250,7 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		}
 
 		if (mPageList.getCurrentPage() == mPageList.getEndPage()||
-				mListInfo.getCurrentPage() == mListInfo.totalpage	
+				currentpageListInfo.getCurrentPage() == currentpageListInfo.totalpage	
 				) {
 			Log.i(TAG, "load finish");
 			cancelLoading(true);
@@ -268,6 +310,7 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 		@Override
 		public void start() {
 			if (isStartPage()) {
+				Log.i(TAG, "start page is refreshing~~"+mListView.isRefreshing());
 				if (!mListView.isRefreshing()) {
 					if (mAdapter!=null&&mAdapter.getCount() <=0) {
 						setListShown(false);

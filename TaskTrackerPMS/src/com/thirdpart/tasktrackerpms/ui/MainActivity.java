@@ -27,15 +27,7 @@ import com.thirdpart.tasktrackerpms.R;
 
 public class MainActivity extends BaseActivity {
 
-	
-	
-	@Override
-	protected void initView() {
-		// TODO Auto-generated method stub
-
-		setContentView(R.layout.activity_main);
-		setTopBarLeftBtnVisiable(View.GONE);
-
+	private void bindSettingView() {
 		setTopBarRightBtnListener(R.drawable.setting_icon,
 				new OnClickListener() {
 
@@ -46,6 +38,17 @@ public class MainActivity extends BaseActivity {
 								SettingActivity.class));
 					}
 				});
+
+	}
+	
+	@Override
+	protected void initView() {
+		// TODO Auto-generated method stub
+
+		setContentView(R.layout.activity_main);
+		setTopBarLeftBtnVisiable(View.GONE);
+
+	
 		initNavListener();
 
 	}
@@ -158,6 +161,8 @@ public class MainActivity extends BaseActivity {
 
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		MenuListener selectedMenu = mTabMenus.get(item);
+		setTopBarRightBtnVisiable(View.GONE);
+		setSearchViewGone();
 		if (selectedMenu == null) {
 			switch (item) {
 			case HOME: {// home
@@ -166,16 +171,20 @@ public class MainActivity extends BaseActivity {
 			}
 				break;
 			case PLAN: {// plan
+				bindSearchViews(null);
 				selectedMenu = new MenuListener<PlanFragment>(this, Item.PLAN,
 						PlanFragment.class, null);
 			}
 				break;
 			case TASK: {// task
+				bindSearchViews(null);
 				selectedMenu = new MenuListener<TaskFragment>(this, Item.TASK,
 						TaskFragment.class, null);
 			}
 				break;
 			case MINE: {// MINE
+
+				bindSettingView();
 				selectedMenu = new MenuListener<MineFragment>(this,
 						Item.MINE, MineFragment.class, null);
 			}
@@ -203,6 +212,31 @@ public class MainActivity extends BaseActivity {
 
 		}
 
+		//search model
+
+		switch (item) {
+		case HOME: {// home
+		}
+			break;
+		case PLAN: {// plan
+			bindSearchViews(null);
+			}
+			break;
+		case TASK: {// task
+			bindSearchViews(null);
+		}
+			break;
+		case MINE: {// MINE
+
+			bindSettingView();
+		}
+			break;
+		default:
+			break;
+		}
+	
+		
+		
 		ft.commit();
 		this.item = item;
 	}

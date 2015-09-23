@@ -11,6 +11,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.IntentCompat;
+import android.text.Editable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,10 +116,27 @@ public class LoginActivity extends BaseActivity{
         Log.i(TAG,"userid ==" + id + "; password ==" + password);
         
         if ("test777".equals(id)) {
-			showToast("staging enviorment set succ!");
-			SharedPreferences sharedPreferences = getSharedPreferences("staging",Context.MODE_PRIVATE);
-			sharedPreferences.edit().putBoolean("staging", true).commit();
-			System.exit(0);
+			EditText sEditText = (EditText) findViewById(R.id.staging_url);
+			if(sEditText.getVisibility() == View.GONE) {
+				sEditText.setVisibility(View.VISIBLE);
+				sEditText.setText("http://helloxlb.xicp.net:17905/easycms-website");
+			}else {
+				showToast("staging enviorment set succ!");
+				String content = null;
+				if (TextUtils.isEmpty(sEditText.getText())) {
+					content = "http://helloxlb.xicp.net:17905/easycms-website";
+				}else {
+					content = sEditText.getText().toString();
+					if (!content.startsWith("http://")) {
+						content = "http://"+content;
+					}
+				}
+				SharedPreferences sharedPreferences = getSharedPreferences("staging",Context.MODE_PRIVATE);
+				sharedPreferences.edit().putBoolean("staging", true).commit();
+				sharedPreferences.edit().putString("staging_url", content).commit();				
+				
+				System.exit(0);	
+			}
 			return;
         }
         if (RegexUtils.isIdOk(id)) {

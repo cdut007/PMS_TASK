@@ -50,12 +50,23 @@ public class PMSManagerAPI {
 		return getCommonPageParams(true, pageSize, pageNum);
 	}
 
+	private String keyword="";
+	
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
 	private RequestParams getPublicParams(boolean loginId) {
 		// TODO Auto-generated method stub
 		RequestParams requestParams = new RequestParams(getPublicParamRequstMap());
 		if (loginId) {
 			requestParams.put("loginId", getLogId());
 		}
+		requestParams.put("keyword", keyword);
 		return requestParams;
 	}
 

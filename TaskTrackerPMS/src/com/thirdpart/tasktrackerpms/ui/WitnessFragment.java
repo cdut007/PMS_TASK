@@ -110,6 +110,7 @@ public class WitnessFragment extends BasePageListFragment{
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.main_issue_ui, container, false);
+		canSearch = false;
 		bindListView(view,itemAdapter = new IssueMenuAdapter(getBaseActivity()));
 		mListView.setMode(Mode.DISABLED);
 		loadAnimate(APPEAR);

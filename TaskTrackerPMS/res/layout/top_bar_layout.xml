@@ -64,5 +64,12 @@
         android:layout_height="50.0px"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/btn_next" />
-
+<com.thirdpart.widget.SearchView 
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:visibility="gone"
+    android:id="@+id/search_container"
+    >
+    
+</com.thirdpart.widget.SearchView>
 </RelativeLayout>

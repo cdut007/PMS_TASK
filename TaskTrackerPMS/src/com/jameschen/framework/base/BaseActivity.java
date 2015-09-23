@@ -1,9 +1,5 @@
 package com.jameschen.framework.base;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import android.R.integer;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,14 +21,18 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jameschen.comm.utils.Log;
+import com.jameschen.comm.utils.Util;
+import com.jameschen.comm.utils.UtilsUI;
 import com.thirdpart.model.LogInController;
 import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.widget.SearchView;
 
 public abstract class BaseActivity extends ActionBarActivity implements
 		OnClickListener {
@@ -145,6 +145,63 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	}
 
 	
+	protected void setSearchViewGone(){
+		 ActionBar actionBar = getSupportActionBar();
+		  ViewGroup topBar = (ViewGroup) actionBar.getCustomView();
+		 final  SearchView searchView = (SearchView) topBar.findViewById(R.id.search_container);
+		 searchView.setVisibility(View.GONE);
+	}
+	
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		if (isSearchMode()) {
+			return ;
+		}
+		super.onBackPressed();
+	}
+	
+	private boolean isSearchMode() {
+		// TODO Auto-generated method stub
+		 ActionBar actionBar = getSupportActionBar();
+		  ViewGroup topBar = (ViewGroup) actionBar.getCustomView();
+		 final  SearchView searchView = (SearchView) topBar.findViewById(R.id.search_container);
+		 if (searchView!=null&&searchView.getVisibility() == View.VISIBLE) {
+			 searchView.performCancelClick();
+			 return true;
+		}
+		 
+		return false;
+	}
+
+	//*****************************************//
+			//*****************top bar search modul init************//
+			//*****************************************//
+	public EditText bindSearchViews(OnClickListener searchOnClickListener) {
+		// TODO Auto-generated method stub
+		 ActionBar actionBar = getSupportActionBar();
+		  ViewGroup topBar = (ViewGroup) actionBar.getCustomView();
+		 final  SearchView searchView = (SearchView) topBar.findViewById(R.id.search_container);
+
+		setTopBarRightBtnListener(android.R.drawable.ic_menu_search,
+				new OnClickListener() {
+		
+					@Override
+					public void onClick(View v) {
+						
+						searchView.setVisibility(View.VISIBLE);
+						searchView.resetData();
+					}
+				});
+		
+		
+		if (searchOnClickListener!=null) {
+			searchView.setOnSearchBtnClickListener(searchOnClickListener);
+				
+		}
+		return searchView.getSearchEdit();
+	}
 	
 	//*****************************************//
 		//*****************top bar init************//
@@ -373,7 +430,10 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+
        Log.i(TAG, "onDestroy");
 	}
+
+	
 
 }

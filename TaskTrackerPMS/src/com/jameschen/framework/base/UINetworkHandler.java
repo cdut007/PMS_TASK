@@ -9,6 +9,7 @@ import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 
 import com.jameschen.comm.utils.NetworkUtil;
+import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.tasktrackerpms.R.bool;
 
@@ -72,6 +73,7 @@ public abstract class UINetworkHandler<T> extends MyAsyncHttpResponseHandler<T> 
 
 	@Override
 	protected void onSucc(int statusCode, Header[] headers, T response) {
+		PMSManagerAPI.getInstance(context).setKeyword("");
 		if (isFinishing()) {
 			return;
 		}

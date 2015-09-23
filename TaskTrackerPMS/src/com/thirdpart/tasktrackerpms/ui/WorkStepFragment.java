@@ -32,7 +32,7 @@ public class WorkStepFragment extends BasePageListFragment<WorkStep, WorkStepLis
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.workstep_ui, container, false);
 		mRollingPlan = (RollingPlan) getArguments().getSerializable(Item.PLAN);		
-		
+		canSearch = false;
 		bindListView(view,new WorkStepAdapter(getBaseActivity(),getLogInController().matchPlanUrls(),mRollingPlan));
 		mListView.setOnItemClickListener(this);
 		id =Long.parseLong(mRollingPlan.getId());

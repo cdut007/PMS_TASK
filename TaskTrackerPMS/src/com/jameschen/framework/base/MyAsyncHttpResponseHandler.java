@@ -1,24 +1,16 @@
 package com.jameschen.framework.base;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Locale;
 
 import org.apache.http.Header;
 
-import android.R.integer;
-
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 import com.jameschen.comm.utils.Log;
-import com.jameschen.comm.utils.NetworkUtil;
 import com.jameschen.comm.utils.Util;
 import com.jameschen.framework.base.ConvertResponseResultAdapter.ReqType;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.thirdpart.model.WebResponseContent;
-import com.thirdpart.model.entity.UserInfo;
-import com.thirdpart.tasktrackerpms.R;
 
 abstract class MyAsyncHttpResponseHandler<T> extends
 		AsyncHttpResponseHandler  {
@@ -136,6 +128,7 @@ abstract class MyAsyncHttpResponseHandler<T> extends
 	@Override
 	public void onFinish() {
 		// TODO Auto-generated method stub
+		
 		super.onFinish();
 	}
 

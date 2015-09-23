@@ -80,21 +80,7 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 		Log.i(TAG, "witness menu id = "+menuid);
 		bindListView(view,new WitnesserAdapter(getBaseActivity(),scanMode(),isMyevent&&menuid==0));
 		callNextPage(pageSize,getCurrentPage());
-		bindSearchController(view,new onSearchListener(){
-
-			@Override
-			public void beginSearch(String keyword) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void backToNormal() {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
+		
 		return view;
 	}
 	private boolean scanMode() {

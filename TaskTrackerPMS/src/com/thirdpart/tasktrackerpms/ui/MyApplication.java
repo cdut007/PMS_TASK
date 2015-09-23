@@ -116,7 +116,7 @@ public class MyApplication extends Application {
 		}
 		SharedPreferences sharedPreferences = mApplication.getSharedPreferences("staging",Context.MODE_PRIVATE);
 		if (sharedPreferences.getBoolean("staging", false)) {
-			return "http://helloxlb.xicp.net:17905/easycms-website";
+			return sharedPreferences.getString("staging_url", "http://helloxlb.xicp.net:17905/easycms-website");
 		}
 		
 		return "http://122.225.41.42:8888/easycms-website";

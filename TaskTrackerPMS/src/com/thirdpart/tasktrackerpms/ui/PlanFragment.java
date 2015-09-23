@@ -19,6 +19,7 @@ import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.jameschen.framework.base.BaseListFragment;
 import com.jameschen.framework.base.UINetworkHandler;
+import com.jameschen.framework.base.BaseListFragment.onSearchListener;
 import com.jameschen.widget.MyListView;
 import com.thirdpart.model.EventCallbackListener;
 import com.thirdpart.model.ConstValues.Item;
@@ -64,6 +65,24 @@ public class PlanFragment extends BaseListFragment<DepartmentInfo> implements On
 		
 		View view = inflater.inflate(R.layout.plan_ui, container, false);
 		bindListView(view,new PlanAdapter(getBaseActivity()));
+		//bind search view..
+					bindSearchController(view,new onSearchListener(){
+
+						@Override
+						public void beginSearch(String keyword) {
+							// TODO Auto-generated method stub
+							getPMSManager().setKeyword(keyword);
+							executeNextPageNetWorkRequest();
+						}
+
+						@Override
+						public void backToNormal() {
+							// TODO Auto-generated method stub
+							
+						}
+						
+					});
+				
 		mListView.setOnItemClickListener(this);
 		mListView.setMode(Mode.PULL_FROM_START);
 		setListShown(false);

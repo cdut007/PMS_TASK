@@ -62,6 +62,7 @@ public class MineFragment extends BasePageListFragment{
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.mine_ui, container, false);
+		canSearch = false;
 		bindListView(view,new IssueMenuAdapter(getBaseActivity()));
 		mListView.setMode(Mode.DISABLED);
 		loadAnimate(APPEAR);

@@ -57,64 +57,87 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 	onSearchListener searchListener;
 	
 	private void startSearch(String keyword){
-		switchToSearchMode(true);
-		searchListener.beginSearch(keyword);
+		Log.i(TAG, "keyword:"+keyword);
+		switchToSearchMode(keyword);
+		getPMSManager().setKeyword(keyword);
+		if (searchListener!=null) {
+			searchListener.beginSearch(keyword);	
+		}
+		
 	}
 	
 	private void backToNormal(){
-		switchToSearchMode(false);
-		searchListener.backToNormal();
+		switchToSearchMode(null);
+		getPMSManager().setKeyword("");
+		if (searchListener!=null) {
+			searchListener.backToNormal();
+		}
 	}
 	
 
-	private void switchToSearchMode(boolean searchMode) {
+	private void switchToSearchMode(String keyword) {
 		// TODO Auto-generated method stub
-		if (searchMode) {
-		  mDataList = mAdapter.getObjectInfos();	
-
-			if (mSearchList == null) {
-				mSearchList = new ArrayList<T>();
-			}else {
-				mSearchList.clear();
+		if (!TextUtils.isEmpty(keyword)) {
+			if (!mAdapter.isSearchMode()) {
+				  mDataList = mAdapter.getObjectInfos();	
 			}
+		 
+		 resetSearchData();
 		 mAdapter.setObjectList(mSearchList,true);
-		
+		mAdapter.setSearchStr(keyword);
+		mAdapter.notifyDataSetChanged();
+		showNoResult(false, "");
 		}else {
+			if (!mAdapter.isSearchMode()) {
+				mDataList = mAdapter.getObjectInfos();
+			}
 			if (mDataList == null) {
 				Log.i(TAG, "orignal data is null");
 				mDataList = new ArrayList<T>();
 			}
 		 mAdapter.setObjectList(mDataList,false);
+		 mAdapter.setSearchStr(keyword);
+		mAdapter.notifyDataSetChanged();
+		checkIsNeedShowEmptyView();
+			
 		}
-
-		mAdapter.notifyDataSetInvalidated();
+		
 	}
 	
-	EditText mSearchText;
-	View searchBtn,cancelSearchBtn;
-	protected void bindSearchController(View rootView, onSearchListener onSearchListener){
-		if (false) {
-			searchBtn.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					if (TextUtils.isEmpty(mSearchText.getText())) {
-						showToast("请输入搜索关键字.");
-						return;
-					}
-					// TODO Auto-generated method stub
-					startSearch(mSearchText.getText().toString());
-				}
-			});
-			cancelSearchBtn.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					backToNormal();
-				}
-			});
+	protected void resetSearchData() {
+		// TODO Auto-generated method stub
+		if (mSearchList == null) {
+			mSearchList = new ArrayList<T>();
+		}else {
+			mSearchList.clear();
 		}
+	}
+
+	EditText mSearchText;
+	OnClickListener searchOnClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			if (v.getId() == R.id.search_btn) {
+
+				if (TextUtils.isEmpty(mSearchText.getText())) {
+					showToast("请输入搜索关键字.");
+					return;
+				}
+				// TODO Auto-generated method stub
+				startSearch(mSearchText.getText().toString());
+			
+			}else {//cancel btn
+				closeInputMethod();
+				backToNormal();
+			}
+		}
+	};
+	
+	protected void bindSearchController(View rootView, onSearchListener onSearchListener){
+		mSearchText = getBaseActivity().bindSearchViews(searchOnClickListener);
+		this.searchListener = onSearchListener;
+	
 	}
 	
 	protected ListView bindListView(View root,MyBaseAdapter<T> adapter) {
@@ -145,9 +168,14 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 	
 		});
 		
+		
+		
+		
 		return mListView.getRefreshableView();
 
 	}
+ 
+	protected boolean canSearch = true;
 
 	 private LayoutAnimationController getAppearAnimationController() {  
 	        int duration=300;  
@@ -190,11 +218,13 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 		// TODO Auto-generated method stub
 		Log.i(TAG, "fresh from bottom");
 		
+		
 	}
 
 	protected void doFreshFromTop(MyListView mListView) {
 		// TODO Auto-generated method stub
 		Log.i(TAG, "fresh from top");
+		
 		showNoResult(false, "");
 		
 	}
