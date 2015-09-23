@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +25,7 @@ import com.thirdpart.tasktrackerpms.ui.IssueFeedbackActivity;
 import com.thirdpart.tasktrackerpms.ui.WitnessChooseActivity;
 import com.thirdpart.tasktrackerpms.ui.WitnessUpdateActivity;
 import com.thirdpart.tasktrackerpms.ui.WorkStepDetailActivity;
+import com.thirdpart.widget.DisplayItemView;
 import com.thirdpart.widget.TouchImage;
 
 public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
@@ -44,7 +46,9 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 		convertView = super.getView(position, convertView, parent);
 		ItemHoldView sHoldView = (ItemHoldView) convertView.getTag();
 		sHoldView.setInfo(position);
+		
 		return convertView;
+		
 
 	}
 
@@ -72,7 +76,7 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 
 	private final static class ItemHoldView extends HoldView<WitnessDistributed> {
 
-		TextView noTextView,adressTextView;
+		TextView noTextView,adressTextView,tuzhiTextView,hankouTextView;
 		TextView chooseWitenss;
 	boolean Scanner = false,chooseWitness=false;
 		@Override
@@ -82,6 +86,12 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 			noTextView = (TextView) convertView.findViewById(R.id.witness_index_item);
 			adressTextView = (TextView) convertView.findViewById(R.id.witnenss_address);
 			chooseWitenss = (TextView) convertView.findViewById(R.id.witness_choose);
+			
+			 DisplayItemView issueDisplayItemView = (DisplayItemView) convertView.findViewById(R.id.issue_hankou);
+				tuzhiTextView = issueDisplayItemView.getContentView();
+				 issueDisplayItemView = (DisplayItemView) convertView.findViewById(R.id.issue_tuzhi);
+				 hankouTextView = issueDisplayItemView.getContentView();
+			
 		Scanner = ((WitnesserAdapter)myBaseAdapter).deliveryWitness;	
 		chooseWitness = 	 ((WitnesserAdapter)myBaseAdapter).sanChooseWitness;
 		chooseWitenss.setOnClickListener(new OnClickListener() {
@@ -132,6 +142,11 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 		protected void setInfo(WitnessDistributed object) {
 			// TODO Auto-generated method stub
 			adressTextView.setText(object.getWitnessaddress());
+			
+			tuzhiTextView.setText(object.getWorkStep().getRollingPlan().getDrawno());
+			hankouTextView.setText(object.getWorkStep().getRollingPlan().getWeldno());
+			
+			
 			chooseWitenss.setTag(object);
 			chooseWitenss.setText(Scanner?"查看见证":"选择见证人");
 			if (chooseWitness) {

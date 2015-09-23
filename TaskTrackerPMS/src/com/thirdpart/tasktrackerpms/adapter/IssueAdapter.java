@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import javax.crypto.spec.PSource;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +22,7 @@ import com.thirdpart.model.entity.IssueList;
 import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.widget.DisplayItemView;
 
 public class IssueAdapter extends BasePageAdapter<IssueResult> {
 	private Context context;
@@ -62,7 +64,7 @@ public interface OnStatusItemListener{
 	private final static class IssueHoldView extends HoldView<IssueResult> {
 		
 		
-		TextView noTextView,topicTextView,statusTextView,deliveryTextView;
+		TextView noTextView,topicTextView,statusTextView,deliveryTextView,tuzhiTextView,hankouTextView;
 		OnStatusItemListener statusItemListener;
 		public IssueHoldView(OnStatusItemListener onStatusItemListener) {
 			// TODO Auto-generated constructor stub
@@ -76,6 +78,13 @@ public interface OnStatusItemListener{
 			// TODO Auto-generated method stub
 			noTextView = (TextView) convertView.findViewById(R.id.issue_index_item);
 			topicTextView = (TextView) convertView.findViewById(R.id.issue_topic);
+			 DisplayItemView issueDisplayItemView = (DisplayItemView) convertView.findViewById(R.id.issue_hankou);
+			tuzhiTextView = issueDisplayItemView.getContentView();
+			//issueDisplayItemView.setNameBgColor(Color.rgb(0xBF,0xef, 0xff));
+			 issueDisplayItemView = (DisplayItemView) convertView.findViewById(R.id.issue_tuzhi);
+			// issueDisplayItemView.setNameBgColor(Color.rgb(0xBF,0xef, 0xff));
+			 hankouTextView = issueDisplayItemView.getContentView();
+			
 			statusTextView = (TextView) convertView.findViewById(R.id.issue_status);
 			deliveryTextView = (TextView) convertView.findViewById(R.id.issue_delivery);
 			statusTextView.setOnClickListener(new OnClickListener() {
@@ -97,6 +106,8 @@ public interface OnStatusItemListener{
 		protected void setInfo(IssueResult issueResult) {
 			// TODO Auto-generated method stub
 			topicTextView.setText(issueResult.getQuestionname());
+			tuzhiTextView.setText(issueResult.drawno);
+			hankouTextView.setText(issueResult.weldno);
 			statusTextView.setText(IssueManager.getIssueStatus(issueResult.getIsOk()));
 			statusTextView.setTextColor(IssueManager.getIssueStatusColor(issueResult.getIsOk()));
 			deliveryTextView.setText(issueResult.getCurrentsolver());

@@ -176,7 +176,7 @@ public abstract class BasePageListFragment<T, PageListType extends PageList<T>> 
 						@Override
 						public void beginSearch(String keyword) {
 							// TODO Auto-generated method stub
-							callNextPage(defaultBeginPageNum, getCurrentPage());
+							callNextPage(pageSize, getCurrentPage());
 						}
 
 						@Override

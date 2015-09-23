@@ -78,9 +78,18 @@ public class DisplayItemView extends FrameLayout {
 		// TODO Auto-generated method stub
 		contentView.setText(describe);
 	}
+	
+	public TextView getContentView() {
+		return contentView;
+	}
+	
 	public String getContent() {
 		// TODO Auto-generated method stub
 		return TextUtils.isEmpty(contentView.getText())?null:contentView.getText().toString();
+	}
+	public void setNameBgColor(int rgb) {
+		// TODO Auto-generated method stub
+		setBackgroundColor(rgb);
 	}
 	
 }

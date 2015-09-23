@@ -646,8 +646,12 @@ public class PMSManagerAPI {
 	
 	public void receiveMyWitnessList(
 			String pageSize,String pageNum,
-			AsyncHttpResponseHandler responseHandler) {
+			AsyncHttpResponseHandler responseHandler, String condition) {
 		RequestParams params = getCommonPageParams(true,pageSize, pageNum);
+		if (condition!=null) {
+			params.put("condition", condition);
+		}
+		
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_MY_WITNESS_LIST_OF_DISTRIBUTE_URL,
 				params, responseHandler);
 	}

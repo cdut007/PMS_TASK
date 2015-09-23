@@ -1,5 +1,18 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:widgets="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="10dp"
+      android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/app_bg_color"
+    >
+     <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_line_width"
+            android:background="@color/item_line" />
+    <LinearLayout 
     android:id="@+id/issue"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -30,15 +43,22 @@
             android:layout_height="match_parent"
             android:background="@color/item_line" />
 
-        <com.thirdpart.widget.SorcllTextView
-            android:id="@+id/issue_topic"
+        <LinearLayout
+            
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            
+            android:layout_weight="3"
+             >
+            <com.thirdpart.widget.SorcllTextView
+            android:id="@+id/issue_topic"
+            android:layout_width="match_parent"
              style="@style/common_text_item"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
             android:gravity="center"
-            android:singleLine="true"
-            android:text="problem" />
+            android:singleLine="true" />
+        </LinearLayout>
 
         <View
             android:layout_width="@dimen/item_line_width"
@@ -70,8 +90,45 @@
             android:singleLine="true"
             android:text="deliveryName" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <com.thirdpart.widget.LineStroke
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_line_width" />
+
+        <com.thirdpart.widget.DisplayItemView
+            android:id="@+id/issue_hankou"
+            style="@style/common_text_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="true"
+            widgets:customName="焊口/支架：" >
+        </com.thirdpart.widget.DisplayItemView>
+
+        <com.thirdpart.widget.LineStroke
+            android:layout_width="match_parent"
+             android:layerType="software" 
+            android:layout_height="@dimen/item_line_width" />
+
+        <com.thirdpart.widget.DisplayItemView
+            android:id="@+id/issue_tuzhi"
+            style="@style/common_text_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="true"
+            widgets:customName="图纸：" >
+        </com.thirdpart.widget.DisplayItemView>
+    </LinearLayout>
+    
  <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_line_width"
             android:background="@color/item_line" />
+</LinearLayout>
 </LinearLayout>

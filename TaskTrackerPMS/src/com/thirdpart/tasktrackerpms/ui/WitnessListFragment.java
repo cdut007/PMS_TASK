@@ -131,7 +131,7 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
     	
 		if (menuid==0) {//my revice witness
 			if (isMyevent) {
-				 getPMSManager().receiveMyWitnessList(pagesize+"", pagenum+"",networkhanler);
+				 getPMSManager().receiveMyWitnessList(pagesize+"", pagenum+"",networkhanler,null);
 						
 			}else {
 				 getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","equal",networkhanler);
@@ -145,7 +145,7 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 			 getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","assigned",networkhanler);
 				
 		}else if(menuid==3){//finished ..
-			 //getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","assigned",networkhanler);
+			 getPMSManager().receiveMyWitnessList(pagesize+"", pagenum+"",networkhanler,"complete");
 				
 		}
 	       

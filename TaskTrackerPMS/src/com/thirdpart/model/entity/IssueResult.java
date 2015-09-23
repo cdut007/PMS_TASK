@@ -9,6 +9,8 @@ public class IssueResult implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public String drawno,weldno;
+	
 	private String id;
 
 	private String worstepid;
