@@ -1,79 +1,45 @@
 package com.thirdpart.tasktrackerpms.ui;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.apache.http.Header;
 
-import android.R.integer;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.view.ViewGroup.LayoutParams;
 
 import com.jameschen.comm.utils.Log;
-import com.jameschen.comm.utils.MyHttpClient;
+import com.jameschen.comm.utils.UtilsUI;
 import com.jameschen.framework.base.BaseEditActivity;
+import com.jameschen.framework.base.CommonCallBack.OnRetryLisnter;
+import com.jameschen.framework.base.UINetworkHandler;
 import com.jameschen.widget.CustomSelectPopupWindow.Category;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.thirdpart.model.IssueManager;
-import com.thirdpart.model.ManagerService.OnReqHttpCallbackListener;
-import com.thirdpart.model.ManagerService.OnUploadReqHttpCallbackListener;
-import com.thirdpart.model.MediaManager;
-import com.thirdpart.model.Config.ReqHttpMethodPath;
-import com.thirdpart.model.MediaManager.MediaChooseListener;
+import com.thirdpart.model.ManagerService;
+import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.model.PlanManager;
-import com.thirdpart.model.TeamMemberManager;
-import com.thirdpart.model.UploadFileManager;
-import com.thirdpart.model.TeamMemberManager.LoadUsersListener;
+import com.thirdpart.model.TaskManager;
 import com.thirdpart.model.WidgetItemInfo;
-import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.model.entity.RollingPlan;
+import com.thirdpart.model.entity.Team;
+import com.thirdpart.model.entity.WitnessInfo;
+import com.thirdpart.model.entity.Witnesser;
 import com.thirdpart.model.entity.WorkStep;
 import com.thirdpart.tasktrackerpms.R;
-import com.thirdpart.widget.AddItemView;
-import com.thirdpart.widget.AddItemView.AddItem;
 import com.thirdpart.widget.ChooseItemView;
+import com.thirdpart.widget.DisplayItemView;
 import com.thirdpart.widget.EditItemView;
+import com.thirdpart.widget.EnterItemView;
 import com.thirdpart.widget.UserInputItemView;
 
-public class WitnessDealTaskActivity extends BaseEditActivity implements
-		OnUploadReqHttpCallbackListener {
+public class WitnessDealTaskActivity extends BaseEditActivity {
 
-	List<Category> mFiles = new ArrayList<Category>();
-
-	List<Category> mGuanzhuList = new ArrayList<Category>();
-	IssueManager sIssueManager;
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		super.onActivityResult(requestCode, resultCode, data);
-		mediaManager.onActivityResult(requestCode, resultCode, data);
-	}
-
-	UserInputItemView issueDescView;
-	EditItemView issueTopic;
-	AddItemView addFile, addPerson;
-	ChooseItemView solverMan;
 	RollingPlan rollingPlan;
 
 	
@@ -90,412 +56,269 @@ public class WitnessDealTaskActivity extends BaseEditActivity implements
 		}
 	}
 	
+
+
+
+	private TaskManager taskManager;
+	WorkStep workStep;
+	boolean lastIndex;
+	String witnessAdrress;
+	boolean eidtWitness;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		
+		eidtWitness = getIntent().getBooleanExtra("editWitness", false);
+		
+		
 
 		rollingPlan = (RollingPlan) getIntent().getSerializableExtra("dealtask");
 
 		setTitle(rollingPlan.getWeldno()+getType()+"见证信息");
-		initInfo();
-		bindView();
-		sIssueManager = (IssueManager) IssueManager.getNewManagerService(this,
-				IssueManager.class, this);
-		teamMemberManager = new TeamMemberManager(this);
-		mediaManager = new MediaManager(this);
-	}
-
-	public void onAttachedToWindow() {
-		super.onAttachedToWindow();
-		getDeliveryList(false, solverMan);
-	};
-
-	TeamMemberManager teamMemberManager;
-	MediaManager mediaManager;
-	UploadFileManager uploadFileManager;
-
-	private void bindView() {
-		// TODO Auto-generated method stub
-
-		findViewById(R.id.issue_feedback_container).addOnLayoutChangeListener(
-				new OnLayoutChangeListener() {
-
-					@Override
-					public void onLayoutChange(View v, int left, int top,
-							int right, int bottom, int oldLeft, int oldTop,
-							int oldRight, int oldBottom) {
-						// TODO Auto-generated method stub
-						int addItem = bottom - oldBottom;
-						if (addItem > 0 && oldBottom > 0) {
-							ScrollView scrollView = (ScrollView) findViewById(R.id.container);
-							Log.i(TAG, "deltaHeight=" + addItem + ";bottom="
-									+ bottom + ";oldBottom=" + oldBottom);
-							scrollView.scrollBy(0, addItem);
-						}
-					}
-				});
-
-		issueDescView = (UserInputItemView) findViewById(R.id.issue_desc);
-		issueTopic = (EditItemView) findViewById(R.id.issue_topic);
-		addFile = (AddItemView) findViewById(R.id.issue_add_file);
-		solverMan = (ChooseItemView) findViewById(R.id.issue_choose_deliver);
-		solverMan.setContent("选择解决人");
-		addPerson = (AddItemView) findViewById(R.id.issue_add_person);
-		addPerson.setVisibility(View.GONE);
-		solverMan.setChooseItemClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				getDeliveryList(true, solverMan);
-			}
-		});
-
-		addFile.setOnCreateItemViewListener(addfileListenr);
-		addPerson.setOnCreateItemViewListener(addfoucsPersonCreateListenr);
-
-	}
-
-	AddItemView.CreateItemViewListener addfileListenr = new AddItemView.CreateItemViewListener() {
-
-		@Override
-		public void oncreateItem(String tag, View convertView) {
-			// TODO Auto-generated method stub
-			mFiles.add(new Category(tag));// empty
-		}
-
-		@Override
-		public void deleteItem(int index) {
-			// TODO Auto-generated method stub
-			mFiles.remove(index);
-		}
-
-		@Override
-		public void chooseItem(int index, View convertView) {
-			// TODO Auto-generated method stub
-			chooseMedia(convertView);
-
-		}
-
-	};
-
-	AddItemView.CreateItemViewListener addfoucsPersonCreateListenr = new AddItemView.CreateItemViewListener() {
-
-		@Override
-		public void oncreateItem(String tag, View convertView) {
-			// TODO Auto-generated method stub
-			mGuanzhuList.add(new Category(tag));// empty
-		}
-
-		@Override
-		public void deleteItem(int index) {
-			// TODO Auto-generated method stub
-			mGuanzhuList.remove(index);
-		}
-
-		@Override
-		public void chooseItem(int index, View convertView) {
-			// TODO Auto-generated method stub
-			getDeliveryList(true, convertView);
-		}
-
-	};
-
-	IssueResult issueResult = new IssueResult();
-	Category solverCategory;
-	private void getDeliveryList(boolean showWindowView, final View view) {
-		// TODO Auto-generated method stub
-		// showLoadingView(true);
-		teamMemberManager.findDepartmentInfos(showWindowView, view,
-				new LoadUsersListener() {
-
-					@Override
-					public void onSelcted(Category mParent, Category category) {
-						// TODO Auto-generated method stub
-						if (view == solverMan) {
-							solverCategory = category;
-							solverMan.setContent(category.getName());
-						} else {// check is foucs choose person
-							ChooseItemView chooseItemView = (ChooseItemView) view
-									.findViewById(R.id.common_add_item_title);
-
-							for (Category mCategory : mGuanzhuList) {
-								if (category.getId().equals(mCategory.getId())) {
-									// modify do nothing.
-									if (!category.getName().equals(
-											chooseItemView.getContent())) {
-										showToast("该关注人已经在列表了");// not in
-																// current
-																// chooseItem,but
-																// other already
-																// has this
-																// name.
-									}
-
-									return;
-								}
-							}
-							chooseItemView.setContent(category.getName());
-
-							AddItem addItem = (AddItem) chooseItemView.getTag();
-							// 关注人是否已经存在，就只更新
-							for (Category mCategory : mGuanzhuList) {
-								if (addItem.tag.equals(mCategory.tag)) {
-									// modify .
-									mCategory.setName(category.getName());
-									mCategory.setId(category.getId());
-									return;
-								}
-							}
-							Log.i(TAG,
-									"can not find the select item from fouc:");
-						}
-
-					}
-
-					@Override
-					public void loadEndSucc(int type) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void loadEndFailed(int type) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void beginLoad(int type) {
-						// TODO Auto-generated method stub
-
-					}
-				});
-	}
-
-	protected void chooseMedia(final View convertView) {
-		// TODO Auto-gener
-		mediaManager.showMediaChooseDialog(new MediaChooseListener() {
-
-			@Override
-			public void chooseImage(int reqCodeTakePicture, String filePath) {
-				String fileName = filePath;
-				View chooseItemView = convertView
-						.findViewById(R.id.common_add_item_title);
-				View imgItemView = convertView.findViewById(R.id.img_container);
-
-				TextView sTextView = (TextView) convertView
-						.findViewById(R.id.common_add_item_content);
-
-				AddItem addItem = (AddItem) chooseItemView.getTag();
-				for (Category mCategory : mFiles) {
-					if (fileName.equals(mCategory.getName())) {
-						// modify do nothing.
-						if (!fileName.equals(sTextView.getTag())) {
-							showToast("该文件在列表了");// not in current
-													// chooseItem,but other
-													// already has this name.
-						}
-
-						return;
-					}
-				}
-				imgItemView.setVisibility(View.VISIBLE);
-				// load image
-				ImageView prewImg = (ImageView) convertView
-						.findViewById(R.id.common_prew_img);
-				if (imageLoader == null) {
-					imageLoader = ImageLoader.getInstance();
-				}
-				imageLoader.displayImage("file://" + filePath, prewImg, options);
-				
-				sTextView.setText(new File(fileName).getName());
-				sTextView.setTag(fileName);
-
-				// 衣衣对应 是否已经存在，就只更新
-				for (Category mCategory : mFiles) {
-
-					if (addItem.tag.equals(mCategory.tag)) {
-						// modify .
-
-						mCategory.setName(fileName);
-						return;
-					}
-				}
-				Log.i(TAG, "can not find the select item from file:");
-			}
-		});
-
-	}
-
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		if (imageLoader != null) {
-			imageLoader.clearMemoryCache();
-		}
-	}
-
-	private ImageLoader imageLoader;
-	DisplayImageOptions options = new DisplayImageOptions.Builder()
-			.showImageOnLoading(R.drawable.ic_launcher)
-			.imageScaleType(ImageScaleType.IN_SAMPLE_INT)
-			.bitmapConfig(Bitmap.Config.RGB_565)
-			.showImageOnFail(R.drawable.ic_launcher)
-			.considerExifParams(true).cacheInMemory(true).cacheOnDisc(true)
-			.build();
-
-	/**
-	 * {"witnessdateaqc1":null,"operatedesc":"s","witnessdateaqc2":null,
-	 * 
-	 * "rollingPlan":{"technologyAsk":null,"remark":null,"qcsign":0,"consteam":
-	 * "21", "consdate":1426348800000,"qualityRiskCtl":null,"welder":null,
-	 * "updatedBy":null,
-	 * "id":28,"assigndate":1432957400000,"drawno":"07060DY-JPS01-JPD-003"
-	 * ,"qualitynum":1,
-	 * "weldno":"M1","areano":"DY","updatedOn":null,"qcdate":null,"qcman":null,
-	 * "qualityplanno"
-	 * :"NZPT-TQP-0DY-JPD-P-20519","speciality":"GDHK","plandate":
-	 * "2015-05-30至2015-05-31",
-	 * "materialtype":"CS","workTool":null,"weldlistno":
-	 * "HJKZ-TQP-20519-00518","isend":1,"experienceFeedback":null,
-	 * "createdOn":1432957324000
-	 * ,"createdBy":"admin","unitno":"0","planfinishdate"
-	 * :1432915200000,"consendman":"22",
-	 * "doissuedate":null,"enddate":null,"worktime"
-	 * :1,"securityRiskCtl":null,"workpoint":0.325,"rccm":"NA"},
-	 * 
-	 * "operater":"dd","witnesseraqa":null,"updatedBy":"zhangxu","noticed":null,
-	 * "witnesserb"
-	 * :null,"id":61,"witnesserc":null,"witnesserd":null,"operatedate"
-	 * :1432979974000,"noticeaqa":null,
-	 * "noticeb":null,"noticec":null,"updatedOn"
-	 * :1432979977000,"stepname":"坡口加工","witnessdateaqa":null,
-	 * "stepflag":"DONE","noticeainfo":null,"stepno":1,"noticeresul
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * tdesc":null,"createdOn":1432957324000,"" +
-	 * "createdBy":"admin","noticeresult"
-	 * :null,"witnesseraqc2":null,"witnesseraqc1":null,"witnessdatec":null,
-	 * "witnessdated"
-	 * :null,"noticeaqc1":null,"noticeaqc2":null,"witnessdateb":null}
-	 */
-
-	/*
-	 * params.put("workstepid", issue.getWorstepid()); params.put("workstepno",
-	 * issue.getStepno()); params.put("stepname", issue.getStepname());
-	 * params.put("questionname", issue.getQuestionname());
-	 * params.put("describe", issue.getDescribe()); params.put("solverid",
-	 * issue.getSolverid()); params.put("concernman", issue.getConcerman());
-	 */
-	@Override
-	public void callCommitBtn(View v) {
-
-		// TODO Auto-generated method stub
-		if (TextUtils.isEmpty(issueTopic.getContent())) {
-			showToast("请填写问题主题");
-			return;
-		}
-		if (TextUtils.isEmpty(issueDescView.getContent())) {
-			showToast("请填写问题描述");
-			return;
-		}
-		if (solverCategory == null) {
-			showToast("请选择解决人");
-			return;
-		}
-		issueResult.setSolverid(solverCategory.getId());
-
-		String concerman = getConcerMan();
-		issueResult.setConcerman(concerman);
-		List<File> mFiles = getFiles();
-
-		issueResult.setQuestionname(issueTopic.getContent().toString());
-		issueResult.setDescribe(issueDescView.getContent().toString());
-
-//		issueResult.setStepno(rollingPlan.gets);
-//		issueResult.setStepname(workStep.getStepname());
-//		issueResult.setWorstepid(workStep.getId());
-		issueResult.rollingPlanId = rollingPlan.getId();
-		sIssueManager.createIssue(issueResult, mFiles);
-		super.callCommitBtn(v);
-	}
-
-	HashSet<File> getHashFileSet(List<File> mList) {
-		HashSet<File> mHashSet = new HashSet<File>();
-		for (File file : mList) {
-			mHashSet.add(file);
-		}
-		return mHashSet;
-	}
-
-	private List<File> getFiles() {
-		// TODO Auto-generated method stub
-		List<File> mFileLists = new ArrayList<File>();
-		for (Category category : mFiles) {
-			if (category.getName() == null) {
-				Log.i(TAG, "no file seleted=" + category.tag);
-				continue;
-			}
-			mFileLists.add(new File(category.getName()));
-		}
-		return mFileLists;
-	}
-
-	private String getConcerMan() {
-		// TODO Auto-generated method stub
-		String concerman = "";
-		if (mGuanzhuList.size()==1) {
-			return mGuanzhuList.get(0).getId();
-		}
-		if (mGuanzhuList.size()>1) {
-			for (int i = 0; i < mGuanzhuList.size(); i++) {
-				Category category = mGuanzhuList.get(i);
-				if (i==0) {
-					concerman +=  category.getId() ;	
-				}else {
-					concerman += "|"+ category.getId();
-				}
-			}
-		}
 		
-		return concerman;
+		workStep = (WorkStep) getIntent().getSerializableExtra("workstep");
+		witnessAdrress = getIntent().getStringExtra("witnessAdress");
+		lastIndex = getIntent().getBooleanExtra("lastIndex", false);
+		Log.i(TAG, "isLastIndex="+lastIndex);
+		taskManager = (TaskManager) ManagerService.getNewManagerService(this,
+				TaskManager.class, this);
+		updateInfo();
+		fetchWorkStepDetail();
+		execFetechDetail(TaskManager.ACTION_WITNESS_CHOOSE_TEAM);
+		
 	}
 
-	@Override
-	public void failed(String name, int statusCode, Header[] headers,
-			String response) {
+	private void fetchWorkStepDetail() {
 		// TODO Auto-generated method stub
-		super.failed(name, statusCode, headers, response);
+		getPMSManager().getWorkStepDetail(workStep.getId(), new UINetworkHandler<WorkStep>(this) {
+			@Override
+			public void callbackFailure(int statusCode, Header[] headers,
+					String response) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void start() {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void finish() {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void callbackSuccess(int statusCode, Header[] headers,
+					WorkStep response) {
+				// TODO Auto-generated method stub
+				workStep = response;
+				
+				final boolean isDone = "DONE".equals(workStep.getStepflag());
+
+				itemInfos.clear();
+				Log.i(TAG, "update.detail...");
+					updateInfo();
+				
+			}
+		});
+	}
+
+	
+
+	String getWitnesserId(WidgetItemInfo widgetItemInfo) {
+
+		Witnesser witnesser = getWitnessByType(widgetItemInfo);
+		if (witnesser != null) {
+			return witnesser.getId();
+		}
+		return null;
+	}
+
+	private void execFetechDetail(String action) {
+
+		if (action.equals(TaskManager.ACTION_TASK_BATCH_COMMIT)) {
+
+			String witnessdes = null;
+
+		
+
+			String operatedate = PMSManagerAPI.getdateTimeformat(System
+					.currentTimeMillis());
+			String witnesseaddress=null;
+			if (eidtWitness&&addressWidgetItemInfo!=null) {
+				 witnesseaddress = addressWidgetItemInfo.content;
+				if (TextUtils.isEmpty(witnesseaddress)) {
+					showToast("填写见证地点");
+					return;
+				}
+			}
+			
+
+			
+			String witnessdate=null;
+			if (eidtWitness&&witnessdateWidgetItemInfo!=null) {
+				 witnessdate = (String) witnessdateWidgetItemInfo.obj;
+				if (TextUtils.isEmpty(witnessdate)) {
+					showToast("填写见证时间");
+					return;
+				}
+			}
+			 Team witness=null;
+			if (eidtWitness&&witnessWidgetItemInfo!=null) {
+				  witness=(Team) witnessWidgetItemInfo.obj;
+				 if (witness == null) {
+					 showToast("选择见证负责人");
+					return;
+				}
+			}
+
+			
+			 super.callCommitBtn(null);
+			 
+			taskManager.commitBatch(rollingPlan.getId(), witness, witnessdes, witnesseaddress, witnessDatas);
+		} else {
+			showLoadingView(true);
+			taskManager.chooseWitnessHeadList();
+		}
 
 	}
 
-	@Override
-	public void succ(String name, int statusCode, Header[] headers,
-			Object response) {
-		// TODO Auto-generated method stub
-		super.succ(name, statusCode, headers, response);
-		showToast("提交成功");
-		WorkStepFragment.CallSucc(WorkStepFragment.callsucc);
-		setResult(RESULT_OK);
-		finish();
+	final List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();
 
-	}
+	// R.id. in array String
 
-	private void initInfo() {
+	private void updateInfo() {
+		final boolean isDone = "DONE".equals(workStep.getStepflag());
+		if (itemInfos.isEmpty()) {
+			// R.id. in array String
+		if (eidtWitness) {
+			
+			String defaultOpName = workStep.operater;
+			if (TextUtils.isEmpty(defaultOpName) && workStep.getRollingPlan()!=null) {
+				defaultOpName = workStep.getRollingPlan().consendmanName;
+			}
+			
 
-		final List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();
-		// R.id. in array String
-		itemInfos.add(new WidgetItemInfo(null, null, null, 0, false));
+			witnessdesWidgetItemInfo = new WidgetItemInfo("25",
+					"见证描述：", workStep.operatedesc==null?"见证合格":workStep.operatedesc, WidgetItemInfo.INPUT, false);
+
+		}else {
+			
+			String defaultOpName = workStep.operater;
+			if (TextUtils.isEmpty(defaultOpName) && workStep.getRollingPlan()!=null) {
+				defaultOpName = workStep.getRollingPlan().consendmanName;
+			}
+			
+
+			itemInfos.add(witnessdesWidgetItemInfo = new WidgetItemInfo("25",
+					"见证描述：", workStep.operatedesc==null?"见证合格":workStep.operatedesc, WidgetItemInfo.INPUT, isDone));
+		
+		}	
+			if (WorkStepDetailActivity.showWitness(workStep)) {
+				
+				if (isDone&&!eidtWitness) {
+					if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
+						WitnessInfo sInfo =workStep.witnessInfo.get(0);
+						itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+								"见证地点：", sInfo.witnessaddress, WidgetItemInfo.DISPLAY, false));
+						
+						itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
+								"见证时间：", PMSManagerAPI.getdateTimeformat(sInfo.witnessdate),WidgetItemInfo.DISPLAY, false));
+						itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+								"负责人：", sInfo.witnessName, WidgetItemInfo.DISPLAY, false));
+						if (workStep.witnessesAssign!=null&&workStep.witnessesAssign.size()>0) {
+							for (int i = 0; i < workStep.witnessesAssign.size(); i++) {
+								WitnessInfo witnessInfo =  workStep.witnessesAssign.get(i);
+								String okType ="1".equals(witnessInfo.isok)?"不合格":"合格";
+								if (witnessInfo.isok==null||witnessInfo.isok==0) {
+									 okType =" 未见证";
+								}else {
+									okType = " 见证"+okType;
+								}
+								WidgetItemInfo sItemInfo = new WidgetItemInfo("w"+i,
+										""+witnessInfo.witnesserName+okType, "", WidgetItemInfo.ENTER, true);
+								sItemInfo.obj = witnessInfo;
+								itemInfos.add(sItemInfo);
+							
+							}
+						}
+					}
+				
+					
+				}else {
+					if (eidtWitness) {
+						if (witnessAdrress!=null) {
+							itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+									"见证地点：", witnessAdrress, WidgetItemInfo.EDIT, true));
+							
+						}else {
+							itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+									"见证地点：", null, WidgetItemInfo.EDIT, true));
+							
+						}
+						
+						if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0&&workStep.witnessInfo.get(0).witnessdate!=0) {
+
+							itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
+									"见证时间：", PMSManagerAPI.getdateTimeformat(workStep.witnessInfo.get(0).witnessdate),WidgetItemInfo.CHOOSE, true));
+							witnessdateWidgetItemInfo.obj = PMSManagerAPI.getdateTimeformat(workStep.witnessInfo.get(0).witnessdate);
+						} else {
+							itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
+									"见证时间：", "选择见证时间",WidgetItemInfo.CHOOSE, true));
+							
+						}
+						
+						if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0&&workStep.witnessInfo.get(0).witnessName!=null) {
+							Team team = new Team();
+							team.setId(workStep.witnessInfo.get(0).witness);
+							itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+									"负责人：", workStep.witnessInfo.get(0).witnessName, WidgetItemInfo.CHOOSE, true));
+							witnessWidgetItemInfo.obj = team;
+							
+						}else {
+							itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+									"负责人：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
+						
+						}
+					
+					}else {
+						if (!"PREPARE".equals(workStep.getStepflag())) {
+
+							if (witnessAdrress!=null) {
+								itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+										"见证地点：", witnessAdrress, WidgetItemInfo.EDIT, true));
+								
+							}else {
+								itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+										"见证地点：", null, WidgetItemInfo.EDIT, true));
+								
+							}
+							itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
+									"见证时间：", "选择见证时间",WidgetItemInfo.CHOOSE, true));
+							itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+									"负责人：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
+						
+						}
+						
+					}
+					
+				}
+
+			}
+			
+			
+			
+			if (isDone&&!eidtWitness) {
+				
+				   findViewById(R.id.commit_layout).setVisibility(View.GONE);
+			}
+			
+			itemInfos.add(new WidgetItemInfo("", "", "",
+					WidgetItemInfo.DEVIDER, false));
+
+			
+		}
 
 		createItemListToUI(itemInfos, R.id.edit_container,
 				new CreateItemViewListener() {
@@ -510,25 +333,312 @@ public class WitnessDealTaskActivity extends BaseEditActivity implements
 								.get(index);
 						if (convertView == null) {
 							// create
-							LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+							switch (widgetItemInfo.type) {
+							case WidgetItemInfo.DISPLAY: {
+								convertView = new DisplayItemView(
+										WitnessDealTaskActivity.this);
 
-							convertView = inflater.inflate(
-									R.layout.issue_feedback_ui, viewgroup,
-									false);
+							}
+								break;
+								case WidgetItemInfo.ENTER: {
+									convertView = new EnterItemView(
+											WitnessDealTaskActivity.this);
+									convertView.setOnClickListener(new OnClickListener() {
+										
+										@Override
+										public void onClick(View v) {
+											// TODO Auto-generated method stub
+											WitnessInfo witnessInfo = (WitnessInfo) widgetItemInfo.obj;
+											Intent intent = new Intent(WitnessDealTaskActivity.this,DetailContentActivity.class);
+											intent.putExtra("title", "见证人描述－－"+witnessInfo.witnesserName);
+											intent.putExtra("content",witnessInfo.noticeresultdesc);
+											startActivity(intent);
+										}
+									});
+								}
+									break;
+							case WidgetItemInfo.DEVIDER: {
+								convertView = new View(
+										WitnessDealTaskActivity.this);
+								LayoutParams params = new LayoutParams(
+										LayoutParams.WRAP_CONTENT,
+										LayoutParams.WRAP_CONTENT);
+								params.height = UtilsUI.getPixByDPI(
+										getApplicationContext(), 8);
+								convertView.setLayoutParams(params);
+
+							}
+								break;
+							case WidgetItemInfo.EDIT: {
+								convertView = new EditItemView(
+										WitnessDealTaskActivity.this);
+								EditItemView editItemView = (EditItemView) convertView;
+								editItemView.setNameAndContent(
+										widgetItemInfo.name,
+										widgetItemInfo.content);
+								final View tagView = (EditItemView) convertView;
+								editItemView.setScan(isDone&&!eidtWitness);
+								editItemView
+										.addTextChangedListener(new TextWatcher() {
+
+											@Override
+											public void onTextChanged(
+													CharSequence s, int start,
+													int before, int count) {
+												// TODO Auto-generated method
+												// stub
+
+											}
+
+											@Override
+											public void beforeTextChanged(
+													CharSequence s, int start,
+													int count, int after) {
+												// TODO Auto-generated method
+												// stub
+
+											}
+
+											@Override
+											public void afterTextChanged(
+													Editable s) {
+												// TODO Auto-generated method
+												// stub
+												WidgetItemInfo widgetItemInfo = (WidgetItemInfo) tagView
+														.getTag();
+												if (TextUtils.isEmpty(s)|| widgetItemInfo == null) {
+													return;
+												}
+												widgetItemInfo.content = s
+														.toString();
+											}
+										});
+
+							}
+								break;
+								
+							case WidgetItemInfo.INPUT: {
+								convertView = new UserInputItemView(
+										WitnessDealTaskActivity.this);
+								UserInputItemView editItemView = (UserInputItemView) convertView;
+								editItemView.setNameAndContent(
+										widgetItemInfo.name,
+										widgetItemInfo.content);
+								final View tagView = (UserInputItemView) convertView;
+								editItemView.setScan(isDone);
+								editItemView
+										.addTextChangedListener(new TextWatcher() {
+
+											@Override
+											public void onTextChanged(
+													CharSequence s, int start,
+													int before, int count) {
+												// TODO Auto-generated method
+												// stub
+
+											}
+
+											@Override
+											public void beforeTextChanged(
+													CharSequence s, int start,
+													int count, int after) {
+												// TODO Auto-generated method
+												// stub
+
+											}
+
+											@Override
+											public void afterTextChanged(
+													Editable s) {
+												// TODO Auto-generated method
+												// stub
+												WidgetItemInfo widgetItemInfo = (WidgetItemInfo) tagView
+														.getTag();
+												widgetItemInfo.content = s
+														.toString();
+											}
+										});
+
+							}
+								break;
+								
+							case WidgetItemInfo.CHOOSE: {
+
+								convertView = new ChooseItemView(
+										WitnessDealTaskActivity.this);
+								final ChooseItemView chooseItemView = (ChooseItemView) convertView;
+								if (widgetItemInfo.bindClick) {
+									convertView.findViewById(
+											R.id.common_choose_item_content)
+											.setOnClickListener(new OnClickListener() {
+												
+												@Override
+												public void onClick(View v) {
+													// TODO Auto-generated method stub
+
+													if (widgetItemInfo.tag
+															.equals("2")) {// time
+														go2ChooseTime(widgetItemInfo);
+													}
+														else if(widgetItemInfo.tag.equals("21")){//
+														showWindow(chooseItemView,witnessTeamList);
+														
+													} else if(widgetItemInfo.tag
+															.equals("20")){//
+														go2ChooseTime(widgetItemInfo);
+													}
+												
+
+											
+												}
+
+												
+											});
+												
+
+								}
+								
+								
+							}
+								break;
+
+							default:
+								break;
+							}
 
 						} else {
 
 						}
 
+						// update
+						switch (widgetItemInfo.type) {
+						case WidgetItemInfo.DISPLAY: {
+							DisplayItemView displayItemView = (DisplayItemView) convertView;
+							displayItemView
+									.setNameAndContent(widgetItemInfo.name,
+											widgetItemInfo.content);
+						}
+							break;
+							
+						case WidgetItemInfo.EDIT: {
+							EditItemView editItemView = (EditItemView) convertView;
+							editItemView
+									.setNameAndContent(widgetItemInfo.name,
+											widgetItemInfo.content);
+						}
+							break;
+							
+							
+							case WidgetItemInfo.ENTER: {
+								EnterItemView displayItemView = (EnterItemView) convertView;
+								displayItemView
+										.setNameAndContent(widgetItemInfo.name,
+												widgetItemInfo.content);
+							}
+								break;
+						case WidgetItemInfo.CHOOSE:
+							ChooseItemView chooseItemView = (ChooseItemView) convertView;
+							chooseItemView
+									.setNameAndContent(widgetItemInfo.name,
+											widgetItemInfo.content);
+
+							break;
+
+						default:
+							break;
+						}
+
+						// update window
+
+						initOptionItem(widgetItemInfo, convertView
+								.findViewById(R.id.common_choose_item_content));
+
 						// bind tag
 						convertView.setTag(widgetItemInfo);
 						return convertView;
 					}
-				}, false);
+				}, true);
+	}
 
-		// make container
+	protected void initOptionItem(WidgetItemInfo widgetItemInfo, View btnView) {
+		// TODO Auto-generated method stub
+		if (widgetItemInfo.type != WidgetItemInfo.CHOOSE) {
+			return;
+		}
+		if (witnessTeamList == null || witnessTeamList.size() == 0) {
+			Log.i(TAG, "witnessTeam List is null...");
+			return;
+		}
+
+	
+	}
+
+	public CharSequence getAddress() {
+		EditItemView editItemView = (EditItemView) getViewByWidget(addressWidgetItemInfo);
+		return editItemView.getContent();
+	}
+
+	String getName(Team team){
+		String realName = "";
+		if (team.users!=null&&team.users.size()>0) {
+			realName = " - "+team.users.get(0).getRealname();
+		}
+		return team.getName()+realName;
+	}
+	
+	
+	private void showWindow(final ChooseItemView chooseItemView, List<Team> obj) {
+		List<String> names = new ArrayList<String>();
+		if (obj == null) {
+			Log.i(TAG, "item windows is null--" + chooseItemView.getTag());
+			return;
+		}
+		for (Team team : obj) {
+			
+			names.add(getName(team));
+		}
+
+		chooseItemView.showMenuItem(obj, names,
+				new ChooseItemView.onDismissListener<Team>() {
+
+					@Override
+					public void onDismiss(Team item) {
+						Log.i(TAG, "name==" + item.getName());
+						// TODO Auto-generated method stub
+						updateItem((WidgetItemInfo) chooseItemView.getTag(),
+								item);
+					}
+
+				});
+	}
+
+	private Witnesser getWitnessByType(WidgetItemInfo widgetItemInfo) {
+		// TODO Auto-generated method stub
+		if (widgetItemInfo == null) {
+			return null;
+		}
+		View view = getViewByWidget(widgetItemInfo);
+		if (view != null) {
+			List<Witnesser> witnessers = (List<Witnesser>) widgetItemInfo.obj;
+			if (witnessers != null) {
+				for (Witnesser witnesser : witnessers) {
+					if (witnesser.getRealname().equals(widgetItemInfo.content)) {
+						return witnesser;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	protected void updateItem(WidgetItemInfo widgetItemInfo, Team item) {
+		// TODO Auto-generated method stub
+		widgetItemInfo.content = getName(item);
+		widgetItemInfo.obj = item;
+		updateInfo();
 
 	}
+
 
 	@Override
 	protected void initView() {
@@ -537,16 +647,104 @@ public class WitnessDealTaskActivity extends BaseEditActivity implements
 
 	}
 
+	void go2ChooseTime(WidgetItemInfo widgetItemInfo) {
+		Intent intent = new Intent(this, TimeActivity.class);
+		startActivityForResult(intent, TimeActivity.REQUEST_PICK_DATE);
+
+	}
+
 	@Override
-	public void onProgress(String name, int statusCode, int totalSize,
-			String response) {
+	public void start(String name) {
 		// TODO Auto-generated method stub
 
-		if (mFiles.size() > 0) {
-			Log.i(TAG, "progress content = " + response);
-			showProgressDialog("上传图片", response, null);
+	}
+
+	@Override
+	public void failed(final String name, int statusCode, Header[] headers,
+			String response) {
+		super.failed(name, statusCode, headers, response);
+		if (name.equals(TaskManager.ACTION_TASK_BATCH_COMMIT)) {
+
+		} else {
+			showRetryView(new OnRetryLisnter() {
+
+				@Override
+				public void doRetry() {
+					// TODO Auto-generated method stub
+					execFetechDetail(name);
+				}
+			});
 		}
 
 	}
+
+	private List<Team> witnessTeamList;
+
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent intent) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(arg0, arg1, intent);
+		switch (arg0) {
+		case TimeActivity.REQUEST_PICK_DATE: {
+			if (arg1 == RESULT_OK) {
+
+				updateTime(intent.getStringExtra("time"),intent.getStringExtra("format"));
+			}
+		}
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
+	// id 工序步骤ID
+	// witness 见证组组长ID
+	// witnessdes N 见证描述
+	// witnessaddress 见证地点
+	// witnessdate 见证时间
+	// operater 完成者
+	// operatedate 完成时间（格式2015-05-24 22:22:45）
+	// operatedesc N 完成信息描述
+	WidgetItemInfo addressWidgetItemInfo, witnessWidgetItemInfo,
+			witnessdesWidgetItemInfo, witnessdateWidgetItemInfo ;
+
+	private void updateTime(String date, String formart) {
+		// TODO Auto-generated method stub
+		witnessdateWidgetItemInfo.content = date;
+		witnessdateWidgetItemInfo.obj = formart;
+		updateInfo();
+	}
+
+	@Override
+	public void succ(String name, int statusCode, Header[] headers,
+			Object response) {
+		setLoadSucc();
+	  if (name.equals(TaskManager.ACTION_TASK_BATCH_COMMIT)) {
+			if (response!=null) {
+				Log.i(TAG, "BATCH JsonObject=="+response.toString());
+			}else {
+				Log.i(TAG, "BATCH JsonObject is null");
+			}
+			showToast("修改成功");
+			WorkStepFragment.CallSucc(WorkStepFragment.callsucc);
+			finish();
+			
+		} else {// get witness..
+			witnessTeamList = (List<Team>) response;
+			Log.i(TAG, "update....");
+			updateInfo();
+		}
+
+	}
+
+	@Override
+	public void callCommitBtn(View v) {
+
+		execFetechDetail(TaskManager.ACTION_TASK_BATCH_COMMIT);
+
+	}
+
 
 }

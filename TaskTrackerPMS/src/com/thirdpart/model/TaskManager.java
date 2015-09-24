@@ -8,6 +8,7 @@ import org.apache.http.Header;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.jameschen.framework.base.UINetworkHandler;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.thirdpart.model.ManagerService.ManagerNetworkHandler;
 import com.thirdpart.model.entity.RollingPlanList;
 import com.thirdpart.model.entity.TaskCategoryInfo;
@@ -25,6 +26,7 @@ public class TaskManager  extends ManagerService{
 		super();
 	}
 	public static String ACTION_TASK_COMMIT = "com.jameschen.plan.task.commit";
+	public static String ACTION_TASK_BATCH_COMMIT = "com.jameschen.plan.task.batch.commit";
 	public static String ACTION_ZHIJIA_COMMIT = "com.jameschen.plan.zhijia.commit";
 
 	private TaskManager(OnReqHttpCallbackListener reqHttpCallbackListener) {
@@ -129,12 +131,25 @@ public class TaskManager  extends ManagerService{
 					qcSign,qcman,getManagerNetWorkHandler(ACTION_ZHIJIA_COMMIT) );
 
 		}
+	 
+	 
 	public void commit(String workStepId, String witness, String witnessdes, String witnesseaddress, String witnessdate, String operater, String operatedate, String operatedesc,
 			int qcSign,String qcman) {
 		PMSManagerAPI.getInstance(context).createWitness(workStepId, witness, witnessdes, witnesseaddress, witnessdate, operater, operatedate, operatedesc, 
 				qcSign,qcman,getManagerNetWorkHandler(ACTION_TASK_COMMIT) );
 
 	}
+	
+	public void commitBatch(String rollingplanId,
+			String witness,String witnessdes,
+			String witnesseaddress,List<String> witnessDatas) {
+		PMSManagerAPI.getInstance(context).createWitnessTaskBatch(rollingplanId,
+				 witness, witnessdes,
+				 witnesseaddress,witnessDatas, getManagerNetWorkHandler(ACTION_TASK_BATCH_COMMIT) );
+
+	}
+	
+	
 	public void chooseWitnessHeadList() {
 
 		PMSManagerAPI.getInstance(context).witnessTeamList(getManagerNetWorkHandler(ACTION_WITNESS_CHOOSE_TEAM) );

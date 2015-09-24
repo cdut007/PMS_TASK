@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -384,6 +385,40 @@ public class PMSManagerAPI {
 		MyHttpClient.post(ReqHttpMethodPath.REQUST_DISTRIBUTED_WITNESSER_URL,
 				params, responseHandler);
 	}
+	
+	
+	public void createWitnessTaskBatch(String rollingplanId,
+			String witness,String witnessdes,
+			String witnesseaddress,List<String> witnessDatas, 
+			AsyncHttpResponseHandler responseHandler) {
+		
+		RequestParams params = getPublicParams(true);
+		
+		params.put("witness", witness);
+		params.put("rollingplanid", rollingplanId);
+		params.put("witnessaddress", witnesseaddress);
+		
+		for (Iterator iterator = witnessDatas.iterator(); iterator.hasNext();) {
+			String  data =  (String) iterator
+					.next();
+			String keyValue[] = data.split("\\|");
+			params.put("witnessdate_"+keyValue[0], keyValue[1]);
+			
+		}
+		
+		
+		
+		if (witnessdes != null) {
+			params.put("witnessdes", witnessdes);
+		}
+		
+		
+		MyHttpClient.post(
+				ReqHttpMethodPath.REQUST_TASK_WITNESS_BATCH_URL,
+				params, responseHandler);
+	}
+
+	
 //	id				工序步骤ID
 //	witness				见证组组长ID
 //	witnessdes		N		见证描述
