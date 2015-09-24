@@ -40,6 +40,18 @@ public class PlanDetailActivity extends BaseDetailActivity {
 	boolean scan = false;
 	private boolean isTaskConfirm;
 
+	
+	
+	
+	private void witnessDealBatTask() {
+		Context context = this;
+		Intent intent = new Intent(context, WitnessDealTaskActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra("dealtask", rollingPlan);
+		context.startActivity(intent);
+		
+	}
+	
 	private void issueFeedBack() {
 		Context context = this;
 		Intent intent = new Intent(context, IssueFeedbackActivity.class);
@@ -148,9 +160,17 @@ public class PlanDetailActivity extends BaseDetailActivity {
 		if (isTaskConfirm & !scan) {
 			itemInfos.add(new WidgetItemInfo("10", "问题反馈", "",
 					WidgetItemInfo.DISPLAY, true));
+			
 		} else {
 
 		}
+		
+		
+		itemInfos.add(new WidgetItemInfo("e9", "见证信息", "",
+				WidgetItemInfo.DISPLAY, true));
+		
+		
+		
 		if (!TextUtils.isEmpty(rollingPlan.welder)) {
 			itemInfos.add(new WidgetItemInfo("e1", "焊工：", rollingPlan.welder,
 					WidgetItemInfo.DISPLAY, false));
@@ -250,7 +270,11 @@ public class PlanDetailActivity extends BaseDetailActivity {
 												} else if (widgetItemInfo.tag
 														.equals("-1")) {
 													issueDetail();
-												} else {
+												} else if (widgetItemInfo.tag.equals("e9")) {
+													witnessDealBatTask();
+												}
+												
+												else {
 													String tag = widgetItemInfo.tag;
 													try {
 														int index = Integer
@@ -267,6 +291,8 @@ public class PlanDetailActivity extends BaseDetailActivity {
 
 												}
 											}
+
+										
 
 										});
 							}

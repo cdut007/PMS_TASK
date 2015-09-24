@@ -70,6 +70,16 @@
             android:gravity="center"
             android:singleLine="true"
             android:src="@drawable/gengxin"/>
+        
+        <ImageView
+            android:id="@+id/enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:src="@drawable/right_enter_blue"
+            android:scaleType="centerInside"
+            android:visibility="gone"
+             />
     </LinearLayout>
  <View
             android:layout_width="match_parent"

@@ -96,7 +96,7 @@ public String  getAddress(WorkStep workStep){
 }
 	private final static class WrokStepView extends HoldView<WorkStep> {
 		TextView workNo,workName;
-		View issueFeedback, issueUpdate;
+		View issueFeedback, issueUpdate,enterFlag;
 		boolean show,lastIndex;
 		RollingPlan rollingPlan;
 		@Override
@@ -105,6 +105,9 @@ public String  getAddress(WorkStep workStep){
 			// TODO Auto-generated method stub
 			workNo = (TextView) convertView.findViewById(R.id.workstep_index_item);
 			workName = (TextView) convertView.findViewById(R.id.workstep_name);
+			
+			enterFlag = convertView.findViewById(R.id.enter);
+			
 		   issueFeedback = convertView.findViewById(R.id.issue_feedback);
 		   issueUpdate = convertView.findViewById(R.id.issue_update);
 		   issueFeedback.setOnClickListener(new OnClickListener() {
@@ -141,24 +144,28 @@ public String  getAddress(WorkStep workStep){
 					
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
-	Context context = v.getContext();
-						
-						Intent intent= new Intent(context,WorkStepDetailActivity.class);
-						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						WorkStep workStep = (WorkStep) v.getTag();
-						
-						lastIndex = ((WorkStepAdapter)myBaseAdapter).getItemIndex(workStep) == ((WorkStepAdapter)myBaseAdapter).getCount()-1;
-						intent.putExtra("lastIndex", lastIndex);
-						intent.putExtra("witnessAdress", ((WorkStepAdapter)myBaseAdapter).getAddress(workStep));
-						intent.putExtra("workstep", workStep);
-						context.startActivity(intent);
+						updateInfo(v, myBaseAdapter);
 					}
 				});
 		}else {
+
+			 
 			  issueFeedback.setVisibility(View.INVISIBLE);
 			   issueUpdate.setVisibility(View.INVISIBLE);
+			
 		}
+			   convertView.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						if (enterFlag.getVisibility() == View.GONE) {
+							return;
+						}
+						updateInfo(issueUpdate, myBaseAdapter);
+						
+					}
+				});
 		
 //		   if (((WorkStepAdapter)myBaseAdapter).scan ){
 //			issueFeedback.setVisibility(View.GONE);
@@ -166,6 +173,25 @@ public String  getAddress(WorkStep workStep){
 //		}
 		}
 
+		private void updateInfo(View v,MyBaseAdapter<WorkStep> myBaseAdapter) {
+			// TODO Auto-generated method stub
+
+			// TODO Auto-generated method stub
+			Context context = v.getContext();
+			
+			Intent intent= new Intent(context,WorkStepDetailActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			WorkStep workStep = (WorkStep) v.getTag();
+			
+			lastIndex = ((WorkStepAdapter)myBaseAdapter).getItemIndex(workStep) == ((WorkStepAdapter)myBaseAdapter).getCount()-1;
+			intent.putExtra("lastIndex", lastIndex);
+			intent.putExtra("witnessAdress", ((WorkStepAdapter)myBaseAdapter).getAddress(workStep));
+			intent.putExtra("workstep", workStep);
+			context.startActivity(intent);
+		
+		}
+		
+		
 		@Override
 		protected void setInfo(WorkStep workStep) {
 			// TODO Auto-generated method stub
@@ -176,6 +202,11 @@ public String  getAddress(WorkStep workStep){
 			
 			
 			if (!show) {
+				if ("DONE".equals(workStep.getStepflag())) {
+					 enterFlag.setVisibility(View.VISIBLE);
+				}else {
+					 enterFlag.findViewById(R.id.enter).setVisibility(View.GONE);
+				}
 				return;
 			}
 			
