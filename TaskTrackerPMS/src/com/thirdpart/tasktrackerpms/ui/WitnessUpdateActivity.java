@@ -145,7 +145,7 @@ boolean isMyevent;
 			chooseTypeView.setContent("合格");
 				
 		}
-		   witnessInputItemView.setContent(TextUtils.isEmpty(desc)?"无描述":desc, false);
+		   witnessInputItemView.setContent(TextUtils.isEmpty(desc)?"见证合格":desc, false);
 			
 	}
 		

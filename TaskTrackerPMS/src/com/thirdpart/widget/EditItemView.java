@@ -86,6 +86,9 @@ contentView.addTextChangedListener(watcher);
 		// TODO Auto-generated method stub
 			nameView.setText(name);
 			contentView.setText(content);
+			if (!TextUtils.isEmpty(content)) {
+				((EditText)(contentView)).setSelection(content.length());
+			}
 	}
 	public void setScan(boolean isDone) {
 		// TODO Auto-generated method stub

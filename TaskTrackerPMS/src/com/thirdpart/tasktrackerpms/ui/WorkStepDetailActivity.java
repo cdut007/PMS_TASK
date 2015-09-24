@@ -89,10 +89,12 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 				// TODO Auto-generated method stub
 				workStep = response;
 				final boolean isDone = "DONE".equals(workStep.getStepflag());
-				if (isDone) {
-					itemInfos.clear();
+
+				itemInfos.clear();
+				Log.i(TAG, "update.detail...");
+				//if (isDone) {
 					updateInfo();
-				}
+				//}
 				
 			}
 		});
@@ -217,11 +219,17 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 		if (itemInfos.isEmpty()) {
 			// R.id. in array String
 		if (eidtWitness) {
+			
+			String defaultOpName = workStep.operater;
+			if (TextUtils.isEmpty(defaultOpName) && workStep.getRollingPlan()!=null) {
+				defaultOpName = workStep.getRollingPlan().consendmanName;
+			}
+			
 			operaterWidgetItemInfo = new WidgetItemInfo("0",
-					"操作者：", workStep.operater, WidgetItemInfo.EDIT, false);
+					"操作者：", defaultOpName, WidgetItemInfo.EDIT, false);
 
 			operatedescWidgetItemInfo = new WidgetItemInfo("25",
-					"描述：", workStep.operatedesc==null?"合格":workStep.operatedesc, WidgetItemInfo.INPUT, false);
+					"描述：", workStep.operatedesc==null?"见证合格":workStep.operatedesc, WidgetItemInfo.INPUT, false);
 
 			
 //			itemInfos.add(operaterWidgetItemInfo = new WidgetItemInfo("0",
@@ -231,11 +239,17 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 //					"描述：", workStep.operatedesc==null?"合格":workStep.operatedesc, WidgetItemInfo.INPUT, false));
 //		
 		}else {
+			
+			String defaultOpName = workStep.operater;
+			if (TextUtils.isEmpty(defaultOpName) && workStep.getRollingPlan()!=null) {
+				defaultOpName = workStep.getRollingPlan().consendmanName;
+			}
+			
 			itemInfos.add(operaterWidgetItemInfo = new WidgetItemInfo("0",
-					"操作者：", workStep.operater, WidgetItemInfo.EDIT, isDone));
+					"操作者：", defaultOpName, WidgetItemInfo.EDIT, isDone));
 
 			itemInfos.add(operatedescWidgetItemInfo = new WidgetItemInfo("25",
-					"描述：", workStep.operatedesc==null?"合格":workStep.operatedesc, WidgetItemInfo.INPUT, isDone));
+					"描述：", workStep.operatedesc==null?"见证合格":workStep.operatedesc, WidgetItemInfo.INPUT, isDone));
 		
 		}	
 			if (showWitness(workStep)) {
@@ -498,6 +512,9 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 												// stub
 												WidgetItemInfo widgetItemInfo = (WidgetItemInfo) tagView
 														.getTag();
+												if (TextUtils.isEmpty(s)|| widgetItemInfo == null) {
+													return;
+												}
 												widgetItemInfo.content = s
 														.toString();
 											}
@@ -611,6 +628,16 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 											widgetItemInfo.content);
 						}
 							break;
+							
+						case WidgetItemInfo.EDIT: {
+							EditItemView editItemView = (EditItemView) convertView;
+							editItemView
+									.setNameAndContent(widgetItemInfo.name,
+											widgetItemInfo.content);
+						}
+							break;
+							
+							
 							case WidgetItemInfo.ENTER: {
 								EnterItemView displayItemView = (EnterItemView) convertView;
 								displayItemView
@@ -856,7 +883,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 			showToast("修改成功");
 			WorkStepFragment.CallSucc(WorkStepFragment.callsucc);
 			
-		} else {// get witless..
+		} else {// get witness..
 			witnessTeamList = (List<Team>) response;
 			Log.i(TAG, "update....");
 			updateInfo();
