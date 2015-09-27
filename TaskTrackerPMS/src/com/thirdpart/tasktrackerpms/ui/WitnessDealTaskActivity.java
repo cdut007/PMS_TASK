@@ -20,7 +20,6 @@ import com.jameschen.comm.utils.UtilsUI;
 import com.jameschen.framework.base.BaseEditActivity;
 import com.jameschen.framework.base.CommonCallBack.OnRetryLisnter;
 import com.jameschen.framework.base.UINetworkHandler;
-import com.jameschen.widget.CustomSelectPopupWindow.Category;
 import com.thirdpart.model.ManagerService;
 import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.model.PlanManager;
@@ -31,6 +30,7 @@ import com.thirdpart.model.entity.Team;
 import com.thirdpart.model.entity.WitnessInfo;
 import com.thirdpart.model.entity.Witnesser;
 import com.thirdpart.model.entity.WorkStep;
+import com.thirdpart.model.entity.WorkStepList;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.DisplayItemView;
@@ -61,6 +61,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 
 	private TaskManager taskManager;
 	WorkStep workStep;
+	WorkStepList workStepList ;
 	boolean lastIndex;
 	String witnessAdrress;
 	boolean eidtWitness;
@@ -69,7 +70,6 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		eidtWitness = getIntent().getBooleanExtra("editWitness", false);
 		
 		
 
@@ -78,50 +78,99 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 		setTitle(rollingPlan.getWeldno()+getType()+"见证信息");
 		
 		workStep = (WorkStep) getIntent().getSerializableExtra("workstep");
+		
+		if (workStep == null) {
+			workStep = new WorkStep();
+		}
+		
 		witnessAdrress = getIntent().getStringExtra("witnessAdress");
 		lastIndex = getIntent().getBooleanExtra("lastIndex", false);
 		Log.i(TAG, "isLastIndex="+lastIndex);
 		taskManager = (TaskManager) ManagerService.getNewManagerService(this,
 				TaskManager.class, this);
 		updateInfo();
-		fetchWorkStepDetail();
+		fetchWorkStepListDetail();
 		execFetechDetail(TaskManager.ACTION_WITNESS_CHOOSE_TEAM);
 		
 	}
 
-	private void fetchWorkStepDetail() {
-		// TODO Auto-generated method stub
-		getPMSManager().getWorkStepDetail(workStep.getId(), new UINetworkHandler<WorkStep>(this) {
-			@Override
-			public void callbackFailure(int statusCode, Header[] headers,
-					String response) {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void start() {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void finish() {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void callbackSuccess(int statusCode, Header[] headers,
-					WorkStep response) {
-				// TODO Auto-generated method stub
-				workStep = response;
-				
-				final boolean isDone = "DONE".equals(workStep.getStepflag());
+	private void fetchWorkStepListDetail() {
+		
+		
 
-				itemInfos.clear();
-				Log.i(TAG, "update.detail...");
-					updateInfo();
-				
-			}
-		});
+		// TODO Auto-generated method stub
+			
+	        getPMSManager().getWorkStepList(rollingPlan.getId()+"",10+"", 1+"",new UINetworkHandler<WorkStepList>(this){
+
+	    	
+
+				@Override
+				public void start() {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void finish() {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void callbackFailure(int statusCode, Header[] headers,
+						String response) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void callbackSuccess(int statusCode, Header[] headers,
+						WorkStepList response) {
+					// TODO Auto-generated method stub
+					workStepList = response;
+
+					itemInfos.clear();
+					witnessDateLists.clear();
+					Log.i(TAG, "update.work step list detail...");
+						updateInfo();
+				}
+	    	});
+		
+	
+		
+//		// TODO Auto-generated method stub
+//		getPMSManager().getWorkStepDetail(workStep.getId(), new UINetworkHandler<WorkStep>(this) {
+//			@Override
+//			public void callbackFailure(int statusCode, Header[] headers,
+//					String response) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			@Override
+//			public void start() {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			@Override
+//			public void finish() {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			@Override
+//			public void callbackSuccess(int statusCode, Header[] headers,
+//					WorkStep response) {
+//				// TODO Auto-generated method stub
+//				workStep = response;
+//				
+//				final boolean isDone = "DONE".equals(workStep.getStepflag());
+//
+//				itemInfos.clear();
+//				witnessDateLists.clear();
+//				Log.i(TAG, "update.detail...");
+//					updateInfo();
+//				
+//			}
+//		});
 	}
 
 	
@@ -141,31 +190,26 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 
 			String witnessdes = null;
 
-		
-
-			String operatedate = PMSManagerAPI.getdateTimeformat(System
-					.currentTimeMillis());
 			String witnesseaddress=null;
-			if (eidtWitness&&addressWidgetItemInfo!=null) {
+			if (addressWidgetItemInfo!=null) {
 				 witnesseaddress = addressWidgetItemInfo.content;
 				if (TextUtils.isEmpty(witnesseaddress)) {
 					showToast("填写见证地点");
 					return;
 				}
 			}
-			
+			if (witnessdesWidgetItemInfo!=null) {
+				 witnessdes = witnessdesWidgetItemInfo.content;
+				
+			}
 
 			
-			String witnessdate=null;
-			if (eidtWitness&&witnessdateWidgetItemInfo!=null) {
-				 witnessdate = (String) witnessdateWidgetItemInfo.obj;
-				if (TextUtils.isEmpty(witnessdate)) {
-					showToast("填写见证时间");
-					return;
-				}
+			if (witnessDateLists.isEmpty()) {
+				showToast("填写见证时间");
+				return;
 			}
 			 Team witness=null;
-			if (eidtWitness&&witnessWidgetItemInfo!=null) {
+			if (witnessWidgetItemInfo!=null) {
 				  witness=(Team) witnessWidgetItemInfo.obj;
 				 if (witness == null) {
 					 showToast("选择见证负责人");
@@ -176,18 +220,52 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 			
 			 super.callCommitBtn(null);
 			 
-			taskManager.commitBatch(rollingPlan.getId(), witness, witnessdes, witnesseaddress, witnessDatas);
+			taskManager.commitBatch(rollingPlan.getId(), witness.getId(), witnessdes, witnesseaddress, witnessDateLists);
 		} else {
 			showLoadingView(true);
 			taskManager.chooseWitnessHeadList();
 		}
 
 	}
-
+	
+	List<String>witnessDateLists = new ArrayList<String>();
+	
 	final List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();
 
 	// R.id. in array String
 
+	
+	private void createWorkStepItemInfo(WorkStep workStep) {
+		if (WorkStepDetailActivity.showWitness(workStep)) {
+
+			if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
+				WitnessInfo sInfo =workStep.witnessInfo.get(0);
+				String time = "";
+				if (workStep.witnessInfo.get(0).witnessdate!=0) {
+					time = PMSManagerAPI.getdateTimeformat(sInfo.witnessdate);
+					itemInfos.add( new WidgetItemInfo("workTime_"+workStep.getId(),
+							workStep.getStepname()+"见证时间：",time,WidgetItemInfo.CHOOSE, true));
+						
+				}else {
+					itemInfos.add(new WidgetItemInfo("workTime_"+workStep.getId(),
+							workStep.getStepname()+"见证时间：","选择见证时间",WidgetItemInfo.CHOOSE, true));
+					
+				}
+				String stepTime = PMSManagerAPI.combineWorkIdTime(workStep.getId(), time);
+				if (!witnessDateLists.contains(stepTime)) {
+					witnessDateLists.add(stepTime);
+				}
+					
+			}
+		
+			
+		
+	
+		}
+
+	}
+	
+	
 	private void updateInfo() {
 		final boolean isDone = "DONE".equals(workStep.getStepflag());
 		if (itemInfos.isEmpty()) {
@@ -215,103 +293,35 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 					"见证描述：", workStep.operatedesc==null?"见证合格":workStep.operatedesc, WidgetItemInfo.INPUT, isDone));
 		
 		}	
-			if (WorkStepDetailActivity.showWitness(workStep)) {
-				
-				if (isDone&&!eidtWitness) {
-					if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
-						WitnessInfo sInfo =workStep.witnessInfo.get(0);
-						itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-								"见证地点：", sInfo.witnessaddress, WidgetItemInfo.DISPLAY, false));
-						
-						itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
-								"见证时间：", PMSManagerAPI.getdateTimeformat(sInfo.witnessdate),WidgetItemInfo.DISPLAY, false));
-						itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
-								"负责人：", sInfo.witnessName, WidgetItemInfo.DISPLAY, false));
-						if (workStep.witnessesAssign!=null&&workStep.witnessesAssign.size()>0) {
-							for (int i = 0; i < workStep.witnessesAssign.size(); i++) {
-								WitnessInfo witnessInfo =  workStep.witnessesAssign.get(i);
-								String okType ="1".equals(witnessInfo.isok)?"不合格":"合格";
-								if (witnessInfo.isok==null||witnessInfo.isok==0) {
-									 okType =" 未见证";
-								}else {
-									okType = " 见证"+okType;
-								}
-								WidgetItemInfo sItemInfo = new WidgetItemInfo("w"+i,
-										""+witnessInfo.witnesserName+okType, "", WidgetItemInfo.ENTER, true);
-								sItemInfo.obj = witnessInfo;
-								itemInfos.add(sItemInfo);
-							
-							}
-						}
-					}
-				
-					
-				}else {
-					if (eidtWitness) {
-						if (witnessAdrress!=null) {
-							itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-									"见证地点：", witnessAdrress, WidgetItemInfo.EDIT, true));
-							
-						}else {
-							itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-									"见证地点：", null, WidgetItemInfo.EDIT, true));
-							
-						}
-						
-						if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0&&workStep.witnessInfo.get(0).witnessdate!=0) {
-
-							itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
-									"见证时间：", PMSManagerAPI.getdateTimeformat(workStep.witnessInfo.get(0).witnessdate),WidgetItemInfo.CHOOSE, true));
-							witnessdateWidgetItemInfo.obj = PMSManagerAPI.getdateTimeformat(workStep.witnessInfo.get(0).witnessdate);
-						} else {
-							itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
-									"见证时间：", "选择见证时间",WidgetItemInfo.CHOOSE, true));
-							
-						}
-						
-						if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0&&workStep.witnessInfo.get(0).witnessName!=null) {
-							Team team = new Team();
-							team.setId(workStep.witnessInfo.get(0).witness);
-							itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
-									"负责人：", workStep.witnessInfo.get(0).witnessName, WidgetItemInfo.CHOOSE, true));
-							witnessWidgetItemInfo.obj = team;
-							
-						}else {
-							itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
-									"负责人：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
-						
-						}
-					
-					}else {
-						if (!"PREPARE".equals(workStep.getStepflag())) {
-
-							if (witnessAdrress!=null) {
-								itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-										"见证地点：", witnessAdrress, WidgetItemInfo.EDIT, true));
-								
-							}else {
-								itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-										"见证地点：", null, WidgetItemInfo.EDIT, true));
-								
-							}
-							itemInfos.add(witnessdateWidgetItemInfo = new WidgetItemInfo("2",
-									"见证时间：", "选择见证时间",WidgetItemInfo.CHOOSE, true));
-							itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
-									"负责人：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
-						
-						}
-						
-					}
-					
-				}
-
+		
+		if (workStepList!=null&&workStepList.getDatas()!=null) {
+			
+			List<WorkStep> batchTaskList = workStepList.getDatas();
+			int batchNumbers = batchTaskList.size();
+			
+			for (WorkStep workStep : batchTaskList) {
+				createWorkStepItemInfo(workStep);
 			}
 			
+		}else {
+			eidtWitness = false;
+		}
+		
+		if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
+			WitnessInfo sInfo =workStep.witnessInfo.get(0);
+			itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+					"见证地点：", sInfo.witnessaddress, WidgetItemInfo.EDIT, true));
+			itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+					"负责人：", sInfo.witnessName, WidgetItemInfo.EDIT, true));
 			
+		}
+		
 			
-			if (isDone&&!eidtWitness) {
+			if (!eidtWitness) {
 				
 				   findViewById(R.id.commit_layout).setVisibility(View.GONE);
+			}else {
+				 findViewById(R.id.commit_layout).setVisibility(View.VISIBLE);
 			}
 			
 			itemInfos.add(new WidgetItemInfo("", "", "",
@@ -340,23 +350,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 
 							}
 								break;
-								case WidgetItemInfo.ENTER: {
-									convertView = new EnterItemView(
-											WitnessDealTaskActivity.this);
-									convertView.setOnClickListener(new OnClickListener() {
-										
-										@Override
-										public void onClick(View v) {
-											// TODO Auto-generated method stub
-											WitnessInfo witnessInfo = (WitnessInfo) widgetItemInfo.obj;
-											Intent intent = new Intent(WitnessDealTaskActivity.this,DetailContentActivity.class);
-											intent.putExtra("title", "见证人描述－－"+witnessInfo.witnesserName);
-											intent.putExtra("content",witnessInfo.noticeresultdesc);
-											startActivity(intent);
-										}
-									});
-								}
-									break;
+								
 							case WidgetItemInfo.DEVIDER: {
 								convertView = new View(
 										WitnessDealTaskActivity.this);
@@ -477,7 +471,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 													// TODO Auto-generated method stub
 
 													if (widgetItemInfo.tag
-															.equals("2")) {// time
+															.startsWith("workTime")) {// time
 														go2ChooseTime(widgetItemInfo);
 													}
 														else if(widgetItemInfo.tag.equals("21")){//
@@ -646,8 +640,9 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 		super.initView();
 
 	}
-
+    WidgetItemInfo currentItemInfo ;
 	void go2ChooseTime(WidgetItemInfo widgetItemInfo) {
+		currentItemInfo = widgetItemInfo;
 		Intent intent = new Intent(this, TimeActivity.class);
 		startActivityForResult(intent, TimeActivity.REQUEST_PICK_DATE);
 
@@ -708,12 +703,24 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 	// operatedate 完成时间（格式2015-05-24 22:22:45）
 	// operatedesc N 完成信息描述
 	WidgetItemInfo addressWidgetItemInfo, witnessWidgetItemInfo,
-			witnessdesWidgetItemInfo, witnessdateWidgetItemInfo ;
+			witnessdesWidgetItemInfo ;
 
 	private void updateTime(String date, String formart) {
 		// TODO Auto-generated method stub
-		witnessdateWidgetItemInfo.content = date;
-		witnessdateWidgetItemInfo.obj = formart;
+		if (currentItemInfo!=null) {
+			currentItemInfo.content = date;
+			String tag = currentItemInfo.tag ;
+			 List<String> dateList = witnessDateLists;
+			 String id = tag.replaceFirst("workTime_", "");
+			for (int i = 0; i < dateList.size(); i++) {
+				if (dateList.get(i).startsWith(id)) {//find
+					Log.i(TAG, "find set time~~");
+					dateList.set(i, PMSManagerAPI.combineWorkIdTime(id, formart));
+					break;
+				}
+			}
+		}
+		
 		updateInfo();
 	}
 

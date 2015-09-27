@@ -386,7 +386,10 @@ public class PMSManagerAPI {
 				params, responseHandler);
 	}
 	
-	
+	public static String combineWorkIdTime(String id,String formatTime){
+		
+		return id+"|"+formatTime;
+	}
 	public void createWitnessTaskBatch(String rollingplanId,
 			String witness,String witnessdes,
 			String witnesseaddress,List<String> witnessDatas, 
@@ -402,7 +405,10 @@ public class PMSManagerAPI {
 			String  data =  (String) iterator
 					.next();
 			String keyValue[] = data.split("\\|");
-			params.put("witnessdate_"+keyValue[0], keyValue[1]);
+			if (keyValue!=null &&keyValue.length>=2) {
+				params.put("witnessdate_"+keyValue[0], keyValue[1]);	
+			}
+			
 			
 		}
 		

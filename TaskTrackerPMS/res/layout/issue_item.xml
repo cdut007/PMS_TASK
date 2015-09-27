@@ -110,10 +110,10 @@
             widgets:customName="焊口/支架：" >
         </com.thirdpart.widget.DisplayItemView>
 
-        <com.thirdpart.widget.LineStroke
-            android:layout_width="match_parent"
-             android:layerType="software" 
-            android:layout_height="@dimen/item_line_width" />
+<!--         <com.thirdpart.widget.LineStroke -->
+<!--             android:layout_width="match_parent" -->
+<!--              android:layerType="software"  -->
+<!--             android:layout_height="@dimen/item_line_width" /> -->
 
         <com.thirdpart.widget.DisplayItemView
             android:id="@+id/issue_tuzhi"
@@ -122,6 +122,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:singleLine="true"
+            android:visibility="gone"
             widgets:customName="图纸：" >
         </com.thirdpart.widget.DisplayItemView>
     </LinearLayout>
