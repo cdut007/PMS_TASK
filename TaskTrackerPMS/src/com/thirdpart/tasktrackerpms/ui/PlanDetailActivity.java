@@ -161,12 +161,14 @@ public class PlanDetailActivity extends BaseDetailActivity {
 			itemInfos.add(new WidgetItemInfo("10", "问题反馈", "",
 					WidgetItemInfo.DISPLAY, true));
 			
+			itemInfos.add(new WidgetItemInfo("e9", "批量见证", "",
+					WidgetItemInfo.DISPLAY, true));
+			
 		} else {
 
 		}
 		
-		itemInfos.add(new WidgetItemInfo("e9", "批量见证", "",
-				WidgetItemInfo.DISPLAY, true));
+		
 		
 		
 		
