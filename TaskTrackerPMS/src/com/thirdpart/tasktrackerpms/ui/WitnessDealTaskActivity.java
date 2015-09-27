@@ -244,7 +244,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 				if (workStep.witnessInfo.get(0).witnessdate!=0) {
 					time = PMSManagerAPI.getdateTimeformat(sInfo.witnessdate);
 					itemInfos.add( new WidgetItemInfo("workTime_"+workStep.getId(),
-							workStep.getStepname()+"见证时间：",time,WidgetItemInfo.CHOOSE, true));
+							workStep.getStepname()+"见证时间：",time,WidgetItemInfo.DISPLAY, false));
 						
 				}else {
 					itemInfos.add(new WidgetItemInfo("workTime_"+workStep.getId(),
@@ -290,7 +290,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 			
 
 			itemInfos.add(witnessdesWidgetItemInfo = new WidgetItemInfo("25",
-					"见证描述：", workStep.operatedesc==null?"见证合格":workStep.operatedesc, WidgetItemInfo.INPUT, isDone));
+					"见证描述：", workStep.operatedesc==null?"见证合格":workStep.operatedesc, WidgetItemInfo.INPUT, false));
 		
 		}	
 		
@@ -310,10 +310,19 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 		if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
 			WitnessInfo sInfo =workStep.witnessInfo.get(0);
 			itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+					"见证地点：", sInfo.witnessaddress, WidgetItemInfo.DISPLAY, false));
+			itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+					"负责人：", sInfo.witnessName, WidgetItemInfo.DISPLAY, false));
+			
+		}else {
+
+			WitnessInfo sInfo =workStep.witnessInfo.get(0);
+			itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
 					"见证地点：", sInfo.witnessaddress, WidgetItemInfo.EDIT, true));
 			itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
 					"负责人：", sInfo.witnessName, WidgetItemInfo.EDIT, true));
 			
+		
 		}
 		
 			
