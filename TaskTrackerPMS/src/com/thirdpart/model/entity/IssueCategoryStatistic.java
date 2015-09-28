@@ -13,7 +13,7 @@ public class IssueCategoryStatistic {
 		if (statistic.mCategoryItems==null) {
 			statistic.mCategoryItems = new ArrayList<IssueCategoryItem>();
 		
-			statistic.assigned.key="3";
+			statistic.myeventComplete.key="3";
 			statistic.mCategoryItems.add(statistic.myeventComplete);
 			
 			statistic.assigned.key="2";

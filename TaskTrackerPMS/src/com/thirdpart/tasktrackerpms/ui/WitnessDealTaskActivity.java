@@ -243,6 +243,11 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 			boolean chooseMode = false;
 			String time = "";
 			if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
+				
+				if (true) {
+					return ;
+				}
+				
 				WitnessInfo sInfo =workStep.witnessInfo.get(0);
 			
 				if (workStep.witnessInfo.get(0).witnessdate!=0) {
@@ -275,7 +280,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 					}
 					
 					witnessDateLists.add(stepTime);
-				itemInfos.add(new WidgetItemInfo("workTime_"+workStep.getId(),
+				 itemInfos.add(new WidgetItemInfo("workTime_"+workStep.getId(),
 						workStep.getStepname()+"见证时间：","选择见证时间",WidgetItemInfo.CHOOSE_BELOW, true));
 			
 				}
