@@ -84,6 +84,7 @@ public class WorkStepFragment extends BasePageListFragment<WorkStep, WorkStepLis
 	@Override
 	protected void callNextPage(int pagesize, int pageNum) {
 		// TODO Auto-generated method stub
+		super.callNextPage(pagesize, pageNum);
 		executeNextPageNetWorkRequest(pagesize, pageNum);
 		
 	}

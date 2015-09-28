@@ -95,6 +95,7 @@ public class IssuePlanListFragment extends BasePageListFragment<IssueResult, Iss
 	
 	@Override
 	protected void callNextPage(int pagesize, int pageNum) {
+		super.callNextPage(pagesize, pageNum);
 	executeNetWorkRequest( pagesize, pageNum);
 	}
 

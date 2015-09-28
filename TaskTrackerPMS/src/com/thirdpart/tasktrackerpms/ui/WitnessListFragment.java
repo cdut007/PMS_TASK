@@ -154,6 +154,7 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 	
 	@Override
 	protected void callNextPage(int pagesize, int pageNum) {
+		super.callNextPage(pagesize, pageNum);
 	executeNetWorkRequest( pagesize, pageNum);
 	}
 

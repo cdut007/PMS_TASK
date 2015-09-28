@@ -251,6 +251,7 @@ public class DeliveryPlanFragment extends BasePageListFragment<RollingPlan, Roll
 	@Override
 	protected void callNextPage(int pagesize, int pageNum) {
 		// TODO Auto-generated method stub
+		super.callNextPage(pagesize, pageNum);
 		executeNextPageNetWorkRequest(pagesize, pageNum);
 		
 	}
