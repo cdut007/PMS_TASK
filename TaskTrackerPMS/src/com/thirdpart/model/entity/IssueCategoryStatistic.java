@@ -13,6 +13,9 @@ public class IssueCategoryStatistic {
 		if (statistic.mCategoryItems==null) {
 			statistic.mCategoryItems = new ArrayList<IssueCategoryItem>();
 		
+			statistic.assigned.key="3";
+			statistic.mCategoryItems.add(statistic.myeventComplete);
+			
 			statistic.assigned.key="2";
 			statistic.mCategoryItems.add(statistic.assigned);
 			
@@ -39,5 +42,5 @@ public class IssueCategoryStatistic {
 				}
 		return statistic.mCategoryItems;
 	}
-	public IssueCategoryItem myevent,assigned,assign,needToSolve,notSolved,created,needConfirm,solved,concernedNotSolved;
+	public IssueCategoryItem myeventComplete,myevent,assigned,assign,needToSolve,notSolved,created,needConfirm,solved,concernedNotSolved;
 }

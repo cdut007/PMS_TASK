@@ -234,6 +234,12 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 	
 	private void createWorkStepItemInfo(WorkStep workStep) {
 		if (WorkStepDetailActivity.showWitness(workStep)) {
+			
+			if ("DONE".equals(workStep.getStepflag())) {
+				//
+				return;
+			}
+			
 			boolean chooseMode = false;
 			if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
 				WitnessInfo sInfo =workStep.witnessInfo.get(0);
@@ -365,22 +371,22 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 		
 		if (eidtWitness) {
 			
-			String witnessDesc = getWitnessDsc();
-			
-			if (witnessDesc!=null) {
-				witnessdesWidgetItemInfo = new WidgetItemInfo("25",
-						"见证描述：", witnessDesc==null?"见证合格":witnessDesc, WidgetItemInfo.INPUT, false);
-			}else {
-				witnessdesWidgetItemInfo = new WidgetItemInfo("25",
-						"见证描述：", witnessDesc==null?"见证合格":witnessDesc, WidgetItemInfo.INPUT, true);
-			}
-			
-			itemInfos.add(witnessdesWidgetItemInfo);
+//			String witnessDesc = getWitnessDsc();
+//			
+//			if (witnessDesc!=null) {
+//				witnessdesWidgetItemInfo = new WidgetItemInfo("25",
+//						"见证描述：", witnessDesc==null?"见证合格":witnessDesc, WidgetItemInfo.INPUT, false);
+//			}else {
+//				witnessdesWidgetItemInfo = new WidgetItemInfo("25",
+//						"见证描述：", witnessDesc==null?"见证合格":witnessDesc, WidgetItemInfo.INPUT, true);
+//			}
+//			
+//			itemInfos.add(witnessdesWidgetItemInfo);
 		
 			String witnessaddress = getWitnessAddress();
 			if (witnessaddress!=null) {
 				itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-						"见证地点：", witnessaddress, WidgetItemInfo.DISPLAY, false));
+						"见证地点：", witnessaddress, WidgetItemInfo.EDIT, true));
 			}else {
 				itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
 						"见证地点：", witnessaddress, WidgetItemInfo.EDIT, true));
@@ -390,7 +396,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 			Team witness = getWitness();
 			if (witness!=null) {
 				itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
-						"负责人：",witness.getName(), WidgetItemInfo.DISPLAY, false));
+						"负责人：",witness.getName(), WidgetItemInfo.CHOOSE, true));
 				 witnessWidgetItemInfo.obj = witness;
 			}else {
 				itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
