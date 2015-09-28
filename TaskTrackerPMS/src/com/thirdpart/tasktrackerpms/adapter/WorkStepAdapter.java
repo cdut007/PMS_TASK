@@ -171,11 +171,11 @@ public String  getAddress(WorkStep workStep){
 //			issueFeedback.setVisibility(View.GONE);
 //			issueUpdate.setVisibility(View.GONE);
 //		}
+			   
+			   
 		}
 
 		private void updateInfo(View v,MyBaseAdapter<WorkStep> myBaseAdapter) {
-			// TODO Auto-generated method stub
-
 			// TODO Auto-generated method stub
 			Context context = v.getContext();
 			
@@ -194,12 +194,11 @@ public String  getAddress(WorkStep workStep){
 		
 		@Override
 		protected void setInfo(WorkStep workStep) {
-			// TODO Auto-generated method stub
+			
 			workNo.setText(workStep.getStepno());
 			workName.setText(workStep.getStepname());
 			issueFeedback.setTag(workStep);
 			issueUpdate.setTag(workStep);
-			
 			
 			if (!show) {
 				if ("DONE".equals(workStep.getStepflag())) {

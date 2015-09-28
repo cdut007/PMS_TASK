@@ -22,5 +22,5 @@ public class WidgetItemInfo {
 	
 	public  boolean  bindClick;
 	
-	public static final int DISPLAY=1,EDIT=2,CHOOSE=3,DEVIDER=4,INPUT=5,ENTER=6;
+	public static final int DISPLAY=1,EDIT=2,CHOOSE=3,DEVIDER=4,INPUT=5,ENTER=6,CHOOSE_BELOW=7;
 }

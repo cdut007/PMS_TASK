@@ -32,6 +32,7 @@ import com.thirdpart.model.entity.Witnesser;
 import com.thirdpart.model.entity.WorkStep;
 import com.thirdpart.model.entity.WorkStepList;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.widget.ChooseBelowItemView;
 import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.DisplayItemView;
 import com.thirdpart.widget.EditItemView;
@@ -57,8 +58,6 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 	}
 	
 
-
-
 	private TaskManager taskManager;
 	WorkStep workStep;
 	WorkStepList workStepList ;
@@ -71,8 +70,6 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 		super.onCreate(savedInstanceState);
 		
 		
-		
-
 		rollingPlan = (RollingPlan) getIntent().getSerializableExtra("dealtask");
 
 		setTitle(rollingPlan.getWeldno()+getType()+"见证信息");
@@ -237,22 +234,28 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 	
 	private void createWorkStepItemInfo(WorkStep workStep) {
 		if (WorkStepDetailActivity.showWitness(workStep)) {
-
+			boolean chooseMode = false;
 			if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
 				WitnessInfo sInfo =workStep.witnessInfo.get(0);
 				String time = "";
 				if (workStep.witnessInfo.get(0).witnessdate!=0) {
 					time = PMSManagerAPI.getdateTimeformat(sInfo.witnessdate);
+					chooseMode = true;
 					itemInfos.add( new WidgetItemInfo("workTime_"+workStep.getId(),
-							workStep.getStepname()+"见证时间：",time,WidgetItemInfo.DISPLAY, false));
+							workStep.getStepname()+"见证时间：",time,WidgetItemInfo.CHOOSE_BELOW, true));
 						
 				}else {
+					chooseMode = true;
 					itemInfos.add(new WidgetItemInfo("workTime_"+workStep.getId(),
-							workStep.getStepname()+"见证时间：","选择见证时间",WidgetItemInfo.CHOOSE, true));
+							workStep.getStepname()+"见证时间：","选择见证时间",WidgetItemInfo.CHOOSE_BELOW, true));
 					
 				}
 				String stepTime = PMSManagerAPI.combineWorkIdTime(workStep.getId(), time);
 				if (!witnessDateLists.contains(stepTime)) {
+					if (chooseMode) {
+						eidtWitness = true;
+					}
+					
 					witnessDateLists.add(stepTime);
 				}
 					
@@ -266,39 +269,92 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 	}
 	
 	
+	
+	public Team  getWitness(){
+		
+		if (workStepList == null) {
+			return null;
+		}
+		List<WorkStep> mList = workStepList.getDatas();
+		if (mList ==null) {
+			return null;
+		}
+		for (int i = 0; i <= mList.size(); i++) {
+			WorkStep lastworkStep = mList.get(i);
+			if (lastworkStep.witnessInfo!=null&&lastworkStep.witnessInfo.size()>0 && lastworkStep.witnessInfo.get(0).witnessName!=null) {
+				WitnessInfo sInfo =lastworkStep.witnessInfo.get(0);
+				Team team = new Team();
+				team.setId(sInfo.witness);
+				team.setName(sInfo.witnessName);
+				return team;
+				
+			}
+			
+		}
+		
+		return null;
+	}
+	
+	
+	public String  getWitnessDsc(){
+		
+		
+		if (workStepList == null) {
+			return null;
+		}
+		List<WorkStep> mList = workStepList.getDatas();
+		if (mList ==null) {
+			return null;
+		}
+		for (int i = 0; i <= mList.size(); i++) {
+			WorkStep lastworkStep = mList.get(i);
+			if (!TextUtils.isEmpty(lastworkStep.operatedesc)) {
+				
+				return lastworkStep.operatedesc;
+				
+			}
+			
+		}
+
+		return null;
+	}
+	
+	public String  getWitnessAddress(){
+		
+		if (workStepList == null) {
+			return null;
+		}
+		List<WorkStep> mList = workStepList.getDatas();
+		if (mList ==null) {
+			return null;
+		}
+		for (int i = 0; i <= mList.size(); i++) {
+			WorkStep lastworkStep = mList.get(i);
+			if (lastworkStep.witnessInfo!=null&&lastworkStep.witnessInfo.size()>0 ) {
+				WitnessInfo sInfo =lastworkStep.witnessInfo.get(0);
+				if (!TextUtils.isEmpty(sInfo.witnessaddress)) {
+					return sInfo.witnessaddress;
+				}
+				
+			}
+			
+		}
+		
+		return null;
+		
+	}
+	
+	
 	private void updateInfo() {
-		final boolean isDone = "DONE".equals(workStep.getStepflag());
+		
 		if (itemInfos.isEmpty()) {
 			// R.id. in array String
-		if (eidtWitness) {
-			
-			String defaultOpName = workStep.operater;
-			if (TextUtils.isEmpty(defaultOpName) && workStep.getRollingPlan()!=null) {
-				defaultOpName = workStep.getRollingPlan().consendmanName;
-			}
-			
-
-			witnessdesWidgetItemInfo = new WidgetItemInfo("25",
-					"见证描述：", workStep.operatedesc==null?"见证合格":workStep.operatedesc, WidgetItemInfo.INPUT, false);
-
-		}else {
-			
-			String defaultOpName = workStep.operater;
-			if (TextUtils.isEmpty(defaultOpName) && workStep.getRollingPlan()!=null) {
-				defaultOpName = workStep.getRollingPlan().consendmanName;
-			}
-			
-
-			itemInfos.add(witnessdesWidgetItemInfo = new WidgetItemInfo("25",
-					"见证描述：", workStep.operatedesc==null?"见证合格":workStep.operatedesc, WidgetItemInfo.INPUT, false));
 		
-		}	
 		
 		if (workStepList!=null&&workStepList.getDatas()!=null) {
 			
 			List<WorkStep> batchTaskList = workStepList.getDatas();
-			int batchNumbers = batchTaskList.size();
-			
+		
 			for (WorkStep workStep : batchTaskList) {
 				createWorkStepItemInfo(workStep);
 			}
@@ -307,23 +363,43 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 			eidtWitness = false;
 		}
 		
-		if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
-			WitnessInfo sInfo =workStep.witnessInfo.get(0);
-			itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-					"见证地点：", sInfo.witnessaddress, WidgetItemInfo.DISPLAY, false));
-			itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
-					"负责人：", sInfo.witnessName, WidgetItemInfo.DISPLAY, false));
+		if (eidtWitness) {
 			
-		}else {
-
-			WitnessInfo sInfo =workStep.witnessInfo.get(0);
-			itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
-					"见证地点：", sInfo.witnessaddress, WidgetItemInfo.EDIT, true));
-			itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
-					"负责人：", sInfo.witnessName, WidgetItemInfo.EDIT, true));
+			String witnessDesc = getWitnessDsc();
 			
+			if (witnessDesc!=null) {
+				witnessdesWidgetItemInfo = new WidgetItemInfo("25",
+						"见证描述：", witnessDesc==null?"见证合格":witnessDesc, WidgetItemInfo.INPUT, false);
+			}else {
+				witnessdesWidgetItemInfo = new WidgetItemInfo("25",
+						"见证描述：", witnessDesc==null?"见证合格":witnessDesc, WidgetItemInfo.INPUT, true);
+			}
+			
+			itemInfos.add(witnessdesWidgetItemInfo);
 		
+			String witnessaddress = getWitnessAddress();
+			if (witnessaddress!=null) {
+				itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+						"见证地点：", witnessaddress, WidgetItemInfo.DISPLAY, false));
+			}else {
+				itemInfos.add(addressWidgetItemInfo = new WidgetItemInfo("1",
+						"见证地点：", witnessaddress, WidgetItemInfo.EDIT, true));
+			}
+		
+			
+			Team witness = getWitness();
+			if (witness!=null) {
+				itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+						"负责人：",witness.getName(), WidgetItemInfo.DISPLAY, false));
+				 witnessWidgetItemInfo.obj = witness;
+			}else {
+				itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+						"负责人：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
+			}
+			
+			
 		}
+		
 		
 			
 			if (!eidtWitness) {
@@ -380,7 +456,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 										widgetItemInfo.name,
 										widgetItemInfo.content);
 								final View tagView = (EditItemView) convertView;
-								editItemView.setScan(isDone&&!eidtWitness);
+								editItemView.setScan(!eidtWitness);
 								editItemView
 										.addTextChangedListener(new TextWatcher() {
 
@@ -428,7 +504,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 										widgetItemInfo.name,
 										widgetItemInfo.content);
 								final View tagView = (UserInputItemView) convertView;
-								editItemView.setScan(isDone);
+								editItemView.setScan(!eidtWitness);
 								editItemView
 										.addTextChangedListener(new TextWatcher() {
 
@@ -464,6 +540,37 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 
 							}
 								break;
+								
+							case WidgetItemInfo.CHOOSE_BELOW: {
+
+								convertView = new ChooseBelowItemView(
+										WitnessDealTaskActivity.this);
+								if (widgetItemInfo.bindClick) {
+									convertView.findViewById(
+											R.id.common_choose_item_content)
+											.setOnClickListener(new OnClickListener() {
+												
+												@Override
+												public void onClick(View v) {
+													// TODO Auto-generated method stub
+
+													if (widgetItemInfo.tag
+															.startsWith("workTime")) {// time
+														go2ChooseTime(widgetItemInfo);
+													}
+											
+												}
+
+												
+											});
+												
+
+								}
+								
+								
+							}
+								break;
+								
 								
 							case WidgetItemInfo.CHOOSE: {
 
@@ -547,6 +654,15 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 
 							break;
 
+						case WidgetItemInfo.CHOOSE_BELOW:
+							ChooseBelowItemView chooseBelowItemView = (ChooseBelowItemView) convertView;
+							chooseBelowItemView
+									.setNameAndContent(widgetItemInfo.name,
+											widgetItemInfo.content);
+
+							break;
+							
+							
 						default:
 							break;
 						}
