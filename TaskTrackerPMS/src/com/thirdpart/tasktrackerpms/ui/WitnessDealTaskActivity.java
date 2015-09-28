@@ -241,9 +241,10 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 			}
 			
 			boolean chooseMode = false;
+			String time = "";
 			if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
 				WitnessInfo sInfo =workStep.witnessInfo.get(0);
-				String time = "";
+			
 				if (workStep.witnessInfo.get(0).witnessdate!=0) {
 					time = PMSManagerAPI.getdateTimeformat(sInfo.witnessdate);
 					chooseMode = true;
@@ -265,6 +266,19 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 					witnessDateLists.add(stepTime);
 				}
 					
+			}else {
+				chooseMode = true;
+				String stepTime = PMSManagerAPI.combineWorkIdTime(workStep.getId(), time);
+				if (!witnessDateLists.contains(stepTime)) {
+					if (chooseMode) {
+						eidtWitness = true;
+					}
+					
+					witnessDateLists.add(stepTime);
+				itemInfos.add(new WidgetItemInfo("workTime_"+workStep.getId(),
+						workStep.getStepname()+"见证时间：","选择见证时间",WidgetItemInfo.CHOOSE_BELOW, true));
+			
+				}
 			}
 		
 			
