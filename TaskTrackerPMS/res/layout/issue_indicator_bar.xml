@@ -32,7 +32,7 @@
             android:gravity="center"
 			android:layout_weight="3"            
             android:singleLine="true"
-            android:text="主题" />
+            android:text="焊口/支架" />
 
         <TextView
             android:id="@+id/issue_status"

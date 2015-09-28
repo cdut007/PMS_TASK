@@ -98,7 +98,7 @@ public class IndicatorView extends FrameLayout {
 		} else if ("witness".equals(barmode)) {//1,7 序号，见证地点
 			List<WidgetItemInfo> mInfos = new ArrayList<WidgetItemInfo>();
 			mInfos.add(new WidgetItemInfo(null, null, "序号", 1, false));
-			mInfos.add(new WidgetItemInfo(null, null, "见证地点", 7, false));
+			mInfos.add(new WidgetItemInfo(null, null, "焊口/支架", 7, false));
 			attachContent(mInfos);
 			hiddenChild(mInfos.size());
 		}else {//default

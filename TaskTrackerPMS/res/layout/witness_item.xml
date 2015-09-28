@@ -44,7 +44,7 @@
             android:background="@color/item_line" />
 
         <com.thirdpart.widget.SorcllTextView
-            android:id="@+id/witnenss_address"
+            android:id="@+id/issue_hankou"
             android:layout_width="0dp"
              style="@style/common_text_item"
             android:layout_height="wrap_content"
@@ -83,15 +83,15 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_line_width" />
 
-        <com.thirdpart.widget.DisplayItemView
-            android:id="@+id/issue_hankou"
+        <com.thirdpart.widget.DisplayMultiLineItemView
+            android:id="@+id/witnenss_address"
             style="@style/common_text_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:singleLine="true"
-            widgets:customName="焊口/支架：" >
-        </com.thirdpart.widget.DisplayItemView>
+            widgets:customName="见证地点：" >
+        </com.thirdpart.widget.DisplayMultiLineItemView>
 
 <!--         <com.thirdpart.widget.LineStroke -->
 <!--             android:layout_width="match_parent" -->

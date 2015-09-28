@@ -23,6 +23,7 @@ import com.thirdpart.model.entity.IssueResult;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.widget.DisplayItemView;
+import com.thirdpart.widget.DisplayMultiLineItemView;
 
 public class IssueAdapter extends BasePageAdapter<IssueResult> {
 	private Context context;
@@ -77,13 +78,15 @@ public interface OnStatusItemListener{
 			
 			// TODO Auto-generated method stub
 			noTextView = (TextView) convertView.findViewById(R.id.issue_index_item);
-			topicTextView = (TextView) convertView.findViewById(R.id.issue_topic);
-			 DisplayItemView issueDisplayItemView = (DisplayItemView) convertView.findViewById(R.id.issue_hankou);
-			tuzhiTextView = issueDisplayItemView.getContentView();
+			
+			DisplayMultiLineItemView issueDisplayItemView = (DisplayMultiLineItemView) convertView.findViewById(R.id.issue_topic);
+			 topicTextView  = issueDisplayItemView.getContentView();
+			 hankouTextView = (TextView) convertView.findViewById(R.id.issue_hankou);
+			 
 			//issueDisplayItemView.setNameBgColor(Color.rgb(0xBF,0xef, 0xff));
-			 issueDisplayItemView = (DisplayItemView) convertView.findViewById(R.id.issue_tuzhi);
+			 DisplayItemView issueDisplay2ItemView = (DisplayItemView) convertView.findViewById(R.id.issue_tuzhi);
 			// issueDisplayItemView.setNameBgColor(Color.rgb(0xBF,0xef, 0xff));
-			 hankouTextView = issueDisplayItemView.getContentView();
+			 tuzhiTextView  = issueDisplay2ItemView.getContentView();
 			
 			statusTextView = (TextView) convertView.findViewById(R.id.issue_status);
 			deliveryTextView = (TextView) convertView.findViewById(R.id.issue_delivery);

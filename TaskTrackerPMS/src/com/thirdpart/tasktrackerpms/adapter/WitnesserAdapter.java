@@ -26,6 +26,7 @@ import com.thirdpart.tasktrackerpms.ui.WitnessChooseActivity;
 import com.thirdpart.tasktrackerpms.ui.WitnessUpdateActivity;
 import com.thirdpart.tasktrackerpms.ui.WorkStepDetailActivity;
 import com.thirdpart.widget.DisplayItemView;
+import com.thirdpart.widget.DisplayMultiLineItemView;
 import com.thirdpart.widget.TouchImage;
 
 public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
@@ -84,13 +85,15 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 				final MyBaseAdapter<WitnessDistributed> myBaseAdapter) {
 			// TODO Auto-generated method stub
 			noTextView = (TextView) convertView.findViewById(R.id.witness_index_item);
-			adressTextView = (TextView) convertView.findViewById(R.id.witnenss_address);
+			hankouTextView  = (TextView) convertView.findViewById(R.id.issue_hankou);
 			chooseWitenss = (TextView) convertView.findViewById(R.id.witness_choose);
 			
-			 DisplayItemView issueDisplayItemView = (DisplayItemView) convertView.findViewById(R.id.issue_hankou);
-				tuzhiTextView = issueDisplayItemView.getContentView();
-				 issueDisplayItemView = (DisplayItemView) convertView.findViewById(R.id.issue_tuzhi);
-				 hankouTextView = issueDisplayItemView.getContentView();
+			DisplayMultiLineItemView issueDisplayItemView = (DisplayMultiLineItemView) convertView.findViewById(R.id.witnenss_address );
+			 
+			 adressTextView = issueDisplayItemView.getContentView();
+			 
+				 DisplayItemView issue2DisplayItemView = (DisplayItemView) convertView.findViewById(R.id.issue_tuzhi);
+				 tuzhiTextView  = issue2DisplayItemView.getContentView();
 			
 		Scanner = ((WitnesserAdapter)myBaseAdapter).deliveryWitness;	
 		chooseWitness = 	 ((WitnesserAdapter)myBaseAdapter).sanChooseWitness;

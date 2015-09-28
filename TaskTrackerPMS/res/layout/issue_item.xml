@@ -52,7 +52,7 @@
             android:layout_weight="3"
              >
             <com.thirdpart.widget.SorcllTextView
-            android:id="@+id/issue_topic"
+            android:id="@+id/issue_hankou"
             android:layout_width="match_parent"
              style="@style/common_text_item"
             android:layout_height="wrap_content"
@@ -100,15 +100,15 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_line_width" />
 
-        <com.thirdpart.widget.DisplayItemView
-            android:id="@+id/issue_hankou"
+        <com.thirdpart.widget.DisplayMultiLineItemView
+            android:id="@+id/issue_topic"
             style="@style/common_text_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:singleLine="true"
-            widgets:customName="焊口/支架：" >
-        </com.thirdpart.widget.DisplayItemView>
+            widgets:customName="主题：" >
+        </com.thirdpart.widget.DisplayMultiLineItemView>
 
 <!--         <com.thirdpart.widget.LineStroke -->
 <!--             android:layout_width="match_parent" -->
