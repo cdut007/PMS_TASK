@@ -593,6 +593,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 
 													if (widgetItemInfo.tag
 															.startsWith("workTime")) {// time
+														chooseTime = true;
 														go2ChooseTime(widgetItemInfo);
 													}
 											
@@ -625,7 +626,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 
 													if (widgetItemInfo.tag
 															.startsWith("workTime")) {// time
-														chooseTime = true;
+														
 														go2ChooseTime(widgetItemInfo);
 													}
 														else if(widgetItemInfo.tag.equals("21")){//
@@ -845,7 +846,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 		switch (arg0) {
 		case TimeActivity.REQUEST_PICK_DATE: {
 			if (arg1 == RESULT_OK) {
-
+				chooseTime = true;
 				updateTime(intent.getStringExtra("time"),intent.getStringExtra("format"));
 			}
 		}
