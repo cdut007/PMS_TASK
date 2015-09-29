@@ -201,7 +201,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 			}
 
 			
-			if (witnessDateLists.isEmpty()) {
+			if (!chooseTime) {
 				showToast("填写见证时间");
 				return;
 			}
@@ -246,6 +246,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 			if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
 				
 				if (true) {
+					chooseTime = true;
 					Log.i(TAG, "witnessInfo  is ok");
 					return ;
 				}
@@ -382,11 +383,11 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 		if (itemInfos.isEmpty()) {
 			// R.id. in array String
 		
-		
+		boolean hasDatas = false;
 		if (workStepList!=null&&workStepList.getDatas()!=null) {
 			
 			List<WorkStep> batchTaskList = workStepList.getDatas();
-		
+			hasDatas = batchTaskList.size()>0;
 			for (WorkStep workStep : batchTaskList) {
 				createWorkStepItemInfo(workStep);
 			}
@@ -435,6 +436,10 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 		
 			
 			if (!eidtWitness) {
+				if (hasDatas) {
+					itemInfos.add(new WidgetItemInfo("all_complete", "见证结果：", "所有工序已经发起了见证",
+							WidgetItemInfo.DISPLAY, false));	
+				}
 				
 				   findViewById(R.id.commit_layout).setVisibility(View.GONE);
 			}else {
@@ -620,6 +625,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 
 													if (widgetItemInfo.tag
 															.startsWith("workTime")) {// time
+														chooseTime = true;
 														go2ChooseTime(widgetItemInfo);
 													}
 														else if(widgetItemInfo.tag.equals("21")){//
@@ -850,7 +856,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 		}
 
 	}
-
+boolean chooseTime = false;
 	// id 工序步骤ID
 	// witness 见证组组长ID
 	// witnessdes N 见证描述
