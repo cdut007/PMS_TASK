@@ -237,6 +237,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 			
 			if ("DONE".equals(workStep.getStepflag())) {
 				//
+				Log.i(TAG, "work step is done");
 				return;
 			}
 			
@@ -245,6 +246,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 			if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0) {
 				
 				if (true) {
+					Log.i(TAG, "witnessInfo  is ok");
 					return ;
 				}
 				
@@ -272,6 +274,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 				}
 					
 			}else {
+				Log.i(TAG, "not witness started ");
 				chooseMode = true;
 				String stepTime = PMSManagerAPI.combineWorkIdTime(workStep.getId(), time);
 				if (!witnessDateLists.contains(stepTime)) {
@@ -283,12 +286,16 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 				 itemInfos.add(new WidgetItemInfo("workTime_"+workStep.getId(),
 						workStep.getStepname()+"见证时间：","选择见证时间",WidgetItemInfo.CHOOSE_BELOW, true));
 			
+				}else {
+					Log.i(TAG, "witnessDateLists already contain this");
 				}
 			}
 		
 			
 		
 	
+		}else {
+			Log.i(TAG, "no witness info");
 		}
 
 	}
@@ -304,7 +311,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 		if (mList ==null) {
 			return null;
 		}
-		for (int i = 0; i <= mList.size(); i++) {
+		for (int i = 0; i < mList.size(); i++) {
 			WorkStep lastworkStep = mList.get(i);
 			if (lastworkStep.witnessInfo!=null&&lastworkStep.witnessInfo.size()>0 && lastworkStep.witnessInfo.get(0).witnessName!=null) {
 				WitnessInfo sInfo =lastworkStep.witnessInfo.get(0);
@@ -331,7 +338,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 		if (mList ==null) {
 			return null;
 		}
-		for (int i = 0; i <= mList.size(); i++) {
+		for (int i = 0; i < mList.size(); i++) {
 			WorkStep lastworkStep = mList.get(i);
 			if (!TextUtils.isEmpty(lastworkStep.operatedesc)) {
 				
@@ -353,7 +360,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 		if (mList ==null) {
 			return null;
 		}
-		for (int i = 0; i <= mList.size(); i++) {
+		for (int i = 0; i < mList.size(); i++) {
 			WorkStep lastworkStep = mList.get(i);
 			if (lastworkStep.witnessInfo!=null&&lastworkStep.witnessInfo.size()>0 ) {
 				WitnessInfo sInfo =lastworkStep.witnessInfo.get(0);
