@@ -6,7 +6,7 @@
     android:padding="10dp"
     android:layout_gravity="center">
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/cricle_contaner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,10 +14,9 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
 
       <ImageView
-  		    android:layout_marginLeft="10dp"
             android:id="@+id/common_circle_item_img"
             android:layout_width="@dimen/task_icon_img_Heigth"
             android:layout_height="@dimen/task_icon_img_Heigth"
@@ -25,16 +24,16 @@
 
         <TextView
             android:id="@+id/common_circle_item_content"
-            android:layout_width="@dimen/task_icon_img_Heigth"
+            android:layout_width="match_parent"
              style="@style/common_text_item"
             android:layout_height="@dimen/task_icon_img_Heigth"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:layout_gravity="center"
             android:singleLine="true"
             android:text="problem" />
 
       
-    </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

@@ -112,14 +112,14 @@ public class MyApplication extends Application {
 	public static String getBaseUrl() {
 		// TODO Auto-generated method stub
 		if (mApplication == null ) {
-			return "http://122.225.41.42:8888/easycms-website";
+			return "http://106.37.241.216:4445/easycms-website";
 		}
 		SharedPreferences sharedPreferences = mApplication.getSharedPreferences("staging",Context.MODE_PRIVATE);
 		if (sharedPreferences.getBoolean("staging", false)) {
 			return sharedPreferences.getString("staging_url", "http://helloxlb.xicp.net:17905/easycms-website");
 		}
 		
-		return "http://122.225.41.42:8888/easycms-website";
+		return "http://106.37.241.216:4445/easycms-website";
 	
 	}
 

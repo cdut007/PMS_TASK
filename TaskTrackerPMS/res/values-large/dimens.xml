@@ -15,6 +15,6 @@
 -->
 
 <resources>
-<dimen name="task_icon_img_Heigth">130dp</dimen>
+<dimen name="task_icon_img_Heigth">64dp</dimen>
 
 </resources>

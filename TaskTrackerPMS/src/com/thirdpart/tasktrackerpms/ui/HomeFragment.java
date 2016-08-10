@@ -6,15 +6,24 @@ import java.util.List;
 
 import org.apache.http.Header;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -242,11 +251,18 @@ public void onHiddenChanged(boolean hidden) {
 
 
 	void initList(List<TaskItem> mList,String type){
-		mList.add(new TaskItem("计划",0x7f0290d3,type));// 计划
-		mList.add(new TaskItem("完成",0x7f0090d7,type));// 完成
-		mList.add(new TaskItem("未完成",0x7fe56200,type));// 未完成
-		mList.add(new TaskItem("施工中",0x7fe78d00,type));// 施工
-		mList.add(new TaskItem("处理中",0x7f029d84,type));// 处理
+//		mList.add(new TaskItem("计划",0x7f0290d3,type));// 计划
+//		mList.add(new TaskItem("完成",0x7f0090d7,type));// 完成
+//		mList.add(new TaskItem("未完成",0x7fe56200,type));// 未完成
+//		mList.add(new TaskItem("施工中",0x7fe78d00,type));// 施工
+//		mList.add(new TaskItem("处理中",0x7f029d84,type));// 处理
+		
+		mList.add(new TaskItem("计划",R.drawable.icon_plan,type));// 计划
+		mList.add(new TaskItem("完成",R.drawable.icon_finish,type));// 完成
+		mList.add(new TaskItem("未完成",R.drawable.icon_unfinish,type));// 未完成
+		mList.add(new TaskItem("施工中",R.drawable.icon_task,type));// 施工
+		mList.add(new TaskItem("处理中",R.drawable.icon_deal,type));// 处理
+		
 		mList.get(0).count=0;
 		mList.get(4).count=0;
 	}
@@ -323,6 +339,58 @@ public void onHiddenChanged(boolean hidden) {
 		 
 	}
 	
+	
+	/**
+	 * add touch down focus affect ,for viewgroup
+	 * 
+	 * @param bubbleView
+	 */
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	public static void buttonEffect(ImageView bubbleView) {
+
+		StateListDrawable states = new StateListDrawable() {
+			@Override
+			protected boolean onStateChange(int[] stateSet) {
+
+				boolean isStatePressedInArray = false;
+				for (int state : stateSet) {
+					if (state == android.R.attr.state_selected) {
+						isStatePressedInArray = true;
+					}
+
+					if (state == android.R.attr.state_pressed) {
+						isStatePressedInArray = true;
+					}
+				}
+
+				if (isStatePressedInArray) {
+					super.setColorFilter(0x99999999, Mode.MULTIPLY);
+				} else {
+					super.clearColorFilter();
+				}
+
+				return super.onStateChange(stateSet);
+			}
+
+			@Override
+			public boolean isStateful() {
+				return true;
+			}
+		};
+		if (bubbleView.getDrawable() != null) {
+			states.addState(new int[] { android.R.attr.state_pressed },
+					bubbleView.getDrawable());
+			states.addState(new int[] {}, bubbleView.getDrawable());
+			if (Build.VERSION.SDK_INT >= 16) {
+				bubbleView.setImageDrawable(states);
+			} else {
+				bubbleView.setImageDrawable(states);
+			}
+		}
+		// states.addState(new int[] {}, r.getDrawable(R.drawable.normal));
+
+	}
+	
 	static class ItemHoldView extends HoldView<TaskItem> {
 		TextView contenTextView;
 		ImageView bgDraweeView;
@@ -341,17 +409,17 @@ public void onHiddenChanged(boolean hidden) {
 			cricleContaner = convertView.findViewById(R.id.cricle_contaner);
 			contenTextView = (TextView) convertView.findViewById(R.id.common_circle_item_content);
 			bgDraweeView = (ImageView) convertView.findViewById(R.id.common_circle_item_img);
-		
-			LayoutParams param = bgDraweeView.getLayoutParams();
 			
-			if (screenWidth>0) {
-				param.width = screenWidth/3;
-				param.height =screenWidth/3;
-			}
-			BadgeView badgeView = new BadgeView(bgDraweeView.getContext());
-			badgeView.setBadgeCount(0);
-			bgDraweeView.setTag(badgeView);
-			badgeView.setTargetView(bgDraweeView);
+//			LayoutParams param = bgDraweeView.getLayoutParams();
+//			
+//			if (screenWidth>0) {
+//				param.width = screenWidth/3;
+//				param.height =screenWidth/3;
+//			}
+//			BadgeView badgeView = new BadgeView(bgDraweeView.getContext());
+//			badgeView.setBadgeCount(0);
+//			bgDraweeView.setTag(badgeView);
+//			badgeView.setTargetView(bgDraweeView);
 			convertView.setOnTouchListener(new OnTouchListener() {
 				
 				@Override
@@ -381,78 +449,81 @@ public void onHiddenChanged(boolean hidden) {
 			// TODO Auto-generated method stub
 			contenTextView.setTag(object);
 			final int color = object.color;
-			final int count = object.count;
+			 int count = object.count;
 			if (count>0) {
-
-				contenTextView.setText(object.name+count+"道");
+				String content = object.name+count+"道";
+				SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(content);
+				spannableStringBuilder.setSpan(new ForegroundColorSpan(Color.RED), object.name.length(), content.length() -1 , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				contenTextView.setText(spannableStringBuilder);
 			}else {
 
 				contenTextView.setText(object.name);
 			}
+			bgDraweeView.setImageResource(color);
+			buttonEffect(bgDraweeView);
+//			bgDraweeView.setImageDrawable(new Drawable() {
+//				
+//				@Override
+//				public void setColorFilter(ColorFilter cf) {
+//					// TODO Auto-generated method stub
+//					
+//				}
+//				
+//				@Override
+//				public void setAlpha(int alpha) {
+//					// TODO Auto-generated method stub
+//					
+//				}
+//				
+//				@Override
+//				public int getOpacity() {
+//					// TODO Auto-generated method stub
+//					return 0;
+//				}
+//				
+//				@Override
+//				public void draw(Canvas canvas) {
+//					// TODO Auto-generated method stub
+//					int r = bgDraweeView.getWidth()/2;
+//				
+//					if (bgDraweeView.isPressed()) {
+//
+//						paint.setColor(color&0x99999999);
+//					}else {
+//
+//						paint.setColor(color);	
+//					}
+//				
+//					canvas.drawCircle(r, r, r, paint);
+//					
+//					if (count>0) {
+//						paint.setColor(Color.RED);	
+//						canvas.drawCircle(1.8f*r, 0.4f*r, (float)UtilsUI.getPixByDPI(bgDraweeView.getContext(), 10), paint);
+//						paint.setColor(Color.WHITE);
+//						
+//					if (count>=10 && count<=99) {
+//						paint.setTextSize(contenTextView.getTextSize());
+//						canvas.drawText(""+count, 1.67f*r, 0.47f*r, paint);	
+//					
+//					}else if(count>99){
+//						paint.setTextSize(0.6f*contenTextView.getTextSize());
+//						canvas.drawText("99+", 1.70f*r, 0.45f*r, paint);	
+//					
+//						}else {
+//							paint.setTextSize(contenTextView.getTextSize());
+//							canvas.drawText(""+count, 1.74f*r, 0.48f*r, paint);	
+//						
+//						}
+//					
+//					}else {
+//						
+//					}
+//					
+//
+//				}
+//			});
+
 			
-			bgDraweeView.setImageDrawable(new Drawable() {
-				
-				@Override
-				public void setColorFilter(ColorFilter cf) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void setAlpha(int alpha) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public int getOpacity() {
-					// TODO Auto-generated method stub
-					return 0;
-				}
-				
-				@Override
-				public void draw(Canvas canvas) {
-					// TODO Auto-generated method stub
-					int r = bgDraweeView.getWidth()/2;
-				
-					if (bgDraweeView.isPressed()) {
-
-						paint.setColor(color&0x99999999);
-					}else {
-
-						paint.setColor(color);	
-					}
-					canvas.drawCircle(r, r, r, paint);
-					
-					if (count>0) {
-						paint.setColor(Color.RED);	
-						canvas.drawCircle(1.8f*r, 0.4f*r, (float)UtilsUI.getPixByDPI(bgDraweeView.getContext(), 10), paint);
-						paint.setColor(Color.WHITE);
-						
-					if (count>=10 && count<=99) {
-						paint.setTextSize(contenTextView.getTextSize());
-						canvas.drawText(""+count, 1.67f*r, 0.47f*r, paint);	
-					
-					}else if(count>99){
-						paint.setTextSize(0.6f*contenTextView.getTextSize());
-						canvas.drawText("99+", 1.70f*r, 0.45f*r, paint);	
-					
-						}else {
-							paint.setTextSize(contenTextView.getTextSize());
-							canvas.drawText(""+count, 1.74f*r, 0.48f*r, paint);	
-						
-						}
-					
-					}else {
-						
-					}
-					
-
-				}
-			});
-
-			//BadgeView badgeView = (BadgeView) bgDraweeView.getTag();
-			//badgeView.setBadgeCount(object.count);
 		
 		}
 		
