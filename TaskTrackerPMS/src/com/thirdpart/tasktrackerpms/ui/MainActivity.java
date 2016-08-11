@@ -402,7 +402,7 @@ public class MainActivity extends BaseActivity {
 	public void onBackPressed() {
 
 		//super.onBackPressed();
-		 moveTaskToBack(true);
+		// moveTaskToBack(true);
 
 	}
 

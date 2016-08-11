@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.jameschen.framework.base.BaseActivity;
-import com.thirdpart.model.LogInController;
 import com.thirdpart.tasktrackerpms.R;
 
 public class SlapshActivity extends BaseActivity {
@@ -28,14 +27,28 @@ public class SlapshActivity extends BaseActivity {
 
 		if (IsNeedGoLoginPage()) {
 
-			go2Login();
+		 handler.postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				go2Login();
+				regPush();
+			}
+		}, 1500);
 
 		} else {
-
-			go2main();
+			 handler.postDelayed(new Runnable() {
+					
+					@Override
+					public void run() {
+						go2main();
+						regPush();
+					}
+				}, 1500);
+			
 		}
 		
-		regPush();
+		
 	}
 
 	private void regPush() {
