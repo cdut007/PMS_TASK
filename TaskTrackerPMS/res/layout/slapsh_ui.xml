@@ -6,10 +6,9 @@
     <ImageView
         android:id="@+id/guide_pager"
         android:layout_width="match_parent"
-        android:background="@drawable/white"
-        android:padding="36dp"
-        android:src="@drawable/cni_logo"
-        android:scaleType="centerInside"
+        
+      android:src="@drawable/bg_img"
+        android:scaleType="centerCrop"
         android:layout_height="match_parent" />
 
 </RelativeLayout>

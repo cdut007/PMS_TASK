@@ -103,7 +103,7 @@
     <drawable name="light_light_gray">#22888888</drawable>
     <drawable name="label_text_color">#70c44b</drawable>
     <drawable name="btn_text_color">#8c8c8c</drawable>
-    <drawable name="bg">#f5f5fa</drawable>
+    <drawable name="bg_img">#f5f5fa</drawable>
     <drawable name="cart_bottom_bg_normal">#dcdcdc</drawable>
     <drawable name="cart_bottom_bg_pressed">#88dcdcdc</drawable>
     <drawable name="order_urge_bg_pressed">#88e6e6e6</drawable>
