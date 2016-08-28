@@ -87,6 +87,7 @@ public class IssueFeedbackActivity extends BaseEditActivity implements
 		sIssueManager = (IssueManager) IssueManager.getNewManagerService(this,
 				IssueManager.class, this);
 		teamMemberManager = new TeamMemberManager(this);
+		teamMemberManager.filterDepart = false;
 		mediaManager = new MediaManager(this);
 	}
 

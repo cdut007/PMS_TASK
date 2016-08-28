@@ -21,6 +21,8 @@ import com.jameschen.framework.base.UINetworkHandler;
 import com.jameschen.widget.CustomSelectPopupWindow;
 import com.jameschen.widget.CustomSelectPopupWindow.Category;
 import com.jameschen.widget.CustomSelectPopupWindow.CategoryAdapter;
+import com.thirdpart.model.ManagerService.ManagerNetworkHandler;
+import com.thirdpart.model.entity.Department;
 import com.thirdpart.model.entity.RetationshipDepartmentInfo;
 import com.thirdpart.model.entity.Team;
 import com.thirdpart.widget.ChooseItemView;
@@ -53,7 +55,7 @@ public interface LoadUsersListener{
 }	
 private LoadUsersListener listener;	
 boolean showWindow;
-public static   boolean filterDepart =true;
+public    boolean filterDepart =true;
 public void findDepartmentInfos( boolean show,final View view,LoadUsersListener loadUsersListener) {
 	
 	listener = loadUsersListener;
@@ -124,7 +126,8 @@ public void findDepartmentInfos( boolean show,final View view,LoadUsersListener 
 	}else {
 		listener.beginLoad(0);
 	}
-	PMSManagerAPI.getInstance(context).getDepartment(new UINetworkHandler<RetationshipDepartmentInfo>(context) {
+	
+	UINetworkHandler<List<Department>> hander = new UINetworkHandler<List<Department>>(context) {
 
 		@Override
 		public void start() {
@@ -147,17 +150,67 @@ public void findDepartmentInfos( boolean show,final View view,LoadUsersListener 
 
 		@Override
 		public void callbackSuccess(int statusCode, Header[] headers,
-				RetationshipDepartmentInfo response) {
+				List<Department> response) {
 			// TODO Auto-generated method stub
-			if (response!=null&&response.getDepartments().size()>0) {
-				mCategories = response.getDepartments();
+			if (response!=null&&response.size()>0) {
+				mCategories.clear();
+				for (Department department : response) {
+					Category category = new Category(null);
+					category.key = department.key;
+					category.value = department.value;
+					category.setId(department.getId());
+					category.setName(department.getName());
+					mCategories.add(category);
+				}
 				update(view);	
 			}else {
 				Log.i("member Error", "empty return");
 			}
 			listener.loadEndSucc(0);	
 		}
-	});
+	};
+	
+	Type sToken = new TypeToken<List<Department>>() {
+	}.getType();
+	hander.setType(sToken);
+	
+	PMSManagerAPI.getInstance(context).getDepartment(hander);
+	
+	
+//	PMSManagerAPI.getInstance(context).getDepartment(new UINetworkHandler<RetationshipDepartmentInfo>(context) {
+//
+//		@Override
+//		public void start() {
+//			// TODO Auto-generated method stub
+//			
+//		}
+//
+//		@Override
+//		public void finish() {
+//			// TODO Auto-generated method stub
+//			
+//		}
+//
+//		@Override
+//		public void callbackFailure(int statusCode, Header[] headers,
+//				String response) {
+//			// TODO Auto-generated method stub
+//			listener.loadEndFailed(0);	
+//		}
+//
+//		@Override
+//		public void callbackSuccess(int statusCode, Header[] headers,
+//				RetationshipDepartmentInfo response) {
+//			// TODO Auto-generated method stub
+//			if (response!=null&&response.getDepartments().size()>0) {
+//				mCategories = response.getDepartments();
+//				update(view);	
+//			}else {
+//				Log.i("member Error", "empty return");
+//			}
+//			listener.loadEndSucc(0);	
+//		}
+//	});
 }
 
 

@@ -749,9 +749,11 @@ public class PMSManagerAPI {
 	
 	public void getDepartment( AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getPublicParams();
-		
-		MyHttpClient.get(ReqHttpMethodPath.REQUST_RETATIVE_DEPARTMENT_URL,
+		//set to the all department.
+		MyHttpClient.get(ReqHttpMethodPath.REQUST_ALL_DEPARTMENT_URL,
 				params, responseHandler);
+//		MyHttpClient.get(ReqHttpMethodPath.REQUST_RETATIVE_DEPARTMENT_URL,
+//				params, responseHandler);
 	}
 	
 	public void getWorkStepList(String id,String pagesize,String pagenum, AsyncHttpResponseHandler responseHandler) {
