@@ -33,7 +33,7 @@ import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.tasktrackerpms.R;
 import com.thirdpart.tasktrackerpms.adapter.IssueAdapter;
 
-public class WitnessFragment extends BasePageListFragment{
+public class WitnessCategoryFragment extends BasePageListFragment{
 
 
 	private IssueMenuAdapter itemAdapter;
@@ -57,7 +57,7 @@ public class WitnessFragment extends BasePageListFragment{
 			}
 		});
 	}
-	public static String callsucc="WitnessFragment";
+	public static String callsucc="WitnessCateogryFragment";
 
 	private void queryData() {
 		// TODO Auto-generated method stub
@@ -105,13 +105,15 @@ public class WitnessFragment extends BasePageListFragment{
 		itemAdapter.notifyDataSetChanged();
 	}
 
+    IssueMenu menu;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.main_issue_ui, container, false);
 		canSearch = false;
-		bindListView(view,itemAdapter = new IssueMenuAdapter(getBaseActivity()));
+		menu = ((WitnessCategoryActivity)getActivity()).menu;
+		bindListView(view,itemAdapter = new IssueMenuAdapter(getBaseActivity(),menu));
 		mListView.setMode(Mode.DISABLED);
 		loadAnimate(APPEAR);
 		mListView.setOnItemClickListener(new OnItemClickListener() {
@@ -119,23 +121,15 @@ public class WitnessFragment extends BasePageListFragment{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getActivity(), WitnessActivity.class);
 				Object object = parent.getAdapter().getItem(position);
 				if (object == null) {
 					return;
 				}
 				IssueMenu p = (IssueMenu) (object);
-				if (p.getId().equals("0")||p.getId().equals("3")) {
-
-					Intent intent = new Intent(getActivity(), WitnessCategoryActivity.class);
-					
-					intent.putExtra(Item.WITNESS_CATEGORY, p);
-					startActivity(intent);	
-				} else {
-					Intent intent = new Intent(getActivity(), WitnessActivity.class);
-					
-					intent.putExtra(Item.WITNESS, p);
-					startActivity(intent);
-				}
+				intent.putExtra(Item.WITNESS, p);
+				startActivity(intent);
 			}
 		});
 		queryData();
@@ -151,10 +145,15 @@ public class WitnessFragment extends BasePageListFragment{
 	static class IssueMenuAdapter extends MyBaseAdapter<IssueMenu> {
 		private Context context;
 
-		public IssueMenuAdapter(Context context) {
+		public IssueMenuAdapter(Context context,IssueMenu menu) {
 			super(context,R.layout.common_menu_item);
 			this.context = context;
-			setObjectList(IssueMenu.getWitnessMenus());
+			if (menu.getContent().contains("收到")) {
+				setObjectList(IssueMenu.getWitnessMenusByNameA_to_D("收到"));
+			}else{
+				setObjectList(IssueMenu.getWitnessMenusByNameA_to_D("完成"));
+			}
+			
 		}
 
 	

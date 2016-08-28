@@ -39,6 +39,8 @@ public class ConstValues {
 		public static final String WITNESS = "witness";
 		public static final String TASK = "task";
 		public static final String MINE = "mine";
+		
+		public static final String WITNESS_CATEGORY = "witness_category";
 	}
 
 	
