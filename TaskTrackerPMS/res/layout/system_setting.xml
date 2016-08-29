@@ -19,9 +19,9 @@
         android:layout_height="40dp"
         android:id="@+id/feedback_log"
         android:text="日志反馈"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="16dp"
         style="@style/common_done_btn"
         android:textSize="18.0sp"/>
 
