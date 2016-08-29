@@ -61,6 +61,10 @@ public class WitnessCategoryFragment extends BasePageListFragment{
 
 	private void queryData() {
 		// TODO Auto-generated method stub
+		if (true) {
+			
+			return;
+		}
 		getPMSManager().getWitnessCategoryCount(new UINetworkHandler<IssueCategoryStatistic>(getActivity()) {
 
 			@Override

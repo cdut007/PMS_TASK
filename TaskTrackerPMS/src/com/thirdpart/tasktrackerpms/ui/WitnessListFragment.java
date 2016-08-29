@@ -6,10 +6,12 @@ import java.util.List;
 
 import org.apache.http.Header;
 
+import android.R.integer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.google.gson.JsonObject;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.jameschen.framework.base.BasePageListFragment;
 import com.jameschen.framework.base.UINetworkHandler;
@@ -34,9 +37,11 @@ import com.thirdpart.model.entity.WitnessDistributedList;
 import com.thirdpart.model.entity.Witnesser;
 import com.thirdpart.model.entity.WitnesserList;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.adapter.DeliveryPlanAdapter;
 import com.thirdpart.tasktrackerpms.adapter.IssueAdapter;
 import com.thirdpart.tasktrackerpms.adapter.PlanAdapter;
 import com.thirdpart.tasktrackerpms.adapter.WitnesserAdapter;
+import com.thirdpart.tasktrackerpms.ui.DeliveryPlanFragment.DeliveryStatus;
 
 
 public class WitnessListFragment extends BasePageListFragment<WitnessDistributed, WitnessDistributedList>  {
@@ -79,7 +84,9 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 		tag = getArguments().getString(ConstValues.Tag);
 		isMyevent = getLogInController().matchUrls("/witness/myevent");
 		Log.i(TAG, "witness menu id = "+menuid);
-		bindListView(view,new WitnesserAdapter(getBaseActivity(),scanMode(),isMyevent&&menuid==0));
+		WitnesserAdapter adapter = new WitnesserAdapter(getBaseActivity(),scanMode(),isMyevent&&menuid==0);
+		adapter.setEditMode(menuid==0);
+		bindListView(view,adapter);
 		callNextPage(pageSize,getCurrentPage());
 		
 		return view;
@@ -160,7 +167,135 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 	}
 
 
+	public void commit() {
 
+		// TODO Auto-generated method stub
+		WitnesserAdapter witnesserAdapter = (WitnesserAdapter) mAdapter;
+		int selectCount = witnesserAdapter.getAllCheckOptionsCount();
+		if (selectCount<=0) {
+			showToast("请先选择见证");
+			getBaseActivity().cancelProgressDialog();
+			return;
+		}
+		
+		
+		List<WitnessDistributed> mSeletedItems = witnesserAdapter.getAllCheckOptions();
+		executeCommitWitnessResultNetWorkRequest(mSeletedItems);
+	
+		
+	}
+	 int count = 0;
+	 
+	private void executeCommitWitnessResultNetWorkRequest(
+			List<WitnessDistributed> mSeletedItems) {
+		// TODO Auto-generated method stub
+		List<String> ids = new ArrayList<String>();
+		 String content="合格";
+		 String okType ="3";
+		 count = 0;
+		 WitnesserAdapter witnesserAdapter = (WitnesserAdapter) mAdapter;
+		final int size =  witnesserAdapter.getObjectInfos().size();
+		 
+		for (WitnessDistributed item : mSeletedItems) {
+			ids.add(item.getId());
 
+			  UINetworkHandler<JsonObject> handler=new UINetworkHandler<JsonObject>(getBaseActivity()) {
+
+					@Override
+					public void start() {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void finish() {
+						// TODO Auto-generated method stub
+						getBaseActivity().cancelProgressDialog();
+					}
+
+					@Override
+					public void callbackFailure(int statusCode, Header[] headers,
+							String response) {
+						// TODO Auto-generated method stub
+						showToast(response);
+					}
+
+					@Override
+					public void callbackSuccess(int statusCode, Header[] headers,
+							JsonObject response) {
+						// TODO Auto-generated method stub
+						count++;
+						if (count == size) {
+							showToast("提交成功");
+						}
+						WitnessListFragment.CallSucc(WitnessListFragment.callsucc);
+						
+					}
+				};
+			if (isMyevent) {
+				getPMSManager().wirteMyeventWitnessResult(content,okType, item.getId(), handler);
+				
+			}else {
+				getPMSManager().wirteWitnessResult(content,okType, item.getWorkStep().getId(), handler);
+					
+			}
+		}
+		
+		
+		 String failedContent="不合格";
+		 String failedType ="1";
+		 witnesserAdapter = (WitnesserAdapter) mAdapter;
+		List<WitnessDistributed> mUnSeletedItems = witnesserAdapter.getAllUnCheckOptions();
+		List<String> unSelectids = new ArrayList<String>();
+		for (WitnessDistributed item : mUnSeletedItems) {
+			unSelectids.add(item.getId());
+			  UINetworkHandler<JsonObject> handler=new UINetworkHandler<JsonObject>(getBaseActivity()) {
+
+					@Override
+					public void start() {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void finish() {
+						// TODO Auto-generated method stub
+						getBaseActivity().cancelProgressDialog();
+					}
+
+					@Override
+					public void callbackFailure(int statusCode, Header[] headers,
+							String response) {
+						// TODO Auto-generated method stub
+						showToast(response);
+					}
+
+					@Override
+					public void callbackSuccess(int statusCode, Header[] headers,
+							JsonObject response) {
+						// TODO Auto-generated method stub
+						count++;
+						if (count == size) {
+							showToast("提交成功");
+						}
+						WitnessListFragment.CallSucc(WitnessListFragment.callsucc);
+						
+					}
+				};
+			if (isMyevent) {
+				getPMSManager().wirteMyeventWitnessResult(failedContent,failedType, item.getId(), handler);
+				
+			}else {
+				getPMSManager().wirteWitnessResult(failedContent,failedType, item.getWorkStep().getId(), handler);
+					
+			}
+		}
+		
+		
+	   
+		
+		
+		
+	}
 	
 }

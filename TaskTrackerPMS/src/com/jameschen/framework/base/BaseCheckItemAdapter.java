@@ -64,6 +64,22 @@ public abstract class  BaseCheckItemAdapter<T> extends BasePageAdapter<T> {
 			}
 			return mList;
 		}
+		
+		
+		public List<T> getAllUnCheckOptions() {
+			// TODO Auto-generated method stub
+			int count = getCount();
+			List<T> mList = new ArrayList<T>();
+			for (int i = 0; i < count; i++) {
+				Boolean ischecked = getIsSelected().get(i);
+				if (ischecked==null || !ischecked) {
+					mList.add(getItem(i));
+				}
+			}
+			return mList;
+		}
+		
+		
 		@Override
 		public void clear(boolean fresh) {
 		clearCheck();// TODO Auto-generated method stub

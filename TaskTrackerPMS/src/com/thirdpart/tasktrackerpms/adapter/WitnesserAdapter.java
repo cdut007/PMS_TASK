@@ -10,14 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jameschen.framework.base.BaseActivity;
+import com.jameschen.framework.base.BaseCheckItemAdapter;
 import com.jameschen.framework.base.MyBaseAdapter;
 import com.jameschen.framework.base.MyBaseAdapter.HoldView;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.entity.IssueResult;
+import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.WitnessDistributed;
 import com.thirdpart.model.entity.WorkStep;
 import com.thirdpart.tasktrackerpms.R;
@@ -29,7 +32,7 @@ import com.thirdpart.widget.DisplayItemView;
 import com.thirdpart.widget.DisplayMultiLineItemView;
 import com.thirdpart.widget.TouchImage;
 
-public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
+public class WitnesserAdapter extends BaseCheckItemAdapter<WitnessDistributed> {
 	private Context context;
 	public boolean deliveryWitness,sanChooseWitness;
 	public WitnesserAdapter(Context context, boolean deliveryWitness,boolean scanChoose) {
@@ -73,17 +76,39 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 	}
 	
 
+	boolean editMode = false;
+	public void setEditMode(boolean editMode) {
+		// TODO Auto-generated method stub
+		this.editMode = editMode;
+	}
 
-
-	private final static class ItemHoldView extends HoldView<WitnessDistributed> {
+	private final static class ItemHoldView extends CheckItemHoldView<WitnessDistributed> {
 
 		TextView noTextView,adressTextView,tuzhiTextView,hankouTextView;
 		TextView chooseWitenss;
 	boolean Scanner = false,chooseWitness=false;
+	CheckBox isChecked;
+	BaseCheckItemAdapter<WitnessDistributed> mCheckItemAdapter;
 		@Override
 		protected void initChildView(View convertView,
 				final MyBaseAdapter<WitnessDistributed> myBaseAdapter) {
 			// TODO Auto-generated method stub
+			
+			isChecked = (CheckBox) convertView.findViewById(R.id.witness_check);
+			mCheckItemAdapter = (BaseCheckItemAdapter<WitnessDistributed>) myBaseAdapter;
+		View checkContainer = (View)isChecked.getParent();
+		checkContainer.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					mCheckItemAdapter.setItemChecked((String)isChecked.getTag(), isChecked);
+				}
+			});
+			if (!((WitnesserAdapter)myBaseAdapter).editMode) {
+				checkContainer.setVisibility(View.GONE);
+			}
+			
 			noTextView = (TextView) convertView.findViewById(R.id.witness_index_item);
 			hankouTextView  = (TextView) convertView.findViewById(R.id.issue_hankou);
 			chooseWitenss = (TextView) convertView.findViewById(R.id.witness_choose);
@@ -155,6 +180,15 @@ public class WitnesserAdapter extends MyBaseAdapter<WitnessDistributed> {
 			if (chooseWitness) {
 				chooseWitenss.setText("查看见证");
 			}
+		}
+		
+		@Override
+		public void setCheckedInfo(
+				BaseCheckItemAdapter<WitnessDistributed> adapter, int position,
+				WitnessDistributed item) {
+			mCheckItemAdapter.markItemCheckStatus(position, isChecked);
+			isChecked.setTag(position+"");
+			
 		}
 		
 	}

@@ -53,6 +53,9 @@ public class WitnessActivity extends BaseEditActivity  {
 		
 		issueMenu = (IssueMenu) getIntent().getSerializableExtra(Item.WITNESS);	
       setTitle(""+issueMenu.getContent());
+      if ("0".equals(issueMenu.getId())) {//my receivw witness
+    		findViewById(R.id.commit_btn_layout).setVisibility(View.VISIBLE);
+	}
       initInfo();
  }
  
@@ -115,6 +118,13 @@ public class WitnessActivity extends BaseEditActivity  {
 		
 	}
 	
+	@Override
+	public void callCommitBtn(View v) {
+		// TODO Auto-generated method stub
+		super.callCommitBtn(v);
+		WitnessListFragment witnessListFragment =(WitnessListFragment) mFragment;
+		witnessListFragment.commit();
+	}
 
 
 	
