@@ -42,7 +42,7 @@ import com.thirdpart.tasktrackerpms.adapter.WitnesserAdapter;
 public class WitnessListFragment extends BasePageListFragment<WitnessDistributed, WitnessDistributedList>  {
 
 	
-	
+	public String tag;
 	private long menuid;
 	boolean isMyevent = false;
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +76,7 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.witness_list_ui, container, false);
 		menuid = getArguments().getLong(ConstValues.ID);
+		tag = getArguments().getString(ConstValues.Tag);
 		isMyevent = getLogInController().matchUrls("/witness/myevent");
 		Log.i(TAG, "witness menu id = "+menuid);
 		bindListView(view,new WitnesserAdapter(getBaseActivity(),scanMode(),isMyevent&&menuid==0));
@@ -131,10 +132,10 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
     	
 		if (menuid==0) {//my revice witness
 			if (isMyevent) {
-				 getPMSManager().receiveMyWitnessList(pagesize+"", pagenum+"",networkhanler,null);
+				 getPMSManager().receiveMyWitnessList(pagesize+"", pagenum+"",networkhanler,null,tag);
 						
 			}else {
-				 getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","equal",networkhanler);
+				 getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","equal",tag,networkhanler);
 						
 			}
 					
@@ -142,10 +143,10 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 			 getPMSManager().myTaskWitnessList(pagesize+"", pagenum+"","equal",networkhanler);
 				
 		}else if(menuid==2){//my 
-			 getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","assigned",networkhanler);
+			 getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","assigned",null,networkhanler);
 				
 		}else if(menuid==3){//finished ..
-			 getPMSManager().receiveMyWitnessList(pagesize+"", pagenum+"",networkhanler,"complete");
+			 getPMSManager().receiveMyWitnessList(pagesize+"", pagenum+"",networkhanler,"complete",tag);
 				
 		}
 	       

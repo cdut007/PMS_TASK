@@ -98,6 +98,7 @@ public class WitnessActivity extends BaseEditActivity  {
 			if (mFragment == null) {
 				Bundle bundle = new Bundle();
 				bundle.putLong(ConstValues.ID, Long.parseLong(issueMenu.getId()));
+				bundle.putString(ConstValues.Tag, issueMenu.tag);
 				mFragment = WitnessListFragment.instantiate(this, WitnessListFragment.class.getName(), bundle);
 				ft.add(R.id.fragment_content, mFragment, WitnessListFragment.class.getName());
 			}

@@ -106,6 +106,8 @@ public class WitnessCategoryFragment extends BasePageListFragment{
 	}
 
     IssueMenu menu;
+    
+    boolean isReceiveWitnessFlag;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -113,7 +115,8 @@ public class WitnessCategoryFragment extends BasePageListFragment{
 		View view = inflater.inflate(R.layout.main_issue_ui, container, false);
 		canSearch = false;
 		menu = ((WitnessCategoryActivity)getActivity()).menu;
-		bindListView(view,itemAdapter = new IssueMenuAdapter(getBaseActivity(),menu));
+		isReceiveWitnessFlag = menu.getContent().contains("收到");
+		bindListView(view,itemAdapter = new IssueMenuAdapter(getBaseActivity(),menu,isReceiveWitnessFlag));
 		mListView.setMode(Mode.DISABLED);
 		loadAnimate(APPEAR);
 		mListView.setOnItemClickListener(new OnItemClickListener() {
@@ -128,6 +131,7 @@ public class WitnessCategoryFragment extends BasePageListFragment{
 					return;
 				}
 				IssueMenu p = (IssueMenu) (object);
+			
 				intent.putExtra(Item.WITNESS, p);
 				startActivity(intent);
 			}
@@ -145,13 +149,13 @@ public class WitnessCategoryFragment extends BasePageListFragment{
 	static class IssueMenuAdapter extends MyBaseAdapter<IssueMenu> {
 		private Context context;
 
-		public IssueMenuAdapter(Context context,IssueMenu menu) {
+		public IssueMenuAdapter(Context context,IssueMenu menu,boolean isReceiveWitnessFlag) {
 			super(context,R.layout.common_menu_item);
 			this.context = context;
-			if (menu.getContent().contains("收到")) {
-				setObjectList(IssueMenu.getWitnessMenusByNameA_to_D("收到"));
+			if (isReceiveWitnessFlag) {
+				setObjectList(IssueMenu.getWitnessMenusByNameA_to_D(menu.getId(),"收到"));
 			}else{
-				setObjectList(IssueMenu.getWitnessMenusByNameA_to_D("完成"));
+				setObjectList(IssueMenu.getWitnessMenusByNameA_to_D(menu.getId(),"完成"));
 			}
 			
 		}

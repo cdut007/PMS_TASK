@@ -15,6 +15,8 @@ public class IssueMenu implements Serializable {
 	private String content;
 	public  int count;
 	
+	public String tag;
+	
 	public String getId() {
 		return id;
 	}
@@ -75,14 +77,23 @@ public class IssueMenu implements Serializable {
 		return menus;
 	}
 	
-	public static List<IssueMenu> getWitnessMenusByNameA_to_D(String tag) {
+	public static List<IssueMenu> getWitnessMenusByNameA_to_D(String menu,String name) {
 		List<IssueMenu> menus = new ArrayList<IssueMenu>();
-		menus.add(new IssueMenu("0", "我"+tag+"的见证A"));
-		menus.add(new IssueMenu("1", "我"+tag+"的见证B"));
-		menus.add(new IssueMenu("2", "我"+tag+"的见证C"));
-		menus.add(new IssueMenu("3", "我"+tag+"的见证D"));
+		menus.add(new IssueMenu(menu,"QC1", "我"+name+"的见证QC1"));
+		menus.add(new IssueMenu(menu,"QC2", "我"+name+"的见证QC2"));
+		menus.add(new IssueMenu(menu,"A", "我"+name+"的见证A"));
+		menus.add(new IssueMenu(menu,"B", "我"+name+"的见证B"));
+		menus.add(new IssueMenu(menu,"C", "我"+name+"的见证C"));
+		menus.add(new IssueMenu(menu,"D", "我"+name+"的见证D"));
 		return menus;
 	}
+	
+	public IssueMenu(String id, String tag,String content) {
+		this(id,content);
+		this.tag = tag;
+		
+	}
+
 
 	public IssueMenu(String id, String content) {
 		super();

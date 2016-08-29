@@ -687,10 +687,14 @@ public class PMSManagerAPI {
 	
 	public void receiveMyWitnessList(
 			String pageSize,String pageNum,
-			AsyncHttpResponseHandler responseHandler, String condition) {
+			AsyncHttpResponseHandler responseHandler, String condition,String categoryWitnessTag) {
 		RequestParams params = getCommonPageParams(true,pageSize, pageNum);
 		if (condition!=null) {
 			params.put("condition", condition);
+		}
+		
+		if (categoryWitnessTag!=null) {
+			params.put("categoryFilter", categoryWitnessTag);
 		}
 		
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_MY_WITNESS_LIST_OF_DISTRIBUTE_URL,
@@ -698,10 +702,13 @@ public class PMSManagerAPI {
 	}
 	
 	public void receiveWitnessList(
-			String pageSize,String pageNum,String condition,
+			String pageSize,String pageNum,String condition,String categoryWitnessTag,
 			AsyncHttpResponseHandler responseHandler) {
 		RequestParams params = getCommonPageParams(true,pageSize, pageNum);
 		params.put("condition", condition);
+		if (categoryWitnessTag!=null) {
+			params.put("categoryFilter", categoryWitnessTag);
+		}
 		MyHttpClient.get(ReqHttpMethodPath.REQUST_WITNESS_LIST_OF_DISTRIBUTE_URL,
 				params, responseHandler);
 	}
