@@ -124,7 +124,7 @@ public class LoginActivity extends BaseActivity{
 				showToast("staging enviorment set succ!");
 				String content = null;
 				if (TextUtils.isEmpty(sEditText.getText())) {
-					content = "http://helloxlb.xicp.net:17905/easycms-website";
+					content = "http://helloxlb.xicp.net:35513/easycms-website";
 				}else {
 					content = sEditText.getText().toString();
 					if (!content.startsWith("http://")) {

@@ -60,11 +60,7 @@ public class WitnessCategoryFragment extends BasePageListFragment{
 	public static String callsucc="WitnessCateogryFragment";
 
 	private void queryData() {
-		// TODO Auto-generated method stub
-		if (true) {
-			
-			return;
-		}
+	
 		getPMSManager().getWitnessCategoryCount(new UINetworkHandler<IssueCategoryStatistic>(getActivity()) {
 
 			@Override
@@ -101,7 +97,8 @@ public class WitnessCategoryFragment extends BasePageListFragment{
 		for (IssueCategoryItem issueCategoryItem : response) {
 			for (IssueMenu issueMenu : mList) {
 				if (issueMenu.getId()!=null&&issueMenu.getId().equals(issueCategoryItem.key)) {
-					issueMenu.count = issueCategoryItem.count;
+					
+					issueMenu.count = getCountByTag(issueMenu.tag,issueCategoryItem);
 					continue;
 				}
 			}
@@ -109,7 +106,36 @@ public class WitnessCategoryFragment extends BasePageListFragment{
 		itemAdapter.notifyDataSetChanged();
 	}
 
-    IssueMenu menu;
+    private int getCountByTag(String tag, IssueCategoryItem issueCategoryItem) {
+		if (tag == null) {
+			return 0 ;
+		}
+		int count = 0;
+		switch (tag) {
+		case "QC1":
+			count =  issueCategoryItem.count_qc1;
+			break;
+		case "QC2":
+			count =  issueCategoryItem.count_qc2;
+			break;
+		case "A":
+			count =  issueCategoryItem.count_a;
+			break;
+		case "B":
+			count =  issueCategoryItem.count_b;
+			break;
+		case "C":
+			count =  issueCategoryItem.count_c;
+			break;
+		case "D":
+			count =  issueCategoryItem.count_d;
+			break;
+		default:
+			break;
+		}
+		return count;
+	}
+	IssueMenu menu;
     
     boolean isReceiveWitnessFlag;
 	@Override
