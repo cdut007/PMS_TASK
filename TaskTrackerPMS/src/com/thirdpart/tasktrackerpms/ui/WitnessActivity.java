@@ -121,7 +121,6 @@ public class WitnessActivity extends BaseEditActivity  {
 	@Override
 	public void callCommitBtn(View v) {
 		// TODO Auto-generated method stub
-		super.callCommitBtn(v);
 		WitnessListFragment witnessListFragment =(WitnessListFragment) mFragment;
 		witnessListFragment.commit();
 	}

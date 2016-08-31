@@ -166,7 +166,8 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 	executeNetWorkRequest( pagesize, pageNum);
 	}
 
-
+	
+	public static List<WitnessDistributed> mSeletedItems;
 	public void commit() {
 
 		// TODO Auto-generated method stub
@@ -179,123 +180,20 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 		}
 		
 		
-		List<WitnessDistributed> mSeletedItems = witnesserAdapter.getAllCheckOptions();
-		executeCommitWitnessResultNetWorkRequest(mSeletedItems);
+		 mSeletedItems = witnesserAdapter.getAllCheckOptions();
+		
+		
+		Intent intent= new Intent(getBaseActivity(),WitnessBatchUpdateActivity.class);
+		WitnessDistributed mWitnessDistributed = new WitnessDistributed();
+		mWitnessDistributed.setIsok("3");
+		mWitnessDistributed.noticeresultdesc = "合格";
+		intent.putExtra(Item.WITNESS, mWitnessDistributed);
+		intent.putExtra("batch", true);
+		startActivity(intent);
+		
 	
 		
 	}
-	 int count = 0;
-	 
-	private void executeCommitWitnessResultNetWorkRequest(
-			List<WitnessDistributed> mSeletedItems) {
-		// TODO Auto-generated method stub
-		List<String> ids = new ArrayList<String>();
-		 String content="合格";
-		 String okType ="3";
-		 count = 0;
-		 WitnesserAdapter witnesserAdapter = (WitnesserAdapter) mAdapter;
-		final int size =  witnesserAdapter.getObjectInfos().size();
-		 
-		for (WitnessDistributed item : mSeletedItems) {
-			ids.add(item.getId());
-
-			  UINetworkHandler<JsonObject> handler=new UINetworkHandler<JsonObject>(getBaseActivity()) {
-
-					@Override
-					public void start() {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void finish() {
-						// TODO Auto-generated method stub
-						getBaseActivity().cancelProgressDialog();
-					}
-
-					@Override
-					public void callbackFailure(int statusCode, Header[] headers,
-							String response) {
-						// TODO Auto-generated method stub
-						showToast(response);
-					}
-
-					@Override
-					public void callbackSuccess(int statusCode, Header[] headers,
-							JsonObject response) {
-						// TODO Auto-generated method stub
-						count++;
-						if (count == size) {
-							showToast("提交成功");
-						}
-						WitnessListFragment.CallSucc(WitnessListFragment.callsucc);
-						
-					}
-				};
-			if (isMyevent) {
-				getPMSManager().wirteMyeventWitnessResult(content,okType, item.getId(), handler);
-				
-			}else {
-				getPMSManager().wirteWitnessResult(content,okType, item.getWorkStep().getId(), handler);
-					
-			}
-		}
-		
-		
-		 String failedContent="不合格";
-		 String failedType ="1";
-		 witnesserAdapter = (WitnesserAdapter) mAdapter;
-		List<WitnessDistributed> mUnSeletedItems = witnesserAdapter.getAllUnCheckOptions();
-		List<String> unSelectids = new ArrayList<String>();
-		for (WitnessDistributed item : mUnSeletedItems) {
-			unSelectids.add(item.getId());
-			  UINetworkHandler<JsonObject> handler=new UINetworkHandler<JsonObject>(getBaseActivity()) {
-
-					@Override
-					public void start() {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void finish() {
-						// TODO Auto-generated method stub
-						getBaseActivity().cancelProgressDialog();
-					}
-
-					@Override
-					public void callbackFailure(int statusCode, Header[] headers,
-							String response) {
-						// TODO Auto-generated method stub
-						showToast(response);
-					}
-
-					@Override
-					public void callbackSuccess(int statusCode, Header[] headers,
-							JsonObject response) {
-						// TODO Auto-generated method stub
-						count++;
-						if (count == size) {
-							showToast("提交成功");
-						}
-						WitnessListFragment.CallSucc(WitnessListFragment.callsucc);
-						
-					}
-				};
-			if (isMyevent) {
-				getPMSManager().wirteMyeventWitnessResult(failedContent,failedType, item.getId(), handler);
-				
-			}else {
-				getPMSManager().wirteWitnessResult(failedContent,failedType, item.getWorkStep().getId(), handler);
-					
-			}
-		}
-		
-		
-	   
-		
-		
-		
-	}
+	
 	
 }

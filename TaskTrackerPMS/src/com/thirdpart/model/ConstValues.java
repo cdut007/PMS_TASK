@@ -41,6 +41,8 @@ public class ConstValues {
 		public static final String MINE = "mine";
 		
 		public static final String WITNESS_CATEGORY = "witness_category";
+		
+		
 	}
 
 	

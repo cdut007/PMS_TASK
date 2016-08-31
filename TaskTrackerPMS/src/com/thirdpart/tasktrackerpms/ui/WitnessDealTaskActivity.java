@@ -751,11 +751,17 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 			Log.i(TAG, "item windows is null--" + chooseItemView.getTag());
 			return;
 		}
+		
 		for (Team team : obj) {
 			
 			names.add(getName(team));
 		}
-
+		List<Team> iTeams = new ArrayList<Team>();
+		if (getUserCount()>0) {
+			
+		}
+		
+		
 		chooseItemView.showMenuItem(obj, names,
 				new ChooseItemView.onDismissListener<Team>() {
 
@@ -905,11 +911,28 @@ boolean chooseTime = false;
 		} else {// get witness..
 			witnessTeamList = (List<Team>) response;
 			Log.i(TAG, "update....");
+			getUserCount();
 			updateInfo();
 		}
 
 	}
 
+	int getUserCount(){
+		if (witnessTeamList == null) {
+			Log.i(TAG, "update....but get null witnessTeamList");
+			return 0 ;
+		}else{
+			if (witnessTeamList.size()>0 && witnessTeamList.get(0).users!=null &&witnessTeamList.get(0).users.size()>0) {
+				int count = witnessTeamList.get(0).users.size();
+				Log.i(TAG, "update....get witnessTeamList count:"+count);
+				return count ;
+			}else{
+				Log.i(TAG, "update....get witnessTeamList count is 0");
+				return 0 ;
+			}
+			}
+	}
+	
 	@Override
 	public void callCommitBtn(View v) {
 
