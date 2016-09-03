@@ -60,7 +60,7 @@ public class WitnessCategoryFragment extends BasePageListFragment{
 	public static String callsucc="WitnessCateogryFragment";
 
 	private void queryData() {
-		// TODO Auto-generated method stub
+	
 		getPMSManager().getWitnessCategoryCount(new UINetworkHandler<IssueCategoryStatistic>(getActivity()) {
 
 			@Override
@@ -97,7 +97,8 @@ public class WitnessCategoryFragment extends BasePageListFragment{
 		for (IssueCategoryItem issueCategoryItem : response) {
 			for (IssueMenu issueMenu : mList) {
 				if (issueMenu.getId()!=null&&issueMenu.getId().equals(issueCategoryItem.key)) {
-					issueMenu.count = issueCategoryItem.count;
+					
+					issueMenu.count = getCountByTag(issueMenu.tag,issueCategoryItem);
 					continue;
 				}
 			}
@@ -105,7 +106,64 @@ public class WitnessCategoryFragment extends BasePageListFragment{
 		itemAdapter.notifyDataSetChanged();
 	}
 
-    IssueMenu menu;
+    private int getCountByTag(String tag, IssueCategoryItem issueCategoryItem) {
+		if (tag == null) {
+			return 0 ;
+		}
+		int count = 0;
+		if (issueCategoryItem.key == "0") {//收到的见证
+			switch (tag) {
+			case "QC1":
+				count =  issueCategoryItem.count_assign_qc1;
+				break;
+			case "QC2":
+				count =  issueCategoryItem.count_assign_qc2;
+				break;
+			case "A":
+				count =  issueCategoryItem.count_assign_a;
+				break;
+			case "B":
+				count =  issueCategoryItem.count_assign_b;
+				break;
+			case "C":
+				count =  issueCategoryItem.count_assign_c;
+				break;
+			case "D":
+				count =  issueCategoryItem.count_assign_d;
+				break;
+			default:
+				break;
+			}
+		}else{
+			switch (tag) {
+			case "QC1":
+				count =  issueCategoryItem.count_qc1;
+				break;
+			case "QC2":
+				count =  issueCategoryItem.count_qc2;
+				break;
+			case "A":
+				count =  issueCategoryItem.count_a;
+				break;
+			case "B":
+				count =  issueCategoryItem.count_b;
+				break;
+			case "C":
+				count =  issueCategoryItem.count_c;
+				break;
+			case "D":
+				count =  issueCategoryItem.count_d;
+				break;
+			default:
+				break;
+			}
+		}
+	
+		return count;
+	}
+	IssueMenu menu;
+    
+    boolean isReceiveWitnessFlag;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -113,7 +171,8 @@ public class WitnessCategoryFragment extends BasePageListFragment{
 		View view = inflater.inflate(R.layout.main_issue_ui, container, false);
 		canSearch = false;
 		menu = ((WitnessCategoryActivity)getActivity()).menu;
-		bindListView(view,itemAdapter = new IssueMenuAdapter(getBaseActivity(),menu));
+		isReceiveWitnessFlag = menu.getContent().contains("收到");
+		bindListView(view,itemAdapter = new IssueMenuAdapter(getBaseActivity(),menu,isReceiveWitnessFlag));
 		mListView.setMode(Mode.DISABLED);
 		loadAnimate(APPEAR);
 		mListView.setOnItemClickListener(new OnItemClickListener() {
@@ -128,6 +187,7 @@ public class WitnessCategoryFragment extends BasePageListFragment{
 					return;
 				}
 				IssueMenu p = (IssueMenu) (object);
+			
 				intent.putExtra(Item.WITNESS, p);
 				startActivity(intent);
 			}
@@ -145,13 +205,13 @@ public class WitnessCategoryFragment extends BasePageListFragment{
 	static class IssueMenuAdapter extends MyBaseAdapter<IssueMenu> {
 		private Context context;
 
-		public IssueMenuAdapter(Context context,IssueMenu menu) {
+		public IssueMenuAdapter(Context context,IssueMenu menu,boolean isReceiveWitnessFlag) {
 			super(context,R.layout.common_menu_item);
 			this.context = context;
-			if (menu.getContent().contains("收到")) {
-				setObjectList(IssueMenu.getWitnessMenusByNameA_to_D("收到"));
+			if (isReceiveWitnessFlag) {
+				setObjectList(IssueMenu.getWitnessMenusByNameA_to_D(menu.getId(),"收到"));
 			}else{
-				setObjectList(IssueMenu.getWitnessMenusByNameA_to_D("完成"));
+				setObjectList(IssueMenu.getWitnessMenusByNameA_to_D(menu.getId(),"完成"));
 			}
 			
 		}

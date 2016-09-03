@@ -8,7 +8,7 @@ public class WitnessInfo implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 8524055906787183733L;
-	public Integer id;
+	public String id;
 	public String witness;
 	public String witnessName;
 	public String witnesser;

@@ -37,6 +37,8 @@
                     android:id="@+id/commit_btn"
                     style="@style/common_done_btn"
                     android:layout_width="fill_parent"
+                    
+                android:minHeight="40dp"
                     android:layout_height="wrap_content" />
             </LinearLayout> 
     </LinearLayout>

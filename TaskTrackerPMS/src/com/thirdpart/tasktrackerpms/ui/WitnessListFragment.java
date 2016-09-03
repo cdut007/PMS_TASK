@@ -6,10 +6,12 @@ import java.util.List;
 
 import org.apache.http.Header;
 
+import android.R.integer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.google.gson.JsonObject;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.jameschen.framework.base.BasePageListFragment;
 import com.jameschen.framework.base.UINetworkHandler;
@@ -34,15 +37,17 @@ import com.thirdpart.model.entity.WitnessDistributedList;
 import com.thirdpart.model.entity.Witnesser;
 import com.thirdpart.model.entity.WitnesserList;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.adapter.DeliveryPlanAdapter;
 import com.thirdpart.tasktrackerpms.adapter.IssueAdapter;
 import com.thirdpart.tasktrackerpms.adapter.PlanAdapter;
 import com.thirdpart.tasktrackerpms.adapter.WitnesserAdapter;
+import com.thirdpart.tasktrackerpms.ui.DeliveryPlanFragment.DeliveryStatus;
 
 
 public class WitnessListFragment extends BasePageListFragment<WitnessDistributed, WitnessDistributedList>  {
 
 	
-	
+	public String tag;
 	private long menuid;
 	boolean isMyevent = false;
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,9 +81,12 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.witness_list_ui, container, false);
 		menuid = getArguments().getLong(ConstValues.ID);
+		tag = getArguments().getString(ConstValues.Tag);
 		isMyevent = getLogInController().matchUrls("/witness/myevent");
 		Log.i(TAG, "witness menu id = "+menuid);
-		bindListView(view,new WitnesserAdapter(getBaseActivity(),scanMode(),isMyevent&&menuid==0));
+		WitnesserAdapter adapter = new WitnesserAdapter(getBaseActivity(),scanMode(),isMyevent&&menuid==0);
+		adapter.setEditMode(menuid==0);
+		bindListView(view,adapter);
 		callNextPage(pageSize,getCurrentPage());
 		
 		return view;
@@ -131,10 +139,10 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
     	
 		if (menuid==0) {//my revice witness
 			if (isMyevent) {
-				 getPMSManager().receiveMyWitnessList(pagesize+"", pagenum+"",networkhanler,null);
+				 getPMSManager().receiveMyWitnessList(pagesize+"", pagenum+"",networkhanler,null,tag);
 						
 			}else {
-				 getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","equal",networkhanler);
+				 getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","equal",tag,networkhanler);
 						
 			}
 					
@@ -142,10 +150,10 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 			 getPMSManager().myTaskWitnessList(pagesize+"", pagenum+"","equal",networkhanler);
 				
 		}else if(menuid==2){//my 
-			 getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","assigned",networkhanler);
+			 getPMSManager().receiveWitnessList(pagesize+"", pagenum+"","assigned",null,networkhanler);
 				
 		}else if(menuid==3){//finished ..
-			 getPMSManager().receiveMyWitnessList(pagesize+"", pagenum+"",networkhanler,"complete");
+			 getPMSManager().receiveMyWitnessList(pagesize+"", pagenum+"",networkhanler,"complete",tag);
 				
 		}
 	       
@@ -158,8 +166,34 @@ public class WitnessListFragment extends BasePageListFragment<WitnessDistributed
 	executeNetWorkRequest( pagesize, pageNum);
 	}
 
+	
+	public static List<WitnessDistributed> mSeletedItems;
+	public void commit() {
 
-
-
+		// TODO Auto-generated method stub
+		WitnesserAdapter witnesserAdapter = (WitnesserAdapter) mAdapter;
+		int selectCount = witnesserAdapter.getAllCheckOptionsCount();
+		if (selectCount<=0) {
+			showToast("请先选择见证");
+			getBaseActivity().cancelProgressDialog();
+			return;
+		}
+		
+		
+		 mSeletedItems = witnesserAdapter.getAllCheckOptions();
+		
+		
+		Intent intent= new Intent(getBaseActivity(),WitnessBatchUpdateActivity.class);
+		WitnessDistributed mWitnessDistributed = new WitnessDistributed();
+		mWitnessDistributed.setIsok("3");
+		mWitnessDistributed.noticeresultdesc = "合格";
+		intent.putExtra(Item.WITNESS, mWitnessDistributed);
+		intent.putExtra("batch", true);
+		startActivity(intent);
+		
+	
+		
+	}
+	
 	
 }

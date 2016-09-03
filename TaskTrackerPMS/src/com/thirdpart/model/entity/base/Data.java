@@ -116,5 +116,18 @@ public class Data implements Serializable{
 		return this.workStep;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		boolean same= super.equals(o);
+		if (!same) {
+			  Data data = (Data) o;
+				if (this.id!=null && this.id.equals(data.id)) {
+					return true;
+				}
+		}
+		return same;
+	 
+		
+	}
 
 }

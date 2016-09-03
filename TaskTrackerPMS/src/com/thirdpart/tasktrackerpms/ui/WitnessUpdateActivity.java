@@ -24,6 +24,7 @@ import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.WidgetItemInfo;
 import com.thirdpart.model.entity.WitnessDistributed;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.adapter.WitnesserAdapter;
 import com.thirdpart.widget.ChooseItemView;
 import com.thirdpart.widget.ChooseItemView.onDismissListener;
 import com.thirdpart.widget.DisplayItemView;
@@ -34,8 +35,6 @@ public class WitnessUpdateActivity extends BaseEditActivity {
 	private UserInputItemView witnessInputItemView;
 	
 	private ChooseItemView  chooseTypeView;
-	
-	
 
 
 	@Override
@@ -51,10 +50,12 @@ boolean isMyevent;
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		
 		 isMyevent = getLogInController().matchUrls("/witness/myevent");
 		
 	 mWitnessDistributed = (WitnessDistributed)getIntent().getSerializableExtra(Item.WITNESS);
-	scan = getIntent().getBooleanExtra("scan", false);
+	 
+	 scan = getIntent().getBooleanExtra("scan", false);
 	if (scan) {
 		 setTitle("查看见证结果");
 	}else {
@@ -65,7 +66,7 @@ boolean isMyevent;
       initInfo();
       bindView();
  }
- 
+	
 	@Override
 	public void callCommitBtn(View v) {
 		if (TextUtils.isEmpty(witnessInputItemView.getContent())) {
@@ -74,44 +75,46 @@ boolean isMyevent;
 		}
 		
 		String okType ="不合格".equals(chooseTypeView.getContent())?"1":"3";
-		
-		  UINetworkHandler<JsonObject> handler=new UINetworkHandler<JsonObject>(this) {
 
-				@Override
-				public void start() {
-					// TODO Auto-generated method stub
-					
-				}
+		UINetworkHandler<JsonObject> handler=new UINetworkHandler<JsonObject>(this) {
 
-				@Override
-				public void finish() {
-					// TODO Auto-generated method stub
-					cancelProgressDialog();
-				}
-
-				@Override
-				public void callbackFailure(int statusCode, Header[] headers,
-						String response) {
-					// TODO Auto-generated method stub
-					showToast(response);
-				}
-
-				@Override
-				public void callbackSuccess(int statusCode, Header[] headers,
-						JsonObject response) {
-					// TODO Auto-generated method stub
-					showToast("提交成功");
-					WitnessListFragment.CallSucc(WitnessListFragment.callsucc);
-					
-				}
-			};
-		if (isMyevent) {
-			getPMSManager().wirteMyeventWitnessResult(witnessInputItemView.getContent(),okType, mWitnessDistributed.getId(), handler);
-			
-		}else {
-			getPMSManager().wirteWitnessResult(witnessInputItemView.getContent(),okType, mWitnessDistributed.getWorkStep().getId(), handler);
+			@Override
+			public void start() {
+				// TODO Auto-generated method stub
 				
-		}
+			}
+
+			@Override
+			public void finish() {
+				// TODO Auto-generated method stub
+				cancelProgressDialog();
+			}
+
+			@Override
+			public void callbackFailure(int statusCode, Header[] headers,
+					String response) {
+				// TODO Auto-generated method stub
+				showToast(response);
+			}
+
+			@Override
+			public void callbackSuccess(int statusCode, Header[] headers,
+					JsonObject response) {
+				// TODO Auto-generated method stub
+				showToast("提交成功");
+				WitnessListFragment.CallSucc(WitnessListFragment.callsucc);
+				
+			}
+		};
+	if (isMyevent) {
+		getPMSManager().wirteMyeventWitnessResult(witnessInputItemView.getContent(),okType, mWitnessDistributed.getId(), handler);
+		
+	}else {
+		getPMSManager().wirteWitnessResult(witnessInputItemView.getContent(),okType, mWitnessDistributed.getWorkStep().getId(), handler);
+			
+	}
+	
+		  
 			super.callCommitBtn(v);
 	}
 	

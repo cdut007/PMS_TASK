@@ -137,7 +137,6 @@ public abstract class BaseListFragment<T> extends BaseFragment {
 	protected void bindSearchController(View rootView, onSearchListener onSearchListener){
 		mSearchText = getBaseActivity().bindSearchViews(searchOnClickListener);
 		this.searchListener = onSearchListener;
-	
 	}
 	
 	protected ListView bindListView(View root,MyBaseAdapter<T> adapter) {

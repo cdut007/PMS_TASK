@@ -3,8 +3,13 @@ package com.thirdpart.model.entity;
 import java.util.List;
 
 public class Team {
+	
+	
 	private String id;
-
+	
+	public String type;
+	
+	
 	public List<UserInfo> users;
 	private String name;
 

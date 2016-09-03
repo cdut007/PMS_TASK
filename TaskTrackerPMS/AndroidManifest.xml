@@ -148,6 +148,11 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>  
+          <activity
+            android:name=".ui.WitnessCategoryActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>  
          <activity
             android:name=".ui.WitnessCategoryActivity"
             android:label="@string/app_name"
@@ -163,6 +168,12 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity> 
+         <activity
+            android:name=".ui.WitnessBatchUpdateActivity"
+            android:label="@string/app_name"    
+             android:theme="@style/customdialog"   
+            android:screenOrientation="portrait" >
+        </activity>
             <activity
             android:name=".ui.WitnessDealTaskActivity"
             android:label="@string/app_name"

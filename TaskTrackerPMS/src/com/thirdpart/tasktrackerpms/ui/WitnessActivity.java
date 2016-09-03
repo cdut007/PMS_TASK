@@ -53,6 +53,9 @@ public class WitnessActivity extends BaseEditActivity  {
 		
 		issueMenu = (IssueMenu) getIntent().getSerializableExtra(Item.WITNESS);	
       setTitle(""+issueMenu.getContent());
+      if ("0".equals(issueMenu.getId())) {//my receivw witness
+    		findViewById(R.id.commit_btn_layout).setVisibility(View.VISIBLE);
+	}
       initInfo();
  }
  
@@ -98,6 +101,7 @@ public class WitnessActivity extends BaseEditActivity  {
 			if (mFragment == null) {
 				Bundle bundle = new Bundle();
 				bundle.putLong(ConstValues.ID, Long.parseLong(issueMenu.getId()));
+				bundle.putString(ConstValues.Tag, issueMenu.tag);
 				mFragment = WitnessListFragment.instantiate(this, WitnessListFragment.class.getName(), bundle);
 				ft.add(R.id.fragment_content, mFragment, WitnessListFragment.class.getName());
 			}
@@ -114,6 +118,12 @@ public class WitnessActivity extends BaseEditActivity  {
 		
 	}
 	
+	@Override
+	public void callCommitBtn(View v) {
+		// TODO Auto-generated method stub
+		WitnessListFragment witnessListFragment =(WitnessListFragment) mFragment;
+		witnessListFragment.commit();
+	}
 
 
 	
