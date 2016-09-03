@@ -111,28 +111,54 @@ public class WitnessCategoryFragment extends BasePageListFragment{
 			return 0 ;
 		}
 		int count = 0;
-		switch (tag) {
-		case "QC1":
-			count =  issueCategoryItem.count_qc1;
-			break;
-		case "QC2":
-			count =  issueCategoryItem.count_qc2;
-			break;
-		case "A":
-			count =  issueCategoryItem.count_a;
-			break;
-		case "B":
-			count =  issueCategoryItem.count_b;
-			break;
-		case "C":
-			count =  issueCategoryItem.count_c;
-			break;
-		case "D":
-			count =  issueCategoryItem.count_d;
-			break;
-		default:
-			break;
+		if (issueCategoryItem.key == "0") {//收到的见证
+			switch (tag) {
+			case "QC1":
+				count =  issueCategoryItem.count_assign_qc1;
+				break;
+			case "QC2":
+				count =  issueCategoryItem.count_assign_qc2;
+				break;
+			case "A":
+				count =  issueCategoryItem.count_assign_a;
+				break;
+			case "B":
+				count =  issueCategoryItem.count_assign_b;
+				break;
+			case "C":
+				count =  issueCategoryItem.count_assign_c;
+				break;
+			case "D":
+				count =  issueCategoryItem.count_assign_d;
+				break;
+			default:
+				break;
+			}
+		}else{
+			switch (tag) {
+			case "QC1":
+				count =  issueCategoryItem.count_qc1;
+				break;
+			case "QC2":
+				count =  issueCategoryItem.count_qc2;
+				break;
+			case "A":
+				count =  issueCategoryItem.count_a;
+				break;
+			case "B":
+				count =  issueCategoryItem.count_b;
+				break;
+			case "C":
+				count =  issueCategoryItem.count_c;
+				break;
+			case "D":
+				count =  issueCategoryItem.count_d;
+				break;
+			default:
+				break;
+			}
 		}
+	
 		return count;
 	}
 	IssueMenu menu;
