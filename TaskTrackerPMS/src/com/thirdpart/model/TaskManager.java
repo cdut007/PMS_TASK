@@ -133,17 +133,21 @@ public class TaskManager  extends ManagerService{
 		}
 	 
 	 
-	public void commit(String workStepId, String witness, String witnessdes, String witnesseaddress, String witnessdate, String operater, String operatedate, String operatedesc,
+	public void commit(String workStepId,String witnessW,
+			String witnessH,String witnessR, String witness, String witnessdes, String witnesseaddress, String witnessdate, String operater, String operatedate, String operatedesc,
 			int qcSign,String qcman) {
-		PMSManagerAPI.getInstance(context).createWitness(workStepId, witness, witnessdes, witnesseaddress, witnessdate, operater, operatedate, operatedesc, 
+		PMSManagerAPI.getInstance(context).createWitness(workStepId,witnessW,
+				 witnessH, witnessR, witness, witnessdes, witnesseaddress, witnessdate, operater, operatedate, operatedesc, 
 				qcSign,qcman,getManagerNetWorkHandler(ACTION_TASK_COMMIT) );
 
 	}
 	
-	public void commitBatch(String rollingplanId,
+	public void commitBatch(String rollingplanId,String witnessW,
+			String witnessH,String witnessR,
 			String witness,String witnessdes,
 			String witnesseaddress,List<String> witnessDatas) {
-		PMSManagerAPI.getInstance(context).createWitnessTaskBatch(rollingplanId,
+		PMSManagerAPI.getInstance(context).createWitnessTaskBatch(rollingplanId, witnessW,
+				 witnessH, witnessR,
 				 witness, witnessdes,
 				 witnesseaddress,witnessDatas, getManagerNetWorkHandler(ACTION_TASK_BATCH_COMMIT) );
 

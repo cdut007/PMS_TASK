@@ -25,8 +25,10 @@ import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.model.PlanManager;
 import com.thirdpart.model.TaskManager;
 import com.thirdpart.model.WidgetItemInfo;
+import com.thirdpart.model.ConstValues.CategoryInfo.User;
 import com.thirdpart.model.entity.RollingPlan;
 import com.thirdpart.model.entity.Team;
+import com.thirdpart.model.entity.UserInfo;
 import com.thirdpart.model.entity.WitnessInfo;
 import com.thirdpart.model.entity.Witnesser;
 import com.thirdpart.model.entity.WorkStep;
@@ -205,19 +207,50 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 				showToast("填写见证时间");
 				return;
 			}
-			 Team witness=null;
-			if (witnessWidgetItemInfo!=null) {
-				  witness=(Team) witnessWidgetItemInfo.obj;
-				 if (witness == null) {
+			 String witnessW = null;
+				String witnessH = null;
+				String witnessR = null;
+				
+			boolean isSelected = false;
+			
+			if (witnessW_WidgetItemInfo!=null) {
+				  UserInfo userInfo = (UserInfo) witnessW_WidgetItemInfo.obj;
+				 if (userInfo == null) {
 					 showToast("选择见证负责人");
 					return;
 				}
+				 isSelected = true;
+				 witnessW = userInfo.getId();
+			}
+			
+			
+			if (witnessH_WidgetItemInfo!=null) {
+				  UserInfo userInfo = (UserInfo) witnessH_WidgetItemInfo.obj;
+				 if (userInfo == null && !isSelected) {
+					 showToast("选择见证负责人");
+					return;
+				}
+				 isSelected = true;
+				 witnessH = userInfo.getId();
 			}
 
+		
+			if (witnessR_WidgetItemInfo!=null) {
+				  UserInfo userInfo = (UserInfo) witnessR_WidgetItemInfo.obj;
+				 if (userInfo == null && !isSelected) {
+					 showToast("选择见证负责人");
+					return;
+				}
+				 isSelected = true;
+				 witnessR = userInfo.getId();
+			}
 			
 			 super.callCommitBtn(null);
+			
+			
 			 
-			taskManager.commitBatch(rollingPlan.getId(), witness.getId(), witnessdes, witnesseaddress, witnessDateLists);
+			 
+			taskManager.commitBatch(rollingPlan.getId(), witnessW,witnessH,witnessR,null, witnessdes, witnesseaddress, witnessDateLists);
 		} else {
 			showLoadingView(true);
 			taskManager.chooseWitnessHeadList();
@@ -284,6 +317,8 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 					}
 					
 					witnessDateLists.add(stepTime);
+					
+					
 				 itemInfos.add(new WidgetItemInfo("workTime_"+workStep.getId(),
 						workStep.getStepname()+"见证时间：","选择见证时间",WidgetItemInfo.CHOOSE_BELOW, true));
 			
@@ -420,16 +455,49 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 			}
 		
 			
-			Team witness = getWitness();
-			if (witness!=null) {
-				itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
-						"负责人：",witness.getName(), WidgetItemInfo.CHOOSE, true));
-				 witnessWidgetItemInfo.obj = witness;
-			}else {
-				itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
-						"负责人：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
-			}
+//			Team witness = getWitness();
+//			if (witness!=null) {
+//				itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+//						"通知点（W）见证员：",witness.getName(), WidgetItemInfo.CHOOSE, true));
+//				 witnessWidgetItemInfo.obj = witness;
+//			}else {
+//				itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
+//						"通知点（W）见证员：", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
+//			}
 			
+			if (workStepList!=null&&workStepList.getDatas()!=null) {
+				//get the all types for every endpoint
+				List<WorkStep> batchTaskList = workStepList.getDatas();
+				hasDatas = batchTaskList.size()>0;
+				List<String> allType = new ArrayList<String>();
+				for (WorkStep workStep : batchTaskList) {
+					List<String> noticeType = workStep.noticeType;
+					if (noticeType!=null&&noticeType.size()>0) {
+						for (String type : noticeType) {
+							if (!allType.contains(type)) {
+								allType.add(type);
+							}
+						}
+					}
+				}
+				
+				for (String type : allType) {
+					if ("W".equals(type)) {
+						itemInfos.add(witnessW_WidgetItemInfo = new WidgetItemInfo("21",
+								"通知点(W):", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
+					
+					}else if ("H".equals(type)) {
+						itemInfos.add(witnessH_WidgetItemInfo = new WidgetItemInfo("22",
+								"通知点(H):", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
+						
+					}else if ("R".equals(type)) {
+
+						itemInfos.add(witnessR_WidgetItemInfo = new WidgetItemInfo("23",
+								"通知点(R):", "选择见证负责人", WidgetItemInfo.CHOOSE, true));
+						
+					}
+				}
+			}
 			
 		}
 		
@@ -630,7 +698,13 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 														go2ChooseTime(widgetItemInfo);
 													}
 														else if(widgetItemInfo.tag.equals("21")){//
-														showWindow(chooseItemView,witnessTeamList);
+														showWindow("W",chooseItemView,witnessTeamList);
+														
+													}else if(widgetItemInfo.tag.equals("22")){//
+														showWindow("H",chooseItemView,witnessTeamList);
+														
+													}else if(widgetItemInfo.tag.equals("23")){//
+														showWindow("R",chooseItemView,witnessTeamList);
 														
 													} else if(widgetItemInfo.tag
 															.equals("20")){//
@@ -736,37 +810,44 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 		return editItemView.getContent();
 	}
 
-	String getName(Team team){
-		String realName = "";
-		if (team.users!=null&&team.users.size()>0) {
-			realName = " - "+team.users.get(0).getRealname();
-		}
-		return team.getName()+realName;
+	String getName(UserInfo userInfo){
+		String realName = userInfo.getRealname();
+		
+		return realName;
 	}
 	
 	
-	private void showWindow(final ChooseItemView chooseItemView, List<Team> obj) {
+	private void showWindow(String type, final ChooseItemView chooseItemView, List<Team> obj) {
 		List<String> names = new ArrayList<String>();
 		if (obj == null) {
 			Log.i(TAG, "item windows is null--" + chooseItemView.getTag());
 			return;
 		}
-		
+		List<UserInfo> mInfos = new ArrayList<UserInfo>();
 		for (Team team : obj) {
+			if (type.equals(team.type)) {
+				mInfos = team.users;
+				if (mInfos!=null && mInfos.size()>0) {
+					for (UserInfo userInfo : mInfos) {
+						names.add(userInfo.getRealname());
+					}
+				}
+				
+				
+			}
 			
-			names.add(getName(team));
 		}
-		List<Team> iTeams = new ArrayList<Team>();
+	
 		if (getUserCount()>0) {
 			
 		}
 		
 		
-		chooseItemView.showMenuItem(obj, names,
-				new ChooseItemView.onDismissListener<Team>() {
+		chooseItemView.showMenuItem(mInfos, names,
+				new ChooseItemView.onDismissListener<UserInfo>() {
 
 					@Override
-					public void onDismiss(Team item) {
+					public void onDismiss(UserInfo item) {
 						Log.i(TAG, "name==" + item.getName());
 						// TODO Auto-generated method stub
 						updateItem((WidgetItemInfo) chooseItemView.getTag(),
@@ -795,7 +876,7 @@ public class WitnessDealTaskActivity extends BaseEditActivity {
 		return null;
 	}
 
-	protected void updateItem(WidgetItemInfo widgetItemInfo, Team item) {
+	protected void updateItem(WidgetItemInfo widgetItemInfo, UserInfo item) {
 		// TODO Auto-generated method stub
 		widgetItemInfo.content = getName(item);
 		widgetItemInfo.obj = item;
@@ -872,7 +953,8 @@ boolean chooseTime = false;
 	// operater 完成者
 	// operatedate 完成时间（格式2015-05-24 22:22:45）
 	// operatedesc N 完成信息描述
-	WidgetItemInfo addressWidgetItemInfo, witnessWidgetItemInfo,
+	WidgetItemInfo addressWidgetItemInfo, witnessW_WidgetItemInfo,
+	witnessH_WidgetItemInfo,witnessR_WidgetItemInfo,
 			witnessdesWidgetItemInfo ;
 
 	private void updateTime(String date, String formart) {

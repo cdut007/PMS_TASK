@@ -390,14 +390,26 @@ public class PMSManagerAPI {
 		
 		return id+"|"+formatTime;
 	}
-	public void createWitnessTaskBatch(String rollingplanId,
+	public void createWitnessTaskBatch(String rollingplanId,String witnessW,
+			String witnessH,String witnessR,
 			String witness,String witnessdes,
 			String witnesseaddress,List<String> witnessDatas, 
 			AsyncHttpResponseHandler responseHandler) {
 		
 		RequestParams params = getPublicParams(true);
 		
-		params.put("witness", witness);
+		//params.put("witness", witness);
+		if (witnessW!=null) {
+			params.put("witnessW", witnessW);
+		}
+		if (witnessH!=null) {
+			params.put("witnessH", witnessH);
+		}
+		
+		if (witnessR!=null) {
+			params.put("witnessR", witnessR);
+		}
+		
 		params.put("rollingplanid", rollingplanId);
 		params.put("witnessaddress", witnesseaddress);
 		
@@ -433,7 +445,7 @@ public class PMSManagerAPI {
 //	operater				完成者
 //	operatedate				完成时间（格式2015-05-24 22:22:45）
 //	operatedesc		N		完成信息描述
-	public void createWitness(String workStepId,
+	public void createWitness(String workStepId,String witnessW,String witnessH,String witnessR,
 			String witness,String witnessdes,
 			String witnesseaddress, String witnessdate, String operater,
 			String operatedate, String operatedesc, int qcsign,String qcman,
@@ -441,7 +453,17 @@ public class PMSManagerAPI {
 		
 		RequestParams params = getPublicParams(true);
 		
-		params.put("witness", witness);
+		//params.put("witness", witness);
+		if (witnessH!=null) {
+			params.put("witnessH", witnessH);
+		}
+		if (witnessW!=null) {
+			params.put("witnessW", witnessW);
+		}
+		if (witnessR!=null) {
+			params.put("witnessR", witnessR);
+		}
+		
 		params.put("id", workStepId);
 		params.put("witnessaddress", witnesseaddress);
 		params.put("operater", operater);
