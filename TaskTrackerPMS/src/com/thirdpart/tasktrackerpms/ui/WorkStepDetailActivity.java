@@ -244,6 +244,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 	}
 
 	final List<WidgetItemInfo> itemInfos = new ArrayList<WidgetItemInfo>();
+	protected ChooseItemView chooseQCView;
 
 	// R.id. in array String
 
@@ -682,6 +683,9 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 								convertView = new ChooseItemView(
 										WorkStepDetailActivity.this);
 								final ChooseItemView chooseItemView = (ChooseItemView) convertView;
+								if ("a".equals(widgetItemInfo.tag)) {
+									chooseQCView = chooseItemView;
+								}
 								if (widgetItemInfo.bindClick) {
 									convertView.findViewById(
 											R.id.common_choose_item_content)
@@ -838,11 +842,13 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 
 					@Override
 					public void onDismiss(Category item) {
-						Log.i(TAG, "name==" + item.getName());
+						Log.i(TAG, "name==" + item.getName()+"; item.tag="+item.tag);
 						// TODO Auto-generated method stub
 						widgetItemInfo.content = item.getName();
 						qcsign= Integer.parseInt(item.tag);
-						updateInfo();
+						if (chooseQCView!=null) {
+							chooseQCView.setContent(item.getName());
+						}
 					}
 
 				});
