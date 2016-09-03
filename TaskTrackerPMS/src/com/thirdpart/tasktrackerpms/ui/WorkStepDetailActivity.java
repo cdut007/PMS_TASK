@@ -357,14 +357,37 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 							
 						}
 						
-//						if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0&&workStep.witnessInfo.get(0).witnessName!=null) {
+						if (workStep.witnessInfo!=null&&workStep.witnessInfo.size()>0&&workStep.witnessInfo.get(0).witnesserName!=null) {
+
+							for (int i = 0; i < workStep.witnessInfo.size(); i++) {
+								 WitnessInfo witnesser = workStep.witnessInfo.get(i);
+								 UserInfo userInfo = new UserInfo();
+								 userInfo.setId(witnesser.witnesser);
+								 if ("W".equals(witnesser.noticeType)) {
+									 itemInfos.add(witnessW_WidgetItemInfo = new WidgetItemInfo("21",
+												"通知点(W):", witnesser.witnesserName, WidgetItemInfo.CHOOSE, true));
+									
+									 witnessW_WidgetItemInfo.obj = userInfo;
+								
+								}else if ("H".equals(witnesser.noticeType)) {
+									itemInfos.add(witnessH_WidgetItemInfo = new WidgetItemInfo("22",
+											"通知点(H):",  witnesser.witnesserName, WidgetItemInfo.CHOOSE, true));
+									witnessH_WidgetItemInfo.obj = userInfo;
+								}else if ("R".equals(witnesser.noticeType)) {
+									itemInfos.add(witnessR_WidgetItemInfo = new WidgetItemInfo("23",
+											"通知点(R):", witnesser.witnesserName, WidgetItemInfo.CHOOSE, true));
+									witnessR_WidgetItemInfo.obj = userInfo;	
+								}
+								      
+							}
+								
 //							Team team = new Team();
 //							team.setId(workStep.witnessInfo.get(0).witness);
 //							itemInfos.add(witnessWidgetItemInfo = new WidgetItemInfo("21",
 //									"负责人：", workStep.witnessInfo.get(0).witnessName, WidgetItemInfo.CHOOSE, true));
 //							witnessWidgetItemInfo.obj = team;
-//							
-//						}else {
+							
+						}else {
 
 						List<String> noticeType = workStep.noticeType;
 						if (noticeType!=null&&noticeType.size()>0) {
@@ -386,7 +409,7 @@ public class WorkStepDetailActivity extends BaseEditActivity {
 							}
 						}
 						
-//						}
+						}
 					
 					}else {
 						if (!"PREPARE".equals(workStep.getStepflag())) {
