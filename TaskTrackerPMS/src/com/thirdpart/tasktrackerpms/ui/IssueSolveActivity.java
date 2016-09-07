@@ -61,6 +61,7 @@ public class IssueSolveActivity extends BaseEditActivity {
       bindViews();
       issueManager = (IssueManager) ManagerService.getNewManagerService(this, IssueManager.class, this);
       teamMemberManager =new TeamMemberManager(this); 
+      teamMemberManager.filterDepart = false;
       //initData();
  }
  
