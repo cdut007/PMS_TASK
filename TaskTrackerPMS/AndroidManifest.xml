@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.thirdpart.tasktrackerpms"
-    android:versionCode="2"
-    android:versionName="1.08" >
+    android:versionCode="3"
+    android:versionName="1.09" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -213,6 +213,10 @@
             android:screenOrientation="portrait" >
         </activity>
          
+         <!--必须配置-->
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:theme="@android:style/Theme.Translucent" />
         
          <!-- Required SDK核心功能-->
         <activity
