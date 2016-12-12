@@ -179,18 +179,22 @@ public class MyApplication extends Application {
 		mBus.unregister(this);
 	}
 
+	
+	static final String product_url = "http://106.37.241.216:4445/easycms-website";
+
+	static final String product_url_five_company = "http://106.37.241.216:5555/easycms-website";
 
 	public static String getBaseUrl() {
 		// TODO Auto-generated method stub
 		if (mApplication == null ) {
-			return "http://106.37.241.216:4445/easycms-website";
+			return product_url_five_company;
 		}
 		SharedPreferences sharedPreferences = mApplication.getSharedPreferences("staging",Context.MODE_PRIVATE);
 		if (sharedPreferences.getBoolean("staging", false)) {
 			return sharedPreferences.getString("staging_url", "http://helloxlb.xicp.net:35513/easycms-website");
 		}
 		
-		return "http://106.37.241.216:4445/easycms-website";
+		return product_url_five_company;
 	
 	}
 
