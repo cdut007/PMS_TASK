@@ -184,6 +184,9 @@ public class MyApplication extends Application {
 
 	static final String product_url_five_company = "http://106.37.241.216:5555/easycms-website";
 
+	static final String stage_url = "http://106.37.241.216:5555/easycms-website";
+
+	
 	public static String getBaseUrl() {
 		// TODO Auto-generated method stub
 		if (mApplication == null ) {
@@ -191,7 +194,7 @@ public class MyApplication extends Application {
 		}
 		SharedPreferences sharedPreferences = mApplication.getSharedPreferences("staging",Context.MODE_PRIVATE);
 		if (sharedPreferences.getBoolean("staging", false)) {
-			return sharedPreferences.getString("staging_url", "http://helloxlb.xicp.net:35513/easycms-website");
+			return sharedPreferences.getString("staging_url", stage_url);
 		}
 		
 		return product_url_five_company;

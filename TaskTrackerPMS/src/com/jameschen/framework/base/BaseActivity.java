@@ -32,6 +32,7 @@ import com.jameschen.comm.utils.UtilsUI;
 import com.thirdpart.model.LogInController;
 import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.tasktrackerpms.R;
+import com.thirdpart.tasktrackerpms.ui.TaskFragment;
 import com.thirdpart.widget.SearchView;
 
 public abstract class BaseActivity extends ActionBarActivity implements
@@ -300,11 +301,23 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	}
 
 	protected void setTitle(String title) {
+	
 		if (titleTv == null) {
 			return;
 		}
+		titleTv.setOnClickListener(null);
 		titleTv.setBackgroundDrawable(null);
 		titleTv.setText(title);
+		if (TaskFragment.title.equals(title)) {
+			titleTv.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					TaskFragment.luchBacth(BaseActivity.this);
+				}
+			});
+		}
 	}
 
 	public void changeTitle(String content) {

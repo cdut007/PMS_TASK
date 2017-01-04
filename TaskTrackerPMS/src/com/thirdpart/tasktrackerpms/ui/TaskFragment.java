@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.http.Header;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -17,9 +18,11 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.google.gson.JsonObject;
 import com.jameschen.comm.utils.Log;
+import com.jameschen.framework.base.BaseActivity;
 import com.jameschen.framework.base.BasePageListFragment;
 import com.jameschen.framework.base.UINetworkHandler;
 import com.thirdpart.model.ConstValues;
+import com.thirdpart.model.EventCallbackListener;
 import com.thirdpart.model.PMSManagerAPI;
 import com.thirdpart.model.ConstValues.Item;
 import com.thirdpart.model.entity.Department;
@@ -34,7 +37,11 @@ import com.thirdpart.widget.IndicatorView;
 public class TaskFragment extends BasePageListFragment<RollingPlan, RollingPlanList> implements OnItemClickListener{
 
 	
+	public static String callsucc="TaskFragmentfeedback";
 	boolean  scanMode =true;
+	
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -48,6 +55,28 @@ public class TaskFragment extends BasePageListFragment<RollingPlan, RollingPlanL
 		IndicatorView indicatorView = (IndicatorView) view.findViewById(R.id.plan_delivery_indicator);
 		indicatorView.setScanMode(scanMode);
 		callNextPage(pageSize,getCurrentPage());
+
+		registerCallBack( new EventCallbackListener()  {
+			
+			@Override
+			public void commitSucc() {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "call back commit succ");
+				
+				if (mListView!=null) {
+					mListView.setRefreshing(true);
+				}
+				callNextPage(pageSize,defaultBeginPageNum);
+	
+			}
+
+			@Override
+			public String getTag() {
+				// TODO Auto-generated method stub
+				return callsucc;
+			}
+		});
+		
 		return view;
 	}
 	
@@ -122,4 +151,35 @@ public class TaskFragment extends BasePageListFragment<RollingPlan, RollingPlanL
 			List<RollingPlan> mSeletedItems) {}
 	
 	
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+		// TODO Auto-generated method stub
+		super.onHiddenChanged(hidden);
+		if (!hidden) {
+			updateTitle();
+		}
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+		updateTitle();
+	}
+	
+	public static final String title = "批量回填";
+	
+	public void updateTitle() {
+		
+		(getBaseActivity()).changeTitle(title);
+		
+		
+	}
+
+	
+	public static void luchBacth(BaseActivity baseActivity) {
+		// TODO Auto-generated method stub
+		baseActivity.startActivity(new Intent(baseActivity,BatchWorkStepDetailActivity.class));
+		
+	}
 }

@@ -1,6 +1,10 @@
 package com.thirdpart.model;
 
+import java.util.List;
+
 import com.thirdpart.model.entity.RollingPlan;
+
+import android.R.integer;
 
 public class PlanManager  extends ManagerService{
 	
@@ -18,6 +22,8 @@ public class PlanManager  extends ManagerService{
 	
 	public static String ACTION_PLAN_DETAIL = "com.jameschen.plan.detail";
 	
+	public static String ACTION_PLAN_WORKSTEP_BATCH_COMMIT = "com.jameschen.plan.workstep.batch.commit";
+	
 
 
 	
@@ -27,6 +33,15 @@ public class PlanManager  extends ManagerService{
 	 }
 
 	
+	 
+	public void commitBatch(String oprater,String operatedesc,
+				String opraterDate,int qcasign,String qcman,List<String> planIds) {
+			
+		PMSManagerAPI.getInstance(context).createPlanWorkStepBatchCommit( oprater,operatedesc, opraterDate,qcasign,qcman, planIds, getManagerNetWorkHandler(ACTION_PLAN_WORKSTEP_BATCH_COMMIT) );
+
+
+		}
+	 
 	public void planDetail(String planId) {
 		PMSManagerAPI.getInstance(context).planDetail(planId,getManagerNetWorkHandler(ACTION_PLAN_DETAIL) );
 

@@ -180,6 +180,12 @@
             android:screenOrientation="portrait" >
         </activity>
         
+               <activity
+            android:name=".ui.BatchWorkStepDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+            
         <activity
             android:name=".ui.IssueSolveActivity"
             android:label="@string/app_name"

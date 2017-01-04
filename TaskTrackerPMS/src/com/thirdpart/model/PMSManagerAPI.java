@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import android.R.integer;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.text.TextUtils;
@@ -390,6 +391,26 @@ public class PMSManagerAPI {
 		
 		return id+"|"+formatTime;
 	}
+	
+	
+    public void createPlanWorkStepBatchCommit(String operatre,String batchDate,String operatedesc,int qcassign,String qcman,List<String>planIds
+    		,AsyncHttpResponseHandler responseHandler){
+    	RequestParams params = getPublicParams(true);
+    	params.put("operatedesc", operatedesc);
+    	params.put("operater", operatre);
+    	params.put("operatedate", batchDate);
+    	if (qcassign>=0) {
+			params.put("qcsign", qcassign+"");
+			params.put("qcman", qcman);
+				
+		}
+    	params.put("backFillWorkStepId", planIds);
+    	MyHttpClient.post(
+				ReqHttpMethodPath.REQUST_WORKSTEP_BATCH_COMMIT_URL,
+				params, responseHandler);
+    	
+    }
+	
 	public void createWitnessTaskBatch(String rollingplanId,String witnessW,
 			String witnessH,String witnessR,
 			String witness,String witnessdes,

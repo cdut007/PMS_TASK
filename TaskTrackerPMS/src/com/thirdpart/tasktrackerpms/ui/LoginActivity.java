@@ -119,12 +119,12 @@ public class LoginActivity extends BaseActivity{
 			EditText sEditText = (EditText) findViewById(R.id.staging_url);
 			if(sEditText.getVisibility() == View.GONE) {
 				sEditText.setVisibility(View.VISIBLE);
-				sEditText.setText("http://helloxlb.xicp.net:17905/easycms-website");
+				sEditText.setText(MyApplication.stage_url);
 			}else {
 				showToast("staging enviorment set succ!");
 				String content = null;
 				if (TextUtils.isEmpty(sEditText.getText())) {
-					content = "http://helloxlb.xicp.net:35513/easycms-website";
+					content = MyApplication.stage_url;
 				}else {
 					content = sEditText.getText().toString();
 					if (!content.startsWith("http://")) {
