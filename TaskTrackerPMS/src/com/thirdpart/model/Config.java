@@ -167,7 +167,7 @@ public class Config {
 		
 		
 
-		public static final String REQUST_WORKSTEP_BATCH_COMMIT_URL = HTTP_BASE_URL+"/hdxt/api/baseservice/construction/mytask/workstep/batch";
+		public static final String REQUST_WORKSTEP_BATCH_COMMIT_URL = HTTP_BASE_URL+"/hdxt/api/baseservice/construction/mytask/workstep/all";
 		
 		
 		
